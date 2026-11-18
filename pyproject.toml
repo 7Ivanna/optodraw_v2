@@ -30,7 +30,9 @@ classifiers = [
 ]
 dependencies = [
     "numpy>=1.24",
-    "drawsvg>=2.0",
+    # shortcut: drawsvg 2.5.0 fails to import before Python 3.14 (a class header names a type it imports later);
+    # lift the cap when a 2.5 release imports on 3.10 to 3.13
+    "drawsvg>=2.0,<2.5",
     "shapely>=2.0",
 ]
 
