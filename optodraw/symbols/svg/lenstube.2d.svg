@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.558486 16.220085" width="27.558486pt" height="16.220085pt"><g transform="translate(72.0,72.0)">
+<g id='od-lenstube-page1'>
+<g stroke-miterlimit='10' transform='translate(-58.220759,-63.88996)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-11.38092-5.69046V5.69046H11.38092V-5.69046ZM11.38092 5.69046' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-11.38092-5.69046V5.69046H11.38092V-5.69046ZM11.38092 5.69046' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-11.38092-5.69046V5.69046H11.38092V-5.69046ZM11.38092 5.69046' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-11.38092-5.69046V5.69046H11.38092V-5.69046ZM11.38092 5.69046' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-lenstube-pgfcp6'>
+<path d='M-11.38092-5.69046V5.69046H11.38092V-5.69046ZM11.38092 5.69046'/> </clipPath>
+<g clip-path='url(#od-lenstube-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.45358,0,0,0.22679,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-lenstube-pgfsh2'>
+ <stop offset='0.0' stop-color=' #64748b '/>
+ <stop offset='0.25' stop-color=' #64748b '/>
+ <stop offset='0.35999' stop-color=' #94a3b8 '/>
+ <stop offset='0.5' stop-color=' #e2e8f0 '/>
+ <stop offset='0.62' stop-color=' #f8fafc '/>
+ <stop offset='0.68999' stop-color=' #e2e8f0 '/>
+ <stop offset='0.75' stop-color=' #94a3b8 '/>
+ <stop offset='1.0' stop-color=' #94a3b8 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-lenstube-pgfsh2); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-11.38092-5.69046V5.69046H11.38092V-5.69046ZM11.38092 5.69046' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M-9.67383-5.69046V5.69046' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M-8.2511-5.69046V5.69046' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M8.2511-5.69046V5.69046' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M9.67383-5.69046V5.69046' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#ef4444'>
+<path d='M-6.82881 0H6.82881' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-lenstube-pgfcp7'>
+<path d='M0-4.83691C-2.08566-2.0314-2.08566 2.0314 0 4.83691C2.08566 2.0314 2.08566-2.0314 0-4.83691Z'/> </clipPath>
+<g clip-path='url(#od-lenstube-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.08311,0,0,0.19278,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-lenstube-pgfsh8'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-lenstube-pgfsh8); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M0-4.83691C-2.08566-2.0314-2.08566 2.0314 0 4.83691C2.08566 2.0314 2.08566-2.0314 0-4.83691Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g stroke-width='0.45'>
+<g stroke-linecap='round'>
+<path d='M-.65688 2.9987C-.9699 1.45094-.9699 .48364-.86049-.38683' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

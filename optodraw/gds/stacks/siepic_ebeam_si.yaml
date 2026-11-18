@@ -1,0 +1,15 @@
+# Optical dimensions from the public SiEPIC EBeam Silicon.lbr and EBeam layer map.
+# z=0 is the bottom of the device film; all dimensions are micrometres.
+# No active-device implant recipe or verified metal stack is supplied here.
+name: SiEPIC EBeam silicon optical stack
+units: um
+oxide:
+  box: {thickness: 2.0, material: sio2}
+  tox: {thickness: 3.42, material: sio2}
+  handle: {thickness: 2.0, material: silicon} # display depth, not wafer thickness
+layers:
+  "1/0": {name: Si core, role: core, zmin: 0.0, thickness: 0.22, material: silicon, color: "#80a8ff", tone: grow}
+  "2/0": {name: Si residual slab, role: slab, zmin: 0.0, thickness: 0.09, material: silicon, color: "#9bc5dd", tone: grow}
+  "205/0": {name: Partial silicon etch, zmin: 0.09, thickness: 0.13, material: air}
+  "20/0": {name: Implant marker, visible: false}
+  "24/0": {name: N++ marker, visible: false}

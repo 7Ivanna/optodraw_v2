@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.641813 22.655143" width="20.641813pt" height="22.655143pt"><g transform="translate(72.0,72.0)">
+<g id='od-dichroic-page1'>
+<g stroke-miterlimit='10' transform='translate(-61.542105,-61.816087)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#e69f00'>
+<path d='M-1.13791-1.70709V-8.23909' fill='none'/>
+<g fill='#e69f00'>
+<g transform='matrix(0.0,-1.0,1.0,0.0,-1.13791,-7.043)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.66864 0L.61469 .8414L1.29608 0L.61469-.8414Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-dichroic-pgfcp6'>
+<path d='M6.53867-7.94711L-7.94711 6.53867L-6.53867 7.94711L7.94711-6.53867ZM-6.53867 7.94711'/> </clipPath>
+<g clip-path='url(#od-dichroic-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.31673,0,0,0.31673,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-dichroic-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-dichroic-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M6.53867-7.94711L-7.94711 6.53867L-6.53867 7.94711L7.94711-6.53867ZM-6.53867 7.94711' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.8'>
+<g stroke='#64748b'>
+<g stroke-linecap='butt'>
+<g stroke-linejoin='round'>
+<g stroke-width='1.1'>
+<g stroke='#e69f00'>
+<path d='M6.53867-7.94711L-7.94711 6.53867' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

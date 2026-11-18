@@ -1,0 +1,60 @@
+Every scene has a 3D view: drag to turn it, scroll to zoom. Free-space parts stand on posts at the beam
+height; chip parts stand on their die. Save it as an interactive page, or as an image.
+
+## See it
+
+The coupled rings of Borghi et al. (2019), Fig. 1; the cell opens on its 3D tab:
+
+<!-- cell: 3d/01-rings 3d -->
+
+## Save it
+
+```python
+scene.render_threejs("scene.html")                        # the interactive view as one page
+scene.render_3d_image("scene.png")                         # a studio image: soft light, shadows, reflections
+scene.render_3d_image("draft.png", quality="draft")        # a quick look
+scene.render_3d_image("live.png", engine="viewer")         # the viewer's real-time image
+scene.render_3d_svg("scene.svg", projection="parallel")    # vector paths, no browser
+```
+
+`render_3d_image` needs Chrome, Chromium or Edge (`OPTODRAW_CHROME` names one). It runs on the CPU: no GPU
+and no other program. `render_3d_svg` needs no browser. It draws the same solids as vector paths, in studio
+light. On a figure page, use a `View3D` inset.
+
+## Options
+
+| Option | Values | Default |
+|---|---|---|
+| `engine` | `"studio"`, `"viewer"` | `"studio"` |
+| `background` | `"none"`, `"light"`, `"dark"` | `"none"` |
+| `camera` | a viewer preset, such as `"isometric"` or `"top"` | `"isometric"` |
+| `width`, `height`, `scale` | the image is `width` by `height` times `scale` pixels | 1600, 1000, 2 |
+| `quality` | `"final"`, `"draft"` | `"final"` |
+
+The viewer itself takes `quality="high"` (with ambient occlusion) or `"fast"` for a weak GPU. A saved page has
+one bar at the bottom: Camera, World, Labels, Light, Save, Fullscreen and More (GLB, JSON, Photoreal). Labels
+and light start off; `render_threejs(animate=True)` starts the light.
+
+## Animation
+
+The Light menu has two looks. Light shows glowing pulses inside the drawn guides: brightness is power, and
+speed follows the group index. Field shows the steady-state field, with crests, mode shape and interference.
+The light starts off. Captions state every scaled quantity.
+
+<!-- cell: 3d/02-field 3d -->
+
+Play tour moves the camera from device to device and slows at each stop. Save the tour as a video:
+
+```python
+scene.render_tour_video("tour.mp4", look="light", tour="auto", width=1920, height=1080, fps=30)
+```
+
+MP4 needs ffmpeg. Without it the video is WebM, in real time.
+
+## How it works
+
+The studio renderer is a ray tracer that runs in the page, on every CPU core: soft studio light, soft shadows,
+reflections, glass that refracts and beams that glow. The same scene and options always give the same PNG.
+
+Borghi, M., Trenti, A. and Pavesi, L. Four wave mixing control in a photonic molecule made by silicon
+microring resonators. *Sci. Rep.* 9, 408 (2019). [doi:10.1038/s41598-018-36694-5](https://doi.org/10.1038/s41598-018-36694-5)

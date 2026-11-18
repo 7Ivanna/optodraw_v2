@@ -1,0 +1,31 @@
+/* optodraw: one token set for light and dark (rule D9). Dark is a slate grey, not black. */
+@font-face{font-family:Satoshi;src:url('/optodraw/fonts/Satoshi-Variable.woff2') format('woff2');font-weight:300 900;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('/optodraw/fonts/IBMPlexMono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('/optodraw/fonts/IBMPlexMono-600.woff2') format('woff2');font-weight:600;font-display:swap}
+:root{--sl-font:Satoshi,Arial,sans-serif;--sl-font-mono:'IBM Plex Mono',monospace;
+  --sl-color-white:#e9ebee;--sl-color-gray-1:#d3d6dc;--sl-color-gray-2:#aeb3bc;--sl-color-gray-3:#858b96;
+  --sl-color-gray-4:#585e69;--sl-color-gray-5:#353a45;--sl-color-gray-6:#23272f;--sl-color-black:#1b1e24;
+  --sl-color-accent-low:#1f2f4a;--sl-color-accent:#7aa7f0;--sl-color-accent-high:#c9dbfa;
+  --od-card:#ffffff;--od-surface:#23272f;--sl-content-width:48rem;--sl-sidebar-width:17.5rem}
+:root[data-theme='light']{--sl-color-white:#1b1d21;--sl-color-gray-1:#33363c;--sl-color-gray-2:#4f535b;
+  --sl-color-gray-3:#737882;--sl-color-gray-4:#b4b8bf;--sl-color-gray-5:#e2e4e8;--sl-color-gray-6:#f2f3f5;
+  --sl-color-black:#fbfbf9;--sl-color-accent-low:#e3ecfb;--sl-color-accent:#3a7bd5;--sl-color-accent-high:#1d4f99;
+  --od-card:#ffffff;--od-surface:#f2f3f5}
+.sl-markdown-content :not(pre)>code{border:1px solid var(--sl-color-gray-5);border-radius:4px;padding:.12em .35em;background:transparent}
+.sl-markdown-content pre{border:1px solid var(--sl-color-gray-5);border-radius:7px;box-shadow:none}
+.sl-markdown-content table{display:block;max-width:100%;overflow-x:auto}
+.sl-markdown-content td:has(> .num),.sl-markdown-content th.num{text-align:right;white-space:nowrap}
+.site-title{font-size:1.1rem;color:var(--sl-color-white)}
+.sidebar-content summary .group-label .large{font-size:.7rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--sl-color-gray-3)}
+.sidebar-content a,.right-sidebar a{font-size:.85rem}
+/* figures and cell outputs sit on a white card: the drawings are made for paper */
+.od-figure{margin:1.4rem 0;padding:.8rem;border:1px solid var(--sl-color-gray-5);border-radius:10px;background:var(--od-card)}
+.od-figure img{display:block;width:100%;height:auto;margin:0 auto}
+.od-data{margin:1.4rem 0;padding:.4rem 1rem;border:1px solid var(--sl-color-gray-5);border-radius:10px}
+/* theme toggle (Field Runtime's button) */
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border:1px solid var(--sl-color-gray-5);border-radius:6px;background:transparent;color:var(--sl-color-gray-2);cursor:pointer}
+.theme-toggle svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:1.8}
+.theme-toggle .icon-sun{display:none}
+:root[data-theme='dark'] .theme-toggle .icon-sun{display:block}
+:root[data-theme='dark'] .theme-toggle .icon-moon{display:none}
+:root[data-has-hero]{--sl-content-width:70rem}

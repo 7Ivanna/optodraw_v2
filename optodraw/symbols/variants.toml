@@ -1,0 +1,1427 @@
+# The prebuilt variants of the 1D symbols.
+#
+#   symbol     the pic, "od <symbol>" in tikz/
+#   params     the pic's keys
+#   component  the optodraw class this variant stands for (or "module:Class")
+#   args       constructor arguments of that class for this variant
+#   also       more classes that use this same variant with no arguments
+#
+# The build requires the symbol's port names and kinds to equal the
+# component's. A row with no component is a 1D-only symbol.
+# A class with no symbol_1d() method uses its first row that has no args.
+
+# ---------------------------------------------------------------- waveguide
+[[variant]]
+symbol = "waveguide"
+component = "Waveguide"
+
+[[variant]]
+symbol = "waveguide"
+params = { length = 3.5 }
+
+# ---------------------------------------------------------------- MZM
+[[variant]]
+symbol = "mzi"
+params = { length = 2 }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, drive = "gs" }
+component = "MZM"
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, drive = "gsg" }
+component = "MZM"
+args = { drive_style = "gsg" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, drive = "heater" }
+component = "MZM"
+args = { mechanism = "thermo_optic" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "coupler", drive = "gs" }
+component = "MZM"
+args = { splitter = "coupler" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "coupler", drive = "gsg" }
+component = "MZM"
+args = { splitter = "coupler", drive_style = "gsg" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "coupler", drive = "heater" }
+component = "MZM"
+args = { splitter = "coupler", mechanism = "thermo_optic" }
+also = ["MZI"]
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "branch_coupler", drive = "gs" }
+component = "MZM"
+args = { splitter = "branch_coupler" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "branch_coupler", drive = "gsg" }
+component = "MZM"
+args = { splitter = "branch_coupler", drive_style = "gsg" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "branch_coupler", drive = "heater" }
+component = "MZM"
+args = { splitter = "branch_coupler", mechanism = "thermo_optic" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "mmi", drive = "gs" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 2, splitter = "mmi2x2", drive = "gsg" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 3, drive = "segmented", segments = 3 }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 4, drive = "segmented", segments = 4 }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 3, drive = "segmented", segments = 4, weights = "equal" }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 3, drive = "segmented", segments = 3, "one arm" = true }
+
+[[variant]]
+symbol = "mzi"
+params = { length = 3, splitter = "coupler", drive = "segmented", segments = 3 }
+
+# ---------------------------------------------------------------- rings
+[[variant]]
+symbol = "ring"
+component = "MicroringResonator"
+
+[[variant]]
+symbol = "ring"
+params = { drop = true }
+
+[[variant]]
+symbol = "ring"
+params = { heater = true }
+
+[[variant]]
+symbol = "ring"
+params = { drop = true, heater = true }
+
+[[variant]]
+symbol = "ring"
+params = { radius = 0.5, pn = true, heater = true }
+component = "PNMicroringModulator"
+
+[[variant]]
+symbol = "ring"
+params = { radius = 0.5, pn = true }
+
+[[variant]]
+symbol = "ring"
+params = { radius = 0.5, pn = true, drop = true }
+
+# ---------------------------------------------------------------- coupled-ring filters
+[[variant]]
+symbol = "coupledring"
+params = { order = 1 }
+component = "CoupledRingFilter"
+args = { order = 1 }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 2 }
+component = "CoupledRingFilter"
+args = { order = 2 }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 3 }
+component = "CoupledRingFilter"
+args = { order = 3 }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 4 }
+component = "CoupledRingFilter"
+args = { order = 4 }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 5 }
+component = "CoupledRingFilter"
+args = { order = 5 }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 2, heater = true }
+component = "CoupledRingFilter"
+args = { order = 2, with_heaters = true }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 3, heater = true }
+component = "CoupledRingFilter"
+args = { order = 3, with_heaters = true }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 4, heater = true }
+component = "CoupledRingFilter"
+args = { order = 4, with_heaters = true }
+
+[[variant]]
+symbol = "coupledring"
+params = { order = 5, heater = true }
+component = "CoupledRingFilter"
+args = { order = 5, with_heaters = true }
+
+# ---------------------------------------------------------------- ring-assisted MZI
+[[variant]]
+symbol = "ramzi"
+params = { top = 1, bottom = 0 }
+component = "RingAssistedMZI"
+args = { rings_per_arm = [1, 0] }
+
+[[variant]]
+symbol = "ramzi"
+params = { top = 1, bottom = 1 }
+component = "RingAssistedMZI"
+args = { rings_per_arm = [1, 1] }
+
+[[variant]]
+symbol = "ramzi"
+params = { top = 2, bottom = 1 }
+component = "RingAssistedMZI"
+args = { rings_per_arm = [2, 1] }
+
+# ---------------------------------------------------------------- photodiodes
+[[variant]]
+symbol = "photodiode"
+component = "OnChipPhotodetector"
+also = ["AvalanchePhotodetector"]
+
+[[variant]]
+symbol = "photodiode"
+params = { balanced = true }
+component = "OnChipBalancedPhotodetector"
+
+# ---------------------------------------------------------------- splitters
+[[variant]]
+symbol = "mmi"
+params = { outputs = 2, pitch = 0.3 }
+component = "MMI1x2"
+
+[[variant]]
+symbol = "mmi"
+params = { inputs = 2, outputs = 2, pitch = 0.3 }
+component = "MMI2x2"
+also = ["MMI2x2PowerSplitter"]
+
+[[variant]]
+symbol = "mmi"
+params = { inputs = 2, outputs = 4, pitch = 0.3 }
+
+[[variant]]
+symbol = "splitter"
+params = { outputs = 2 }
+
+[[variant]]
+symbol = "splitter"
+params = { outputs = 4 }
+
+[[variant]]
+symbol = "splitter"
+params = { outputs = 8, pitch = 0.35 }
+
+# ---------------------------------------------------------------- star coupler
+[[variant]]
+symbol = "star"
+params = { inputs = 1, outputs = 8, pitch = 0.3 }
+component = "StarCoupler"
+
+[[variant]]
+symbol = "star"
+params = { inputs = 1, outputs = 4, pitch = 0.3 }
+component = "StarCoupler"
+args = { output_count = 4 }
+
+[[variant]]
+symbol = "star"
+params = { inputs = 4, outputs = 4, pitch = 0.3 }
+component = "StarCoupler"
+args = { input_count = 4, output_count = 4 }
+
+# ---------------------------------------------------------------- AWG, AWGR
+[[variant]]
+symbol = "awg"
+params = { inputs = 1, outputs = 8, arms = 7, pitch = 0.3 }
+component = "AWG"
+
+[[variant]]
+symbol = "awg"
+params = { inputs = 1, outputs = 4, arms = 7, pitch = 0.3 }
+component = "AWG"
+args = { channel_count = 4 }
+
+[[variant]]
+symbol = "awg"
+params = { inputs = 4, outputs = 4, arms = 7, pitch = 0.3 }
+component = "AWGR"
+
+[[variant]]
+symbol = "awg"
+params = { inputs = 8, outputs = 8, arms = 7, pitch = 0.3 }
+component = "AWGR"
+args = { channel_count = 8 }
+
+# ================================================================ batch 2
+# ---------------------------------------------------------------- lasers, SOA
+[[variant]]
+symbol = "laser"
+params = { contacts = "top" }
+component = "OnChipLaser"
+
+[[variant]]
+symbol = "laser"
+params = { dbr = true }
+component = "DBRLaser"
+
+[[variant]]
+symbol = "soa"
+component = "SOA"
+
+# ---------------------------------------------------------------- splitters, couplers
+[[variant]]
+symbol = "ybranch"
+component = "YBranch"
+
+[[variant]]
+symbol = "coupler"
+component = "DirectionalCoupler"
+also = ["AdiabaticCoupler"]
+
+[[variant]]
+symbol = "coupler"
+params = { names = "tap" }
+component = "TapCoupler"
+
+[[variant]]
+symbol = "mmi"
+params = { outputs = 3, pitch = 0.3 }
+component = "MMI1x3"
+
+[[variant]]
+symbol = "mmi"
+params = { outputs = 4, pitch = 0.3 }
+component = "MMI1x4"
+
+# ---------------------------------------------------------------- phase shifters
+[[variant]]
+symbol = "phase"
+component = "PhaseShifter"
+
+[[variant]]
+symbol = "phase"
+params = { kind = "pn" }
+component = "PhaseShifter"
+args = { mechanism = "electro_optic" }
+
+# ---------------------------------------------------------------- chip input and output
+[[variant]]
+symbol = "grating"
+params = { fiber = true }
+component = "VerticalGratingCoupler"
+
+[[variant]]
+symbol = "grating"
+params = { focused = true, fiber = true }
+component = "FocusedApodizedGratingCoupler"
+
+[[variant]]
+symbol = "grating2d"
+component = "TwoDGratingCoupler"
+
+[[variant]]
+symbol = "edge"
+component = "EdgeCoupler"
+
+# ---------------------------------------------------------------- waveguide parts
+[[variant]]
+symbol = "delay"
+component = "Spiral"
+
+[[variant]]
+symbol = "terminator"
+component = "Terminator"
+
+[[variant]]
+symbol = "crossing"
+component = "WaveguideCrossing"
+
+[[variant]]
+symbol = "bend"
+component = "WaveguideBend"
+
+[[variant]]
+symbol = "taper"
+component = "Taper"
+
+[[variant]]
+symbol = "bragg"
+component = "BraggGrating"
+
+[[variant]]
+symbol = "eam"
+component = "ElectroAbsorptionModulator"
+
+[[variant]]
+symbol = "racetrack"
+component = "RacetrackResonator"
+
+[[variant]]
+symbol = "racetrack"
+params = { drop = true }
+component = "RacetrackResonator"
+args = { add_drop = true }
+
+[[variant]]
+symbol = "racetrack"
+params = { heater = true }
+component = "RacetrackResonator"
+args = { with_heater = true }
+
+[[variant]]
+symbol = "racetrack"
+params = { drop = true, heater = true }
+
+[[variant]]
+symbol = "racetrack"
+params = { pn = true }
+component = "RacetrackModulator"
+args = { add_drop = false, with_heater = false }
+
+[[variant]]
+symbol = "racetrack"
+params = { pn = true, heater = true }
+component = "RacetrackModulator"
+args = { add_drop = false }
+
+[[variant]]
+symbol = "racetrack"
+params = { drop = true, pn = true }
+
+[[variant]]
+symbol = "sagnac"
+component = "SagnacLoop"
+
+# ---------------------------------------------------------------- converters, amplifiers
+[[variant]]
+symbol = "converter"
+params = { kind = "dac" }
+component = "DAC"
+
+[[variant]]
+symbol = "converter"
+params = { kind = "dac", ports = "chip" }
+component = "DACDriver"
+
+[[variant]]
+symbol = "converter"
+params = { kind = "adc" }
+component = "ADCBlock"
+
+[[variant]]
+symbol = "converter"
+params = { kind = "adc", ports = "chip" }
+component = "ADC"
+
+[[variant]]
+symbol = "amplifier"
+params = { mark = "resistor", ports = "chip" }
+component = "TIA"
+
+[[variant]]
+symbol = "amplifier"
+params = { mark = "resistor" }
+component = "TIABlock"
+
+[[variant]]
+symbol = "amplifier"
+params = { mark = "capacitor" }
+component = "TIABlock"
+args = { mode = "integrator" }
+
+[[variant]]
+symbol = "amplifier"
+params = { diff = true }
+component = "RFDriver"
+
+# ================================================================ batch 3 (family A)
+[[variant]]
+symbol = "photodiode"
+params = { balanced = true, ports = "block" }
+component = "BalancedPhotodetector"
+
+[[variant]]
+symbol = "photodiode"
+params = { balanced = true, ports = "block", view = "top" }
+component = "BalancedPhotodetector"
+
+[[variant]]
+symbol = "echelle"
+params = { outputs = 8, pitch = 0.2 }
+component = "EchelleGrating"
+
+[[variant]]
+symbol = "echelle"
+params = { outputs = 4, pitch = 0.2 }
+component = "EchelleGrating"
+args = { channel_count = 4 }
+
+[[variant]]
+symbol = "gratingarray"
+params = { count = 8 }
+component = "GratingCouplerArray"
+
+[[variant]]
+symbol = "gratingarray"
+params = { count = 4 }
+component = "GratingCouplerArray"
+args = { count = 4 }
+
+[[variant]]
+symbol = "iobank"
+params = { count = 8 }
+component = "OpticalIOBank"
+
+[[variant]]
+symbol = "iobank"
+params = { count = 4 }
+component = "OpticalIOBank"
+args = { count = 4 }
+
+[[variant]]
+symbol = "weightbank"
+params = { count = 4 }
+component = "MicroringWeightBank"
+
+[[variant]]
+symbol = "weightbank"
+params = { count = 2 }
+component = "MicroringWeightBank"
+args = { ring_count = 2 }
+
+[[variant]]
+symbol = "polrotator"
+component = "PolarizationRotator"
+
+[[variant]]
+symbol = "psr"
+component = "PolarizationSplitterRotator"
+
+[[variant]]
+symbol = "wdminput"
+component = "PresetWDMInput"
+
+[[variant]]
+symbol = "racetrack"
+params = { drop = true, pn = true, heater = true }
+component = "RacetrackModulator"
+
+[[variant]]
+symbol = "antennaarray"
+params = { count = 8 }
+component = "GratingAntennaArray"
+
+[[variant]]
+symbol = "antennaarray"
+params = { count = 4 }
+component = "GratingAntennaArray"
+args = { count = 4 }
+
+[[variant]]
+symbol = "antennaarray"
+params = { count = 16 }
+component = "GratingAntennaArray"
+args = { count = 16 }
+
+[[variant]]
+symbol = "pcm"
+component = "PCMCell"
+
+[[variant]]
+symbol = "eoracetrack"
+component = "EORacetrackModulator"
+
+[[variant]]
+symbol = "pad"
+component = "ElectricalPad"
+
+[[variant]]
+symbol = "gsg"
+component = "GSGProbePad"
+
+[[variant]]
+symbol = "heaterpad"
+component = "HeaterPad"
+
+[[variant]]
+symbol = "mems"
+component = "MEMSActuator"
+
+[[variant]]
+symbol = "polcontroller"
+params = { count = 3 }
+component = "PolarizationController"
+
+[[variant]]
+symbol = "fiberamp"
+component = "FiberAmplifier"
+
+[[variant]]
+symbol = "circulator"
+component = "FiberCirculator"
+
+[[variant]]
+symbol = "fibercoupler"
+component = "FiberCoupler"
+
+[[variant]]
+symbol = "spool"
+component = "FiberSpool"
+
+[[variant]]
+symbol = "voa"
+component = "VariableAttenuator"
+
+[[variant]]
+symbol = "polcontroller"
+params = { count = 2 }
+component = "PolarizationController"
+args = { paddles = 2 }
+
+[[variant]]
+symbol = "polcontroller"
+params = { count = 4 }
+component = "PolarizationController"
+args = { paddles = 4 }
+
+# ================================================================ sources with no part yet
+[[variant]]
+symbol = "comb"
+component = "FrequencyComb"
+
+[[variant]]
+symbol = "iqmod"
+component = "IQModulator"
+
+[[variant]]
+symbol = "comb"
+params = { contacts = "top" }
+
+# ================================================================ family C: instruments and electronics
+[[variant]]
+symbol = "oscilloscope"
+component = "Oscilloscope"
+
+[[variant]]
+symbol = "awginstrument"
+component = "WaveformGenerator"
+
+[[variant]]
+symbol = "vna"
+component = "VNA"
+
+[[variant]]
+symbol = "osa"
+component = "OSA"
+
+[[variant]]
+symbol = "smu"
+component = "SMU"
+
+[[variant]]
+symbol = "laserdriver"
+component = "LaserDriver"
+
+[[variant]]
+symbol = "daq"
+component = "DAQ"
+
+[[variant]]
+symbol = "lockin"
+component = "LockInAmplifier"
+
+[[variant]]
+symbol = "fpga"
+component = "FPGABoard"
+
+[[variant]]
+symbol = "computer"
+component = "Computer"
+
+[[variant]]
+symbol = "vacuumpump"
+component = "VacuumPump"
+
+[[variant]]
+symbol = "powermeter"
+component = "OpticalPowerMeter"
+
+[[variant]]
+symbol = "eic"
+component = "EIC"
+
+[[variant]]
+symbol = "mcu"
+component = "Microcontroller"
+
+[[variant]]
+symbol = "coherentreceiver"
+component = "CoherentReceiver"
+
+[[variant]]
+symbol = "coherentreceiver"
+params = { view = "top" }
+component = "CoherentReceiver"
+
+[[variant]]
+symbol = "receiver"
+component = "ReceiverMacro"
+
+[[variant]]
+symbol = "transmitter"
+component = "TransmitterMacro"
+
+[[variant]]
+symbol = "metalroute"
+component = "MetalRoute"
+
+[[variant]]
+symbol = "signalarrow"
+component = "SignalArrow"
+
+[[variant]]
+symbol = "pcb"
+component = "PCB"
+
+[[variant]]
+symbol = "iopads"
+params = { count = 8 }
+component = "ElectricalIOBank"
+
+[[variant]]
+symbol = "iopads"
+params = { count = 4 }
+component = "ElectricalIOBank"
+args = { count = 4 }
+
+[[variant]]
+symbol = "lasersource"
+component = "Laser"
+
+[[variant]]
+symbol = "lasersource"
+params = { view = "top" }
+component = "Laser"
+
+[[variant]]
+symbol = "lasersource"
+params = { sync = "yes" }
+component = "Laser"
+args = { sync = true }
+
+[[variant]]
+symbol = "lasersource"
+params = { view = "top", sync = "yes" }
+component = "Laser"
+args = { sync = true }
+
+[[variant]]
+symbol = "lamp"
+component = "Lamp"
+
+[[variant]]
+symbol = "snspd"
+component = "SNSPD"
+
+[[variant]]
+symbol = "photoncounter"
+params = { count = 4 }
+component = "PhotonCounter"
+
+[[variant]]
+symbol = "photoncounter"
+params = { count = 1 }
+component = "PhotonCounter"
+args = { channels = 1 }
+
+[[variant]]
+symbol = "photoncounter"
+params = { count = 2 }
+component = "PhotonCounter"
+args = { channels = 2 }
+
+[[variant]]
+symbol = "photoncounter"
+params = { count = 3 }
+component = "PhotonCounter"
+args = { channels = 3 }
+
+[[variant]]
+symbol = "coincidence"
+params = { count = 4 }
+component = "CoincidenceCounter"
+
+[[variant]]
+symbol = "coincidence"
+params = { count = 1 }
+component = "CoincidenceCounter"
+args = { channels = 1 }
+
+[[variant]]
+symbol = "coincidence"
+params = { count = 2 }
+component = "CoincidenceCounter"
+args = { channels = 2 }
+
+[[variant]]
+symbol = "coincidence"
+params = { count = 3 }
+component = "CoincidenceCounter"
+args = { channels = 3 }
+
+[[variant]]
+symbol = "detector"
+component = "Photodiode"
+
+[[variant]]
+symbol = "detector"
+params = { view = "top" }
+component = "Photodiode"
+
+[[variant]]
+symbol = "qpd"
+component = "QuadrantPhotodiode"
+
+[[variant]]
+symbol = "qpd"
+params = { view = "top" }
+component = "QuadrantPhotodiode"
+
+[[variant]]
+symbol = "ampdetector"
+component = "AmplifiedPhotodetector"
+
+[[variant]]
+symbol = "pmt"
+component = "PMT"
+
+[[variant]]
+symbol = "camera"
+component = "Camera"
+
+[[variant]]
+symbol = "spectrometer"
+component = "Spectrometer"
+
+[[variant]]
+symbol = "cryostat"
+component = "Cryostat"
+
+[[variant]]
+symbol = "cryostat"
+params = { view = "top" }
+component = "Cryostat"
+
+[[variant]]
+symbol = "cryostat"
+params = { sample = "no" }
+component = "Cryostat"
+args = { with_sample = false }
+
+[[variant]]
+symbol = "cryostat"
+params = { view = "top", sample = "no" }
+component = "Cryostat"
+args = { with_sample = false }
+
+[[variant]]
+symbol = "sample"
+component = "Sample"
+
+[[variant]]
+symbol = "sample"
+params = { kind = "cryostat" }
+component = "Sample"
+args = { in_cryostat = true }
+
+[[variant]]
+symbol = "beamblock"
+component = "Block"
+
+[[variant]]
+symbol = "knifeedge"
+component = "Razor"
+
+# ---------------------------------------------------------------- free-space optics: lenses
+[[variant]]
+symbol = "lens"
+component = "Lens"
+
+[[variant]]
+symbol = "lens"
+params = { kind = "concave" }
+component = "Lens"
+args = { focal_length = -30.0 }
+
+[[variant]]
+symbol = "lens"
+params = { kind = "aspheric" }
+component = "AsphericLens"
+
+[[variant]]
+symbol = "lens"
+params = { kind = "cylindrical" }
+component = "CylindricalLens"
+
+[[variant]]
+symbol = "objective"
+component = "Objective"
+
+[[variant]]
+symbol = "lenstube"
+component = "LensTube"
+
+[[variant]]
+symbol = "telescope"
+component = "Telescope"
+
+[[variant]]
+symbol = "telescope"
+params = { kind = "galilean" }
+component = "Telescope"
+args = { telescope_type = "galilean" }
+
+[[variant]]
+symbol = "beamexpander"
+component = "BeamExpanderTelescope"
+
+[[variant]]
+symbol = "fourf"
+component = "FourFSystem"
+
+[[variant]]
+symbol = "fourf"
+params = { split = 0.25 }
+component = "FourFSystem"
+args = { focal_length_1 = 20.0, focal_length_2 = 60.0 }
+
+[[variant]]
+symbol = "fourf"
+params = { split = 0.33 }
+component = "FourFSystem"
+args = { focal_length_1 = 20.0, focal_length_2 = 40.0 }
+
+[[variant]]
+symbol = "fourf"
+params = { split = 0.4 }
+component = "FourFSystem"
+args = { focal_length_1 = 20.0, focal_length_2 = 30.0 }
+
+[[variant]]
+symbol = "fourf"
+params = { split = 0.6 }
+component = "FourFSystem"
+args = { focal_length_1 = 20.0, focal_length_2 = 13.333 }
+
+[[variant]]
+symbol = "fourf"
+params = { split = 0.67 }
+component = "FourFSystem"
+args = { focal_length_1 = 20.0, focal_length_2 = 10.0 }
+
+[[variant]]
+symbol = "fourf"
+params = { split = 0.75 }
+component = "FourFSystem"
+args = { focal_length_1 = 20.0, focal_length_2 = 6.667 }
+
+[[variant]]
+symbol = "collimator"
+component = "FiberCollimator"
+
+[[variant]]
+symbol = "fiberport"
+component = "FiberPort"
+
+# ---------------------------------------------------------------- free-space optics: mirrors
+[[variant]]
+symbol = "mirror"
+component = "Mirror"
+
+[[variant]]
+symbol = "flipmirror"
+component = "FlipMirror"
+
+[[variant]]
+symbol = "flipmirror"
+params = { view = "top" }
+component = "FlipMirror"
+
+[[variant]]
+symbol = "mirror"
+params = { kind = "concave" }
+component = "ConcaveMirror"
+
+[[variant]]
+symbol = "mirror"
+params = { kind = "convex" }
+component = "ConvexMirror"
+
+[[variant]]
+symbol = "mirror"
+params = { kind = "biconcave" }
+component = "BiconcaveMirror"
+
+[[variant]]
+symbol = "mirror"
+params = { kind = "biconvex" }
+component = "BiconvexMirror"
+
+[[variant]]
+symbol = "dichroic"
+
+[[variant]]
+symbol = "galvo"
+component = "GalvoMirror"
+
+[[variant]]
+symbol = "galvocompact"
+component = "GalvoMirror"
+
+[[variant]]
+symbol = "retro"
+component = "Retroreflector"
+
+[[variant]]
+symbol = "periscope"
+component = "Periscope"
+
+[[variant]]
+symbol = "periscope"
+params = { view = "top" }
+component = "Periscope"
+
+# ---------------------------------------------------------------- free-space optics: beamsplitters
+[[variant]]
+symbol = "platesplitter"
+component = "BeamSplitter"
+
+[[variant]]
+symbol = "platesplitter"
+params = { kind = "dichroic" }
+component = "BeamSplitter"
+args = { dichroic = true }
+
+[[variant]]
+symbol = "partialmirror"
+component = "PartialMirror"
+
+[[variant]]
+symbol = "cubesplitter"
+component = "PBS"
+
+[[variant]]
+symbol = "cubesplitter"
+params = { kind = "plain" }
+component = "NonPolarizingBeamSplitter"
+
+# ---------------------------------------------------------------- free-space optics: polarization, plates
+[[variant]]
+symbol = "glanlaser"
+component = "GlanLaserPolarizer"
+
+[[variant]]
+symbol = "wollaston"
+component = "WollastonPrism"
+
+[[variant]]
+symbol = "crystal"
+component = "NonlinearCrystal"
+
+[[variant]]
+symbol = "crystal"
+params = { kind = "poled" }
+component = "NonlinearCrystal"
+args = { poled = true }
+
+[[variant]]
+symbol = "polarizer"
+component = "Polarizer"
+
+[[variant]]
+symbol = "polarizer"
+params = { kind = "analyzer" }
+component = "Analyzer"
+
+[[variant]]
+symbol = "waveplate"
+component = "WavePlate"
+args = { retardance = 1.0 }
+
+[[variant]]
+symbol = "waveplate"
+params = { kind = "half" }
+component = "WavePlate"
+also = ["HalfWavePlate"]
+
+[[variant]]
+symbol = "waveplate"
+params = { kind = "quarter" }
+component = "QuarterWavePlate"
+
+[[variant]]
+symbol = "isolator"
+component = "OpticalIsolator"
+
+[[variant]]
+symbol = "brewster"
+component = "BrewsterWindow"
+
+[[variant]]
+symbol = "wedge"
+component = "WedgePlate"
+
+[[variant]]
+symbol = "window"
+component = "CryostatWindow"
+
+[[variant]]
+symbol = "filter"
+component = "Filter"
+
+[[variant]]
+symbol = "ndfilter"
+component = "NDFilter"
+
+# ---------------------------------------------------------------- free-space optics: modulators
+[[variant]]
+symbol = "aom"
+component = "AOM"
+
+[[variant]]
+symbol = "eom"
+component = "EOM"
+
+[[variant]]
+symbol = "slm"
+component = "SLM"
+
+[[variant]]
+symbol = "dmd"
+component = "DMD"
+
+[[variant]]
+symbol = "chopper"
+component = "OpticalChopper"
+
+# ---------------------------------------------------------------- free-space optics: apertures
+[[variant]]
+symbol = "iris"
+component = "Iris"
+
+[[variant]]
+symbol = "iris"
+params = { kind = "stop" }
+component = "ApertureStop"
+
+[[variant]]
+symbol = "iris"
+params = { kind = "pinhole" }
+component = "Pinhole"
+
+[[variant]]
+symbol = "iris"
+params = { kind = "slit" }
+component = "SpectrometerSlit"
+
+# ---------------------------------------------------------------- free-space optics: prisms, gratings
+[[variant]]
+symbol = "prism"
+component = "Prism"
+
+[[variant]]
+symbol = "prism"
+params = { kind = "rightangle" }
+component = "RightAnglePrism"
+
+[[variant]]
+symbol = "prism"
+params = { kind = "penta" }
+component = "Pentaprism"
+
+[[variant]]
+symbol = "ruledgrating"
+component = "Grating"
+
+[[variant]]
+symbol = "monochromator"
+component = "Monochromator"
+
+# ---------------------------------------------------------------- free-space optics: sensors
+[[variant]]
+symbol = "sensor"
+component = "CameraSensor"
+
+[[variant]]
+symbol = "sensor"
+params = { kind = "cmos" }
+component = "CMOSCamera"
+
+[[variant]]
+symbol = "sensor"
+params = { kind = "emccd" }
+component = "EMCCD"
+
+[[variant]]
+symbol = "sensor"
+params = { kind = "spad" }
+component = "SPADArray"
+
+[[variant]]
+symbol = "powerhead"
+component = "PowerMeter"
+
+# ---------------------------------------------------------------- free-space optics: tables and mounts
+[[variant]]
+symbol = "table"
+component = "OpticalTable"
+
+[[variant]]
+symbol = "table"
+params = { kind = "breadboard" }
+component = "Breadboard"
+
+[[variant]]
+symbol = "table"
+params = { kind = "baseplate" }
+component = "Baseplate"
+
+[[variant]]
+symbol = "kinematic"
+component = "KinematicMount"
+
+[[variant]]
+symbol = "post"
+component = "OpticalPost"
+
+[[variant]]
+symbol = "post"
+params = { view = "top" }
+component = "OpticalPost"
+
+[[variant]]
+symbol = "platform"
+component = "PlatformMount"
+
+[[variant]]
+symbol = "platform"
+params = { view = "top" }
+component = "PlatformMount"
+
+[[variant]]
+symbol = "rotation"
+component = "RotationStage"
+
+[[variant]]
+symbol = "translation"
+component = "TranslationStage"
+
+[[variant]]
+symbol = "chamber"
+component = "VacuumChamber"
+
+[[variant]]
+symbol = "beamdump"
+component = "BeamDump"
+
+# ---------------------------------------------------------------- circuit parts (IEC 60617)
+[[variant]]
+symbol = "resistor"
+component = "Resistor"
+
+[[variant]]
+symbol = "capacitor"
+component = "Capacitor"
+
+[[variant]]
+symbol = "inductor"
+component = "Inductor"
+
+[[variant]]
+symbol = "opamp"
+component = "OpAmp"
+
+[[variant]]
+symbol = "ground"
+component = "Ground"
+
+[[variant]]
+symbol = "biastee"
+component = "BiasTee"
+
+[[variant]]
+symbol = "mixer"
+component = "RFMixer"
+
+[[variant]]
+symbol = "amp"
+component = "Amplifier"
+
+[[variant]]
+symbol = "rffilter"
+params = { response = "lowpass" }
+component = "RFFilter"
+
+[[variant]]
+symbol = "rffilter"
+params = { response = "highpass" }
+component = "RFFilter"
+args = { response = "highpass" }
+
+[[variant]]
+symbol = "rffilter"
+params = { response = "bandpass" }
+component = "RFFilter"
+args = { response = "bandpass" }
+
+[[variant]]
+symbol = "rffilter"
+params = { response = "bandstop" }
+component = "RFFilter"
+args = { response = "bandstop" }
+
+# ---------------------------------------------------------------- package parts
+[[variant]]
+symbol = "fiberarray"
+params = { count = 8 }
+component = "FiberArray"
+
+[[variant]]
+symbol = "fiberarray"
+params = { count = 4 }
+component = "FiberArray"
+args = { count = 4 }
+
+[[variant]]
+symbol = "sma"
+component = "SMAConnector"
+
+[[variant]]
+symbol = "sma"
+params = { view = "top" }
+component = "SMAConnector"
+
+[[variant]]
+symbol = "pcb"
+params = { kind = "plain" }
+component = "PCB"
+args = { style = "plain" }
+
+# ---------------------------------------------------------------- lock-loop parts: servo, source, junction, ESA
+[[variant]]
+symbol = "pid"
+component = "PIDController"
+
+[[variant]]
+symbol = "signalsource"
+component = "SignalSource"
+
+[[variant]]
+symbol = "sumjunction"
+component = "SummingJunction"
+
+[[variant]]
+symbol = "sumjunction"
+params = { minus = true }
+component = "SummingJunction"
+args = { signs = "+-" }
+
+[[variant]]
+symbol = "esa"
+component = "RFSpectrumAnalyzer"
+
+[[variant]]
+symbol = "rfsplitter"
+component = "RFSplitter"
+
+[[variant]]
+symbol = "rfcoupler"
+component = "RFCoupler"
+
+[[variant]]
+symbol = "rfphase"
+component = "RFPhaseShifter"
+# ---------------------------------------------------------------- wave-2 free-space parts
+[[variant]]
+symbol = "faraday"
+component = "FaradayRotator"
+
+[[variant]]
+symbol = "mirror"
+params = { pzt = "stack" }
+component = "Mirror"
+args = { piezo = "stack" }
+
+[[variant]]
+symbol = "mirror"
+params = { pzt = "3axis" }
+component = "Mirror"
+args = { piezo = "3axis" }
+
+[[variant]]
+symbol = "mirror"
+params = { kind = "concave", pzt = "stack" }
+component = "ConcaveMirror"
+args = { piezo = "stack" }
+
+[[variant]]
+symbol = "mirror"
+params = { kind = "concave", pzt = "3axis" }
+component = "ConcaveMirror"
+args = { piezo = "3axis" }
+
+[[variant]]
+symbol = "modecleaner"
+component = "ModeCleaner"
+
+[[variant]]
+symbol = "modecleaner"
+params = { pzt = "stack" }
+component = "ModeCleaner"
+args = { piezo = true }
+
+[[variant]]
+symbol = "roof"
+component = "RoofMirror"
+
+[[variant]]
+symbol = "balanced"
+component = "BalancedDetector"

@@ -1,0 +1,60 @@
+A figure for a paper must match the page: vector, at the column width, in the paper's font. optodraw writes
+SVG, TikZ for LaTeX and the 1D schematic.
+
+## Draw it
+
+The ODMR microscope of Babashah et al. (2023), Fig. 4, in 2D:
+
+<!-- cell: figures/01-odmr -->
+
+As TikZ: `\input` the file, and its labels take the paper's font.
+
+<!-- cell: figures/02-tikz -->
+
+The first cell's 1D tab is the schematic: each part as its symbol.
+
+## Pages and insets
+
+A `Page` is a scene in millimetres that prints at its exact size. An `Inset` holds one item: a scene, a section, a
+plot, a picture, an SVG or PDF file, text or an equation.
+
+<!-- cell: figures/03-page -->
+
+`page.row` sets items at one height. A picture stays pixels in a vector frame. A callout on `inset.at(x, y)`
+moves with its inset. `page.export("fig")` writes SVG, and PDF and PNG with the `figure` extra.
+
+## Options
+
+| Call | Gives |
+|---|---|
+| `scene.render_svg("fig.svg")` | 2D drawing as SVG |
+| `scene.render_tikz("fig.tex", standalone=False)` | TikZ to `\input` in a paper |
+| `scene.export_figure("fig", width_mm=89)` | SVG, PDF and PNG at their size on the page |
+| `export_panels("fig", [[bench, "plot.svg"]], width_mm=183)` | Lettered panels from scenes, sections and files |
+| `"f_p, *k*, cm^2"` | Scripts and italics in any label |
+| `Callout("Gap", center=(20, 18), target=ring.anchor("gap"))` | Text with a line to a part |
+| `Bracket("Telescope", l1, l2)`, `DashedLink(a, b)` | A named span; two places tied |
+| `SectionMark(a, b)`, `Region(parts, label="TX")` | A cut line; a named group |
+| `page.zoom(small, region, big)` | A closer view tied to its place |
+| `Glyph.on(beam, "pulse", leg=2)` | The signal state beside a beam |
+| `check_export("fig.svg")` | The file measured at print size |
+| `Timing(rows, span=(0, 8))`, `eye_diagram(samples, 16)` | Timing and eye diagrams |
+| `stack_section(stack, (1, 0))`, `xs.beam(wavelength=450)` | A chip section from a stack, with a beam |
+| `GdsView(gds, stack, region)`, `inset.cut(a, b)` | A GDS crop as vector; its section along A-A′ |
+| `View3D(scene)`, `View3D.chip(gds, stack)` | A scene or a chip in 3D, as vector |
+| `Scene(beam_style=BeamStyle(opacity=0.5, scale=1, by_wavelength=1))` | The look of all the light |
+| `build_publication_bundle(scene, output_dir=..., formats=(...))` | SVG, TikZ, PNG and a caption in one folder |
+| `scene.fit_frame(margin=...)` | A frame around all parts and beams |
+
+## What it supports
+
+Every part has a 1D symbol: a real line drawing, never a labelled box. Optical, electrical and fibre links
+differ without colour, so a figure prints in black and white.
+
+## How it works
+
+The 2D drawing paints each part from its symbol. The 1D view draws it as line art. TikZ uses the same symbols
+as a LaTeX library.
+
+Babashah, H. et al. Optically detected magnetic resonance with an open source platform. *SciPost Phys. Core*
+6, 065 (2023). [doi:10.21468/SciPostPhysCore.6.4.065](https://doi.org/10.21468/SciPostPhysCore.6.4.065)

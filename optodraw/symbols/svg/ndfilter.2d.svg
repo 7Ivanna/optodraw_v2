@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.918854 25.509081" width="9.918854pt" height="25.509081pt"><g transform="translate(72.0,72.0)">
+<g id='od-ndfilter-page1'>
+<g stroke-miterlimit='10' transform='translate(-67.040575,-59.245466)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#606060'>
+<clipPath id='od-ndfilter-pgfcp6'>
+<path d='M-1.42271-8.5359V8.5359H1.42271V-8.5359ZM1.42271 8.5359'/> </clipPath>
+<g clip-path='url(#od-ndfilter-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.0567,0,0,0.3402,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-ndfilter-pgfsh7'>
+ <stop offset='0.0' stop-color=' #a0a0a0 '/>
+ <stop offset='0.25' stop-color=' #a0a0a0 '/>
+ <stop offset='0.5' stop-color=' #c0c0c0 '/>
+ <stop offset='0.75' stop-color=' #e0e0e0 '/>
+ <stop offset='1.0' stop-color=' #e0e0e0 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-ndfilter-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.42271-8.5359V8.5359H1.42271V-8.5359ZM1.42271 8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-ndfilter-pgfcp8'>
+<path d='M-2.70303 8.5359V10.52737H2.70303V8.5359ZM2.70303 10.52737'/> </clipPath>
+<g clip-path='url(#od-ndfilter-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,9.53163)'>
+<g transform='matrix(0.10773,0,0,0.03967,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-ndfilter-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-ndfilter-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-2.70303 8.5359V10.52737H2.70303V8.5359ZM2.70303 10.52737' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-ndfilter-pgfcp9'>
+<path d='M-2.70303-8.5359V-10.52737H2.70303V-8.5359ZM2.70303-10.52737'/> </clipPath>
+<g clip-path='url(#od-ndfilter-pgfcp9)'>
+<g transform='matrix(1,0,0,1,0.0,-9.53163)'>
+<g transform='matrix(0.10773,0,0,0.03967,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-ndfilter-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-ndfilter-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-2.70303-8.5359V-10.52737H2.70303V-8.5359ZM2.70303-10.52737' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

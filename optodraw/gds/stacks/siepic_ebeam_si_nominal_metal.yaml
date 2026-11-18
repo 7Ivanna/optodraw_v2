@@ -1,0 +1,17 @@
+# Silicon optical baseline with an illustrative electrical stack.
+# Contact, via, metal and pad dimensions below are NOMINAL, not SiEPIC fabrication rules.
+name: SiEPIC silicon optical baseline with nominal electrical layers
+units: um
+oxide:
+  box: {thickness: 2.0, material: sio2}
+  tox: {thickness: 3.42, material: sio2}
+  handle: {thickness: 2.0, material: silicon}
+layers:
+  "1/0": {name: Si core, role: core, zmin: 0, thickness: 0.22, material: silicon}
+  "2/0": {name: Si slab, role: slab, zmin: 0, thickness: 0.09, material: silicon}
+  "900/0": {name: Contact, role: contact, zmin: 0.09, thickness: 0.11, material: tungsten, provenance: nominal}
+  "901/0": {name: Contact via, role: via, from: Contact, to: M1, material: tungsten, provenance: nominal}
+  "902/0": {name: M1, role: metal, zmin: 1.0, thickness: 0.2, material: aluminum, provenance: nominal}
+  "903/0": {name: Heater, role: heater, zmin: 0.8, thickness: 0.1, material: titanium_nitride, provenance: nominal}
+  "904/0": {name: Bond pad, role: pad, zmin: 1.0, thickness: 0.2, material: aluminum, provenance: nominal}
+# 900-series identifiers are display-only. Do not use this file as a fabrication layer map.

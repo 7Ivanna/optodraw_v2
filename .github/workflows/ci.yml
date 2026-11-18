@@ -1,0 +1,169 @@
+name: CI
+
+# Runs on every push and pull request. The suite is the contract: it covers the
+# ray tracer, the schema round trip, the editor API, the presets, and the parts
+# of the front end that Python can reach.
+on:
+  push:
+    branches-ignore: []
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.os }} · Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Floor until 3.10 EOL (31 Oct 2026). The gds extra skips gdsfactory
+          # here (no 3.10 wheel) and still installs shapely/trimesh/gdstk.
+          - { os: ubuntu-latest, python: "3.10", extras: "dev,gui,gif,three,gds", coverage: false }
+          # Last 8.x gdsfactory line (Python < 3.12).
+          - { os: ubuntu-latest, python: "3.11", extras: "dev,gui,gif,three,gds", coverage: false }
+          # Coverage gate: newest full extra set the floor in pyproject.toml
+          # actually bites. mcp and optiland live here so those tests run.
+          - { os: ubuntu-latest, python: "3.12", extras: "dev,gui,gif,three,gds,mcp,optiland", coverage: true }
+          - { os: ubuntu-latest, python: "3.13", extras: "dev,gui,gif,three,gds", coverage: false }
+          - { os: ubuntu-latest, python: "3.14", extras: "dev,gui,gif,three,gds", coverage: false }
+          - { os: macos-latest, python: "3.12", extras: "dev,gui,gif,three,gds", coverage: false }
+          # Windows: skip gif (system cairo) and gds (native wheels). The
+          # importorskip tests stay skip, not error.
+          - { os: windows-latest, python: "3.12", extras: "dev,gui,three", coverage: false }
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+
+      - name: Install the native cairo library
+        # cairosvg ships a wheel but binds the system cairo, which macOS does
+        # not have. Without this the GIF tests skip instead of running.
+        if: runner.os == 'macOS'
+        run: brew install cairo
+
+      - name: Install extras
+        # Editable install so tests import the checkout, the way a developer
+        # runs them. The wheel path gets its own job below.
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[${{ matrix.extras }}]"
+
+      - name: Lint
+        # Pinned to a minor version on purpose: ruff turns on new rules in
+        # feature releases, and a lint that changes under you overnight is a
+        # broken build, not a code review. Moving the pin is a deliberate act.
+        run: |
+          ruff --version
+          ruff check optodraw tests scripts
+
+      - name: Test
+        # The coverage job enforces [tool.coverage.report] fail_under; the other
+        # matrix legs just run the suite. OPTODRAW_FULL keeps the tests listed as slow.
+        env:
+          OPTODRAW_FULL: "1"
+        run: >
+          python -m pytest tests -q -rs
+          ${{ matrix.coverage && '--cov=optodraw --cov-report=term-missing' || '' }}
+
+  types:
+    name: mypy public names
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Type-check the root exports
+        run: mypy
+
+  extras-manim:
+    name: manim extra
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: System libraries manim needs
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libcairo2-dev libpango1.0-dev ffmpeg pkg-config
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,manim]"
+      - name: Prove manim imports, then run the renderer tests
+        run: |
+          python -c "import manim; print('manim', manim.__version__)"
+          python -m pytest tests/test_frame_states.py -q -rs
+
+  install:
+    name: pip install, then use it from elsewhere
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Build the wheel and check what is in it
+        run: |
+          pip install build
+          python -m build --wheel -o dist
+          python - <<'CHECK'
+          import zipfile, glob
+          names = zipfile.ZipFile(glob.glob("dist/*.whl")[0]).namelist()
+          for needed in ("optodraw/app/static/index.html", "optodraw/app/static/js/app.js",
+                         "optodraw/renderers/js/light_player.js",
+                         "optodraw/gds/stacks/cornerstone_si500.yaml",
+                         "optodraw/py.typed"):
+              assert needed in names, f"the wheel is missing {needed}"
+          assert not [n for n in names if n.endswith((".so", ".pyd"))], "pure Python, no binaries"
+          print(f"wheel carries {len(names)} files, including the editor front end")
+          CHECK
+
+      - name: Install the package as a user would
+        run: |
+          pip install ".[gui,gds,gif,three]"
+          pip install httpx2
+
+      - name: Import it from somewhere else entirely
+        # Run from a different directory so this imports the INSTALLED package
+        # rather than the checkout sitting in the working directory.
+        working-directory: ${{ runner.temp }}
+        run: |
+          python -c "
+          import optodraw
+          from optodraw import Scene, Laser, Lens
+          scene = Scene(width=120, height=80, title='CI')
+          scene.add(Laser(center=(-40, 0)))
+          scene.add(Lens(center=(0, 0), focal_length=25))
+          svg = scene.render_svg().as_svg()
+          assert svg.startswith('<?xml'), svg[:80]
+          print('optodraw', optodraw.__version__, 'renders', len(svg), 'bytes of SVG')
+          "
+
+      - name: Start the editor and talk to it
+        working-directory: ${{ runner.temp }}
+        run: |
+          python -c "
+          from fastapi.testclient import TestClient
+          from optodraw.app.server import create_app
+          client = TestClient(create_app())
+          assert client.get('/api/health').json()['status'] == 'ok'
+          assert client.post('/api/scene/preset', json={'name': 'confocal_pl'}).status_code == 200
+          print('editor answers on a clean install')
+          "

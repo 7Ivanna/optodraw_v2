@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.38413 26.425245" width="27.38413pt" height="26.425245pt"><g transform="translate(72.0,72.0)">
+<g id='od-powerhead-page1'>
+<g stroke-miterlimit='10' transform='translate(-59.921474,-61.055147)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-5.69046-8.5359V-13.08844' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-9.67383-8.5359V8.5359H-1.70709V-8.5359ZM-1.70709 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-9.67383-8.5359V8.5359H-1.70709V-8.5359ZM-1.70709 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-9.67383-8.5359V8.5359H-1.70709V-8.5359ZM-1.70709 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-9.67383-8.5359V8.5359H-1.70709V-8.5359ZM-1.70709 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-powerhead-pgfcp6'>
+<path d='M-9.67383-8.5359V8.5359H-1.70709V-8.5359ZM-1.70709 8.5359'/> </clipPath>
+<g clip-path='url(#od-powerhead-pgfcp6)'>
+<g transform='matrix(1,0,0,1,-5.69046,0.0)'>
+<g transform='matrix(0.15875,0,0,0.3402,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-powerhead-pgfsh1'>
+ <stop offset='0.0' stop-color=' #64748b '/>
+ <stop offset='0.25' stop-color=' #64748b '/>
+ <stop offset='0.31' stop-color=' #94a3b8 '/>
+ <stop offset='0.54999' stop-color=' #cbd5e1 '/>
+ <stop offset='0.7' stop-color=' #e2e8f0 '/>
+ <stop offset='0.75' stop-color=' #f1f5f9 '/>
+ <stop offset='1.0' stop-color=' #f1f5f9 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-powerhead-pgfsh1); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-9.67383-8.5359V8.5359H-1.70709V-8.5359ZM-1.70709 8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-powerhead-pgfcp7'>
+<path d='M-9.67383-5.69046V5.69046H-7.68236V-5.69046ZM-7.68236 5.69046'/> </clipPath>
+<g clip-path='url(#od-powerhead-pgfcp7)'>
+<g transform='matrix(1,0,0,1,-8.67809,0.0)'>
+<g transform='matrix(0.03967,0,0,0.22679,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-powerhead-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-powerhead-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-9.67383-5.69046V5.69046H-7.68236V-5.69046ZM-7.68236 5.69046' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-1.70709 0H2.84544' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M13.088 0C13.088 2.82843 10.79515 5.12128 7.96672 5.12128S2.84544 2.82843 2.84544 0S5.13829-5.12128 7.96672-5.12128S13.088-2.82843 13.088 0ZM7.96672 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M13.088 0C13.088 2.82843 10.79515 5.12128 7.96672 5.12128S2.84544 2.82843 2.84544 0S5.13829-5.12128 7.96672-5.12128S13.088-2.82843 13.088 0ZM7.96672 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M13.088 0C13.088 2.82843 10.79515 5.12128 7.96672 5.12128S2.84544 2.82843 2.84544 0S5.13829-5.12128 7.96672-5.12128S13.088-2.82843 13.088 0ZM7.96672 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M13.088 0C13.088 2.82843 10.79515 5.12128 7.96672 5.12128S2.84544 2.82843 2.84544 0S5.13829-5.12128 7.96672-5.12128S13.088-2.82843 13.088 0ZM7.96672 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<g fill='#fff'>
+<path d='M13.088 0C13.088 2.82843 10.79515 5.12128 7.96672 5.12128S2.84544 2.82843 2.84544 0S5.13829-5.12128 7.96672-5.12128S13.088-2.82843 13.088 0ZM7.96672 0'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M3.778 .99551C5.11365 3.30894 8.07191 4.1016 10.38535 2.76595C11.12044 2.34157 11.7314 1.7306 12.15578 .99551' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M7.96672-1.9919L10.83127 2.59233' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

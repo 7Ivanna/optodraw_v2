@@ -1,0 +1,891 @@
+% od-onchip.tex : on-chip symbols. Load od-core.tex first.
+% One pic per component, named "od <symbol>". Port names and kinds follow the
+% optodraw components; the build checks them.
+
+\newif\ifoddrop      \oddropfalse
+\newif\ifodheater    \odheaterfalse
+\newif\ifodpn        \odpnfalse
+\newif\ifodbalanced  \odbalancedfalse
+\newif\ifodonearm    \odonearmfalse
+\newif\ifodbare      \odbarefalse
+
+\pgfkeys{/od/.cd,
+  arm sep/.initial=0.8,   % interferometer arm separation
+  drive/.initial=none,    % interferometer: none | heater | gs | gsg | segmented
+  splitter/.initial=ybranch, % interferometer ends: ybranch | coupler | branch_coupler | mmi | mmi2x2
+  segments/.initial=3,    % interferometer: segments per arm when drive=segmented
+  weights/.initial=binary, % segment lengths: binary (L, 2L, 4L, ...) | equal
+  one arm/.is if=odonearm, % segmented: drive the top arm only
+  radius/.initial=0.45,   % ring radius
+  order/.initial=2,       % coupled-ring filter: number of rings
+  arms/.initial=5,        % awg array arms drawn
+  drop/.is if=oddrop,     % ring: add a drop bus
+  heater/.is if=odheater, % ring: add a heater strip
+  pn/.is if=odpn,         % ring: add p and n strips (a ring modulator)
+  balanced/.is if=odbalanced, % photodiode: balanced pair
+  top/.initial=1,         % ramzi: rings on the top arm
+  bottom/.initial=0,      % ramzi: rings on the bottom arm
+  bare/.is if=odbare,     % ramzi: no heaters
+}
+
+% ---------------------------------------------------------------- waveguide
+\tikzset{pics/od waveguide/.default={}, pics/od waveguide/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathsetmacro\odxa{\odget{length}/2}
+  \draw[od wg] (-\odxa,0) -- (\odxa,0);
+  \odport{o1}{-\odxa,0}\odport{o2}{\odxa,0}
+}}}
+
+% ---------------------------------------------------------------- MZI / MZM
+% One pic, named after optodraw's own arguments:
+%   splitter = ybranch        1 in, 1 out; o2 and o4 are the arm taps
+%            = coupler        2 in, 2 out through directional couplers
+%            = branch_coupler 1 in, 2 out
+%            = mmi, mmi2x2    the same two port plans with MMI couplers
+%   drive    = heater (h1, h2) | gs (sig, gnd) | gsg (gnd1, sig, gnd2)
+%            = segmented: one strip per bit ON the arms, lengths L, 2L, 4L
+%              (weights=equal for equal strips); a1..aN upper arm,
+%              b1..bN lower arm, gnd between the arms
+% Ground metal is white, signal metal is grey, a heater is yellow.
+
+% One end of the interferometer, drawn to the right of the arms. #1 = kind,
+% #2 = name of its single or upper port, #3 = name of its lower port.
+\newcommand\odmziend[3]{%
+  \def\odtmp{ybranch}\edef\odkind{#1}%   expand: #1 is a macro that holds the kind
+  \ifx\odkind\odtmp
+    \foreach \odsg in {1,-1} {
+      \draw[od wg] (\odxa,\odsg*\odys) .. controls +(0.28,0) and +(-0.28,0) .. (\odxa+0.5,0) -- (\odxa+0.8,0);}
+    \odport{#2}{\odxa+0.8,0}
+  \fi
+  \def\odtmp{dc}\ifx\odkind\odtmp
+    \foreach \odsg in {1,-1} {
+      \draw[od wg] (\odxa,\odsg*\odys) .. controls +(0.2,0) and +(-0.2,0) .. (\odxa+0.4,\odsg*0.05)
+        -- (\odxa+0.8,\odsg*0.05) .. controls +(0.2,0) and +(-0.2,0) .. (\odxa+1.2,\odsg*\odys) -- (\odxa+1.3,\odsg*\odys);}
+    \odport{#2}{\odxa+1.3,\odys}\odport{#3}{\odxa+1.3,-\odys}
+  \fi
+  \def\odtmp{mmi1}\ifx\odkind\odtmp
+    \foreach \odsg in {1,-1} {
+      \draw[od wg] (\odxa,\odsg*\odys) .. controls +(0.2,0) and +(-0.2,0) .. (\odxa+0.4,\odsg*0.1);}
+    \draw[od wg, fill=white] (\odxa+0.4,-0.22) rectangle (\odxa+0.9,0.22);
+    \draw[od wg] (\odxa+0.9,0) -- (\odxa+1.15,0);
+    \odport{#2}{\odxa+1.15,0}
+  \fi
+  \def\odtmp{mmi2}\ifx\odkind\odtmp
+    \foreach \odsg in {1,-1} {
+      \draw[od wg] (\odxa,\odsg*\odys) .. controls +(0.2,0) and +(-0.2,0) .. (\odxa+0.4,\odsg*0.1);
+      \draw[od wg] (\odxa+0.9,\odsg*0.1) .. controls +(0.2,0) and +(-0.2,0) .. (\odxa+1.3,\odsg*\odys) -- (\odxa+1.4,\odsg*\odys);}
+    \draw[od wg, fill=white] (\odxa+0.4,-0.22) rectangle (\odxa+0.9,0.22);
+    \odport{#2}{\odxa+1.4,\odys}\odport{#3}{\odxa+1.4,-\odys}
+  \fi
+}
+% The segments of one arm: grey strips ON the arm, drawn before the waveguide.
+% #1 = sign of the arm (1 top, -1 bottom).
+\newcommand\odsegstrips[1]{%
+  \foreach \odi in {1,...,\odseg} {
+    \pgfmathsetmacro\odx{-\odxh+\odu*(\odwbin*(2^(\odi-1)-1)+(1-\odwbin)*(\odi-1))+(\odi-1)*0.09}
+    \pgfmathsetmacro\odw{\odu*(\odwbin*2^(\odi-1)+(1-\odwbin))}
+    \path[od signal] (\odx,#1*\odys-\odmw) rectangle (\odx+\odw,#1*\odys+\odmw);
+  }}
+\newcommand\odsegports[2]{% #1 = sign of the arm, #2 = port letter
+  \foreach \odi in {1,...,\odseg} {
+    \pgfmathsetmacro\odx{-\odxh+\odu*(\odwbin*(2^(\odi-1)-1)+(1-\odwbin)*(\odi-1))+(\odi-1)*0.09}
+    \pgfmathsetmacro\odw{\odu*(\odwbin*2^(\odi-1)+(1-\odwbin))}
+    \odport[electrical]{#2\odi}{\odx+\odw/2,#1*\odys+#1*\odmw}
+  }}
+\tikzset{pics/od mzi/.default={}, pics/od mzi/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathsetmacro\odxa{\odget{length}/2}        % end of the straight arms
+  \pgfmathsetmacro\odys{\odget{arm sep}/2}
+  \pgfmathsetmacro\odxh{\odxa-0.15}              % end of the electrodes
+  \edef\oddrive{\odget{drive}}\edef\odsplit{\odget{splitter}}
+  \def\odleft{ybranch}\def\odright{ybranch}\def\odtaps{1}
+  \def\odtmp{coupler}\ifx\odsplit\odtmp \def\odleft{dc}\def\odright{dc}\def\odtaps{0}\fi
+  \def\odtmp{branch_coupler}\ifx\odsplit\odtmp \def\odright{dc}\def\odtaps{0}\fi
+  \def\odtmp{mmi}\ifx\odsplit\odtmp \def\odleft{mmi1}\def\odright{mmi1}\def\odtaps{0}\fi
+  \def\odtmp{mmi2x2}\ifx\odsplit\odtmp \def\odleft{mmi2}\def\odright{mmi2}\def\odtaps{0}\fi
+  \def\odtmp{heater}\ifx\oddrive\odtmp           % a strip over the top arm, under the waveguide
+    \path[od band, fill=odheat] (-\odxh,\odys-\odmw) rectangle (\odxh,\odys+\odmw);
+  \fi
+  \def\odtmp{segmented}\ifx\oddrive\odtmp        % one strip per bit, on the arms
+    \pgfmathtruncatemacro\odseg{\odget{segments}}
+    \edef\odwt{\odget{weights}}\def\odtmp{equal}%
+    \ifx\odwt\odtmp \def\odwbin{0}\pgfmathsetmacro\odu{(2*\odxh-(\odseg-1)*0.09)/\odseg}%
+    \else \def\odwbin{1}\pgfmathsetmacro\odu{(2*\odxh-(\odseg-1)*0.09)/(2^\odseg-1)}\fi
+    \odsegstrips{1}\ifodonearm\else\odsegstrips{-1}\fi
+  \fi
+  \draw[od wg] (-\odxa,\odys) -- (\odxa,\odys) (-\odxa,-\odys) -- (\odxa,-\odys);
+  \begin{scope}[xscale=-1]\odmziend{\odleft}{o1}{o2}\end{scope}
+  \odmziend{\odright}{o3}{o4}
+  \ifnum\odtaps=1 \odport{o2}{0,\odys}\odport{o4}{0,-\odys}\fi
+  \def\odtmp{heater}\ifx\oddrive\odtmp
+    \odport[electrical]{h1}{-\odxh+0.12,\odys+\odmw}\odport[electrical]{h2}{\odxh-0.12,\odys+\odmw}
+  \fi
+  \def\odtmp{gs}\ifx\oddrive\odtmp               % signal beside the top arm, ground between the arms
+    \path[od signal] (-\odxh,\odys+0.14) rectangle (\odxh,\odys+0.14+2*\odmw);
+    \path[od ground] (-\odxh,-\odmw) rectangle (\odxh,\odmw);
+    \odport[electrical]{sig}{-\odxh,\odys+0.14+\odmw}\odport[electrical]{gnd}{-\odxh,0}
+  \fi
+  \def\odtmp{gsg}\ifx\oddrive\odtmp              % signal between the arms, a ground outside each
+    \path[od ground] (-\odxh,\odys+0.14) rectangle (\odxh,\odys+0.14+2*\odmw);
+    \path[od signal] (-\odxh,-\odmw) rectangle (\odxh,\odmw);
+    \path[od ground] (-\odxh,-\odys-0.14-2*\odmw) rectangle (\odxh,-\odys-0.14);
+    \odport[electrical]{gnd1}{-\odxh,\odys+0.14+\odmw}\odport[electrical]{sig}{-\odxh,0}
+    \odport[electrical]{gnd2}{-\odxh,-\odys-0.14-\odmw}
+  \fi
+  \def\odtmp{segmented}\ifx\oddrive\odtmp        % the shared ground between the arms, then the bit ports
+    \path[od ground] (-\odxh,-\odmw) rectangle (\odxh,\odmw);
+    \odport[electrical]{gnd}{-\odxh,0}
+    \odsegports{1}{a}\ifodonearm\else\odsegports{-1}{b}\fi
+  \fi
+}}}
+
+% ---------------------------------------------------------------- microring
+% A strip on the ring between angles #3 and #4, from radius #1 to #2.
+\newcommand\odband[5]{%
+  \path[od band, #5] ($(0,\odyc)+(#3:#2)$) arc [start angle=#3, end angle=#4, radius=#2]
+    -- ($(0,\odyc)+(#4:#1)$) arc [start angle=#4, end angle=#3, radius=#1] -- cycle;}
+\tikzset{pics/od ring/.default={}, pics/od ring/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathsetmacro\odxa{\odget{length}/2}
+  \pgfmathsetmacro\odr{\odget{radius}}
+  \pgfmathsetmacro\odyc{\odr+0.08}               % ring centre: one gap above the bus
+  \edef\odcol{\odget{color}}
+  % The bus couplers keep the bottom of the ring free, and the top when there is
+  % a drop bus. Two sectors are left: S (right, and the top without a drop) and T (left).
+  \ifoddrop \def\odSb{35}\else\def\odSb{125}\fi
+  \def\odSa{-35}\def\odTa{145}\def\odTb{215}
+  \ifodpn
+    \ifodheater\else\ifoddrop\else\def\odSb{215}\fi\fi          % alone, no drop: the whole arc
+    \odband{\odr-0.21}{\odr-0.08}{\odSa}{\odSb}{fill=odp}
+    \odband{\odr+0.08}{\odr+0.21}{\odSa}{\odSb}{fill=odn}
+    \ifoddrop\ifodheater\else
+      \odband{\odr-0.21}{\odr-0.08}{\odTa}{\odTb}{fill=odp}
+      \odband{\odr+0.08}{\odr+0.21}{\odTa}{\odTb}{fill=odn}
+    \fi\fi
+    \pgfmathsetmacro\odpm{(\odSa+\odSb)/2}
+  \fi
+  \ifodheater
+    \ifodpn \def\odHa{\odTa}\def\odHb{\odTb}%                    % beside the junction
+    \else\ifoddrop \def\odHa{\odSa}\def\odHb{\odSb}%             % beside the drop coupler
+    \else \def\odHa{-35}\def\odHb{215}\fi\fi                     % the whole arc
+    \odband{\odr-0.13}{\odr+0.13}{\odHa}{\odHb}{fill=odheat}
+  \fi
+  \draw[od wg] (-\odxa,0) -- (\odxa,0);
+  \ifoddrop \pgfmathsetmacro\odyd{2*\odyc} \draw[od wg] (-\odxa,\odyd) -- (\odxa,\odyd); \fi
+  \draw[od ring, draw=\odcol] (0,\odyc) circle [radius=\odr];
+  \odport{o1}{-\odxa,0}\odport{o2}{\odxa,0}
+  \ifoddrop \odport{o3}{-\odxa,\odyd}\odport{o4}{\odxa,\odyd} \fi
+  \ifodpn
+    \odport[electrical]{e1}{$(0,\odyc)+(\odpm+16:\odr-0.145)$}     % p, inside
+    \odport[electrical]{e2}{$(0,\odyc)+(\odpm-16:\odr+0.145)$}     % n, outside
+  \fi
+  \ifodheater                                    % a passive ring names its heater contacts e1 and e2
+    \ifodpn \def\odHn{h}\else \def\odHn{e}\fi
+    \def\odHr{\odr}%
+    \ifodpn\else\ifoddrop\else                   % alone: the contacts on top of the strip, away from the bus, where
+      \def\odHa{65}\def\odHb{115}\def\odHr{\odr+0.13}%    % the part's leads leave
+    \fi\fi
+    \odport[electrical]{\odHn1}{$(0,\odyc)+(\odHb:\odHr)$}\odport[electrical]{\odHn2}{$(0,\odyc)+(\odHa:\odHr)$}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- coupled-ring filter
+% N rings in a column between a bottom bus (o1 west, o2 east) and a top bus (o3 west, o4 east).
+% Each ring touches the next by a gap. With heater: one strip per ring, on the west side of an
+% odd ring and on the east side of an even ring; its ends are h<k>a (upper) and h<k>b (lower).
+\tikzset{pics/od coupledring/.default={}, pics/od coupledring/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{order}}
+  \edef\odcol{\odget{color}}
+  \def\odr{0.24}\def\odcg{0.07}                         % ring radius, gap
+  \pgfmathsetmacro\odcp{2*\odr+\odcg}                   % ring pitch
+  \pgfmathsetmacro\odxa{\odr+0.5}
+  \pgfmathsetmacro\odyt{\odn*\odcp+\odcg}               % top bus
+  \foreach \odk in {1,...,\odn} {
+    \pgfmathsetmacro\odyc{\odcg+\odr+(\odk-1)*\odcp}
+    \ifodheater
+      \pgfmathtruncatemacro\odeven{mod(\odk,2)}
+      \ifnum\odeven=1 \def\odHa{140}\def\odHb{220}\else \def\odHa{40}\def\odHb{-40}\fi
+      \odband{\odr-0.13}{\odr+0.13}{\odHa}{\odHb}{fill=odheat}
+    \fi
+  }
+  \draw[od wg] (-\odxa,0) -- (\odxa,0);
+  \draw[od wg] (-\odxa,\odyt) -- (\odxa,\odyt);
+  \foreach \odk in {1,...,\odn} {
+    \pgfmathsetmacro\odyc{\odcg+\odr+(\odk-1)*\odcp}
+    \draw[od ring, draw=\odcol] (0,\odyc) circle [radius=\odr];
+  }
+  \odport{o1}{-\odxa,0}\odport{o2}{\odxa,0}
+  \odport{o3}{-\odxa,\odyt}\odport{o4}{\odxa,\odyt}
+  \ifodheater
+    \foreach \odk in {1,...,\odn} {
+      \pgfmathsetmacro\odyc{\odcg+\odr+(\odk-1)*\odcp}
+      \pgfmathtruncatemacro\odeven{mod(\odk,2)}
+      \ifnum\odeven=1 \def\odHa{140}\def\odHb{220}\else \def\odHa{40}\def\odHb{-40}\fi
+      \odport[electrical]{h\odk a}{$(0,\odyc)+(\odHa:\odr)$}
+      \odport[electrical]{h\odk b}{$(0,\odyc)+(\odHb:\odr)$}
+    }
+  \fi
+}}}
+
+% ---------------------------------------------------------------- RAMZI
+% A ring-assisted Mach-Zehnder interferometer: an MZI with rings side-coupled
+% to its arms. top / bottom = rings on the top / bottom arm; splitter = coupler
+% (the default) or mmi2x2 for the two ends; bare = no heaters. Rings are
+% numbered from 1: the top row from left to right, then the bottom row. Ring k
+% has the ports rh<k>a (left) and rh<k>b; the arm heater has h1 and h2.
+% A ring heater is a yellow strip inside the ring, open on the side away from the arm.
+\newcommand\odringheat[4]{% #1, #2 = ring centre, #3 to #4 = the strip, in degrees
+  \path[od band, fill=odheat] ($(#1,#2)+(#3:\odrr-0.06)$) arc [start angle=#3, end angle=#4, radius=\odrr-0.06]
+    -- ($(#1,#2)+(#4:\odrr-0.16)$) arc [start angle=#4, end angle=#3, radius=\odrr-0.16] -- cycle;}
+% One row of rings. #1 = sign of the arm (1 top, -1 bottom), #2 = rings in the row, #3 = number of the first ring minus 1.
+\newcommand\odramziring[3]{%
+  \ifnum#2>0 \foreach \odi in {1,...,#2} {
+    \pgfmathsetmacro\odx{\odxz+(\odi-(#2+1)/2)*1.1}
+    \pgfmathsetmacro\ody{#1*(\odys+\odrr+0.08)}
+    \pgfmathtruncatemacro\odk{#3+\odi}
+    \draw[od ring] (\odx,\ody) circle [radius=\odrr];
+    \ifodbare\else
+      \ifnum#1>0 \odringheat{\odx}{\ody}{125}{415}\else \odringheat{\odx}{\ody}{-55}{235}\fi
+      \ifnum#1>0
+        \odport[electrical]{rh\odk a}{$(\odx,\ody)+(125:\odrr-0.11)$}\odport[electrical]{rh\odk b}{$(\odx,\ody)+(55:\odrr-0.11)$}
+      \else
+        \odport[electrical]{rh\odk a}{$(\odx,\ody)+(235:\odrr-0.11)$}\odport[electrical]{rh\odk b}{$(\odx,\ody)+(-55:\odrr-0.11)$}
+      \fi
+    \fi
+  }\fi}
+\tikzset{pics/od ramzi/.default={}, pics/od ramzi/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odnt{\odget{top}}\pgfmathtruncatemacro\odnb{\odget{bottom}}
+  \pgfmathsetmacro\odys{0.4}                     % half the arm separation
+  \pgfmathsetmacro\odrr{0.4}                     % ring radius
+  \ifodbare \def\odhs{0}\else\def\odhs{1}\fi     % room for the arm heater beside the rings
+  \pgfmathsetmacro\odxa{max(\odget{length}/2,(max(\odnt,\odnb)*1.1+\odhs+0.2)/2)}
+  \pgfmathsetmacro\odxz{\odhs/2}                 % middle of the part of the arms that holds the rings
+  \edef\odsplit{\odget{splitter}}\def\odend{dc}
+  \def\odtmp{mmi2x2}\ifx\odsplit\odtmp \def\odend{mmi2}\fi
+  \ifodbare\else
+    \path[od band, fill=odheat] (-\odxa+0.1,\odys-\odmw) rectangle (-\odxa+0.85,\odys+\odmw);
+    \odport[electrical]{h1}{-\odxa+0.22,\odys+\odmw}\odport[electrical]{h2}{-\odxa+0.73,\odys+\odmw}
+  \fi
+  \draw[od wg] (-\odxa,\odys) -- (\odxa,\odys) (-\odxa,-\odys) -- (\odxa,-\odys);
+  \begin{scope}[xscale=-1]\odmziend{\odend}{o1}{o2}\end{scope}
+  \odmziend{\odend}{o3}{o4}
+  \odramziring{1}{\odnt}{0}
+  \odramziring{-1}{\odnb}{\odnt}
+}}}
+
+% ---------------------------------------------------------------- photodiode
+% One diode: no container. The waveguide ends on the junction; two arrows
+% point INTO the diode (a detector absorbs; a source would point outward).
+\newcommand\oddiode[1]{% #1 = y of the diode centre
+  \draw[od el, fill=white] (-0.22,#1-0.2) -- (0.22,#1-0.2) -- (0,#1+0.2) -- cycle;
+  \draw[od el] (-0.22,#1+0.2) -- (0.22,#1+0.2);
+  \draw[od wg] (-0.7,#1) -- (-0.11,#1);
+  \draw[od light] (-0.62,#1+0.50) -- (-0.36,#1+0.24);
+  \draw[od light] (-0.46,#1+0.58) -- (-0.20,#1+0.32);
+}
+%   balanced, default      : o1, o2 in; out; e1 (top), e2 (bottom)
+%   balanced, ports=block  : opt_p, opt_n in; out; bias (top), gnd (bottom)
+%   balanced, ports=block, view=top : the same in a block, ports where the
+%     BalancedPhotodetector part has them (short inputs, long output)
+\tikzset{pics/od photodiode/.default={}, pics/od photodiode/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odnames{\odget{ports}}
+  \edef\odview{\odget{view}}\def\odtmp{top}
+  \ifx\odview\odtmp
+    \draw[od paint={od wg, fill=white}{od hair, draw=ods400, top color=white, bottom color=ods200, od shadow, od shine},
+          rounded corners=0.11cm] (-0.45,-0.76) rectangle (0.95,0.76);
+    \foreach \ody in {0.42,-0.42} {
+      \draw[od wg] (-0.581,\ody) -- (-0.11,\ody);
+      \draw[od el, od paint={fill=white}{fill=ods100}] (-0.2,\ody-0.18) -- (0.2,\ody-0.18) -- (0,\ody+0.18) -- cycle;
+      \draw[od el] (-0.2,\ody+0.18) -- (0.2,\ody+0.18);}
+    \draw[od el] (0,0.24) -- (0,-0.24) (0,0) -- (1.176,0) (0,0.6) -- (0,0.98) (0,-0.6) -- (0,-0.98);
+    \fill (0,0) circle [radius=1.1pt];
+    \odport{opt_p}{-0.581,0.42}\odport{opt_n}{-0.581,-0.42}
+    \odport[electrical]{out}{1.176,0}\odport[electrical]{bias}{0,0.98}\odport[electrical]{gnd}{0,-0.98}
+  \else\ifodbalanced
+    % the two inputs are 0.84 apart: the distance between the two outputs of a weight bank
+    \oddiode{0.42}\oddiode{-0.42}
+    \draw[od el] (0,0.22) -- (0,-0.22) (0,0) -- (0.5,0);
+    \fill (0,0) circle [radius=1.1pt];
+    \draw[od el] (0,0.62) -- (0,0.85) (0,-0.62) -- (0,-0.85);
+    \def\odtmp{block}\ifx\odnames\odtmp
+      \odport{opt_p}{-0.7,0.42}\odport{opt_n}{-0.7,-0.42}
+      \odport[electrical]{out}{0.5,0}\odport[electrical]{bias}{0,0.85}\odport[electrical]{gnd}{0,-0.85}
+    \else
+      \odport{o1}{-0.7,0.42}\odport{o2}{-0.7,-0.42}
+      \odport[electrical]{out}{0.5,0}\odport[electrical]{e1}{0,0.85}\odport[electrical]{e2}{0,-0.85}
+    \fi
+  \else
+    \oddiode{0}
+    \draw[od el] (0,0.2) -- (0,0.45) (0,-0.2) -- (0,-0.45);
+    \odport{o1}{-0.7,0}
+    \odport[electrical]{e1}{0,0.45}\odport[electrical]{e2}{0,-0.45}
+  \fi\fi
+}}}
+
+% ---------------------------------------------------------------- 1xN splitter
+% Numbered like optodraw's MMI1x2: o1 in, then the outputs from the bottom up.
+\tikzset{pics/od splitter/.default={}, pics/od splitter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{outputs}}
+  \pgfmathsetmacro\odp{\odget{pitch}}
+  \pgfmathsetmacro\odyt{(\odn-1)*\odp/2}
+  \pgfmathsetmacro\odyb{\odyt+0.25}
+  \draw[od wg, fill=white] (-0.5,-\odyb) rectangle (0.5,\odyb);
+  \draw[od wg] (-0.9,0) -- (-0.5,0);
+  \odport{o1}{-0.9,0}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{-\odyt+(\odi-1)*\odp}
+    \pgfmathtruncatemacro\odk{\odi+1}
+    \draw[od el] (-0.5,0) .. controls +(0.45,0) and +(-0.45,0) .. (0.5,\ody);
+    \draw[od wg] (0.5,\ody) -- (0.9,\ody);
+    \odport{o\odk}{0.9,\ody}
+  }
+}}}
+
+% ---------------------------------------------------------------- M x N MMI
+% A multimode slab with access tapers. Ports o1.. : inputs first, each side bottom up.
+\newcommand\odmmiside[4]{% #1 = sign of x, #2 = count, #3 = first port number, #4 = pitch
+  \foreach \odi in {1,...,#2} {
+    \pgfmathsetmacro\ody{-(#2-1)*#4/2+(\odi-1)*#4}
+    \pgfmathtruncatemacro\odk{#3+\odi-1}
+    \draw[od wg, fill=white] (#1*0.34,\ody-0.09) -- (#1*0.56,\ody-0.03) -- (#1*0.56,\ody+0.03) -- (#1*0.34,\ody+0.09);
+    \draw[od wg] (#1*0.56,\ody) -- (#1*0.72,\ody);
+    \odport{o\odk}{#1*0.72,\ody}
+  }}
+\tikzset{pics/od mmi/.default={}, pics/od mmi/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odm{\odget{inputs}}
+  \pgfmathtruncatemacro\odn{\odget{outputs}}
+  \pgfmathsetmacro\odp{\odget{pitch}}
+  \pgfmathsetmacro\odyb{(max(\odm,\odn)-1)*\odp/2+0.2}
+  \pgfmathtruncatemacro\odfirst{\odm+1}
+  \draw[od wg, fill=white] (-0.34,-\odyb) rectangle (0.34,\odyb);
+  \odmmiside{-1}{\odm}{1}{\odp}
+  \odmmiside{1}{\odn}{\odfirst}{\odp}
+}}}
+
+% ---------------------------------------------------------------- star coupler
+% A free propagation region between two curved faces. i1.. and o1.. from the top down.
+\tikzset{pics/od star/.default={}, pics/od star/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odm{\odget{inputs}}
+  \pgfmathtruncatemacro\odn{\odget{outputs}}
+  \pgfmathsetmacro\odp{\odget{pitch}}
+  \pgfmathsetmacro\odH{(max(\odm,\odn)-1)*\odp/2+0.28}   % half chord of a face
+  \def\odb{0.22}\def\odxf{0.45}                           % sagitta, chord x
+  \pgfmathsetmacro\odR{(\odH*\odH+\odb*\odb)/(2*\odb)}
+  \pgfmathsetmacro\odth{asin(\odH/\odR)}
+  \pgfmathsetmacro\odcx{\odxf+\odb-\odR}                  % centre of the right face
+  \draw[od wg, fill=white] (-\odxf,-\odH) arc [start angle=180+\odth, end angle=180-\odth, radius=\odR]
+    -- (\odxf,\odH) arc [start angle=\odth, end angle=-\odth, radius=\odR] -- cycle;
+  \pgfmathsetmacro\odyin{ifthenelse(mod(\odm,2)==1,0,\odp/2)}   % the input the rays leave from
+  \pgfmathsetmacro\odxin{-(\odcx+sqrt(\odR*\odR-\odyin*\odyin))}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{(\odn-1)*\odp/2-(\odi-1)*\odp}
+    \pgfmathsetmacro\odx{\odcx+sqrt(\odR*\odR-\ody*\ody)}
+    \draw[od ray] (\odxin,\odyin) -- (\odx,\ody);
+    \draw[od wg] (\odx,\ody) -- (1.1,\ody);
+    \odport{o\odi}{1.1,\ody}
+  }
+  \foreach \odi in {1,...,\odm} {
+    \pgfmathsetmacro\ody{(\odm-1)*\odp/2-(\odi-1)*\odp}
+    \pgfmathsetmacro\odx{-(\odcx+sqrt(\odR*\odR-\ody*\ody))}
+    \draw[od wg] (\odx,\ody) -- (-1.1,\ody);
+    \odport{i\odi}{-1.1,\ody}
+  }
+}}}
+
+% ---------------------------------------------------------------- AWG / AWGR
+% Two free propagation regions joined by nested array arms. inputs=1 is the
+% AWG (o1 at the bottom, as on the real part); inputs>1 is the router (top down).
+% The whole symbol is drawn at 0.6 of its first size: it was the largest on the sheet.
+\tikzset{pics/od awg/.default={}, pics/od awg/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \begin{scope}[scale=0.6]
+  \pgfmathtruncatemacro\odm{\odget{inputs}}
+  \pgfmathtruncatemacro\odn{\odget{outputs}}
+  \pgfmathtruncatemacro\odk{\odget{arms}}
+  \pgfmathsetmacro\odp{\odget{pitch}}
+  \def\odxn{1.95}\def\odxw{1.25}\def\odxp{2.35}
+  \pgfmathsetmacro\odhi{(\odm-1)*\odp/2+0.16}             % narrow faces
+  \pgfmathsetmacro\odho{(\odn-1)*\odp/2+0.16}
+  \pgfmathsetmacro\odhw{max(\odhi,\odho,(\odk-1)*0.055+0.1)+0.2}   % wide faces
+  \draw[od wg, fill=white] (-\odxn,-\odhi) -- (-\odxn,\odhi) -- (-\odxw,\odhw) -- (-\odxw,-\odhw) -- cycle;
+  \draw[od wg, fill=white] (\odxn,-\odho) -- (\odxn,\odho) -- (\odxw,\odhw) -- (\odxw,-\odhw) -- cycle;
+  \foreach \odj in {1,...,\odk} {                         % each arm starts higher and rises more: nested
+    \pgfmathsetmacro\ody{-\odhw+0.12+(\odj-1)*(2*\odhw-0.24)/(\odk-1)}
+    \pgfmathsetmacro\odl{0.45+(\odj-1)*0.24}
+    \draw[od wg] (-\odxw,\ody) .. controls +(0.7,\odl) and +(-0.7,\odl) .. (\odxw,\ody);
+  }
+  \foreach \odi in {1,...,\odm} {
+    \pgfmathsetmacro\ody{(\odm-1)*\odp/2-(\odi-1)*\odp}
+    \draw[od wg] (-\odxn,\ody) -- (-\odxp,\ody);
+    \odport{i\odi}{-\odxp,\ody}
+  }
+  \pgfmathsetmacro\odsgn{ifthenelse(\odm==1,-1,1)}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{\odsgn*((\odn-1)*\odp/2-(\odi-1)*\odp)}
+    \draw[od wg] (\odxn,\ody) -- (\odxp,\ody);
+    \odport{o\odi}{\odxp,\ody}
+  }
+  \end{scope}
+}}}
+
+% ================================================================ batch 2
+\newif\ifoddbr       \oddbrfalse
+\newif\ifodfiber     \odfiberfalse
+\newif\ifodfocused   \odfocusedfalse
+\pgfkeys{/od/.cd,
+  contacts/.initial=split, % laser: split (e1 top, e2 bottom) | top (both on top)
+  dbr/.is if=oddbr,        % laser: draw the two grating mirrors
+  names/.initial=io,       % coupler: io (o1 o2 in, o3 o4 out) | tap (o1-o2 bus, o4-o3 tap)
+  fiber/.is if=odfiber,    % grating coupler: add the fibre port f1
+  focused/.is if=odfocused, % grating coupler: curved, apodized ribs
+  sep/.initial=0.6,        % y-branch: distance between the two outputs
+}
+
+% ---------------------------------------------------------------- laser
+% A laser diode: the diode of the photodiode symbol, with the two arrows
+% pointing OUT, and a waveguide leaving to the right. dbr adds the two
+% grating mirrors of a DBR laser.
+\tikzset{pics/od laser/.default={}, pics/od laser/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el, fill=white] (-0.2,-0.18) -- (0.2,-0.18) -- (0,0.18) -- cycle;
+  \draw[od el] (-0.2,0.18) -- (0.2,0.18);
+  \draw[od wg] (0.1,0) -- (0.85,0);
+  \draw[od light] (0.22,0.24) -- (0.44,0.46);
+  \draw[od light] (0.36,0.16) -- (0.58,0.38);
+  \ifoddbr
+    \draw[od wg] (-0.1,0) -- (-0.6,0);
+    \foreach \odx in {-0.3,-0.4,-0.5,-0.6} {\draw[od el] (\odx,-0.1) -- (\odx,0.1);}
+    \foreach \odx in {0.5,0.6,0.7} {\draw[od el] (\odx,-0.1) -- (\odx,0.1);}
+  \fi
+  \odport{o1}{0.85,0}
+  \edef\odtmpa{\odget{contacts}}\def\odtmpb{top}%
+  \ifx\odtmpa\odtmpb
+    \draw[od el] (0,0.18) -- (0,0.5) (0,-0.18) -- (0,-0.32) -- (-0.32,-0.32) -- (-0.32,0.5);
+    \odport[electrical]{e1}{-0.32,0.5}\odport[electrical]{e2}{0,0.5}
+  \else
+    \draw[od el] (0,0.18) -- (0,0.5) (0,-0.18) -- (0,-0.5);
+    \odport[electrical]{e1}{0,0.5}\odport[electrical]{e2}{0,-0.5}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- SOA
+% An amplifier triangle on the waveguide, with its two contacts on top.
+\tikzset{pics/od soa/.default={}, pics/od soa/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.7,0) -- (-0.28,0) (0.28,0) -- (0.7,0);
+  \draw[od wg, fill=white] (-0.28,-0.28) -- (-0.28,0.28) -- (0.28,0) -- cycle;
+  \draw[od el] (-0.2,0.24) -- (-0.2,0.45) (0.04,0.12) -- (0.04,0.45);
+  \odport{o1}{-0.7,0}\odport{o2}{0.7,0}
+  \odport[electrical]{e1}{-0.2,0.45}\odport[electrical]{e2}{0.04,0.45}
+}}}
+
+% ---------------------------------------------------------------- Y-branch
+% o1 in, o2 the upper output, o3 the lower output.
+\tikzset{pics/od ybranch/.default={}, pics/od ybranch/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathsetmacro\odys{\odget{sep}/2}
+  \draw[od wg] (-0.55,0) -- (-0.25,0);
+  \foreach \odsg in {1,-1} {
+    \draw[od wg] (-0.25,0) .. controls +(0.3,0) and +(-0.3,0) .. (0.4,\odsg*\odys) -- (0.55,\odsg*\odys);}
+  \odport{o1}{-0.55,0}\odport{o2}{0.55,\odys}\odport{o3}{0.55,-\odys}
+}}}
+
+% ---------------------------------------------------------------- directional coupler
+% Two guides that run close for a short length. names=io: o1 o2 on the left
+% (top, bottom), o3 o4 on the right. names=tap: the bus is o1 -> o2 on top,
+% the tap is o4 -> o3 below.
+\tikzset{pics/od coupler/.default={}, pics/od coupler/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \foreach \odsg in {1,-1} {
+    \draw[od wg] (-0.75,\odsg*0.28) -- (-0.65,\odsg*0.28) .. controls +(0.2,0) and +(-0.2,0) .. (-0.25,\odsg*0.05)
+      -- (0.25,\odsg*0.05) .. controls +(0.2,0) and +(-0.2,0) .. (0.65,\odsg*0.28) -- (0.75,\odsg*0.28);}
+  \edef\odtmpa{\odget{names}}\def\odtmpb{tap}%
+  \ifx\odtmpa\odtmpb
+    \odport{o1}{-0.75,0.28}\odport{o2}{0.75,0.28}\odport{o3}{0.75,-0.28}\odport{o4}{-0.75,-0.28}
+  \else
+    \odport{o1}{-0.75,0.28}\odport{o2}{-0.75,-0.28}\odport{o3}{0.75,0.28}\odport{o4}{0.75,-0.28}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- phase shifter
+%   kind=heater   a heater strip ON the waveguide; contacts h1, h2 on top
+%   kind=pn       a p strip above and an n strip below the waveguide; e1 on p, e2 on n
+\tikzset{pics/od phase/.default={}, pics/od phase/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{pn}\ifx\odkind\odtmp
+    \path[od band, fill=odp] (-0.42,0.04) rectangle (0.42,0.15);
+    \path[od band, fill=odn] (-0.42,-0.15) rectangle (0.42,-0.04);
+    \draw[od wg] (-0.7,0) -- (0.7,0);
+    \odport{o1}{-0.7,0}\odport{o2}{0.7,0}
+    \odport[electrical]{e1}{0,0.15}\odport[electrical]{e2}{0,-0.15}
+  \else
+    \path[od band, fill=odheat] (-0.42,-\odmw) rectangle (0.42,\odmw);
+    \draw[od wg] (-0.7,0) -- (0.7,0);
+    \odport{o1}{-0.7,0}\odport{o2}{0.7,0}
+    \odport[electrical]{h1}{-0.3,\odmw}\odport[electrical]{h2}{0.3,\odmw}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- grating coupler
+% An annular sector: centre #1, radii #2 to #3, angles #4 to #5, style #6.
+\newcommand\odsector[6]{%
+  \path[#6] ($(#1)+(#4:#3)$) arc [start angle=#4, end angle=#5, radius=#3]
+    -- ($(#1)+(#5:#2)$) arc [start angle=#5, end angle=#4, radius=#2] -- cycle;}
+% Uniform (the default): a taper into a rectangle of five straight ribs, all
+% the same width. focused: a fan of five curved ribs that get wider away from
+% the waveguide (apodized). Each rib is a filled block, as wide as it is drawn.
+% fiber adds the fibre port f1 on the ribs, where the light leaves the chip.
+\tikzset{pics/od grating/.default={}, pics/od grating/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.5,0) -- (-0.35,0);
+  \ifodfocused
+    \draw[od el, fill=white] (-0.35,0) -- ($(-0.35,0)+(28:0.88)$) arc [start angle=28, end angle=-28, radius=0.88] -- cycle;
+    \foreach \odra/\odrb in {0.27/0.30, 0.36/0.405, 0.465/0.525, 0.585/0.66, 0.72/0.81} {
+      \odsector{-0.35,0}{\odra}{\odrb}{-28}{28}{fill=black}}
+    \ifodfiber \odport[fiber]{f1}{0.2,0}\fi
+  \else
+    \draw[od el, fill=white] (-0.35,0) -- (-0.05,0.2) -- (0.5,0.2) -- (0.5,-0.2) -- (-0.05,-0.2) -- cycle;
+    \foreach \odx in {0,0.1,0.2,0.3,0.4} {\fill (\odx,-0.2) rectangle (\odx+0.05,0.2);}
+    \ifodfiber \odport[fiber]{f1}{0.22,0}\fi
+  \fi
+  \odport{o1}{-0.5,0}
+}}}
+
+% ---------------------------------------------------------------- 2D grating coupler
+% A square of holes with a taper on two sides: one output for each polarization.
+\tikzset{pics/od grating2d/.default={}, pics/od grating2d/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.75,0) -- (-0.5,0) (0,-0.75) -- (0,-0.5);
+  \draw[od el] (-0.5,0) -- (-0.22,0.22) (-0.5,0) -- (-0.22,-0.22) (0,-0.5) -- (0.22,-0.22) (0,-0.5) -- (-0.22,-0.22);
+  \draw[od el, fill=white] (-0.22,-0.22) rectangle (0.22,0.22);
+  \foreach \odx in {-0.11,0,0.11} {\foreach \ody in {-0.11,0,0.11} {\fill (\odx,\ody) circle [radius=0.9pt];}}
+  \odport{o1}{-0.75,0}\odport{o2}{0,-0.75}\odport[fiber]{f1}{0,0.22}
+}}}
+
+% ---------------------------------------------------------------- edge coupler
+% The chip facet, and an inverse taper that grows into the waveguide. The taper is open: a filled one read as an
+% arrowhead on the light.
+\tikzset{pics/od edge/.default={}, pics/od edge/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.3,-0.3) -- (-0.3,0.3);
+  \draw[od el] (-0.6,0) -- (-0.3,0);
+  \draw[od el, fill=white] (-0.3,-0.012) -- (0.25,-0.045) -- (0.25,0.045) -- (-0.3,0.012) -- cycle;
+  \draw[od wg] (0.25,0) -- (0.6,0);
+  \odport[fiber]{f1}{-0.6,0}\odport{o1}{0.6,0}
+}}}
+
+% ---------------------------------------------------------------- delay line
+% A waveguide wound into loops. As on the Spiral part: o2 on the left, o1 on the right.
+\tikzset{pics/od delay/.default={}, pics/od delay/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.7,0) -- (0.7,0);
+  \foreach \odx in {-0.22,0,0.22} {\draw[od wg] (\odx,0.2) circle [radius=0.2];}
+  \odport{o1}{0.7,0}\odport{o2}{-0.7,0}
+}}}
+
+% ---------------------------------------------------------------- small waveguide parts
+% A terminator: an open taper into an absorber block, where the light ends. A filled triangle read as an arrow.
+\tikzset{pics/od terminator/.default={}, pics/od terminator/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg, fill=white] (0,-0.07) -- (0.3,-0.025) -- (0.3,0.025) -- (0,0.07) -- cycle;
+  \draw[od absorber] (0.3,-0.0962) rectangle (0.456,0.0962);      % the triangle's extent: the 1D pages keep their layout
+  \odport{o1}{0,0}
+}}}
+\tikzset{pics/od crossing/.default={}, pics/od crossing/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.45,0) -- (0.45,0) (0,-0.45) -- (0,0.45);
+  \draw[od el, fill=white] (-0.2,0) -- (0,0.06) -- (0.2,0) -- (0,-0.06) -- cycle;
+  \draw[od el, fill=white] (0,-0.2) -- (0.06,0) -- (0,0.2) -- (-0.06,0) -- cycle;
+  \odport{o1}{-0.45,0}\odport{o2}{0.45,0}\odport{o3}{0,0.45}\odport{o4}{0,-0.45}
+}}}
+\tikzset{pics/od bend/.default={}, pics/od bend/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.45,0) -- (-0.3,0) arc [start angle=-90, end angle=0, radius=0.3] -- (0,0.45);
+  \odport{o1}{-0.45,0}\odport{o2}{0,0.45}
+}}}
+\tikzset{pics/od taper/.default={}, pics/od taper/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el, fill=white] (-0.3,-0.03) -- (-0.3,0.03) -- (0.3,0.16) -- (0.3,-0.16) -- cycle;
+  \odport{o1}{-0.3,0}\odport{o2}{0.3,0}
+}}}
+\tikzset{pics/od bragg/.default={}, pics/od bragg/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.7,0) -- (0.7,0);
+  \foreach \odx in {-0.36,-0.24,-0.12,0,0.12,0.24,0.36} {\draw[od el] (\odx,-0.12) -- (\odx,0.12);}
+  \odport{o1}{-0.7,0}\odport{o2}{0.7,0}
+}}}
+
+% ---------------------------------------------------------------- electro-absorption modulator
+% A short p-i-n section on the waveguide: p above, n below, one contact each.
+\tikzset{pics/od eam/.default={}, pics/od eam/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \path[od band, fill=odp] (-0.3,0.03) rectangle (0.3,0.2);
+  \path[od band, fill=odn] (-0.3,-0.2) rectangle (0.3,-0.03);
+  \draw[od wg] (-0.7,0) -- (0.7,0);
+  \odport{o1}{-0.7,0}\odport{o2}{0.7,0}
+  \odport[electrical]{e1}{0,0.2}\odport[electrical]{e2}{0,-0.2}
+}}}
+
+% ---------------------------------------------------------------- racetrack resonator
+% drop adds a second bus (o3, o4). pn puts p and n strips on the left bend
+% (e1 on p, e2 on n). heater puts a heater on the right bend (h1, h2; e1, e2 without pn).
+\tikzset{pics/od racetrack/.default={}, pics/od racetrack/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odcol{\odget{color}}
+  \ifodpn
+    \odsector{-0.24,0.34}{0.09}{0.19}{135}{225}{od band, fill=odp}
+    \odsector{-0.24,0.34}{0.33}{0.43}{135}{225}{od band, fill=odn}
+  \fi
+  \ifodheater \odsector{0.24,0.34}{0.15}{0.37}{-60}{60}{od band, fill=odheat}\fi
+  \draw[od wg] (-0.8,0) -- (0.8,0);
+  \ifoddrop \draw[od wg] (-0.8,0.68) -- (0.8,0.68);\fi
+  \draw[od ring, draw=\odcol, rounded corners=0.26cm] (-0.5,0.08) rectangle (0.5,0.6);
+  \odport{o1}{-0.8,0}\odport{o2}{0.8,0}
+  \ifoddrop \odport{o3}{-0.8,0.68}\odport{o4}{0.8,0.68}\fi
+  \ifodpn
+    \odport[electrical]{e1}{$(-0.24,0.34)+(160:0.14)$}\odport[electrical]{e2}{$(-0.24,0.34)+(200:0.38)$}
+  \fi
+  \ifodheater                                    % as on the ring: a passive racetrack names its heater e1 and e2
+    \ifodpn \def\odHn{h}\else \def\odHn{e}\fi
+    \odport[electrical]{\odHn1}{$(0.24,0.34)+(60:0.26)$}\odport[electrical]{\odHn2}{$(0.24,0.34)+(-60:0.26)$}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- Sagnac loop
+% A coupler whose two outputs are joined by a loop: light comes back out.
+\tikzset{pics/od sagnac/.default={}, pics/od sagnac/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \foreach \odsg in {1,-1} {
+    \draw[od wg] (-0.75,\odsg*0.28) -- (-0.65,\odsg*0.28) .. controls +(0.2,0) and +(-0.2,0) .. (-0.25,\odsg*0.05) -- (0.15,\odsg*0.05);}
+  \draw[od wg] (0.15,0.05) .. controls +(0.75,0.55) and +(0.75,-0.55) .. (0.15,-0.05);
+  \odport{o1}{-0.75,0.28}\odport{o2}{-0.75,-0.28}
+}}}
+
+% ================================================================ batch 3
+% ---------------------------------------------------------------- echelle grating
+% Every waveguide is on one side of a slab. The far side is a curved mirror
+% made of steps. in is the lowest waveguide, then o1.. upward.
+\tikzset{pics/od echelle/.default={}, pics/od echelle/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{outputs}}
+  \pgfmathsetmacro\odp{\odget{pitch}}
+  \pgfmathsetmacro\odH{\odn*\odp/2+0.15}
+  \def\odb{0.18}
+  \pgfmathsetmacro\odR{(\odH*\odH+\odb*\odb)/(2*\odb)}
+  \pgfmathsetmacro\odth{asin(\odH/\odR)}
+  \pgfmathsetmacro\odcx{0.45+\odb-\odR}
+  \draw[od wg, fill=white] (-0.45,-\odH) -- (-0.45,\odH) -- (0.45,\odH)
+    arc [start angle=\odth, end angle=-\odth, radius=\odR] -- cycle;
+  \pgfmathsetmacro\odstep{2*\odth/11}
+  \foreach \odk in {0,2,4,6,8,10} {
+    \pgfmathsetmacro\oda{-\odth+\odk*\odstep}
+    \pgfmathsetmacro\odab{\oda+\odstep}
+    \odsector{\odcx,0}{\odR}{\odR+0.07}{\oda}{\odab}{fill=black}}
+  \foreach \odi in {0,...,\odn} {
+    \pgfmathsetmacro\ody{-\odn*\odp/2+\odi*\odp}
+    \draw[od wg] (-0.45,\ody) -- (-0.7,\ody);
+    \ifnum\odi=0 \odport{in}{-0.7,\ody}\else \odport{o\odi}{-0.7,\ody}\fi
+  }
+}}}
+
+% ---------------------------------------------------------------- arrays of grating couplers
+% A row of uniform grating couplers: o1.. below, the fibre ports f1.. on the ribs.
+\tikzset{pics/od gratingarray/.default={}, pics/od gratingarray/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\odx{-(\odn-1)*0.16+(\odi-1)*0.32}
+    \draw[od wg] (\odx,-0.6) -- (\odx,-0.45);
+    \draw[od el, fill=white] (\odx,-0.45) -- (\odx-0.11,-0.2) -- (\odx-0.11,0.2) -- (\odx+0.11,0.2) -- (\odx+0.11,-0.2) -- cycle;
+    \foreach \ody in {-0.16,-0.06,0.04,0.14} {\fill (\odx-0.11,\ody) rectangle (\odx+0.11,\ody+0.05);}
+    \odport{o\odi}{\odx,-0.6}\odport[fiber]{f\odi}{\odx,0.2}
+  }
+}}}
+% A column of grating couplers at the chip edge: o1 is the lowest.
+\tikzset{pics/od iobank/.default={}, pics/od iobank/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{-(\odn-1)*0.14+(\odi-1)*0.28}
+    \draw[od wg] (-0.55,\ody) -- (-0.4,\ody);
+    \draw[od el, fill=white] (-0.4,\ody) -- (-0.18,\ody+0.1) -- (0.22,\ody+0.1) -- (0.22,\ody-0.1) -- (-0.18,\ody-0.1) -- cycle;
+    \foreach \odx in {-0.14,-0.04,0.06,0.16} {\fill (\odx,\ody-0.1) rectangle (\odx+0.05,\ody+0.1);}
+    \odport{o\odi}{-0.55,\ody}
+  }
+  \pgfmathsetmacro\odH{\odn*0.14+0.05}
+  \draw[od el] (0.32,-\odH) -- (0.32,\odH);
+}}}
+
+% ---------------------------------------------------------------- microring weight bank
+% Rings of different color between a bus and a drop bus. The input and the
+% through output are the two ends of one straight bus, under the rings. Light
+% that a ring drops travels back toward the input, so the drop bus passes over
+% the rings, turns round at the input end, and leaves at the far end.
+% o1, o2 are on the bus; drop is at the end of the return line; d1.. are on the
+% drop bus over each ring; each ring has a heater, with its two contacts under
+% the bus (e1 e2, e3 e4, ...).
+\tikzset{pics/od weightbank/.default={}, pics/od weightbank/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \def\odwp{0.68}                                  % ring pitch
+  \pgfmathsetmacro\odxb{(\odn-1)*\odwp/2+0.3}      % the drop bus passes the rings from -xb to xb
+  \pgfmathsetmacro\odL{\odxb+0.25}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\odx{-(\odn-1)*\odwp/2+(\odi-1)*\odwp}
+    \odsector{\odx,0.32}{0.17}{0.31}{140}{220}{od band, fill=odheat}
+    \odsector{\odx,0.32}{0.17}{0.31}{-40}{40}{od band, fill=odheat}
+    \draw[od el] ($(\odx,0.32)+(220:0.24)$) -- (\odx-0.184,-0.2) ($(\odx,0.32)+(-40:0.24)$) -- (\odx+0.184,-0.2);
+  }
+  \draw[od wg] (-\odL,0) -- (\odL,0);
+  \draw[od wg] (\odxb,0.64) -- (-\odxb,0.64) arc [start angle=270, end angle=90, radius=0.1] -- (\odL,0.84);
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\odx{-(\odn-1)*\odwp/2+(\odi-1)*\odwp}
+    \pgfmathtruncatemacro\odc{mod(\odi-1,4)+1}
+    \draw[od ring, draw=odw\odc] (\odx,0.32) circle [radius=0.24];
+    \pgfmathtruncatemacro\odea{2*\odi-1}
+    \pgfmathtruncatemacro\odeb{2*\odi}
+    \odport{d\odi}{\odx,0.64}
+    \odport[electrical]{e\odea}{\odx-0.184,-0.2}\odport[electrical]{e\odeb}{\odx+0.184,-0.2}
+  }
+  \odport{o1}{-\odL,0}\odport{o2}{\odL,0}\odport{drop}{\odL,0.84}
+}}}
+
+% ---------------------------------------------------------------- polarization parts
+% A double arrow that shows a polarization: #1,#2 = its centre, #3 = v or h.
+\newcommand\odpolmark[3]{%
+  \def\odtmpa{#3}\def\odtmpb{v}%
+  \ifx\odtmpa\odtmpb
+    \draw[od ray, {Stealth[length=2.4pt,width=2.2pt]}-{Stealth[length=2.4pt,width=2.2pt]}] (#1,#2-0.14) -- (#1,#2+0.14);
+  \else
+    \draw[od ray, {Stealth[length=2.4pt,width=2.2pt]}-{Stealth[length=2.4pt,width=2.2pt]}] (#1-0.14,#2) -- (#1+0.14,#2);
+  \fi}
+% Rotator: a half twist in the waveguide. Vertical before it, horizontal after it.
+\tikzset{pics/od polrotator/.default={}, pics/od polrotator/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.6,0) -- (-0.2,0) (0.2,0) -- (0.6,0);
+  \draw[od el, fill=white] (-0.2,0.08) -- (0.2,-0.08) -- (0.2,0.08) -- (-0.2,-0.08) -- cycle;
+  \odpolmark{-0.4}{0.27}{v}\odpolmark{0.4}{0.2}{h}
+  \odport{o1}{-0.6,0}\odport{o2}{0.6,0}
+}}}
+% Splitter and rotator: both polarizations in, the same polarization on both outputs.
+\tikzset{pics/od psr/.default={}, pics/od psr/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.7,0) -- (-0.4,0) (-0.1,0) -- (0,0);
+  \draw[od el, fill=white] (-0.4,0.07) -- (-0.1,-0.07) -- (-0.1,0.07) -- (-0.4,-0.07) -- cycle;
+  \foreach \odsg in {1,-1} {
+    \draw[od wg] (0,0) .. controls +(0.25,0) and +(-0.25,0) .. (0.55,\odsg*0.26) -- (0.7,\odsg*0.26);}
+  \odpolmark{-0.55}{0.3}{v}\odpolmark{-0.55}{0.3}{h}
+  \odpolmark{0.5}{0.44}{h}\odpolmark{0.5}{-0.44}{h}
+  \odport{o1}{-0.7,0}\odport{o2}{0.7,0.26}\odport{o3}{0.7,-0.26}
+}}}
+
+% ---------------------------------------------------------------- WDM input
+% Three wavelengths, one arrow each, into one waveguide.
+\tikzset{pics/od wdminput/.default={}, pics/od wdminput/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \foreach \ody/\odc in {0.18/odw1, 0/odw2, -0.18/odw3} {
+    \draw[od el, draw=\odc, -{Stealth[length=3.2pt,width=2.6pt]}] (-0.75,\ody) -- (-0.4,\ody);}
+  \draw[od wg, fill=white] (-0.36,-0.3) -- (-0.36,0.3) -- (0.05,0.04) -- (0.05,-0.04) -- cycle;
+  \draw[od wg] (0.05,0) -- (0.4,0);
+  \odport{o1}{0.4,0}
+}}}
+
+% ---------------------------------------------------------------- IQ modulator
+% Two MZMs (I above, Q below) in the arms of an outer interferometer; a heater
+% on the Q arm sets the 90 degree bias. Each MZM: signal strip outside, ground
+% strip between its arms, as in the MZM symbol. Q is I turned top to bottom,
+% so every electrode faces outward.
+\newcommand\odiqarm[2]{% #1 = y of the outer arm, #2 = 1 (strip above) or -1 (below)
+  \foreach \ods in {1,-1} {
+    \draw[od wg] (-0.92,#1) .. controls (-0.81,#1) and (-0.791,{#1+\ods*0.13}) .. (-0.681,{#1+\ods*0.13})
+      -- (0.221,{#1+\ods*0.13}) .. controls (0.331,{#1+\ods*0.13}) and (0.35,#1) .. (0.46,#1);}
+  \path[od signal] (-0.552,{#1+#2*0.2}) rectangle (0.092,{#1+#2*0.27});
+  \path[od ground] (-0.552,{#1-0.03}) rectangle (0.092,{#1+0.03});
+}
+\tikzset{pics/od iqmod/.default={}, pics/od iqmod/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-1.75,0) -- (-1.52,0);
+  \foreach \ods in {1,-1} {
+    \draw[od wg] (-1.52,0) .. controls (-1.33,0) and (-1.33,{\ods*0.55}) .. (-1.15,{\ods*0.55}) -- (-0.92,{\ods*0.55});
+    \draw[od wg] (0.46,{\ods*0.55}) -- (1.1,{\ods*0.55}) .. controls (1.29,{\ods*0.55}) and (1.29,0) .. (1.47,0);}
+  \draw[od wg] (1.47,0) -- (1.75,0);
+  \odiqarm{0.55}{1}\odiqarm{-0.55}{-1}
+  \path[od band, fill=odheat] (0.57,-0.595) rectangle (0.994,-0.505);
+  \draw[od el] (0.607,-0.595) -- (0.607,-0.73) (0.957,-0.595) -- (0.957,-0.73);
+  \odport{o1}{-1.75,0}\odport{o2}{1.75,0}
+  \odport[electrical]{i_sig}{-0.552,0.785}\odport[electrical]{i_gnd}{-0.552,0.55}
+  \odport[electrical]{q_sig}{-0.552,-0.785}\odport[electrical]{q_gnd}{-0.552,-0.55}
+  \odport[electrical]{h1}{0.607,-0.73}\odport[electrical]{h2}{0.957,-0.73}
+}}}
+
+% ---------------------------------------------------------------- frequency comb source
+% A laser diode whose output carries a comb: lines at equal spacing under an
+% envelope, one color for each line. contacts=top puts both contacts on top.
+\tikzset{pics/od comb/.default={}, pics/od comb/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el, fill=white] (-0.2,-0.18) -- (0.2,-0.18) -- (0,0.18) -- cycle;
+  \draw[od el] (-0.2,0.18) -- (0.2,0.18);
+  \draw[od wg] (0.1,0) -- (1.2,0);
+  \draw[od ray] (0.36,0.14) -- (1.08,0.14);
+  \foreach \odi/\odh in {1/0.12, 2/0.22, 3/0.3, 4/0.22, 5/0.12} {
+    \pgfmathtruncatemacro\odc{mod(\odi-1,4)+1}
+    \draw[od el, draw=odw\odc, line width=1pt*\odls, line cap=butt] (0.36+\odi*0.12,0.14) -- (0.36+\odi*0.12,0.14+\odh);}
+  \odport{o1}{1.2,0}
+  \edef\odtmpa{\odget{contacts}}\def\odtmpb{top}%
+  \ifx\odtmpa\odtmpb
+    \draw[od el] (0,0.18) -- (0,0.5) (0,-0.18) -- (0,-0.32) -- (-0.32,-0.32) -- (-0.32,0.5);
+    \odport[electrical]{e1}{-0.32,0.5}\odport[electrical]{e2}{0,0.5}
+  \else
+    \draw[od el] (0,0.18) -- (0,0.5) (0,-0.18) -- (0,-0.5);
+    \odport[electrical]{e1}{0,0.5}\odport[electrical]{e2}{0,-0.5}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- optical phased array emitters
+% A column of long, thin gratings: each a waveguide with ten filled teeth along it, light out of the page.
+% o1 is the lowest. As GratingAntennaArray: no taper, the guide width all along.
+\tikzset{pics/od antennaarray/.default={}, pics/od antennaarray/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{-(\odn-1)*0.14+(\odi-1)*0.28}
+    \draw[od wg] (-0.6,\ody) -- (-0.45,\ody);
+    \draw[od el, fill=white] (-0.45,\ody-0.045) rectangle (0.55,\ody+0.045);
+    \foreach \odx in {-0.4,-0.3,...,0.45} {\fill (\odx,\ody-0.045) rectangle (\odx+0.05,\ody+0.045);}
+    \odport{o\odi}{-0.6,\ody}
+  }
+}}}
+
+% ---------------------------------------------------------------- phase-change cell
+% A dark film on the waveguide (PCMCell): the light passes under it and loses what it absorbs.
+\tikzset{pics/od pcm/.default={}, pics/od pcm/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.5,0) -- (0.5,0);
+  \draw[od el, fill=black!75] (-0.16,-0.08) rectangle (0.16,0.08);
+  \odport{o1}{-0.5,0}\odport{o2}{0.5,0}
+}}}
+
+% ---------------------------------------------------------------- electro-optic racetrack
+% EORacetrackModulator: a ground outside each straight, the signal inside between them, joined by a bar where
+% the G-S-G probe lands. The bus passes the west bend: o1 at its top, o2 at its foot.
+\tikzset{pics/od eoracetrack/.default={}, pics/od eoracetrack/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \path[od ground] (-0.42,0.3) rectangle (0.42,0.36);
+  \path[od ground] (-0.06,0.36) rectangle (0.06,0.46);
+  \path[od signal] (-0.42,0.12) rectangle (0.42,0.18);
+  \path[od signal] (-0.42,-0.18) rectangle (0.42,-0.12);
+  \path[od signal] (-0.06,-0.12) rectangle (0.06,0.12);
+  \path[od ground] (-0.42,-0.36) rectangle (0.42,-0.3);
+  \path[od ground] (-0.06,-0.46) rectangle (0.06,-0.36);
+  \draw[od ring, rounded corners=0.24cm] (-0.66,-0.24) rectangle (0.66,0.24);
+  \draw[od wg] (-0.75,0.42) -- (-0.75,-0.42);
+  \odport{o1}{-0.75,0.42}\odport{o2}{-0.75,-0.42}
+  \odport[electrical]{gnd1}{0,0.46}\odport[electrical]{sig}{0,0}\odport[electrical]{gnd2}{0,-0.46}
+}}}

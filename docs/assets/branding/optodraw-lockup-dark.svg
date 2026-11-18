@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 96" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <!-- optodraw lockup — dark backgrounds -->
+  <g transform="translate(8,16) scale(0.68)">
+    <g stroke="#5B82FF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M 24 8 C 40 24, 40 48, 24 64 C 8 48, 8 24, 24 8 Z"/>
+      <path d="M 50 36 C 54 25, 60 25, 64 36 C 67 45, 72 45, 76 37 C 78 34, 81 36, 85 36 L 110 36"/>
+      <path d="M 132 36 L 156 36"/>
+      <circle cx="121" cy="68" r="20"/>
+    </g>
+    <circle cx="121" cy="36" r="6" fill="#FFB224"/>
+  </g>
+  <text x="132" y="63" font-size="42" font-weight="600" letter-spacing="-0.8" fill="#FFFFFF">opto<tspan font-weight="400">draw</tspan></text>
+</svg>

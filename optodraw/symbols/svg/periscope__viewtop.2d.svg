@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.692573 16.659447" width="28.692573pt" height="16.659447pt"><g transform="translate(72.0,72.0)">
+<g id='od-periscope__viewtop-page1'>
+<g stroke-miterlimit='10' transform='translate(-57.653717,-63.519948)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#ef4444'>
+<path d='M-11.95009 0H11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M3.69899 0C3.69899 2.04291 2.04291 3.69899 0 3.69899S-3.69899 2.04291-3.69899 0S-2.04291-3.69899 0-3.69899S3.69899-2.04291 3.69899 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M3.69899 0C3.69899 2.04291 2.04291 3.69899 0 3.69899S-3.69899 2.04291-3.69899 0S-2.04291-3.69899 0-3.69899S3.69899-2.04291 3.69899 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M3.69899 0C3.69899 2.04291 2.04291 3.69899 0 3.69899S-3.69899 2.04291-3.69899 0S-2.04291-3.69899 0-3.69899S3.69899-2.04291 3.69899 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M3.69899 0C3.69899 2.04291 2.04291 3.69899 0 3.69899S-3.69899 2.04291-3.69899 0S-2.04291-3.69899 0-3.69899S3.69899-2.04291 3.69899 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-periscope__viewtop-pgfcp6'>
+<path d='M3.69899 0C3.69899 2.04291 2.04291 3.69899 0 3.69899S-3.69899 2.04291-3.69899 0S-2.04291-3.69899 0-3.69899S3.69899-2.04291 3.69899 0ZM0 0'/> </clipPath>
+<g clip-path='url(#od-periscope__viewtop-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.14742,0,0,0.14742,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-periscope__viewtop-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-periscope__viewtop-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M3.69899 0C3.69899 2.04291 2.04291 3.69899 0 3.69899S-3.69899 2.04291-3.69899 0S-2.04291-3.69899 0-3.69899S3.69899-2.04291 3.69899 0ZM0 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-periscope__viewtop-pgfcp8'>
+<path d='M5.23085-5.23085L-5.23085 5.23085L-4.22484 6.23686L6.23686-4.22484ZM-4.22484 6.23686'/> </clipPath>
+<g clip-path='url(#od-periscope__viewtop-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.503,0.503)'>
+<g transform='matrix(0.22852,0,0,0.22852,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-periscope__viewtop-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-periscope__viewtop-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M5.23085-5.23085L-5.23085 5.23085L-4.22484 6.23686L6.23686-4.22484ZM-4.22484 6.23686' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-periscope__viewtop-pgfcp9'>
+<path d='M4.52663-5.93507L-5.93507 4.52663L-5.23085 5.23085L5.23085-5.23085ZM-5.23085 5.23085'/> </clipPath>
+<g clip-path='url(#od-periscope__viewtop-pgfcp9)'>
+<g transform='matrix(1,0,0,1,-0.35211,-0.35211)'>
+<g transform='matrix(0.2225,0,0,0.2225,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-periscope__viewtop-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-periscope__viewtop-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M4.52663-5.93507L-5.93507 4.52663L-5.23085 5.23085L5.23085-5.23085ZM-5.23085 5.23085' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

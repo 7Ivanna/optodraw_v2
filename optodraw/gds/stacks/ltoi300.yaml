@@ -1,0 +1,66 @@
+# Luxtelligence ltoi300: thin-film lithium tantalate on insulator, 300 nm LT. A PDK stack.
+# Source: the open PDK github.com/Luxtelligence/lxt_pdk_gf, commit d16db6a (2026-06-01), files ltoi300/tech.py and
+# ltoi300/layers.yaml. Each source: below names the file and its lines at that commit. Every number is the PDK's.
+# sidewall_deg is the wall's angle from the wafer plane: 90 - the PDK's sidewall_angle, which gdsfactory measures
+# from the vertical (as in gdsfactory_generic.yaml).
+# The PDK draws the substrate, the BOX and the clad on WAFER (990/0); here they are the substrate, films and fill.
+# The PDK LayerStack gives no z for its metals, heater and vias (M1, M2, HRL, VIA_M1_M2, VIA_M2_HRL), so they are
+# named here and not drawn. The ridge has width_to_z=1 (tech.py:93), as optodraw draws every etch; the slab has none:
+# a difference of up to 0.12 x tan(20 deg) = 0.044 um per edge.
+#
+# The PDK's licence, which covers the numbers taken from it:
+#
+# MIT License
+#
+# Copyright (c) 2023-2026 Luxtelligence
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+name: Luxtelligence LTOI 300 nm (open)
+units: um
+
+substrate: {material: silicon, thickness: 10.0, provenance: pdk,
+            source: "tech.py:22, 65-72: si, 10 um, under the BOX"}
+films:
+  - {name: BOX, material: sio2, thickness: 7.0, provenance: pdk, source: "tech.py:20, 73-79: sio2, 7.0 um, z -7.0 to 0"}
+fill: {material: sio2, top: 2.0, planarized: true, provenance: pdk,
+       source: "tech.py:21, 97-103: clad sio2 from z 0, 2.0 um thick, a flat block in the PDK LayerStack"}
+
+layers:
+  "2/10":  {name: LT_RIDGE, role: core, zmin: 0.12, thickness: 0.18, material: lithium_tantalate, sidewall_deg: 70,
+            color: "#ca84f5", provenance: pdk,
+            source: "tech.py:18-19, 28, 88-96: ridge on the slab, 180 nm, sidewall_angle 20; layers.yaml:2-5"}
+  "3/10":  {name: LT_SLAB, role: slab, zmin: 0.0, thickness: 0.12, material: lithium_tantalate, sidewall_deg: 70,
+            color: "#875dd4", provenance: pdk,
+            source: "tech.py:19, 29, 80-87: slab from z 0, 120 nm, sidewall_angle 20; layers.yaml:6-8"}
+  # Layers with no LayerLevel in tech.py: named so that a PDK GDS gives no finding, and not drawn.
+  "3/11":  {name: SLAB_NEGATIVE, visible: false, color: "#4c209e", source: "tech.py:30; layers.yaml:9-11"}
+  "4/0":   {name: LABELS, visible: false, color: "#5179b5", source: "tech.py:31; layers.yaml:12-14"}
+  "6/0":   {name: CHIP_CONTOUR, visible: false, color: "#ffc6b8", source: "tech.py:41; layers.yaml:15-17"}
+  "6/1":   {name: CHIP_EXCLUSION_ZONE, visible: false, color: "#00fe9c", source: "tech.py:42; layers.yaml:18-20"}
+  "20/0":  {name: M1, visible: false, color: "#8dc2f7", source: "tech.py:32; layers.yaml:21-23; no z in tech.py"}
+  "22/0":  {name: M2, visible: false, color: "#4a90e2", source: "tech.py:33; layers.yaml:24-26; no z in tech.py"}
+  "23/0":  {name: HRL, visible: false, color: "#e06666",
+            source: "tech.py:36; layers.yaml:33-35 (named HRM there); no z in tech.py"}
+  "40/0":  {name: VIA_M1_M2, visible: false, color: "#aaaaaa",
+            source: "tech.py:34; layers.yaml:27-29 (named V2 there); no z in tech.py"}
+  "41/0":  {name: VIA_M2_HRL, visible: false, color: "#595555",
+            source: "tech.py:35; layers.yaml:30-32 (named V3 there); no z in tech.py"}
+  "990/0": {name: WAFER, visible: false,
+            source: "tech.py:37; the PDK's substrate, box and clad (tech.py:65-103) are substrate, films and fill here"}

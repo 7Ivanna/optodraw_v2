@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.393724 21.889714" width="30.393724pt" height="21.889714pt"><g transform="translate(72.0,72.0)">
+<g id='od-fiberport-page1'>
+<g stroke-miterlimit='10' transform='translate(-61.055147,-61.055147)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-8.5359-8.5359V8.5359H-5.69046V-8.5359ZM-5.69046 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-8.5359-8.5359V8.5359H-5.69046V-8.5359ZM-5.69046 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-8.5359-8.5359V8.5359H-5.69046V-8.5359ZM-5.69046 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-8.5359-8.5359V8.5359H-5.69046V-8.5359ZM-5.69046 8.5359' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-fiberport-pgfcp6'>
+<path d='M-8.5359-8.5359V8.5359H-5.69046V-8.5359ZM-5.69046 8.5359'/> </clipPath>
+<g clip-path='url(#od-fiberport-pgfcp6)'>
+<g transform='matrix(1,0,0,1,-7.11317,0.0)'>
+<g transform='matrix(0.0567,0,0,0.3402,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fiberport-pgfsh1'>
+ <stop offset='0.0' stop-color=' #64748b '/>
+ <stop offset='0.25' stop-color=' #64748b '/>
+ <stop offset='0.31' stop-color=' #94a3b8 '/>
+ <stop offset='0.54999' stop-color=' #cbd5e1 '/>
+ <stop offset='0.7' stop-color=' #e2e8f0 '/>
+ <stop offset='0.75' stop-color=' #f1f5f9 '/>
+ <stop offset='1.0' stop-color=' #f1f5f9 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fiberport-pgfsh1); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-8.5359-8.5359V8.5359H-5.69046V-8.5359ZM-5.69046 8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-5.69046-4.26773V4.26773H6.82881V-4.26773ZM6.82881 4.26773' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-5.69046-4.26773V4.26773H6.82881V-4.26773ZM6.82881 4.26773' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-5.69046-4.26773V4.26773H6.82881V-4.26773ZM6.82881 4.26773' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-5.69046-4.26773V4.26773H6.82881V-4.26773ZM6.82881 4.26773' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-fiberport-pgfcp7'>
+<path d='M-5.69046-4.26773V4.26773H6.82881V-4.26773ZM6.82881 4.26773'/> </clipPath>
+<g clip-path='url(#od-fiberport-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.56917,0.0)'>
+<g transform='matrix(0.24948,0,0,0.17009,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fiberport-pgfsh2'>
+ <stop offset='0.0' stop-color=' #64748b '/>
+ <stop offset='0.25' stop-color=' #64748b '/>
+ <stop offset='0.35999' stop-color=' #94a3b8 '/>
+ <stop offset='0.5' stop-color=' #e2e8f0 '/>
+ <stop offset='0.62' stop-color=' #f8fafc '/>
+ <stop offset='0.68999' stop-color=' #e2e8f0 '/>
+ <stop offset='0.75' stop-color=' #94a3b8 '/>
+ <stop offset='1.0' stop-color=' #94a3b8 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fiberport-pgfsh2); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-5.69046-4.26773V4.26773H6.82881V-4.26773ZM6.82881 4.26773' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-2.84544 2.84544L6.82881 0M-2.84544-2.84544L6.82881 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-fiberport-pgfcp8'>
+<path d='M-2.84544-3.41418C-4.55167-1.43356-4.55167 1.43356-2.84544 3.41418C-1.1392 1.43356-1.1392-1.43356-2.84544-3.41418Z'/> </clipPath>
+<g clip-path='url(#od-fiberport-pgfcp8)'>
+<g transform='matrix(1,0,0,1,-2.84543,0.0)'>
+<g transform='matrix(0.068,0,0,0.13606,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fiberport-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fiberport-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-2.84544-3.41418C-4.55167-1.43356-4.55167 1.43356-2.84544 3.41418C-1.1392 1.43356-1.1392-1.43356-2.84544-3.41418Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g stroke-width='0.45'>
+<g stroke-linecap='round'>
+<path d='M-3.38292 2.1165C-3.63907 1.02417-3.63907 .34123-3.54921-.27307' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-fiberport-pgfcp10'>
+<path d='M6.82881-1.70709V1.70709H10.243V-1.70709ZM10.243 1.70709'/> </clipPath>
+<g clip-path='url(#od-fiberport-pgfcp10)'>
+<g transform='matrix(1,0,0,1,8.53589,0.0)'>
+<g transform='matrix(0.06802,0,0,0.06802,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fiberport-pgfsh11'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fiberport-pgfsh11); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M6.82881-1.70709V1.70709H10.243V-1.70709ZM10.243 1.70709' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M10.243 0H17.07181' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.294655 24.942446" width="34.294655pt" height="24.942446pt"><g transform="translate(72.0,72.0)">
+<g id='od-telescope-page1'>
+<g stroke-miterlimit='10' transform='translate(-55.561162,-59.528781)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-11.95009 3.41418L-3.98335 0L11.95009-6.82881' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-11.95009-3.41418L-3.98335 0L11.95009 6.82881' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-telescope-pgfcp6'>
+<path d='M-11.95009-5.69046C-14.2255-2.38957-14.2255 2.38957-11.95009 5.69046C-9.67468 2.38957-9.67468-2.38957-11.95009-5.69046Z'/> </clipPath>
+<g clip-path='url(#od-telescope-pgfcp6)'>
+<g transform='matrix(1,0,0,1,-11.95009,0.0)'>
+<g transform='matrix(0.09068,0,0,0.22679,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-telescope-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-telescope-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-11.95009-5.69046C-14.2255-2.38957-14.2255 2.38957-11.95009 5.69046C-9.67468 2.38957-9.67468-2.38957-11.95009-5.69046Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g stroke-width='0.45'>
+<g stroke-linecap='round'>
+<path d='M-12.66689 3.52792C-13.00813 1.70709-13.00813 .56874-12.88873-.45499' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-telescope-pgfcp8'>
+<path d='M11.95009-10.243C8.2524-4.30203 8.2524 4.30203 11.95009 10.243C15.64778 4.30203 15.64778-4.30203 11.95009-10.243Z'/> </clipPath>
+<g clip-path='url(#od-telescope-pgfcp8)'>
+<g transform='matrix(1,0,0,1,11.95007,0.0)'>
+<g transform='matrix(0.14737,0,0,0.40823,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-telescope-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-telescope-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M11.95009-10.243C8.2524-4.30203 8.2524 4.30203 11.95009 10.243C15.64778 4.30203 15.64778-4.30203 11.95009-10.243Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g stroke-width='0.45'>
+<g stroke-linecap='round'>
+<path d='M10.78526 6.35037C10.23041 3.07251 10.23041 1.02417 10.42447-.81924' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

@@ -1,0 +1,25 @@
+{
+  "name": "optodraw-docs",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "prepare:fonts": "node scripts/prepare-fonts.mjs",
+    "prepare:data": "${OPTODRAW_PYTHON:-../.venv/bin/python} scripts/run_examples.py && ${OPTODRAW_PYTHON:-../.venv/bin/python} scripts/site_data.py && ${OPTODRAW_PYTHON:-../.venv/bin/python} scripts/build_wheel.py",
+    "prepare:content": "node scripts/prepare-content.mjs",
+    "dev": "npm run prepare:data && npm run prepare:content && ASTRO_TELEMETRY_DISABLED=1 astro dev --host 127.0.0.1",
+    "build": "npm run prepare:data && npm run prepare:content && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 127.0.0.1",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.42.0",
+    "astro": "7.3.2",
+    "sharp": "0.35.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "5.9.3"
+  }
+}

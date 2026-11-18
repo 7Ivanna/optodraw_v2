@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.125958 30.960349" width="28.125958pt" height="30.960349pt"><g transform="translate(72.0,72.0)">
+<g id='od-vacuumpump-page1'>
+<g stroke-miterlimit='10' transform='translate(-60.488105,-55.953003)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M9.10507 0C9.10507 5.02866 5.02866 9.10507 0 9.10507S-9.10507 5.02866-9.10507 0S-5.02866-9.10507 0-9.10507S9.10507-5.02866 9.10507 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M9.10507 0C9.10507 5.02866 5.02866 9.10507 0 9.10507S-9.10507 5.02866-9.10507 0S-5.02866-9.10507 0-9.10507S9.10507-5.02866 9.10507 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M9.10507 0C9.10507 5.02866 5.02866 9.10507 0 9.10507S-9.10507 5.02866-9.10507 0S-5.02866-9.10507 0-9.10507S9.10507-5.02866 9.10507 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M9.10507 0C9.10507 5.02866 5.02866 9.10507 0 9.10507S-9.10507 5.02866-9.10507 0S-5.02866-9.10507 0-9.10507S9.10507-5.02866 9.10507 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-vacuumpump-pgfcp6'>
+<path d='M9.10507 0C9.10507 5.02866 5.02866 9.10507 0 9.10507S-9.10507 5.02866-9.10507 0S-5.02866-9.10507 0-9.10507S9.10507-5.02866 9.10507 0ZM0 0'/> </clipPath>
+<g clip-path='url(#od-vacuumpump-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.36288,0,0,0.36288,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-vacuumpump-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-vacuumpump-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M9.10507 0C9.10507 5.02866 5.02866 9.10507 0 9.10507S-9.10507 5.02866-9.10507 0S-5.02866-9.10507 0-9.10507S9.10507-5.02866 9.10507 0ZM0 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g fill='#475569'>
+<path d='M9.10507 0L2.27626 3.98335V-3.98335Z'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M0 9.10507V13.65718M9.10507 0H14.22636M-8.5359-12.51927H8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-4.55254-7.96672L-6.25963-12.51927M4.55254-7.96672L6.25963-12.51927' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

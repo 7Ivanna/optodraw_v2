@@ -1,0 +1,39 @@
+name: Component request
+description: A part you need that optodraw cannot draw yet.
+labels: [component]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        These are the most useful reports optodraw gets. A photo or a vendor
+        page is worth more than a description — proportions get drawn from real
+        dimensions, not guessed.
+  - type: input
+    id: part
+    attributes:
+      label: What is it
+      placeholder: Fibre-coupled AOM, Ø1in kinematic mount, Peltier stage…
+    validations:
+      required: true
+  - type: textarea
+    id: use
+    attributes:
+      label: What are you drawing with it
+      description: Where it sits in the setup, and what connects to it.
+    validations:
+      required: true
+  - type: input
+    id: reference
+    attributes:
+      label: Reference
+      description: A vendor page, part number, or datasheet — anything with real dimensions.
+  - type: dropdown
+    id: views
+    attributes:
+      label: Which views do you need
+      multiple: true
+      options:
+        - 2D layout (plan view)
+        - 3D scene
+        - Ray tracing interaction
+        - Ports for routing / wiring

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="400" height="142.85714285714286" viewBox="0 0 2.8 1" font-family="Helvetica">
+<defs>
+</defs>
+<rect x="0" y="0" width="2.8" height="1" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="0.48" cy="0.5" r="0.135" fill="none" stroke-width="0.01" stroke="black" />
+<path d="M1,1 L1,0" fill="none" stroke-width="0.01" stroke="red" />
+<g transform="translate(1.35,0.3),rotate(90,0,0)">
+<circle cx="0" cy="0" r="0.135" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="-0.17" cy="-0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="-0.17" cy="0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="0.17" cy="-0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="0.17" cy="0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<rect x="-0.25" y="-0.25" width="0.5" height="0.5" fill="none" stroke-width="0.01" stroke="red" />
+<text x="0.3" y="0.1" font-size="0.3" text-anchor="start" dominant-baseline="auto" fill="none" stroke-width="0.01" stroke="red">Z</text>
+</g>
+<g transform="translate(1.925,0.7),rotate(90,0,0)">
+<circle cx="0" cy="0" r="0.135" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="-0.17" cy="-0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="-0.17" cy="0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="0.17" cy="-0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="0.17" cy="0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<rect x="-0.25" y="-0.25" width="0.5" height="0.5" fill="none" stroke-width="0.01" stroke="red" />
+<text x="-0.3" y="0.1" font-size="0.3" text-anchor="end" dominant-baseline="auto" fill="none" stroke-width="0.01" stroke="red">Y</text>
+</g>
+<g transform="translate(2.5,0.3),rotate(90,0,0)">
+<circle cx="0" cy="0" r="0.135" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="-0.17" cy="-0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="-0.17" cy="0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="0.17" cy="-0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<circle cx="0.17" cy="0.17" r="0.051" fill="none" stroke-width="0.01" stroke="black" />
+<rect x="-0.25" y="-0.25" width="0.5" height="0.5" fill="none" stroke-width="0.01" stroke="red" />
+<text x="0.3" y="0.1" font-size="0.3" text-anchor="start" dominant-baseline="auto" fill="none" stroke-width="0.01" stroke="red">X</text>
+</g>
+</svg>

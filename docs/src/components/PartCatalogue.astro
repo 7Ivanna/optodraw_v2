@@ -1,0 +1,51 @@
+---
+// Every part, from the registry (scripts/site_data.py). With scripts off, the whole table shows (rule D8);
+// with scripts on, a search box and platform buttons filter it.
+import data from '../data/site-data.json';
+const parts = (data as any).parts as { name: string; platform: string; category: string; description: string }[];
+const platforms = [...new Set(parts.map((p) => p.platform))];
+const kind = (c: string) => c.replace(/_/g, ' ').replace(/^./, (m) => m.toUpperCase());
+---
+<div class="od-parts">
+  <div class="od-parts-tools" hidden>
+    <input type="search" placeholder="Search parts" aria-label="Search parts" />
+    {platforms.map((p) => <button type="button" data-platform={p} aria-pressed="false">{p}</button>)}
+  </div>
+  <table>
+    <thead><tr><th>Part</th><th>Platform</th><th>Kind</th><th>What it is</th></tr></thead>
+    <tbody>
+      {parts.map((p) => (
+        <tr data-platform={p.platform} data-text={(p.name + ' ' + p.category + ' ' + p.description).toLowerCase()}>
+          <td><code>{p.name}</code></td><td>{p.platform}</td><td>{kind(p.category)}</td><td>{p.description}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('.od-parts')) {
+    const tools = root.querySelector<HTMLElement>('.od-parts-tools')!;
+    const search = tools.querySelector('input')!;
+    const buttons = [...tools.querySelectorAll<HTMLButtonElement>('button')];
+    const rows = [...root.querySelectorAll<HTMLTableRowElement>('tbody tr')];
+    let platform = '';
+    const apply = () => {
+      const q = search.value.trim().toLowerCase();
+      for (const r of rows) r.hidden = (!!platform && r.dataset.platform !== platform) || (!!q && !r.dataset.text!.includes(q));
+      for (const b of buttons) b.setAttribute('aria-pressed', String(b.dataset.platform === platform));
+    };
+    search.addEventListener('input', apply);
+    for (const b of buttons) b.addEventListener('click', () => { platform = platform === b.dataset.platform ? '' : b.dataset.platform!; apply(); });
+    tools.hidden = false;
+  }
+</script>
+
+<style>
+  .od-parts-tools{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+  .od-parts-tools input{flex:1 1 12rem;padding:.4rem .6rem;border:1px solid var(--sl-color-gray-5);border-radius:6px;background:transparent;color:inherit}
+  .od-parts-tools button{padding:.35rem .7rem;border:1px solid var(--sl-color-gray-5);border-radius:6px;background:transparent;color:var(--sl-color-gray-2);cursor:pointer}
+  .od-parts-tools button[aria-pressed='true']{border-color:var(--sl-color-accent);color:var(--sl-color-accent)}
+  .od-parts table{display:block;max-width:100%;overflow-x:auto;font-size:.85rem}
+  .od-parts td:nth-child(2),.od-parts td:nth-child(3){white-space:nowrap}
+</style>

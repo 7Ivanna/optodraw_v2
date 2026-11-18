@@ -1,0 +1,99 @@
+---
+import { LinkButton } from '@astrojs/starlight/components';
+const { data } = Astro.locals.starlightRoute.entry;
+const { title = data.title, tagline, actions = [] } = data.hero || {};
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rows = [
+  { name: 'Free-space optics', stem: 'ligo', description: 'Advanced LIGO, after Abbott et al. 2016, Fig. 3' },
+  { name: 'On-chip photonics', stem: 'homodyne', description: 'Balanced homodyne receiver, after Yang et al. 2025, Fig. 3' },
+];
+const views = [
+  { name: '3D', suffix: '.png', target: '.html', description: 'Studio render' },
+  { name: '2D', suffix: '.svg', target: '.svg', description: 'Optical layout' },
+  { name: '1D', suffix: '-1d.svg', target: '-1d.svg', description: 'Schematic' },
+];
+---
+<section class="od-hero">
+  <div class="hero-copy">
+    <div class="wordmark"><img src={base + '/branding/optodraw-mark.svg'} alt="" width="84" height="48" /><span>optodraw</span></div>
+    <h1 id="_top" data-page-title>{title}</h1>
+    <p>{tagline}</p>
+    <div class="actions">{actions.map(({icon, link: href, text, variant}) => <LinkButton {href} {variant} icon={icon?.name}>{text}</LinkButton>)}</div>
+  </div>
+  <div class="hero-scenes" style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(2,250px);gap:6px;width:100%;max-width:1120px;margin:0 auto;overflow:hidden;" aria-label="Free-space and on-chip systems in 3D, 2D and 1D">
+    {rows.map((row) => views.map((view) =>
+      <a style="display:block;position:relative;width:100%;height:250px;min-width:0;min-height:0;margin:0;overflow:hidden;background:#fff;" class:list={['scene', {studio: view.name === '3D'}]} data-hero-preview data-preview-kind={view.name === '3D' ? '3d' : 'image'} href={base + '/hero/' + row.stem + view.target} aria-label={row.name + ': ' + row.description + ', ' + view.name}>
+        <img style={`display:block;position:absolute;inset:0;width:100%;height:100%;max-width:100%;margin:0;padding:${view.name === '3D' ? '0' : '3px'};box-sizing:border-box;object-fit:${view.name === '3D' ? 'cover' : 'contain'};`} src={base + '/hero/' + row.stem + view.suffix} alt={row.description + ', ' + view.description.toLowerCase()} loading="eager" />
+      </a>
+    ))}
+  </div>
+</section>
+
+<dialog id="hero-preview" aria-label="Optodraw image preview" style="position:fixed;inset:0;margin:auto;width:min(1200px,94vw);height:min(850px,90vh);max-width:94vw;max-height:90vh;padding:0;border:1px solid #b8bec8;border-radius:12px;background:#fff;overflow:hidden;">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;height:48px;padding:0 16px;background:#f4f6f8;color:#202a35;">
+    <span id="hero-preview-title" style="font-size:14px;">Preview</span>
+    <button type="button" data-close-preview aria-label="Close preview" style="font:inherit;cursor:pointer;border:1px solid #bbc3ce;border-radius:5px;background:white;color:#202a35;padding:4px 12px;">Close</button>
+  </div>
+  <div id="hero-preview-content" style="width:100%;height:calc(100% - 48px);"></div>
+</dialog>
+<script>
+  function installHeroPreview() {
+    const dialog = document.querySelector<HTMLDialogElement>('#hero-preview');
+    const content = document.querySelector<HTMLElement>('#hero-preview-content');
+    const title = document.querySelector<HTMLElement>('#hero-preview-title');
+    if (!dialog || !content || !title || dialog.dataset.ready) return;
+    dialog.dataset.ready = 'true';
+    let trigger: HTMLAnchorElement | null = null;
+    let previousOverflow = '';
+    document.querySelectorAll<HTMLAnchorElement>('a[data-hero-preview]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        trigger = link;
+        const label = link.getAttribute('aria-label') || 'Optodraw preview';
+        title.textContent = label;
+        content.replaceChildren();
+        if (link.dataset.previewKind === '3d') {
+          const frame = document.createElement('iframe');
+          frame.src = link.href;
+          frame.title = label;
+          frame.allowFullscreen = true;
+          frame.style.cssText = 'display:block;width:100%;height:100%;border:0;';
+          content.append(frame);
+        } else {
+          const image = document.createElement('img');
+          image.src = link.href;
+          image.alt = label;
+          image.style.cssText = 'display:block;width:100%;height:100%;object-fit:contain;margin:0;padding:16px;box-sizing:border-box;';
+          content.append(image);
+        }
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        dialog.showModal();
+      });
+    });
+    dialog.querySelector('[data-close-preview]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target !== dialog) return;
+      const box = dialog.getBoundingClientRect();
+      if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      content.replaceChildren();
+      document.body.style.overflow = previousOverflow;
+      trigger?.focus();
+    });
+  }
+  installHeroPreview();
+  document.addEventListener('astro:page-load', installHeroPreview);
+</script>
+<style is:global>
+  #hero-preview::backdrop { background:rgba(15,22,32,.65); }
+</style>
+
+<style>
+.od-hero{padding:.35rem 0 .75rem}.hero-copy{text-align:center;max-width:48rem;margin:0 auto 1rem}.wordmark{display:flex;justify-content:center;align-items:center;gap:.65rem;font-size:clamp(2rem,4vw,3rem);font-weight:650;letter-spacing:-.05em;color:var(--sl-color-white)}.wordmark img{width:84px;height:48px}h1{font-size:clamp(1.8rem,4vw,3.3rem);line-height:1.12;letter-spacing:-.04em;margin:.5rem 0;color:var(--sl-color-white)}.hero-copy p{max-width:38rem;margin:0 auto;line-height:1.6;font-size:1.1rem;color:var(--sl-color-gray-2)}.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:.8rem}
+.hero-scenes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 2rem;align-items:center}.scene{display:block;min-width:0;text-decoration:none;background:#fff;border-radius:4px;overflow:hidden}.scene img{display:block;width:100%;height:230px;object-fit:contain;box-sizing:border-box;padding:.4rem}.studio{background:#f4f6f8}.studio img{height:360px;padding:0}.scene:focus-visible{outline:3px solid #2f5cff;outline-offset:4px}
+@media(max-width:48rem){.hero-scenes{gap:.75rem}.studio img{height:250px}.scene img{height:180px}}
+@media(max-width:30rem){.hero-scenes{gap:.5rem}.studio img{height:180px}.scene img{height:130px}}
+</style>

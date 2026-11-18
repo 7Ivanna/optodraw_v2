@@ -1,0 +1,42 @@
+A chip scene places on-chip parts and routes waveguides between their ports. optodraw has
+<!-- value: on-chip-count --> chip parts: couplers, splitters, rings, modulators, AWGs, detectors and lasers.
+
+## Draw it
+
+Two coupled add-drop rings with heaters, after Borghi et al. (2019), Fig. 1. `scene.route` joins two ports
+with a waveguide; the arrows mark the light in and out, in the paper's colours.
+
+<!-- cell: chips/01-coupled-rings -->
+
+A Mach-Zehnder modulator with G-S-G electrodes, after Wolf et al. (2018), Fig. 1a. The library `MZM` with
+`drive_style="gsg"` puts its two arms in the gaps of the line. It splits with Y branches; the paper uses MMIs.
+
+<!-- cell: chips/02-soh-mzm -->
+
+## Options
+
+- `scene.route((a, "o2"), (b, "o1"), kind="waveguide", path_type="smooth")`: a waveguide with real bends.
+- `steps=[{"x": ...}, {"y": ...}]`: the corners a route must pass, for a fold or a lane.
+- `kind="electrical"` or `kind="fiber"`: wires and fibres between electrical or fibre ports.
+- `render_physical=True`: draw a part at its true size instead of its schematic size.
+
+## What it supports
+
+Grating and edge couplers, MMIs, Y branches and directional couplers, rings and racetracks, MZIs and
+modulators, AWGs and star couplers, Bragg gratings, detectors, lasers and SOAs, and the
+[electronics](/electronics/) beside them.
+
+## How it works
+
+Parts are drawn schematically by default: thin features are widened so they read on a page. Every chip part
+stands on one open process stack, the GDSFactory generic one: the slab and the doping share the core's base,
+contacts rise from the slab to M1, and pads sit on top. In a schematic the oxide is drawn thinner; a scene
+with a foundry stack uses its heights. Routes attach to ports, never to the art. Before you call a layout done, render it and look: a route that crosses another,
+or a port left open, still draws cleanly.
+
+## References
+
+- Borghi, M., Trenti, A. and Pavesi, L. Four wave mixing control in a photonic molecule made by silicon
+  microring resonators. *Sci. Rep.* 9, 408 (2019). [doi:10.1038/s41598-018-36694-5](https://doi.org/10.1038/s41598-018-36694-5)
+- Wolf, S. et al. Silicon-organic hybrid (SOH) Mach-Zehnder modulators for 100 Gbit/s on-off keying.
+  *Sci. Rep.* 8, 2598 (2018). [doi:10.1038/s41598-017-19061-8](https://doi.org/10.1038/s41598-017-19061-8)

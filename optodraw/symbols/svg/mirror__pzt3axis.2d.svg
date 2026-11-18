@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.903333 23.808359" width="11.903333pt" height="23.808359pt"><g transform="translate(72.0,72.0)">
+<g id='od-mirror__pzt3axis-page1'>
+<g stroke-miterlimit='10' transform='translate(-69.73351,-60.095823)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-mirror__pzt3axis-pgfcp6'>
+<path d='M1.42271-9.67383V9.67383H3.69899V-9.67383ZM3.69899 9.67383'/> </clipPath>
+<g clip-path='url(#od-mirror__pzt3axis-pgfcp6)'>
+<g transform='matrix(1,0,0,1,2.56084,0.0)'>
+<g transform='matrix(0.04535,0,0,0.38556,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-mirror__pzt3axis-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-mirror__pzt3axis-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M1.42271-9.67383V9.67383H3.69899V-9.67383ZM3.69899 9.67383' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-mirror__pzt3axis-pgfcp7'>
+<path d='M0-9.67383V9.67383H1.42271V-9.67383ZM1.42271 9.67383'/> </clipPath>
+<g clip-path='url(#od-mirror__pzt3axis-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.71135,0.0)'>
+<g transform='matrix(0.02835,0,0,0.38556,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-mirror__pzt3axis-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-mirror__pzt3axis-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M0-9.67383V9.67383H1.42271V-9.67383ZM1.42271 9.67383' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-mirror__pzt3axis-pgfcp8'>
+<path d='M3.69899-8.3935V-5.26411H5.69089V-8.3935ZM5.69089-5.26411'/> </clipPath>
+<g clip-path='url(#od-mirror__pzt3axis-pgfcp8)'>
+<g transform='matrix(1,0,0,1,4.69493,-6.8288)'>
+<g transform='matrix(0.03969,0,0,0.06235,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-mirror__pzt3axis-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-mirror__pzt3axis-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M3.69899-8.3935V-5.26411H5.69089V-8.3935ZM5.69089-5.26411' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-mirror__pzt3axis-pgfcp10'>
+<path d='M3.69899-1.56468V1.56468H5.69089V-1.56468ZM5.69089 1.56468'/> </clipPath>
+<g clip-path='url(#od-mirror__pzt3axis-pgfcp10)'>
+<g transform='matrix(1,0,0,1,4.69493,0.0)'>
+<g transform='matrix(0.03969,0,0,0.06235,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-mirror__pzt3axis-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-mirror__pzt3axis-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M3.69899-1.56468V1.56468H5.69089V-1.56468ZM5.69089 1.56468' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-mirror__pzt3axis-pgfcp11'>
+<path d='M3.69899 5.26411V8.3935H5.69089V5.26411ZM5.69089 8.3935'/> </clipPath>
+<g clip-path='url(#od-mirror__pzt3axis-pgfcp11)'>
+<g transform='matrix(1,0,0,1,4.69493,6.8288)'>
+<g transform='matrix(0.03969,0,0,0.06235,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-mirror__pzt3axis-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-mirror__pzt3axis-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M3.69899 5.26411V8.3935H5.69089V5.26411ZM5.69089 8.3935' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-mirror__pzt3axis-pgfcp12'>
+<path d='M5.69089-9.67383V9.67383H7.39798V-9.67383ZM7.39798 9.67383'/> </clipPath>
+<g clip-path='url(#od-mirror__pzt3axis-pgfcp12)'>
+<g transform='matrix(1,0,0,1,6.54443,0.0)'>
+<g transform='matrix(0.03401,0,0,0.38556,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-mirror__pzt3axis-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-mirror__pzt3axis-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M5.69089-9.67383V9.67383H7.39798V-9.67383ZM7.39798 9.67383' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.617156 23.609126" width="40.617156pt" height="23.609126pt"><g transform="translate(72.0,72.0)">
+<g id='od-fourf__split0.25-page1'>
+<g stroke-miterlimit='10' transform='translate(-51.691426,-60.19544)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-18.20973 0L-13.65762 5.69046H4.55211L18.20973 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-18.20973 0L-13.65762-5.69046H4.55211L18.20973 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke-dasharray='1.2,1.2' stroke-dashoffset='0.0'>
+<path d='M-9.10551-9.67383V9.67383' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-fourf__split0.25-pgfcp6'>
+<path d='M-13.65762-8.5359C-16.6915-3.58481-16.6915 3.58481-13.65762 8.5359C-10.62375 3.58481-10.62375-3.58481-13.65762-8.5359Z'/> </clipPath>
+<g clip-path='url(#od-fourf__split0.25-pgfcp6)'>
+<g transform='matrix(1,0,0,1,-13.65762,0.0)'>
+<g transform='matrix(0.12091,0,0,0.3402,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fourf__split0.25-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fourf__split0.25-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-13.65762-8.5359C-16.6915-3.58481-16.6915 3.58481-13.65762 8.5359C-10.62375 3.58481-10.62375-3.58481-13.65762-8.5359Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g stroke-width='0.45'>
+<g stroke-linecap='round'>
+<path d='M-14.61363 5.2919C-15.06862 2.56064-15.06862 .85355-14.90929-.68248' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-fourf__split0.25-pgfcp8'>
+<path d='M4.55211-8.5359C1.51823-3.58481 1.51823 3.58481 4.55211 8.5359C7.58597 3.58481 7.58597-3.58481 4.55211-8.5359Z'/> </clipPath>
+<g clip-path='url(#od-fourf__split0.25-pgfcp8)'>
+<g transform='matrix(1,0,0,1,4.5521,0.0)'>
+<g transform='matrix(0.12091,0,0,0.3402,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fourf__split0.25-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fourf__split0.25-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M4.55211-8.5359C1.51823-3.58481 1.51823 3.58481 4.55211 8.5359C7.58597 3.58481 7.58597-3.58481 4.55211-8.5359Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g stroke-width='0.45'>
+<g stroke-linecap='round'>
+<path d='M3.5961 5.2919C3.1411 2.56064 3.1411 .85355 3.30043-.68248' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

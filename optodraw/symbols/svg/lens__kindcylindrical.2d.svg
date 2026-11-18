@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.621499 24.092085" width="11.621499pt" height="24.092085pt"><g transform="translate(72.0,72.0)">
+<g id='od-lens__kindcylindrical-page1'>
+<g stroke-miterlimit='10' transform='translate(-68.03088,-58.678424)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-lens__kindcylindrical-pgfcp6'>
+<path d='M-1.70709 8.5359L1.9919 11.09654C3.87752 11.09654 5.40608 7.27495 5.40608 2.56064C5.40608-1.27475 4.38243-4.63943 2.90425-5.66435L-.79666-8.22287C1.02025-6.96312 2.08467-2.25937 1.58081 2.28314C1.17087 5.97878-.17494 8.53802-1.70901 8.53802Z'/> </clipPath>
+<g clip-path='url(#od-lens__kindcylindrical-pgfcp6)'>
+<g transform='matrix(1,0,0,1,1.84853,1.43683)'>
+<g transform='matrix(0.14178,0,0,0.385,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-lens__kindcylindrical-pgfsh7'>
+ <stop offset='0.0' stop-color=' #aec5d5 '/>
+ <stop offset='0.25' stop-color=' #aec5d5 '/>
+ <stop offset='0.5' stop-color=' #bdd6e5 '/>
+ <stop offset='0.75' stop-color=' #cde7f4 '/>
+ <stop offset='1.0' stop-color=' #cde7f4 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-lens__kindcylindrical-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.70709 8.5359L1.9919 11.09654C3.87752 11.09654 5.40608 7.27495 5.40608 2.56064C5.40608-1.27475 4.38243-4.63943 2.90425-5.66435L-.79666-8.22287C1.02025-6.96312 2.08467-2.25937 1.58081 2.28314C1.17087 5.97878-.17494 8.53802-1.70901 8.53802Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M.4871 6.53879L4.1861 9.09943' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M1.59073 2.20897L5.28972 4.7696' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M1.38712-3.60738L5.0861-1.04674' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-lens__kindcylindrical-pgfcp8'>
+<path d='M-1.70709 8.5359C.17853 8.5359 1.70709 4.71431 1.70709 0S.17853-8.5359-1.70709-8.5359Z'/> </clipPath>
+<g clip-path='url(#od-lens__kindcylindrical-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.06802,0,0,0.3402,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-lens__kindcylindrical-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-lens__kindcylindrical-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.70709 8.5359C.17853 8.5359 1.70709 4.71431 1.70709 0S.17853-8.5359-1.70709-8.5359Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

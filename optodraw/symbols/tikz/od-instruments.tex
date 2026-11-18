@@ -1,0 +1,598 @@
+% od-instruments.tex : bench instruments. Load od-core.tex first.
+% An instrument is a rounded body with one thing that identifies it: a screen
+% with the trace it shows, a dial, a row of terminals. A connector hangs under
+% the body where a cable attaches. No text.
+
+\definecolor{odtrace}{HTML}{D55E00}                    % a signal on a screen
+\pgfkeys{/od/.cd,
+  trace/.initial=odtrace,   % the color of the trace on a screen
+}
+\tikzset{
+  od body/.style={od case, rounded corners=0.11cm},
+  od screen/.style={od paint={od el, fill=white}{od hair, draw=ods900, top color=ods700, bottom color=ods900}, rounded corners=0.05cm},
+  od trace/.style={line width=0.7pt*\odls, line cap=round, line join=round},
+  od grat/.style={od paint={draw=black!30}{draw=ods600}, line width=0.25pt*\odls},
+}
+% A connector under the body: #1 = x, #2 = y of the body edge. The cable meets its lowest point.
+\newcommand\odjack[2]{%
+  \draw[od jack] (#1,#2-0.075) circle [radius=0.075];
+  \fill (#1,#2-0.075) circle [radius=0.024];}
+\newcommand\odknob[2]{\draw[od knob] (#1,#2) circle [radius=0.065];}
+% A screen and its graticule: lower left #1,#2 and upper right #3,#4.
+\newcommand\odscreen[4]{%
+  \draw[od screen] (#1,#2) rectangle (#3,#4);
+  \draw[od grat] (#1,{(#2+#4)/2}) -- (#3,{(#2+#4)/2}) ({(#1+#3)/2},#2) -- ({(#1+#3)/2},#4);}
+
+% ---------------------------------------------------------------- oscilloscope
+% A screen with a signal that changes in time, a column of knobs, two inputs and the USB data port.
+% The jacks are Oscilloscope.JACKS.
+\tikzset{pics/od oscilloscope/.default={}, pics/od oscilloscope/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.8,-0.45) rectangle (0.8,0.45);
+  \odscreen{-0.68}{-0.33}{0.36}{0.33}
+  \draw[od trace, draw=\odtc] plot[domain=-0.62:0.30, samples=70, smooth] (\x, {0.22*sin(\x*1700)*(0.55+0.45*cos(\x*420))});
+  \foreach \ody in {0.24,0,-0.24} {\odknob{0.58}{\ody}}
+  \odjack{-0.4}{-0.45}\odjack{0}{-0.45}
+  \draw[od alusmall] (0.53,-0.6) rectangle (0.63,-0.45);
+  \odport[electrical]{ch1}{-0.4,-0.6}\odport[electrical]{ch2}{0,-0.6}\odport[electrical]{usb}{0.58,-0.6}
+}}}
+
+% ---------------------------------------------------------------- arbitrary waveform generator
+% Knobs first, then a screen with the clean wave it makes, the sync output and two outputs.
+% The jacks are WaveformGenerator.JACKS.
+\tikzset{pics/od awginstrument/.default={}, pics/od awginstrument/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.8,-0.45) rectangle (0.8,0.45);
+  \foreach \odx in {-0.62,-0.42} {\foreach \ody in {0.13,-0.13} {\odknob{\odx}{\ody}}}
+  \odscreen{-0.26}{-0.33}{0.68}{0.33}
+  \draw[od trace, draw=\odtc] plot[domain=-0.2:0.62, samples=70, smooth] (\x, {0.24*sin((\x+0.2)*1756)});
+  \odjack{-0.4}{-0.45}\odjack{0.05}{-0.45}\odjack{0.5}{-0.45}
+  \odport[electrical]{sync}{-0.4,-0.6}\odport[electrical]{out1}{0.05,-0.6}\odport[electrical]{out2}{0.5,-0.6}
+}}}
+
+% ---------------------------------------------------------------- vector network analyzer
+% A screen with a transmission dip, two test ports.
+\tikzset{pics/od vna/.default={}, pics/od vna/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.8,-0.45) rectangle (0.8,0.45);
+  \odscreen{-0.68}{-0.33}{0.36}{0.33}
+  \draw[od trace, draw=\odtc] plot[domain=-0.62:0.30, samples=70, smooth] (\x, {0.2-0.44*exp(-((\x+0.16)/0.07)^2)});
+  \odknob{0.58}{0.2}\odknob{0.58}{-0.05}
+  \odjack{-0.4}{-0.45}\odjack{0.1}{-0.45}
+  \odport[electrical]{p1}{-0.4,-0.6}\odport[electrical]{p2}{0.1,-0.6}
+}}}
+
+% ---------------------------------------------------------------- optical spectrum analyzer
+% A screen with spectral lines on a noise floor, and a fibre input.
+\tikzset{pics/od osa/.default={}, pics/od osa/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.8,-0.45) rectangle (0.8,0.45);
+  \odscreen{-0.68}{-0.33}{0.36}{0.33}
+  \draw[od trace, draw=\odtc] plot[domain=-0.62:0.30, samples=120, smooth] (\x,
+    {-0.23+0.36*exp(-((\x+0.42)/0.03)^2)+0.48*exp(-((\x+0.16)/0.03)^2)+0.3*exp(-((\x-0.1)/0.03)^2)});
+  \odknob{0.58}{0.2}\odknob{0.58}{-0.05}
+  \odjack{-0.5}{-0.45}
+  \odport[fiber]{in}{-0.5,-0.6}
+}}}
+
+% ---------------------------------------------------------------- source-measure unit
+% A screen with a current-voltage curve, and the two output jacks.
+\tikzset{pics/od smu/.default={}, pics/od smu/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.8,-0.45) rectangle (0.8,0.45);
+  \odscreen{-0.68}{-0.33}{0.2}{0.33}
+  \draw[od trace, draw=\odtc] (-0.62,-0.2) -- (-0.3,-0.2) .. controls (-0.05,-0.2) and (0.06,-0.05) .. (0.12,0.27);
+  \odknob{0.5}{0.14}
+  \odjack{0.4}{-0.45}\odjack{0.64}{-0.45}
+  \odport[electrical]{hi}{0.4,-0.6}\odport[electrical]{lo}{0.64,-0.6}
+}}}
+
+% ---------------------------------------------------------------- laser driver
+% A laser diode on the front panel, a dial, and three jacks: the modulation input, the TEC output and the drive
+% output. The jacks are LaserDriver.JACKS.
+\tikzset{pics/od laserdriver/.default={}, pics/od laserdriver/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od body] (-0.8,-0.45) rectangle (0.8,0.45);
+  \draw[od el, fill=white] (-0.52,-0.12) -- (-0.24,-0.12) -- (-0.38,0.12) -- cycle;
+  \draw[od el] (-0.52,0.12) -- (-0.24,0.12) (-0.38,0.12) -- (-0.38,0.28) (-0.38,-0.12) -- (-0.38,-0.28);
+  \draw[od light] (-0.2,0.12) -- (-0.04,0.28);
+  \draw[od light] (-0.14,0.02) -- (0.02,0.18);
+  \draw[od el, fill=white] (0.42,0.02) circle [radius=0.2];
+  \draw[od el] (0.42,0.02) -- ++(55:0.16);
+  \odjack{-0.5}{-0.45}\odjack{0}{-0.45}\odjack{0.42}{-0.45}
+  \odport[electrical]{mod}{-0.5,-0.6}\odport[electrical]{tec}{0,-0.6}\odport[electrical]{out}{0.42,-0.6}
+}}}
+
+% ---------------------------------------------------------------- data acquisition module
+% A sampled signal (one stem for each sample) and screw terminals.
+\tikzset{pics/od daq/.default={}, pics/od daq/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.7,-0.4) rectangle (0.7,0.4);
+  \draw[od grat] (-0.55,-0.02) -- (0.55,-0.02);
+  \foreach \odx in {-0.45,-0.3,-0.15,0,0.15,0.3,0.45} {
+    \pgfmathsetmacro\ody{-0.02+0.24*sin(\odx*400+70)}
+    \draw[od trace, draw=\odtc] (\odx,-0.02) -- (\odx,\ody);
+    \fill[\odtc] (\odx,\ody) circle [radius=0.03];
+  }
+  \foreach \odx in {-0.4,0.4} {\draw[od alusmall] (\odx-0.08,-0.54) rectangle (\odx+0.08,-0.4);}
+  \odport[electrical]{ch1}{-0.4,-0.54}\odport[electrical]{ch2}{0.4,-0.54}
+}}}
+
+% ---------------------------------------------------------------- FPGA board
+% A board with a chip that holds an array of logic cells. The ports are on the board edge.
+\tikzset{pics/od fpga/.default={}, pics/od fpga/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od pcb] (-0.7,-0.45) rectangle (0.7,0.45);
+  \draw[od paint={od el, fill=white}{od hair, draw=ods800, top color=ods600, bottom color=ods800}] (-0.26,-0.26) rectangle (0.26,0.26);
+  \foreach \odt in {-0.16,0,0.16} {
+    \draw[od el, od paint={}{draw=odgoldB}] (-0.26,\odt) -- (-0.34,\odt) (0.26,\odt) -- (0.34,\odt) (\odt,0.26) -- (\odt,0.34) (\odt,-0.26) -- (\odt,-0.34);}
+  \foreach \odx in {-0.12,0.02} {\foreach \ody in {-0.12,0.02} {\draw[od ray, od paint={}{draw=white!55!black}] (\odx,\ody) rectangle (\odx+0.1,\ody+0.1);}}
+  \foreach \ody in {-0.3,-0.15,0,0.15,0.3} {\fill[od paint={}{fill=odgoldA}] (-0.58,\ody) circle [radius=0.025]; \fill[od paint={}{fill=odgoldA}] (0.58,\ody) circle [radius=0.025];}
+  \odport[electrical]{io1}{-0.7,0}\odport[electrical]{io2}{0.7,0}
+  \odport[electrical]{io3}{-0.7,0.3}\odport[electrical]{io4}{-0.7,0.15}\odport[electrical]{io5}{-0.7,-0.15}\odport[electrical]{io6}{-0.7,-0.3}
+  \odport[electrical]{io7}{0.7,0.3}\odport[electrical]{io8}{0.7,0.15}\odport[electrical]{io9}{0.7,-0.15}\odport[electrical]{io10}{0.7,-0.3}
+}}}
+
+% ---------------------------------------------------------------- computer
+% A monitor on its stand and a keyboard. The screen shows a prompt.
+\tikzset{pics/od computer/.default={}, pics/od computer/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od body] (-0.5,-0.08) rectangle (0.5,0.56);
+  \draw[od screen] (-0.42,0) rectangle (0.42,0.48);
+  \draw[od el, od paint={}{draw=odtrace}] (-0.3,0.36) -- (-0.2,0.28) -- (-0.3,0.2) (-0.14,0.2) -- (0,0.2);
+  \draw[od wg] (0,-0.08) -- (0,-0.2) (-0.2,-0.2) -- (0.2,-0.2);
+  \draw[od alusmall, rounded corners=0.03cm] (-0.45,-0.42) rectangle (0.45,-0.3);
+  \odport[electrical]{e1}{-0.5,0.24}
+}}}
+
+% ---------------------------------------------------------------- vacuum pump
+% The pump symbol of a vacuum diagram: a circle, and a triangle that points the way of the flow.
+\tikzset{pics/od vacuumpump/.default={}, pics/od vacuumpump/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od alu] (0,0) circle [radius=0.32];
+  \draw[od el, od paint={fill=black}{fill=ods600}] (0.32,0) -- (0.08,0.14) -- (0.08,-0.14) -- cycle;
+  \draw[od wg] (0,0.32) -- (0,0.48) (0.32,0) -- (0.5,0) (-0.3,-0.44) -- (0.3,-0.44);
+  \draw[od el] (-0.16,-0.28) -- (-0.22,-0.44) (0.16,-0.28) -- (0.22,-0.44);
+}}}
+
+% ---------------------------------------------------------------- optical power meter
+% A hand-held meter: a digital reading on its display, two buttons, and the sensor input on top.
+\tikzset{pics/od powermeter/.default={}, pics/od powermeter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.36,-0.55) rectangle (0.36,0.55);
+  \draw[od screen] (-0.26,0.05) rectangle (0.26,0.43);
+  \foreach \odx in {-0.16,0,0.16} {\draw[od trace, draw=\odtc] (\odx-0.05,0.13) rectangle (\odx+0.05,0.35);
+    \draw[od trace, draw=\odtc] (\odx-0.05,0.24) -- (\odx+0.05,0.24);}
+  \fill[fill=\odtc] (0.08,0.135) circle [radius=0.014];
+  \odknob{-0.13}{-0.2}\odknob{0.13}{-0.2}
+  \draw[od jack] (0,0.625) circle [radius=0.075];
+  \fill (0,0.625) circle [radius=0.024];
+  \odport[fiber]{in}{0,0.7}
+}}}
+
+% ================================================================ sources, detectors, samples
+% Light in free space: a thin line shows the beam where it enters or leaves a part.
+\tikzset{od beam/.style={od el}}
+
+% ---------------------------------------------------------------- laser source
+% A screen with one sharp spectral line, a laser diode, and the beam output.
+% view=top: a laser head seen from above, twice as long as it is wide as in 3D, with the same marks.
+% sync=yes: a sync output, a jack under the head (a pulsed laser that triggers a counter).
+\tikzset{pics/od lasersource/.default={}, pics/od lasersource/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od absorber, od paint={}{od shadow}, rounded corners=0.06cm] (-1.0,-0.45) rectangle (0.72,0.45);
+    \foreach \odx in {-0.94,-0.86,-0.78,-0.7,-0.62,-0.54} {\draw[od paint={od el}{od hair, draw=ods500}] (\odx,-0.38) -- (\odx,0.38);}
+    \draw[od paint={od el, fill=white}{od hair, draw=ods500, fill=ods900}] (-0.44,-0.31) rectangle (0.12,0.31);
+    \draw[od trace, draw=\odtc] plot[domain=-0.41:0.09, samples=80, smooth] (\x, {-0.23+0.47*exp(-((\x+0.16)^2)/0.0016)});
+    \draw[od paint={od el, fill=white}{od hair, draw=ods200, fill=ods900}] (0.2,-0.15) -- (0.46,-0.15) -- (0.33,0.09) -- cycle;
+    \draw[od mark, od paint={}{draw=ods200}] (0.2,0.09) -- (0.46,0.09) (0.33,0.09) -- (0.33,0.25) (0.33,-0.15) -- (0.33,-0.31);
+    \draw[od light, od paint={}{draw=ods200}] (0.48,0.08) -- (0.62,0.22);
+    \fill[od paint={fill=black}{fill=odbeam}] (0.6,-0.3) circle [radius=0.028];
+    \draw[od housing] (0.72,-0.45) rectangle (0.84,0.45);
+    \draw[od absorber] (0.84,-0.17) rectangle (0.96,0.17);
+    \draw[od alusmall] (0.96,-0.1) rectangle (1.0,0.1);
+    \odport[free_space]{out}{1.0,0}
+    \draw[od jack] (-1.06,0) circle [radius=0.06];              % the drive input, behind the rear face
+    \fill (-1.06,0) circle [radius=0.02];
+    \odport[electrical]{e1}{-1.12,0}
+    \edef\odsync{\odget{sync}}\def\odtmp{yes}\ifx\odsync\odtmp
+      \draw[od jack] (-0.29,-0.45) circle [radius=0.06];
+      \fill (-0.29,-0.45) circle [radius=0.02];
+      \odport[electrical]{sync}{-0.29,-0.51}
+    \fi
+  \else
+  \draw[od body] (-0.75,-0.4) rectangle (0.75,0.4);
+  \foreach \odx in {-0.67,-0.61,-0.55} {\draw[od ray] (\odx,-0.3) -- (\odx,0.3);}
+  \draw[od screen] (-0.47,-0.28) rectangle (0.05,0.28);
+  \draw[od trace, draw=\odtc] plot[domain=-0.43:0.01, samples=80, smooth] (\x, {-0.2+0.42*exp(-((\x+0.21)/0.035)^2)});
+  \draw[od el, fill=white] (0.17,-0.13) -- (0.45,-0.13) -- (0.31,0.11) -- cycle;
+  \draw[od el] (0.17,0.11) -- (0.45,0.11) (0.31,0.11) -- (0.31,0.25) (0.31,-0.13) -- (0.31,-0.27);
+  \draw[od light] (0.44,0.14) -- (0.56,0.26);
+  \draw[od el] (0.62,-0.4) -- (0.62,0.4);
+  \draw[od alusmall] (0.75,-0.08) rectangle (0.85,0.08);
+  \odport[free_space]{out}{0.85,0}
+  \draw[od jack] (-0.825,0) circle [radius=0.075];                % the drive input, behind the rear face
+  \fill (-0.825,0) circle [radius=0.024];
+  \odport[electrical]{e1}{-0.9,0}
+  \edef\odsync{\odget{sync}}\def\odtmp{yes}\ifx\odsync\odtmp      % sync: a jack under the screen
+    \draw[od jack] (-0.34,-0.4) circle [radius=0.075];
+    \fill (-0.34,-0.4) circle [radius=0.024];
+    \odport[electrical]{sync}{-0.34,-0.475}
+  \fi
+  \fi
+}}}
+
+% ---------------------------------------------------------------- lamp
+% The lamp of a circuit diagram, with rays.
+\tikzset{pics/od lamp/.default={}, pics/od lamp/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \ifx\odlook\odlooktwod
+    \draw[od housing, rounded corners=0.08cm] (-0.27,-0.32) rectangle (0.2,0.32);
+    \draw[od hair, draw=ods500, fill=ods100] (0.12,0.24) .. controls (-0.08,0.24) and (-0.2,0.12) .. (-0.2,0) .. controls (-0.2,-0.12) and (-0.08,-0.24) .. (0.12,-0.24) -- cycle;
+    \draw[od hair, draw=odgoldE, inner color=white, outer color=yellow!60] (-0.01,0) circle [radius=0.125];
+    \draw[line width=0.4pt*\odls, draw=odgoldE] (-0.08,0) -- (-0.05,0.04) -- (-0.02,-0.04) -- (0.01,0.04) -- (0.04,-0.04) -- (0.06,0);
+    \draw[od absorber] (0.2,-0.16) rectangle (0.29,0.16);
+    \foreach \oda in {-0.1,0,0.1} {\draw[line width=0.4pt*\odls, draw=odgoldB, line cap=round] (0.32,\oda) -- (0.47,\oda*1.4);}
+  \else
+    \draw[od wg, fill=white] (0,0) circle [radius=0.26];
+    \draw[od el] (45:0.26) -- (225:0.26) (135:0.26) -- (315:0.26);
+    \foreach \oda in {-50,-25,0,25,50} {\draw[od el] (\oda:0.33) -- (\oda:0.47);}
+  \fi
+  \odport[free_space]{out}{0.47,0}
+}}}
+
+% ---------------------------------------------------------------- photodiode (free space)
+% The diode, with the two arrows of the light that falls on it. The beam arrives from the left and ends on the
+% triangle's left edge (y = 0, x = -0.11), where the in port lies.
+% e1 the anode (bottom lead), e2 the cathode (top lead, at the bar).
+% view=top: on a bench, the detector housing seen from above: the window toward
+% the beam, the diode behind it, the connector at the back, where e1 and e2 leave on one coax.
+\tikzset{pics/od detector/.default={}, pics/od detector/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od housing, rounded corners=0.06cm] (-0.32,-0.3) rectangle (0.36,0.3);
+    \draw[od glass] (-0.38,-0.16) rectangle (-0.32,0.16);
+    \draw[od el, fill=white] (-0.12,-0.13) -- (-0.12,0.13) -- (0.1,0) -- cycle;
+    \draw[od mark] (0.1,-0.13) -- (0.1,0.13);
+    \draw[od alusmall] (0.36,-0.07) rectangle (0.46,0.07);
+    \odport[free_space]{in}{-0.38,0}
+    \odport[electrical]{e1}{0.46,0}\odport[electrical]{e2}{0.46,0}
+  \else
+  \draw[od el, fill=white] (-0.22,-0.2) -- (0.22,-0.2) -- (0,0.2) -- cycle;
+  \draw[od el] (-0.22,0.2) -- (0.22,0.2) (0,0.2) -- (0,0.4) (0,-0.2) -- (0,-0.4);
+  \draw[od light] (-0.62,0.50) -- (-0.36,0.24);
+  \draw[od light] (-0.46,0.58) -- (-0.20,0.32);
+  \odport[free_space]{in}{-0.11,0}\odport[electrical]{e1}{0,-0.4}\odport[electrical]{e2}{0,0.4}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- quadrant photodiode
+% Four photodiodes in one disc: the quadrants dark, the gaps a light cross, the spot of light in the middle; the
+% outputs x, y and sum leave on top. view=top: the housing seen from above on a bench, as QuadrantPhotodiode
+% draws it in units of its box (0.6 here): 0.56 deep, the coupler 0.14 in front, the outputs at -0.14, 0, 0.14.
+\tikzset{pics/od qpd/.default={}, pics/od qpd/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od housing, rounded corners=0.04cm] (-0.168,-0.3) rectangle (0.168,0.3);
+    \draw[od alusmall] (-0.252,-0.15) rectangle (-0.168,0.15);
+    \foreach \odx in {-0.084,0,0.084} {\draw[od alusmall] ({\odx-0.024},0.3) rectangle ({\odx+0.024},0.36);}
+    \draw[od mark] (0,0) circle [radius=0.09];
+    \draw[od mark] (-0.09,0) -- (0.09,0) (0,-0.09) -- (0,0.09);
+    \odport[free_space]{in}{-0.252,0}
+    \odport[electrical]{x}{-0.084,0.36}\odport[electrical]{y}{0,0.36}\odport[electrical]{sum}{0.084,0.36}
+  \else
+    \draw[od el, fill=white] (-0.25,-0.25) rectangle (0.25,0.25);
+    \foreach \odsx/\odsy in {1/1,-1/1,-1/-1,1/-1} {
+      \fill[od paint={black!80}{ods800}] ({\odsx*0.016},{\odsy*0.016}) rectangle ({\odsx*0.23},{\odsy*0.23});}
+    \draw[od ray, fill=white] (0,0) circle [radius=0.05];
+    \draw[od el] (-0.15,0.25) -- (-0.15,0.4) (0,0.25) -- (0,0.4) (0.15,0.25) -- (0.15,0.4);
+    \odport[free_space]{in}{-0.25,0}
+    \odport[electrical]{x}{-0.15,0.4}\odport[electrical]{y}{0,0.4}\odport[electrical]{sum}{0.15,0.4}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- amplified photodetector
+% A detector and its amplifier in one housing, with the input aperture.
+\tikzset{pics/od ampdetector/.default={}, pics/od ampdetector/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od alusmall] (-0.75,-0.1) rectangle (-0.6,0.1);
+  \draw[od housing, rounded corners=0.11cm] (-0.6,-0.36) rectangle (0.6,0.36);
+  \draw[od mark] (-0.6,0) -- (-0.4,0) (-0.23,0) -- (-0.02,0) (0.3,0) -- (0.46,0);
+  \draw[od el, fill=white] (-0.4,-0.1) -- (-0.4,0.1) -- (-0.23,0) -- cycle;
+  \draw[od mark] (-0.23,-0.1) -- (-0.23,0.1);
+  \draw[od el, fill=white] (-0.02,-0.18) -- (-0.02,0.18) -- (0.3,0) -- cycle;
+  \draw[od el] (0.6,0) -- (0.75,0);
+  \odport[free_space]{in}{-0.75,0}\odport[electrical]{out}{0.75,0}
+}}}
+
+% ---------------------------------------------------------------- photomultiplier tube
+% A tube: the photocathode behind the window, the dynodes, the anode.
+\tikzset{pics/od pmt/.default={}, pics/od pmt/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od paint={od wg, fill=white}{od hair, draw=odglassE, top color=odglassA, bottom color=odglassB, od shadow}, rounded corners=0.2cm] (-0.75,-0.26) rectangle (0.75,0.26);
+  \draw[od el] (-0.6,-0.17) arc [start angle=-50, end angle=50, radius=0.222];
+  \foreach \odi in {0,...,4} {
+    \pgfmathsetmacro\odx{-0.34+\odi*0.19}
+    \pgfmathsetmacro\ods{ifthenelse(mod(\odi,2)==0,1,-1)}
+    \draw[od el] (\odx,\ods*0.16) -- (\odx+0.12,\ods*0.05);}
+  \draw[od el] (0.62,-0.14) -- (0.62,0.14);
+  \odport[free_space]{in}{-0.75,0}
+}}}
+
+% ---------------------------------------------------------------- camera
+% A lens barrel on a body that holds a pixel array.
+\tikzset{pics/od camera/.default={}, pics/od camera/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od tube] (-0.55,-0.2) rectangle (-0.2,0.2);
+  \draw[od el] (-0.45,-0.2) -- (-0.45,0.2);
+  \draw[od housing, rounded corners=0.11cm] (-0.2,-0.36) rectangle (0.6,0.36);
+  \foreach \odx in {0.05,0.2,0.35} {\foreach \ody in {-0.15,0,0.15} {
+    \draw[od pixel] (\odx-0.06,\ody-0.06) rectangle (\odx+0.06,\ody+0.06);}}
+  \odport[free_space]{in}{-0.55,0}
+}}}
+
+% ---------------------------------------------------------------- spectrometer
+% A Czerny-Turner spectrograph from above with its lid off: a chamfered body, the slit on the side input, a fold mirror,
+% the collimating mirror, the grating on its turret, the focusing mirror, and a cooled CCD head on the direct output. The
+% light draws a W. One unit is the box size of the part: Spectrometer.OUTLINE and LIGHT_PATH in devices.py hold this plan.
+\definecolor{odspec1}{HTML}{8B5CF6}\definecolor{odspec2}{HTML}{38BDF8}\definecolor{odspec3}{HTML}{4ADE80}
+\definecolor{odspec4}{HTML}{FACC15}\definecolor{odspec5}{HTML}{F87171}
+\newcommand\odcurved[3]{\begin{scope}[shift={(#1,#2)}, rotate=#3]   % a concave mirror, its face to the local -x
+  \draw[od back] (-0.006,-0.13) .. controls (0.026,-0.05) and (0.026,0.05) .. (-0.006,0.13) -- (0.05,0.13) -- (0.05,-0.13) -- cycle;
+  \draw[od coat] (-0.024,-0.13) .. controls (0.008,-0.05) and (0.008,0.05) .. (-0.024,0.13) -- (-0.006,0.13)
+    .. controls (0.026,0.05) and (0.026,-0.05) .. (-0.006,-0.13) -- cycle;
+\end{scope}}
+\tikzset{pics/od spectrometer/.default={}, pics/od spectrometer/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \def\odbody{(-0.69,0.5) -- (0.75,0.5) -- (0.75,-0.5) -- (-0.3,-0.5) -- (-0.69,-0.2) -- cycle}
+  % the camera first, its flange in the wall
+  \draw[od alu] (0.29,-0.78) rectangle (0.71,-0.54);
+  \fill[od paint={black!22}{odtrace}] (0.29,-0.585) rectangle (0.71,-0.57);
+  \foreach \odx in {0.34,0.4,...,0.67} {\draw[od ray] (\odx,-0.76) -- (\odx,-0.62);}
+  \draw[od alusmall] (0.35,-0.54) rectangle (0.65,-0.49);
+  \ifx\odlook\odlooktwod
+    \draw[od absorber, od shadow, rounded corners=0.02cm] \odbody;
+    \fill[ods900] (-0.64,0.45) -- (0.7,0.45) -- (0.7,-0.45) -- (-0.28,-0.45) -- (-0.64,-0.18) -- cycle;
+  \else
+    \draw[od wg, fill=white] \odbody;
+  \fi
+  \draw[od paint={od el, fill=white}{od hair, draw=ods600, fill=ods800}] (0.02,-0.29) circle [radius=0.155];   % the turret
+  \ifx\odlook\odlooktwod
+    % white light to the grating; from there each colour keeps its own stretch of the focusing mirror and its own pixel
+    \fill[white, fill opacity=0.32] (-0.69,0) -- (-0.4015,0.0585) -- (-0.346,0.397) -- (-0.574,0.323) -- (-0.4988,-0.0388) -- cycle;
+    \fill[white, fill opacity=0.24] (-0.574,0.323) -- (-0.346,0.397) -- (0.161,-0.3) -- (-0.121,-0.3) -- cycle;
+    \foreach \odi/\odc in {0/odspec1,1/odspec2,2/odspec3,3/odspec4,4/odspec5} {
+      \pgfmathsetmacro\oda{0.3859+0.04564*\odi}\pgfmathsetmacro\odb{0.3971-0.01484*\odi}
+      \pgfmathsetmacro\odp{-0.03+0.026*\odi}
+      \fill[\odc, fill opacity=0.9] (\odp,-0.3) -- (\oda,\odb) -- (\oda+0.04564,\odb-0.01484) -- (\odp+0.026,-0.3) -- cycle;
+      \fill[\odc, fill opacity=0.9] (\oda,\odb) -- (\oda+0.04564,\odb-0.01484) -- (\oda+0.02282,-0.42) -- cycle;}
+  \else
+    \foreach \ods in {-1,1} {\draw[od ray] (-0.69,0) -- (-0.46+\ods*0.05,\ods*0.05) -- (-0.46+\ods*0.114,0.36+\ods*0.037) -- (0.02+\ods*0.14,-0.3);}
+    \foreach \odi/\odc in {0/odw1,1/odw2,2/odw3,3/odw4} {
+      \pgfmathsetmacro\oda{0.4144+0.05705*\odi}\pgfmathsetmacro\odb{0.3878-0.01855*\odi}
+      \draw[od el, draw=\odc] (\oda-0.47,-0.3) -- (\oda,\odb) -- (\oda,-0.42);}
+  \fi
+  \begin{scope}[shift={(-0.46,0)}, rotate=45]                                 % the fold mirror
+    \draw[od back] (-0.09,-0.04) rectangle (0.09,-0.012);
+    \draw[od coat] (-0.09,-0.012) rectangle (0.09,0);
+  \end{scope}
+  \odcurved{-0.46}{0.36}{108}\odcurved{0.5}{0.36}{72}
+  \draw[od back] (-0.13,-0.345) rectangle (0.17,-0.318);                      % the grating
+  \draw[od coat] (-0.13,-0.318) rectangle (0.17,-0.3);
+  \foreach \odx in {-0.11,-0.07,...,0.14} {\draw[od ray] (\odx,-0.318) -- (\odx+0.02,-0.3);}
+  \draw[od back] (0.36,-0.46) rectangle (0.64,-0.44);                         % the pixel array
+  \foreach \odi in {0,...,6} {\draw[od pixel] ({0.36+\odi*0.04},-0.44) rectangle ({0.4+\odi*0.04},-0.42);}
+  \draw[od alusmall] (-0.75,-0.15) rectangle (-0.69,0.15);                    % the slit, a gap between two jaws
+  \fill[od paint={black!80}{ods800}] (-0.75,0.022) rectangle (-0.69,0.1) (-0.75,-0.022) rectangle (-0.69,-0.1);
+  \odport[free_space]{in}{-0.75,0}
+}}}
+
+% ---------------------------------------------------------------- cryostat
+% An optical cryostat: the cold head on top, the vacuum can with a window on
+% each side, the radiation shield inside it, and the sample on the cold finger.
+% view=top: from above, a round can with its shield, the two windows, and the
+% sample on the end of the cold finger in the middle.
+\tikzset{pics/od cryostat/.default={}, pics/od cryostat/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odsample{\odget{sample}}\def\odno{no}%
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od alu] (0,0) circle [radius=0.45];
+    \draw[od el] (0,0) circle [radius=0.34];
+    \ifx\odsample\odno\else
+    \draw[od axis] (-0.45,0) -- (0.45,0);
+    \draw[od copper] (-0.1,-0.1) rectangle (0.1,0.1);
+    \draw[od el, fill=black!70] (-0.03,-0.07) rectangle (0.03,0.07);
+    \fi
+    \draw[od glass] (-0.5,-0.12) rectangle (-0.41,0.12) (0.41,-0.12) rectangle (0.5,0.12);
+    \odport[free_space]{in}{-0.5,0}\odport[free_space]{out}{0.5,0}\odport[free_space]{sample}{0,0}
+    \odport[electrical]{e1}{0,-0.45}
+  \else
+  \draw[od alu] (-0.17,0.5) rectangle (0.17,0.72);
+  \foreach \ody in {0.555,0.61,0.665} {\draw[od ray] (-0.17,\ody) -- (0.17,\ody);}
+  \draw[od alu] (-0.09,0.36) rectangle (0.09,0.5);
+  \draw[od wg] (0.17,0.64) -- (0.27,0.64) -- (0.27,0.78);
+  \draw[od alu, rounded corners=0.12cm] (-0.48,-0.4) rectangle (0.48,0.36);
+  \draw[od el, rounded corners=0.08cm] (-0.38,-0.3) -- (-0.38,0.26) -- (0.38,0.26) -- (0.38,-0.3) -- cycle;
+  \draw[od copper] (-0.035,0.36) rectangle (0.035,0.09);
+  \ifx\odsample\odno\else
+  \draw[od axis] (-0.48,0) -- (0.48,0);
+  \draw[od copper] (-0.09,0.09) rectangle (0.09,-0.13);
+  \draw[od el, fill=black!70] (-0.025,-0.09) rectangle (0.025,0.05);
+  \fi
+  \draw[od glass] (-0.52,-0.12) rectangle (-0.44,0.12) (0.44,-0.12) rectangle (0.52,0.12);
+  \odport[free_space]{in}{-0.52,0}\odport[free_space]{out}{0.52,0}\odport[free_space]{sample}{0,0.72}
+  \odport[electrical]{e1}{0,-0.4}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- sample, beam block, knife edge
+% A sample: a chip in its holder, as in 3D. Its face looks toward "in", and the part's angle turns it to the light.
+% kind=cryostat: the same chip on its cold finger in a can, seen from above, with a window toward the beam.
+\tikzset{pics/od sample/.default={}, pics/od sample/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odchip{\draw[od paint={od el, fill=black!70}{od hair, draw=ods900, top color=ods600, bottom color=ods800}]}
+  \def\odtmp{cryostat}\ifx\odkind\odtmp
+    \draw[od alu] (0.02,0) circle [radius=0.36];
+    \draw[od copper] (0.05,-0.06) rectangle (0.38,0.06);
+    \draw[od glass] (-0.39,-0.11) rectangle (-0.3,0.11);
+    \odchip (-0.05,-0.2) rectangle (0.05,0.2);
+    \odport[free_space]{in}{-0.05,0}\odport[free_space]{out}{0.05,0}\odport[electrical]{e1}{0.02,-0.36}
+  \else
+    % In units of the aperture: the chip in a copper holder, a steel clip at each end. "in" is its face, "out" the back of
+    % the holder, and the two side ports are the edges of the chip.
+    \begin{scope}[x=0.8cm, y=0.8cm]
+    \draw[od copper, od paint={}{od shadow}] (0.01,-0.31) rectangle (0.07,0.31);
+    \odchip (-0.03,-0.25) rectangle (0.01,0.25);
+    \foreach \ods in {1,-1} {\draw[od alusmall] (-0.06,\ods*0.24) rectangle (0.01,\ods*0.3);}
+    \odport[free_space]{in}{-0.03,0}\odport[free_space]{out}{0.07,0}
+    \odport[free_space]{side_in}{-0.01,-0.25}\odport[free_space]{side_out}{-0.01,0.25}
+    \odport[electrical]{e1}{0.04,-0.31}
+    \end{scope}
+  \fi
+}}}
+% A beam block, as the part stands in 3D (Block.geometry_3d, in units of its size): a matte black flag dropped into
+% the beam, on a post and a base.
+\tikzset{pics/od beamblock/.default={}, pics/od beamblock/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \begin{scope}[x=0.6cm, y=0.6cm]
+  \draw[od rod] (-0.07,-0.55) rectangle (0.07,-0.2);
+  \draw[od absorber, od paint={}{od shadow}] (-0.45,-0.71) rectangle (0.45,-0.53);
+  \draw[od absorber, od paint={}{od shadow}] (-0.09,-0.225) rectangle (0.09,0.625);
+  \odport[free_space]{in}{-0.09,0}\odport[free_space]{out}{0.09,0}
+  \end{scope}
+}}}
+% A knife edge as a Foucault or schlieren diagram draws it (Razor, in units of its length): a solid wedge that comes up
+% from its holder and stops with its tip on the beam axis, so it cuts the light below the axis and the rest runs on.
+% Two ground facets catch the light apart, on a holder, a post and a foot.
+\tikzset{pics/od knifeedge/.default={}, pics/od knifeedge/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \begin{scope}[x=0.8cm, y=0.8cm]
+  \draw[od rod] (-0.03,-0.74) rectangle (0.03,-0.57);
+  \draw[od absorber, od paint={}{od shadow}] (-0.2,-0.8) rectangle (0.2,-0.74);
+  \draw[od paint={od el, fill=black}{od hair, draw=ods500, fill=ods200}] (-0.085,-0.46) -- (0,0) -- (0,-0.46) -- cycle;
+  \draw[od paint={od el, fill=black}{od hair, draw=ods600, top color=ods400, bottom color=ods600}] (0.085,-0.46) -- (0,0) -- (0,-0.46) -- cycle;
+  \draw[od absorber] (-0.15,-0.57) rectangle (0.15,-0.46);
+  \odport[free_space]{in}{-0.1,0}\odport[free_space]{out}{0.1,0}
+  \end{scope}
+}}}
+
+% ---------------------------------------------------------------- superconducting detector
+% An SNSPD: the cold housing, the chip with the nanowire meander, a snowflake
+% for "cold"; fibre in on the left, the readout coax out on the right.
+\tikzset{pics/od snspd/.default={}, pics/od snspd/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od fibre] (-0.7,0) -- (-0.35,0);
+  \draw[od el] (0.35,0) -- (0.7,0);
+  \draw[od case, rounded corners=0.08cm] (-0.35,-0.3) rectangle (0.35,0.3);
+  \draw[od paint={od el, fill=white}{od hair, draw=ods400, top color=ods100, bottom color=ods300}] (-0.18,-0.18) rectangle (0.18,0.18);
+  \draw[od el, od paint={}{draw=ods700}] (-0.13,-0.13) -- (-0.13,0.13) -- (-0.087,0.13) -- (-0.087,-0.13) -- (-0.043,-0.13)
+    -- (-0.043,0.13) -- (0,0.13) -- (0,-0.13) -- (0.043,-0.13) -- (0.043,0.13) -- (0.087,0.13) -- (0.087,-0.13)
+    -- (0.13,-0.13) -- (0.13,0.13);
+  \begin{scope}[shift={(0.255,0.215)}]
+    \foreach \oda in {0,60,120} {\draw[od el, od paint={}{draw=odglassE}] (\oda:-0.05) -- (\oda:0.05);}
+  \end{scope}
+  \odport[fiber]{in}{-0.7,0}\odport[electrical]{out}{0.7,0}
+}}}
+
+% ---------------------------------------------------------------- photon counting
+% A single-photon counting module: a case with one avalanche diode for each channel
+% (count). A channel takes a fibre on the left and gives a pulse on the right;
+% channel 1 is the top one. The pitch is 0.3, the ports stand at -0.7 and 0.7.
+\tikzset{pics/od photoncounter/.default={}, pics/od photoncounter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \pgfmathsetmacro\odh{\odn*0.15+0.08}
+  \draw[od body] (-0.42,-\odh) rectangle (0.42,\odh);
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{(\odn+1)*0.15-\odi*0.3}
+    \draw[od fibre] (-0.7,\ody) -- (-0.42,\ody);
+    \draw[od el] (0.42,\ody) -- (0.7,\ody);
+    \draw[od el, fill=white] (-0.27,\ody-0.09) -- (-0.27,\ody+0.09) -- (-0.11,\ody) -- cycle;    % the diode
+    \draw[od el] (-0.11,\ody-0.09) -- (-0.11,\ody+0.09);
+    \draw[od el, od paint={}{draw=odtrace}] (0.0,\ody-0.06) -- (0.09,\ody-0.06) -- (0.09,\ody+0.06)
+      -- (0.18,\ody+0.06) -- (0.18,\ody-0.06) -- (0.3,\ody-0.06);                                 % the pulse it gives
+    \odport[fiber]{fiber\odi}{-0.7,\ody}\odport[electrical]{pulse\odi}{0.7,\ody}
+  }
+}}}
+% A coincidence counter: pulses in on the left (count of them), the counts out on
+% the right. Its screen shows two pulses inside one timing window (a shaded band).
+\tikzset{pics/od coincidence/.default={}, pics/od coincidence/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \pgfmathsetmacro\odh{max(\odn*0.15+0.08,0.38)}
+  \draw[od body] (-0.5,-\odh) rectangle (0.5,\odh);
+  \draw[od screen] (-0.3,-0.25) rectangle (0.3,0.25);
+  \fill[od paint={black!12}{ods500, opacity=0.6}] (-0.08,-0.2) rectangle (0.09,0.2);
+  \foreach \ody in {0.1,-0.1} {
+    \draw[od trace, draw=\odtc] (-0.25,\ody-0.05) -- (-0.03,\ody-0.05) -- (-0.03,\ody+0.05) -- (0.04,\ody+0.05)
+      -- (0.04,\ody-0.05) -- (0.25,\ody-0.05);
+  }
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{(\odn+1)*0.15-\odi*0.3}
+    \draw[od el] (-0.7,\ody) -- (-0.5,\ody);
+    \odport[electrical]{in\odi}{-0.7,\ody}
+  }
+  \draw[od el] (0.5,0) -- (0.7,0);
+  \odport[electrical]{data}{0.7,0}
+}}}
+
+% ---------------------------------------------------------------- lock-in amplifier
+% A screen with a small signal lost in noise and the flat level the lock-in finds in it, the phase knob, and three
+% jacks: signal in, output X, reference in. The numbers are LockInAmplifier.BODY, SCREEN, KNOB and JACKS.
+\tikzset{pics/od lockin/.default={}, pics/od lockin/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.95,-0.35) rectangle (0.95,0.35);
+  \draw[od screen] (-0.85,-0.2) rectangle (0.1,0.25);
+  \draw[od ray] plot[domain=0:40, samples=41] ({-0.85+0.95*\x/40}, {-0.06+0.07*sin(\x*74.48)+0.04*sin(\x*234.91)});
+  \draw[od trace, draw=\odtc] (-0.8,0.12) -- (0.05,0.12);
+  \draw[od knob] (0.42,0.06) circle [radius=0.13];
+  \draw[od el] (0.42,0.06) -- ++(60:0.1);
+  \odjack{-0.6}{-0.35}\odjack{-0.15}{-0.35}\odjack{0.65}{-0.35}
+  \odport[electrical]{in}{-0.6,-0.5}\odport[electrical]{out}{-0.15,-0.5}\odport[electrical]{ref}{0.65,-0.5}
+}}}
+
+% ---------------------------------------------------------------- RF spectrum analyzer
+% A screen with a locked beat note (a narrow carrier on a noise pedestal, a servo bump either side), two knobs and
+% the RF input. The numbers are RFSpectrumAnalyzer.BODY, SCREEN, KNOBS and JACK; the trace is _beat_note.
+\tikzset{pics/od esa/.default={}, pics/od esa/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odtc{\odget{trace}}
+  \draw[od body] (-0.8,-0.45) rectangle (0.8,0.45);
+  \odscreen{-0.68}{-0.33}{0.36}{0.33}
+  \draw[od trace, draw=\odtc] plot[domain=-0.62:0.30, samples=161] (\x, {-0.24+0.012*sin(\x*7300)+0.008*sin(\x*11900)
+    +0.12*exp(-((\x+0.16)/0.12)^2)+0.06*exp(-((abs(\x+0.16)-0.2)/0.03)^2)+0.42*exp(-((\x+0.16)/0.012)^2)});
+  \odknob{0.58}{0.2}\odknob{0.58}{-0.05}
+  \odjack{0.58}{-0.45}
+  \odport[electrical]{in}{0.58,-0.6}
+}}}
+
+% ---------------------------------------------------------------- balanced detector
+% Two photodiodes in one housing, in series between the supplies, the output from the node between them: the
+% difference of the two photocurrents. The inputs in1 (+) and in2 (-) sit side by side on the front face, on their
+% couplers; the jack at the back. The plan of BalancedDetector, in units of its box (1 cm here): the housing 0.5 deep
+% and 0.8 wide, the inputs 0.4 apart, the couplers 0.06 deep.
+\tikzset{pics/od balanced/.default={}, pics/od balanced/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing, rounded corners=0.05cm] (-0.25,-0.4) rectangle (0.25,0.4);
+  \foreach \ods in {1,-1} {\draw[od alusmall] (-0.31,{\ods*0.2-0.1}) rectangle (-0.25,{\ods*0.2+0.1});}
+  \draw[od alusmall] (0.25,-0.06) rectangle (0.31,0.06);
+  \draw[od mark] (0.04,0.34) -- (0.04,-0.34) (0.04,0) -- (0.25,0);
+  \foreach \ody in {0.2,-0.2} {
+    \draw[od el, fill=white] (-0.04,{\ody-0.07}) -- (0.12,{\ody-0.07}) -- (0.04,{\ody+0.07}) -- cycle;
+    \draw[od mark] (-0.04,{\ody+0.07}) -- (0.12,{\ody+0.07});
+    \draw[od light] (-0.22,\ody) -- (-0.06,\ody);}
+  \fill[od paint={black}{ods700}] (0.04,0) circle [radius=0.022];
+  \odport[free_space]{in1}{-0.31,0.2}\odport[free_space]{in2}{-0.31,-0.2}\odport[electrical]{out}{0.31,0}
+}}}

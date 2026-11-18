@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.071044 23.808359" width="14.071044pt" height="23.808359pt"><g transform="translate(72.0,72.0)">
+<g id='od-sensor-page1'>
+<g stroke-miterlimit='10' transform='translate(-68.699469,-60.095823)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-sensor-pgfcp6'>
+<path d='M1.70709-9.67383V9.67383H4.55254V-9.67383ZM4.55254 9.67383'/> </clipPath>
+<g clip-path='url(#od-sensor-pgfcp6)'>
+<g transform='matrix(1,0,0,1,3.1298,0.0)'>
+<g transform='matrix(0.0567,0,0,0.38556,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-sensor-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-sensor-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M1.70709-9.67383V9.67383H4.55254V-9.67383ZM4.55254 9.67383' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-sensor-pgfcp8'>
+<path d='M-1.13791-8.5359V-5.69046H1.70709V-8.5359ZM1.70709-5.69046'/> </clipPath>
+<g clip-path='url(#od-sensor-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.28459,-7.11317)'>
+<g transform='matrix(0.05669,0,0,0.0567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-sensor-pgfsh9'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-sensor-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.13791-8.5359V-5.69046H1.70709V-8.5359ZM1.70709-5.69046' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-sensor-pgfcp10'>
+<path d='M-1.13791-5.69046V-2.845H1.70709V-5.69046ZM1.70709-2.845'/> </clipPath>
+<g clip-path='url(#od-sensor-pgfcp10)'>
+<g transform='matrix(1,0,0,1,0.28459,-4.26773)'>
+<g transform='matrix(0.05669,0,0,0.0567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-sensor-pgfsh9'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-sensor-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.13791-5.69046V-2.845H1.70709V-5.69046ZM1.70709-2.845' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-sensor-pgfcp11'>
+<path d='M-1.13791-2.845V.00043H1.70709V-2.845ZM1.70709 .00043'/> </clipPath>
+<g clip-path='url(#od-sensor-pgfcp11)'>
+<g transform='matrix(1,0,0,1,0.28459,-1.42229)'>
+<g transform='matrix(0.05669,0,0,0.0567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-sensor-pgfsh9'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-sensor-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.13791-2.845V.00043H1.70709V-2.845ZM1.70709 .00043' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-sensor-pgfcp12'>
+<path d='M-1.13791 .00043V2.84587H1.70709V.00043ZM1.70709 2.84587'/> </clipPath>
+<g clip-path='url(#od-sensor-pgfcp12)'>
+<g transform='matrix(1,0,0,1,0.28459,1.42314)'>
+<g transform='matrix(0.05669,0,0,0.0567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-sensor-pgfsh9'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-sensor-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.13791 .00043V2.84587H1.70709V.00043ZM1.70709 2.84587' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-sensor-pgfcp13'>
+<path d='M-1.13791 2.84587V5.69133H1.70709V2.84587ZM1.70709 5.69133'/> </clipPath>
+<g clip-path='url(#od-sensor-pgfcp13)'>
+<g transform='matrix(1,0,0,1,0.28459,4.26859)'>
+<g transform='matrix(0.05669,0,0,0.0567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-sensor-pgfsh9'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-sensor-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.13791 2.84587V5.69133H1.70709V2.84587ZM1.70709 5.69133' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-sensor-pgfcp14'>
+<path d='M-1.13791 5.69133V8.53677H1.70709V5.69133ZM1.70709 8.53677'/> </clipPath>
+<g clip-path='url(#od-sensor-pgfcp14)'>
+<g transform='matrix(1,0,0,1,0.28459,7.11404)'>
+<g transform='matrix(0.05669,0,0,0.0567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-sensor-pgfsh9'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-sensor-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.13791 5.69133V8.53677H1.70709V5.69133ZM1.70709 8.53677' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M4.55254 0H8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

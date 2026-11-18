@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.714252 28.627636" width="35.714252pt" height="28.627636pt"><g transform="translate(72.0,72.0)">
+<g id='od-mixer-page1'>
+<g stroke-miterlimit='10' transform='translate(-54.142881,-61.229496)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-15.6491 0H-8.5359M8.5359 0H15.6491M0-8.5359V-15.6491' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M8.5359 0C8.5359 4.71431 4.71431 8.5359 0 8.5359S-8.5359 4.71431-8.5359 0S-4.71431-8.5359 0-8.5359S8.5359-4.71431 8.5359 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M8.5359 0C8.5359 4.71431 4.71431 8.5359 0 8.5359S-8.5359 4.71431-8.5359 0S-4.71431-8.5359 0-8.5359S8.5359-4.71431 8.5359 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M8.5359 0C8.5359 4.71431 4.71431 8.5359 0 8.5359S-8.5359 4.71431-8.5359 0S-4.71431-8.5359 0-8.5359S8.5359-4.71431 8.5359 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M8.5359 0C8.5359 4.71431 4.71431 8.5359 0 8.5359S-8.5359 4.71431-8.5359 0S-4.71431-8.5359 0-8.5359S8.5359-4.71431 8.5359 0ZM0 0' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-mixer-pgfcp6'>
+<path d='M8.5359 0C8.5359 4.71431 4.71431 8.5359 0 8.5359S-8.5359 4.71431-8.5359 0S-4.71431-8.5359 0-8.5359S8.5359-4.71431 8.5359 0ZM0 0'/> </clipPath>
+<g clip-path='url(#od-mixer-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.3402,0,0,0.3402,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-mixer-pgfsh7'>
+ <stop offset='0.0' stop-color=' #e2e8f0 '/>
+ <stop offset='0.25' stop-color=' #e2e8f0 '/>
+ <stop offset='0.5' stop-color=' #f1f4f8 '/>
+ <stop offset='0.75' stop-color=' #fff '/>
+ <stop offset='1.0' stop-color=' #fff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-mixer-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M8.5359 0C8.5359 4.71431 4.71431 8.5359 0 8.5359S-8.5359 4.71431-8.5359 0S-4.71431-8.5359 0-8.5359S8.5359-4.71431 8.5359 0ZM0 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-6.03214-6.03214L6.03214 6.03214M-6.03214 6.03214L6.03214-6.03214' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

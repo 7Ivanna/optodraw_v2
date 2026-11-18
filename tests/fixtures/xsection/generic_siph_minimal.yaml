@@ -1,0 +1,72 @@
+name: generic_siph_minimal
+units: um
+
+substrate:
+  handle_thickness: 1.0
+  box_thickness: 2.0
+  handle_material: handle
+  box_material: sio2
+
+device:
+  material: silicon
+  thickness: 0.22
+  z_on_box: 0.0
+
+layout_layers:
+  RIB:
+    gds: [10, 0]
+  SLAB:
+    gds: [12, 0]
+  MT1:
+    gds: [105, 0]
+
+process:
+  - id: slab_etch
+    mask: "SLAB & ~RIB"
+    etch:
+      depth: 0.13
+      into: [device]
+
+  - id: full_etch
+    mask: "~(RIB | SLAB)"
+    etch:
+      depth: 0.22
+      into: [device]
+
+  - id: oxide1
+    fill:
+      material: oxide1
+      to_z: 1.0
+
+  - id: m1
+    mask: MT1
+    deposit:
+      material: m1
+      thickness: 0.2
+      conformality: 0.0
+
+output_layers:
+  - name: Oxide
+    union: [box, oxide1]
+    color: "#c0c0c0"
+    hatch: none
+    z_order: 0
+  - name: Silicon
+    from: device
+    color: "#004080"
+    hatch: none
+    z_order: 1
+  - name: Metal1
+    from: m1
+    color: "#ffcc00"
+    hatch: none
+    z_order: 2
+
+render:
+  z_exaggeration: 28
+  y_margin_um: 0.5
+  show_substrate: true
+  show_box_line: true
+  legend: right
+  dpi: 300
+  separate_layers: true

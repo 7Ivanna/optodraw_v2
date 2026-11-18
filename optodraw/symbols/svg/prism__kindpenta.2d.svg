@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.907826 26.907826" width="26.907826pt" height="26.907826pt"><g transform="translate(72.0,72.0)">
+<g id='od-prism__kindpenta-page1'>
+<g stroke-miterlimit='10' transform='translate(-60.955514,-56.136671)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-prism__kindpenta-pgfcp6'>
+<path d='M-8.5359-8.5359V8.5359L3.41418 13.37282L13.37282 3.41418L8.5359-8.5359Z'/> </clipPath>
+<g clip-path='url(#od-prism__kindpenta-pgfcp6)'>
+<g transform='matrix(1,0,0,1,2.41846,2.41846)'>
+<g transform='matrix(0.43658,0,0,0.43658,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-prism__kindpenta-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-prism__kindpenta-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-8.5359-8.5359V8.5359L3.41418 13.37282L13.37282 3.41418L8.5359-8.5359Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.8'>
+<g stroke='#64748b'>
+<g stroke-linecap='butt'>
+<g stroke-linejoin='round'>
+<g stroke-width='1.1'>
+<path d='M-8.5359 8.5359L3.41418 13.37282M13.37282 3.41418L8.5359-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-8.5359 0H11.97874L-.31302 11.865L-.99594-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-8.5359 0H5.47227' fill='none'/>
+<g fill='#ef4444'>
+<g transform='translate(4.51317,0.0)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.21504 0L.45015 .75204L1.0341 0L.45015-.75204Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-.79666-2.84544L-.8447-4.05096' fill='none'/>
+<g fill='#ef4444'>
+<g transform='matrix(-0.04005,-0.99915,0.99915,-0.04005,-0.80627,-3.09268)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.21504 0L.45015 .75204L1.0341 0L.45015-.75204Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

@@ -1,0 +1,161 @@
+[
+ {
+  "route": "index",
+  "source": "index.mdx",
+  "group": "Start",
+  "title": "optodraw",
+  "description": "Build and explore optical systems in Python or a visual editor, with 1D schematics, 2D layouts, 3D scenes, ray tracing and animation.",
+  "frontmatter": {
+   "template": "splash",
+   "hero": {
+    "title": "Design and explore optical systems.",
+    "tagline": "Build free-space and photonic-chip systems in Python or the visual editor. Work in 1D, 2D and 3D, trace rays, animate light, and export figures and layouts.",
+    "actions": [
+     {
+      "text": "Draw your first system",
+      "link": "/get-started/",
+      "icon": "right-arrow"
+     },
+     {
+      "text": "Explore examples",
+      "link": "/examples/",
+      "variant": "minimal"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "route": "get-started",
+  "source": "get-started.mdx",
+  "group": "Start",
+  "title": "Get started",
+  "description": "Install optodraw and draw a first setup."
+ },
+ {
+  "route": "examples",
+  "source": "examples.mdx",
+  "group": "Start",
+  "title": "Examples",
+  "description": "Published figures, redrawn with optodraw. Run each one in the browser."
+ },
+ {
+  "route": "free-space",
+  "source": "free-space.mdx",
+  "group": "Drawing",
+  "title": "Free-space benches",
+  "description": "Lasers, optics and detectors on a bench, with beams between them."
+ },
+ {
+  "route": "ray-tracing",
+  "source": "ray-tracing.mdx",
+  "group": "Drawing",
+  "title": "Ray tracing",
+  "description": "Trace rays and bundles through lenses, mirrors and splitters."
+ },
+ {
+  "route": "chips",
+  "source": "chips.mdx",
+  "group": "Drawing",
+  "title": "Photonic chips",
+  "description": "Place on-chip parts and route waveguides between their ports."
+ },
+ {
+  "route": "gds",
+  "source": "gds.md",
+  "group": "Drawing",
+  "title": "GDS layouts",
+  "description": "Import a GDS mask and see it in 2D, in 3D and in cross-section."
+ },
+ {
+  "route": "electronics",
+  "source": "electronics.mdx",
+  "group": "Drawing",
+  "title": "Electronics",
+  "description": "Pads, drivers, amplifiers and electrical routes beside the optics."
+ },
+ {
+  "route": "figures",
+  "source": "figures.mdx",
+  "group": "Outputs",
+  "title": "Figures for papers",
+  "description": "SVG, TikZ and 1D schematics at the size of the page."
+ },
+ {
+  "route": "3d",
+  "source": "3d.mdx",
+  "group": "Outputs",
+  "title": "3D views and images",
+  "description": "An interactive 3D view and saved 3D images."
+ },
+ {
+  "route": "animation",
+  "source": "animation.md",
+  "group": "Outputs",
+  "title": "Animation",
+  "description": "Light moving through the setup, as a video or a deck."
+ },
+ {
+  "route": "models",
+  "source": "models.mdx",
+  "group": "Outputs",
+  "title": "Spectra and models",
+  "description": "Spectra from sourced numbers and from imported S-parameters."
+ },
+ {
+  "route": "guides/editor",
+  "source": "guides/editor.md",
+  "group": "Guides",
+  "title": "The editor",
+  "description": "Draw without code in the browser or the desktop app."
+ },
+ {
+  "route": "guides/your-own-parts",
+  "source": "guides/your-own-parts.md",
+  "group": "Guides",
+  "title": "Your own parts",
+  "description": "Define a part with its own ports and use it in your scenes."
+ },
+ {
+  "route": "guides/cross-sections",
+  "source": "guides/cross-sections.mdx",
+  "group": "Guides",
+  "title": "Cross-sections",
+  "description": "Cut a GDS along a line, run the process its stack implies, and draw the cut as a schematic or a 3D slab."
+ },
+ {
+  "route": "guides/ai",
+  "source": "guides/ai.md",
+  "group": "Guides",
+  "title": "Design with an AI assistant",
+  "description": "Drive optodraw from an AI assistant through MCP."
+ },
+ {
+  "route": "reference/api",
+  "source": "reference/api.md",
+  "group": "Reference",
+  "title": "Python API",
+  "description": "The main classes and functions."
+ },
+ {
+  "route": "reference/parts",
+  "source": "reference/parts.mdx",
+  "group": "Reference",
+  "title": "Parts",
+  "description": "Every part optodraw draws."
+ },
+ {
+  "route": "reference/compatibility",
+  "source": "reference/compatibility.md",
+  "group": "Reference",
+  "title": "Compatibility",
+  "description": "Python versions, optional extras and other tools."
+ },
+ {
+  "route": "project",
+  "source": "project.md",
+  "group": "Project",
+  "title": "Project",
+  "description": "Cite optodraw, its license and how it is built."
+ }
+]

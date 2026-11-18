@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5.969494 24.394521" width="5.969494pt" height="24.394521pt"><g transform="translate(72.0,72.0)">
+<g id='od-iris__kindstop-page1'>
+<g stroke-miterlimit='10' transform='translate(-69.015256,-59.802748)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-iris__kindstop-pgfcp6'>
+<path d='M-.99594 3.69899V10.243H.99594V3.69899ZM-.99594-10.243V-3.69899H.99594V-10.243ZM.99594-3.69899'/> </clipPath>
+<g clip-path='url(#od-iris__kindstop-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.03969,0,0,0.40823,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-iris__kindstop-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-iris__kindstop-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-.99594 3.69899V10.243H.99594V3.69899ZM-.99594-10.243V-3.69899H.99594V-10.243ZM.99594-3.69899' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

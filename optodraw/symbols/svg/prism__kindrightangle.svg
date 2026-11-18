@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.406904 20.406904" width="20.406904pt" height="20.406904pt"><g transform="translate(72.0,72.0)">
+<g>
+<g stroke-miterlimit='10' transform='translate(-61.796553,-61.796553)scale(0.996264,-0.996264)'>
+<g fill='#000' stroke='#000'>
+<g stroke-width='0.4'>
+<g stroke-width='0.55'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g fill='#d9ecf7'>
+<path d='M-7.96672-7.96672V7.96672H7.96672Z'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.35'>
+<g stroke-linecap='round'>
+<path d='M-7.96672 0H0V7.96672' fill='none'/>
+</g>
+</g>
+<g stroke-width='0.35'>
+<g stroke-linecap='round'>
+<path d='M-7.96672 0H-5.03606' fill='none'/>
+<g transform='translate(-6.01419,0.0)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.15088 0L.52519 .69405L1.06563 0L.52519-.69405Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+<g stroke-width='0.35'>
+<g stroke-linecap='round'>
+<path d='M0 0V3.21504' fill='none'/>
+<g transform='matrix(0.0,1.0,-1.0,0.0,0.0,2.23691)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.15088 0L.52519 .69405L1.06563 0L.52519-.69405Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

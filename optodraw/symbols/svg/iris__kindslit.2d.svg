@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.635128 24.942446" width="9.635128pt" height="24.942446pt"><g transform="translate(72.0,72.0)">
+<g id='od-iris__kindslit-page1'>
+<g stroke-miterlimit='10' transform='translate(-67.182438,-59.528781)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-iris__kindslit-pgfcp6'>
+<path d='M-2.56064 10.243H2.56064V5.69046L0 1.13791L-2.56064 5.69046Z'/> </clipPath>
+<g clip-path='url(#od-iris__kindslit-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,5.69044)'>
+<g transform='matrix(0.10205,0,0,0.18144,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-iris__kindslit-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-iris__kindslit-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-2.56064 10.243H2.56064V5.69046L0 1.13791L-2.56064 5.69046Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-iris__kindslit-pgfcp8'>
+<path d='M-2.56064-10.243H2.56064V-5.69046L0-1.13791L-2.56064-5.69046Z'/> </clipPath>
+<g clip-path='url(#od-iris__kindslit-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,-5.69044)'>
+<g transform='matrix(0.10205,0,0,0.18144,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-iris__kindslit-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-iris__kindslit-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-2.56064-10.243H2.56064V-5.69046L0-1.13791L-2.56064-5.69046Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

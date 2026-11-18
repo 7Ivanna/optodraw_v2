@@ -1,0 +1,11 @@
+GDS Lens 1.7.0 (MIT), by Ethan Lowenthal: https://github.com/EthanLowenthal/GDS-Lens
+
+gds-lens.js is dist/esm/gds-lens.js of the published npm package, unchanged:
+  https://registry.npmjs.org/gds-lens/-/gds-lens-1.7.0.tgz
+  tarball sha256 5b79d4808c6e55afe5f45b6a576084bd90e25a912e3dfcdbd1a173129a9c1618 (its sha512 equals the
+  registry's dist.integrity)
+  gds-lens.js sha256 56ce13fb77926de4374a1a1dfa617ccfe7d820d946f47f346b5e55fd2c94050c
+
+LICENCE.md is GDS Lens's licence. THIRD-PARTY-LICENSES.md lists the code it bundles (gdstk and Clipper under
+the Boost Software License 1.0, Qhull under the Qhull licence, earcut.hpp under ISC, zlib under the zlib
+licence, the Emscripten runtime under MIT and NCSA, lil-gui under MIT), with their texts.

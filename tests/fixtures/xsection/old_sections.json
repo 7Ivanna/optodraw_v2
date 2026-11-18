@@ -1,0 +1,1387 @@
+{
+ "cornerstone_si500/core": {
+  "layers": null,
+  "regions": [
+   [
+    "handle",
+    "875a2b356a36b69072877bdab921ce4e5b06c38e9f850389ec74a8d93a3ab3cc"
+   ],
+   [
+    "box",
+    "7b00ee6de08345ce05302f1a44e70a1333228a931724e18d60d6bb725b11535b"
+   ],
+   [
+    "device",
+    "8748aaff857d4e678ef873dd252eb1b36a49ed1decdd339e40fa92044faf0221"
+   ],
+   [
+    "oxide",
+    "ee98f8bf7004622523f613b37ca536b0903b952a06cf8e83b49e4e66698709eb"
+   ]
+  ],
+  "art": "6b9b625041834091b9c0f197beb7987ec8f6fda6667840b3f97816073bfa82fa",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    35.549
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    17.167,
+    43.525
+   ],
+   [
+    "500 nm",
+    "middle",
+    44.5,
+    15.683
+   ],
+   [
+    "500 nm",
+    "end",
+    39.01,
+    17.283
+   ],
+   [
+    "Si",
+    "middle",
+    44.5,
+    21.948
+   ],
+   [
+    "BOX",
+    "middle",
+    44.5,
+    29.032
+   ],
+   [
+    "SiO2",
+    "middle",
+    31.635,
+    14.183
+   ]
+  ]
+ },
+ "cornerstone_si500/pyramid": {
+  "layers": [
+   [
+    3,
+    0
+   ],
+   [
+    5,
+    0
+   ],
+   [
+    20,
+    0
+   ],
+   [
+    21,
+    0
+   ],
+   [
+    24,
+    0
+   ],
+   [
+    25,
+    0
+   ],
+   [
+    39,
+    0
+   ],
+   [
+    41,
+    0
+   ]
+  ],
+  "regions": [
+   [
+    "handle",
+    "ed3d4aa054c44dd20c53dbd01d7f9f3a8f60e0fe7b9d4bd13bcd7fec27035ee6"
+   ],
+   [
+    "box",
+    "95937e19f203f29d6cfaf6638f590d98500c56046aa95015b16c683dd934ef51"
+   ],
+   [
+    "device",
+    "1d571c7e7bbae5cd5d54e0ce18ce2e73edc63e7d44fe719df163402beb288b20"
+   ],
+   [
+    "oxide",
+    "ca1c8165870f44c3d39e9d576b01159f2c66e420b8ddc0773681d63394528fb8"
+   ],
+   [
+    "Heater",
+    "a9de14aa4ddef3f4244c42638e123f93a3dbc4a0fa3bd435f9da40b5eea42ff1"
+   ],
+   [
+    "Pad",
+    "b49480a38b2c074c1e25b55a6898439bfd44aa75994e132ef175367e9f1c7627"
+   ]
+  ],
+  "art": "80f97d679c0221171591516325cc36370fd7467831aa89903a9dd02194e81d67",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    35.5,
+    16.819
+   ],
+   [
+    "2 \u00b5m",
+    "start",
+    10.053,
+    24.794
+   ],
+   [
+    "Pad",
+    "start",
+    72.0,
+    4.057
+   ],
+   [
+    "Heater",
+    "middle",
+    19.942,
+    7.39
+   ],
+   [
+    "Si",
+    "middle",
+    61.947,
+    8.164
+   ],
+   [
+    "N",
+    "start",
+    72.0,
+    10.757
+   ],
+   [
+    "P",
+    "start",
+    72.0,
+    14.462
+   ],
+   [
+    "N++",
+    "start",
+    72.0,
+    18.166
+   ],
+   [
+    "P++",
+    "start",
+    72.0,
+    21.871
+   ],
+   [
+    "BOX",
+    "start",
+    72.0,
+    27.559
+   ],
+   [
+    "SiO2",
+    "middle",
+    51.392,
+    7.761
+   ]
+  ]
+ },
+ "cornerstone_sin300/core": {
+  "layers": null,
+  "regions": [
+   [
+    "handle",
+    "875a2b356a36b69072877bdab921ce4e5b06c38e9f850389ec74a8d93a3ab3cc"
+   ],
+   [
+    "box",
+    "7b00ee6de08345ce05302f1a44e70a1333228a931724e18d60d6bb725b11535b"
+   ],
+   [
+    "device",
+    "8af3dab77e942721994779d7a7f7c78b18c2557bb604fd948d12f23ecf9e7a91"
+   ],
+   [
+    "oxide",
+    "246bc8b94376d2687131d493ba885da22c8377be8d684cc853f54808bad60923"
+   ]
+  ],
+  "art": "50065efc68a737fcb5c1179443957d3ee4f9623ecbbf56eeba86d3ecbd42045c",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    32.716
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    17.167,
+    40.691
+   ],
+   [
+    "500 nm",
+    "middle",
+    44.5,
+    15.683
+   ],
+   [
+    "300 nm",
+    "end",
+    39.01,
+    17.283
+   ],
+   [
+    "SiN",
+    "middle",
+    44.5,
+    20.532
+   ],
+   [
+    "BOX",
+    "middle",
+    44.5,
+    26.198
+   ],
+   [
+    "SiO2",
+    "middle",
+    56.331,
+    14.677
+   ]
+  ]
+ },
+ "cornerstone_sin300/pyramid": {
+  "layers": [
+   [
+    203,
+    0
+   ],
+   [
+    204,
+    0
+   ],
+   [
+    39,
+    0
+   ],
+   [
+    41,
+    0
+   ]
+  ],
+  "regions": [
+   [
+    "handle",
+    "9ab8e253178fb2f0c22005a39a23d6689a9817c90447fe37be17535020c4e895"
+   ],
+   [
+    "box",
+    "90d8b1fb5b3e57e575492dc22b484ef8313ed04581177c82de66d31464ef3b83"
+   ],
+   [
+    "device",
+    "abe387ae7c915699a58cfa70468d246a62b608c3b2383041427c87a660e9e1bf"
+   ],
+   [
+    "oxide",
+    "f3fba3e556e7c457d772dcc98144f0a346ac2a869b0cb2e804aadd9b89f0b373"
+   ],
+   [
+    "Heater",
+    "9bc6c0fc03224259a7978358a1184d444635827784546ccd323d270aa797b069"
+   ],
+   [
+    "Pad",
+    "3aa9ab12e7aac5df95c8e19f379cdee8119549108eb13e079e3319e3a24b4e0d"
+   ]
+  ],
+  "art": "fb3071a66673dec0e416d6a88b931b84fa078c4799f7b02514773d6755be940a",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    29.947
+   ],
+   [
+    "2 \u00b5m",
+    "start",
+    18.455,
+    37.922
+   ],
+   [
+    "1 \u00b5m",
+    "middle",
+    13.591,
+    17.1
+   ],
+   [
+    "1 \u00b5m",
+    "middle",
+    21.318,
+    14.723
+   ],
+   [
+    "Heater",
+    "middle",
+    44.5,
+    10.937
+   ],
+   [
+    "Pad",
+    "middle",
+    44.5,
+    5.528
+   ],
+   [
+    "SiN",
+    "middle",
+    75.409,
+    17.525
+   ],
+   [
+    "BOX",
+    "middle",
+    44.5,
+    24.556
+   ],
+   [
+    "SiO2",
+    "middle",
+    69.755,
+    14.17
+   ]
+  ]
+ },
+ "gdsfactory_generic/core": {
+  "layers": null,
+  "regions": [
+   [
+    "handle",
+    "875a2b356a36b69072877bdab921ce4e5b06c38e9f850389ec74a8d93a3ab3cc"
+   ],
+   [
+    "box",
+    "7b00ee6de08345ce05302f1a44e70a1333228a931724e18d60d6bb725b11535b"
+   ],
+   [
+    "device",
+    "f3175293256cb0f3eb65602ea944aa778a6aaa45892ed2cf52e95f4a403c18ed"
+   ],
+   [
+    "oxide",
+    "a209a2bfd1b56cee1e5375774c6cc3404ccd3ac068f898ace5f9575189049ab0"
+   ]
+  ],
+  "art": "bbb1db6157463fc85a6fa73a54226e00dc136c49722acca84d25d0d9a54447bc",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    28.616
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    17.167,
+    36.591
+   ],
+   [
+    "500 nm",
+    "middle",
+    44.5,
+    12.717
+   ],
+   [
+    "220 nm",
+    "end",
+    39.01,
+    14.317
+   ],
+   [
+    "Si",
+    "middle",
+    44.5,
+    20.456
+   ],
+   [
+    "BOX",
+    "middle",
+    43.983,
+    23.99
+   ],
+   [
+    "SiO2",
+    "middle",
+    56.331,
+    14.218
+   ]
+  ]
+ },
+ "gdsfactory_generic/pyramid": {
+  "layers": [
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    3,
+    0
+   ],
+   [
+    20,
+    0
+   ],
+   [
+    21,
+    0
+   ],
+   [
+    24,
+    0
+   ],
+   [
+    25,
+    0
+   ],
+   [
+    5,
+    0
+   ],
+   [
+    34,
+    0
+   ],
+   [
+    40,
+    0
+   ],
+   [
+    41,
+    0
+   ],
+   [
+    47,
+    0
+   ],
+   [
+    44,
+    0
+   ],
+   [
+    45,
+    0
+   ],
+   [
+    43,
+    0
+   ],
+   [
+    49,
+    0
+   ]
+  ],
+  "regions": [
+   [
+    "handle",
+    "792c35ac58d0a40bf226806ae1267b5c7569363c184425e165465923b6de8478"
+   ],
+   [
+    "box",
+    "83dc3b19788f1b1ff0f650b80f2c87ea7280f404684586f723ab7a74d0a61757"
+   ],
+   [
+    "device",
+    "828a97630dec982998eadb1c0fcf50a62e862ee3000c843cb5a1e7a34ebb28ae"
+   ],
+   [
+    "GE",
+    "7d225ed5bd6efd7ce311c81a10fc85886241dea4e1dc2325f6dfe51e9caef1a1"
+   ],
+   [
+    "oxide",
+    "928732a31e31c4cb11006044076a8c932a0f68cfbd95a8a15ddef27363b39ea8"
+   ],
+   [
+    "WGN (SiN)",
+    "50f23f88d81ea059869807a3e431fc74e5d0bdf5bce353c45909b15951b2b8df"
+   ],
+   [
+    "VIAC",
+    "21890afb69c4ea4752464397e19febbd4e6615c0454144b7972af85a6ecfd835"
+   ],
+   [
+    "M1",
+    "02c3b15049ca27439cbc8a9efc4d73c1538f2bbf23b9967c51080f0ddf0641c6"
+   ],
+   [
+    "HEATER",
+    "f6523cbf442d4933dc3b7695cfd544a485e53d01485442fdfc90d14b3fae441e"
+   ],
+   [
+    "VIA1",
+    "87e74196df54660eab4b70b16a077d8d2edd281c30e8f8f8d78103a6946315bb"
+   ],
+   [
+    "M2",
+    "6a1c0015eebd86f7b16ad0460232b8996e9de9103aaf529ef62510d5a104d12e"
+   ],
+   [
+    "VIA2",
+    "87e74196df54660eab4b70b16a077d8d2edd281c30e8f8f8d78103a6946315bb"
+   ],
+   [
+    "M3",
+    "9f38a3d2d5673de13dc15a9218598362cec082be8f09afcc974d25af8b94f4b8"
+   ]
+  ],
+  "art": "4eb4671fd7c0c0a39d15332cd0bace49e806a2231b2977b3da3964585d8b29cd",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    35.5,
+    278.585
+   ],
+   [
+    "5 \u00b5m",
+    "start",
+    22.462,
+    287.889
+   ],
+   [
+    "100 nm",
+    "end",
+    10.891,
+    285.975
+   ],
+   [
+    "z \u00d7 20",
+    "start",
+    31.353,
+    287.889
+   ],
+   [
+    "Si",
+    "middle",
+    6.781,
+    215.557
+   ],
+   [
+    "GE",
+    "middle",
+    35.5,
+    203.057
+   ],
+   [
+    "WGN (SiN)",
+    "middle",
+    35.5,
+    186.786
+   ],
+   [
+    "M1",
+    "middle",
+    35.5,
+    165.537
+   ],
+   [
+    "HEATER",
+    "middle",
+    35.5,
+    137.78
+   ],
+   [
+    "M2",
+    "middle",
+    35.5,
+    110.023
+   ],
+   [
+    "M3",
+    "middle",
+    35.519,
+    93.501
+   ],
+   [
+    "N",
+    "middle",
+    35.5,
+    216.84
+   ],
+   [
+    "VIAC",
+    "middle",
+    17.719,
+    177.783
+   ],
+   [
+    "P",
+    "start",
+    72.0,
+    216.84
+   ],
+   [
+    "N++",
+    "start",
+    72.0,
+    213.136
+   ],
+   [
+    "P++",
+    "start",
+    72.0,
+    220.545
+   ],
+   [
+    "BOX",
+    "middle",
+    35.5,
+    248.33
+   ],
+   [
+    "SiO2",
+    "middle",
+    17.359,
+    18.194
+   ]
+  ]
+ },
+ "siepic_ebeam/core": {
+  "layers": null,
+  "regions": [
+   [
+    "handle",
+    "7f39acf2bd9e96496f286d770f279c8ce6cb5784219d0ef37d4889861db4a307"
+   ],
+   [
+    "box",
+    "fb1568d70d409d07c273d476ee25b36caabae69a56e054edbc0066e40cd1a936"
+   ],
+   [
+    "device",
+    "87e74196df54660eab4b70b16a077d8d2edd281c30e8f8f8d78103a6946315bb"
+   ],
+   [
+    "oxide",
+    "f5f32f100bb76f4ed4f62af22f2c4879a07e48f80359df7f781af34db210aab6"
+   ],
+   [
+    "Si",
+    "b619487dcf897e9d0eedc0b58018805d644d960c3caa61b15fa0701d1664fddb"
+   ]
+  ],
+  "art": "0c8f7d9ad57c7a54e5157ff4886c1f88196a3f0e9dace8511ffdb50025530c97",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    28.616
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    17.167,
+    36.591
+   ],
+   [
+    "Si",
+    "middle",
+    44.5,
+    13.541
+   ],
+   [
+    "BOX",
+    "middle",
+    44.5,
+    22.098
+   ],
+   [
+    "SiO2",
+    "middle",
+    31.738,
+    14.144
+   ]
+  ]
+ },
+ "siepic_ebeam/pyramid": {
+  "layers": [
+   [
+    1,
+    0
+   ],
+   [
+    4,
+    0
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    1,
+    69
+   ],
+   [
+    6,
+    0
+   ],
+   [
+    201,
+    0
+   ],
+   [
+    203,
+    0
+   ],
+   [
+    205,
+    0
+   ],
+   [
+    13,
+    0
+   ],
+   [
+    11,
+    0
+   ],
+   [
+    12,
+    0
+   ],
+   [
+    40,
+    0
+   ]
+  ],
+  "regions": [
+   [
+    "handle",
+    "4b4ddcebb3998e3c67dae35bfa6f785b3cfb09172a56a1613d051febe3251b9d"
+   ],
+   [
+    "box",
+    "9a182b6ee62f669af2990205a5fa5868580c6b7cfa13faecf49f20ac047079ae"
+   ],
+   [
+    "device",
+    "2e3a9f3866b02a899290b26417d38224e8d2a36411ead446491e763e7df69570"
+   ],
+   [
+    "oxide",
+    "af73a5fec436a42f47e67d54e822fff190bff3fe46310da42c41bdebdd2401fc"
+   ],
+   [
+    "Si",
+    "5a819ae597fe8a1c2149584d9554ebf371d4b2f6c08a5c0c2d0c7b7b73906e06"
+   ],
+   [
+    "Si 90 nm rib",
+    "058932f3a67b3a031eccc8e7f4640cbd599e37ce41ac16c9544b12f2a0c3520c"
+   ],
+   [
+    "Si Litho 193 nm",
+    "7581fd64d76f8c655569304e17423ba2d0bfbef4639c3ce71e9a44dd8bd0f1d8"
+   ],
+   [
+    "M1 heater",
+    "15d412db760fe99838c88a7c012ed5197af07d4451140d1e5fde821deb1ce8ab"
+   ],
+   [
+    "VC (via)",
+    "6ee18816bcc5b20becd5ca74a8acf315a7533cc3ef2c910dd3184a0a7d957762"
+   ],
+   [
+    "M2 router",
+    "9e239359653b73b517647e1448e61ff570738f26600376d3b168d8e103837060"
+   ]
+  ],
+  "art": "7498eedb57ed00aa0f4fd9f50d15e913ae5a6bc84781b4e65246e6dff787899a",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    31.637,
+    67.542
+   ],
+   [
+    "5 \u00b5m",
+    "start",
+    23.867,
+    75.518
+   ],
+   [
+    "200 nm",
+    "end",
+    10.891,
+    73.901
+   ],
+   [
+    "z \u00d7 5",
+    "start",
+    32.758,
+    75.518
+   ],
+   [
+    "SiN",
+    "middle",
+    9.684,
+    50.023
+   ],
+   [
+    "M2 router",
+    "start",
+    64.274,
+    27.521
+   ],
+   [
+    "VC (via)",
+    "start",
+    64.274,
+    34.655
+   ],
+   [
+    "M1 heater",
+    "start",
+    64.274,
+    40.144
+   ],
+   [
+    "Si Litho 193 nm",
+    "start",
+    64.274,
+    46.62
+   ],
+   [
+    "Si 90 nm rib",
+    "start",
+    64.274,
+    49.803
+   ],
+   [
+    "Si",
+    "start",
+    64.274,
+    52.986
+   ],
+   [
+    "BOX",
+    "middle",
+    8.586,
+    58.392
+   ],
+   [
+    "SiO2",
+    "middle",
+    7.488,
+    16.544
+   ]
+  ]
+ },
+ "siepic_ebeam_si/core": {
+  "layers": null,
+  "regions": [
+   [
+    "handle",
+    "4d241e8e7d4151e35bd6da292c12d4fdeb79d6e409197c5c86dee4b7d7fc8753"
+   ],
+   [
+    "box",
+    "d0995432ea3255368e87a743ec4a34e6b7488ca298fad353e21591dc70c1eca0"
+   ],
+   [
+    "device",
+    "b619487dcf897e9d0eedc0b58018805d644d960c3caa61b15fa0701d1664fddb"
+   ],
+   [
+    "oxide",
+    "605229ed13d1e483d94cc0cf03b13ffe2fbecf44e6bf57117170bd1a3a9a0fc1"
+   ]
+  ],
+  "art": "34bb77479d6d2ad7fe3560a99230dfd6f76df9dbc88170e4749bc26d6406c273",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    28.616
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    17.167,
+    36.591
+   ],
+   [
+    "500 nm",
+    "middle",
+    44.5,
+    12.717
+   ],
+   [
+    "220 nm",
+    "end",
+    39.01,
+    14.317
+   ],
+   [
+    "Si",
+    "middle",
+    44.5,
+    20.456
+   ],
+   [
+    "BOX",
+    "middle",
+    43.983,
+    23.99
+   ],
+   [
+    "SiO2",
+    "middle",
+    6.379,
+    14.186
+   ]
+  ]
+ },
+ "siepic_ebeam_si/pyramid": {
+  "layers": [
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    205,
+    0
+   ]
+  ],
+  "regions": [
+   [
+    "handle",
+    "4fc0ef3a7a75898a23b2b4f02fea4aba018b37ca7c954c8160467ac369103ec1"
+   ],
+   [
+    "box",
+    "6129e5bab768aa842c1764e369d2481cc3a82aec35ebf3c60c1666933a9c496b"
+   ],
+   [
+    "device",
+    "f0f5078e8f8cf2d4ce1134ec55173697d940b5bd24a138da92ca76df80781b1c"
+   ],
+   [
+    "oxide",
+    "7247df1a1a52ae5cf61ea9d3e1e96528c79cd450be6293f06ea2061e11a5b0d6"
+   ]
+  ],
+  "art": "38af41fec021089b96fb584fd59ec7f27383b7acaa264ad01ce31033d70d8a35",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    21.342
+   ],
+   [
+    "2 \u00b5m",
+    "start",
+    21.889,
+    29.318
+   ],
+   [
+    "2 \u00b5m",
+    "middle",
+    20.889,
+    8.844
+   ],
+   [
+    "90 nm",
+    "start",
+    34.133,
+    15.45
+   ],
+   [
+    "Si",
+    "middle",
+    44.5,
+    10.626
+   ],
+   [
+    "BOX",
+    "middle",
+    48.922,
+    16.114
+   ],
+   [
+    "SiO2",
+    "middle",
+    82.248,
+    10.335
+   ]
+  ]
+ },
+ "siepic_ebeam_si_nominal_metal/core": {
+  "layers": null,
+  "regions": [
+   [
+    "handle",
+    "4d241e8e7d4151e35bd6da292c12d4fdeb79d6e409197c5c86dee4b7d7fc8753"
+   ],
+   [
+    "box",
+    "d0995432ea3255368e87a743ec4a34e6b7488ca298fad353e21591dc70c1eca0"
+   ],
+   [
+    "device",
+    "b619487dcf897e9d0eedc0b58018805d644d960c3caa61b15fa0701d1664fddb"
+   ],
+   [
+    "oxide",
+    "605229ed13d1e483d94cc0cf03b13ffe2fbecf44e6bf57117170bd1a3a9a0fc1"
+   ]
+  ],
+  "art": "34bb77479d6d2ad7fe3560a99230dfd6f76df9dbc88170e4749bc26d6406c273",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    28.616
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    17.167,
+    36.591
+   ],
+   [
+    "500 nm",
+    "middle",
+    44.5,
+    12.717
+   ],
+   [
+    "220 nm",
+    "end",
+    39.01,
+    14.317
+   ],
+   [
+    "Si",
+    "middle",
+    44.5,
+    20.456
+   ],
+   [
+    "BOX",
+    "middle",
+    43.983,
+    23.99
+   ],
+   [
+    "SiO2",
+    "middle",
+    6.379,
+    14.186
+   ]
+  ]
+ },
+ "siepic_ebeam_si_nominal_metal/pyramid": {
+  "layers": [
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    900,
+    0
+   ],
+   [
+    901,
+    0
+   ],
+   [
+    902,
+    0
+   ],
+   [
+    903,
+    0
+   ],
+   [
+    904,
+    0
+   ]
+  ],
+  "regions": [
+   [
+    "handle",
+    "4102e72ae7c75393d0f5ea6dd6d7b95c8c9c3eb3923811542e2725be62cc8c2d"
+   ],
+   [
+    "box",
+    "c52bdf6b0f40169911a6493ea369aa3ae8c503d78ab9513d164bcfc00db983d3"
+   ],
+   [
+    "device",
+    "e03e3e2cd93a6bc3d0686a4b3ee86034ee002e02144d4efd3500b99c510b0ffe"
+   ],
+   [
+    "oxide",
+    "bfb32ac8b699b62204992c636583ee80c9a2068ed3ef51a0c51651b125e6ef5d"
+   ],
+   [
+    "Contact",
+    "87e74196df54660eab4b70b16a077d8d2edd281c30e8f8f8d78103a6946315bb"
+   ],
+   [
+    "Contact via",
+    "bc36dfe6f0123ea303f81f6d827ad9be70a55e68862889d94bed34d32ec02d59"
+   ],
+   [
+    "Heater",
+    "9f5df03d49d430a2d364d3077efd2628367967301aeb0d3e288d50bc9cf83d79"
+   ],
+   [
+    "M1",
+    "9200efaff563cd1ad95ea331e50ec671736fab7959fd3852d857c5dd897a7356"
+   ],
+   [
+    "Bond pad",
+    "a5b67e05f4c5ee5801d11d5fc94e4f84b630ce63536d891ce6a9aed445715652"
+   ]
+  ],
+  "art": "59974f94b8d5aecc9cec97cd31e5b2b588246b6e91d22add53369542cb40ee8e",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    34.6,
+    33.518
+   ],
+   [
+    "2 \u00b5m",
+    "start",
+    20.561,
+    42.829
+   ],
+   [
+    "500 nm",
+    "end",
+    10.891,
+    40.912
+   ],
+   [
+    "z \u00d7 2",
+    "start",
+    29.452,
+    42.829
+   ],
+   [
+    "Contact via",
+    "middle",
+    34.6,
+    20.52
+   ],
+   [
+    "Bond pad",
+    "middle",
+    34.6,
+    11.867
+   ],
+   [
+    "M1",
+    "start",
+    70.201,
+    15.994
+   ],
+   [
+    "Heater",
+    "start",
+    70.201,
+    19.367
+   ],
+   [
+    "Si",
+    "middle",
+    34.6,
+    26.948
+   ],
+   [
+    "BOX",
+    "middle",
+    25.461,
+    27.668
+   ],
+   [
+    "SiO2",
+    "middle",
+    9.673,
+    16.336
+   ]
+  ]
+ },
+ "siepic_ebeam_sin/core": {
+  "layers": null,
+  "regions": [
+   [
+    "handle",
+    "7f39acf2bd9e96496f286d770f279c8ce6cb5784219d0ef37d4889861db4a307"
+   ],
+   [
+    "box",
+    "fb1568d70d409d07c273d476ee25b36caabae69a56e054edbc0066e40cd1a936"
+   ],
+   [
+    "device",
+    "f91c5101c9bd7c849af4010b2deaa048f60ac5df43c9cd7625a1f35fc5376164"
+   ],
+   [
+    "oxide",
+    "5ff120d6addc975d2732e1c93c1faad0d79cb1ce110dd65fa5615d56830b89dd"
+   ]
+  ],
+  "art": "1d7674a773fe6e51c0cc54435c6a3ef831389da9ec2b4f89cc5044152ed5b4d3",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    33.716
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    17.167,
+    41.691
+   ],
+   [
+    "500 nm",
+    "middle",
+    44.5,
+    15.267
+   ],
+   [
+    "400 nm",
+    "end",
+    39.01,
+    16.867
+   ],
+   [
+    "SiN",
+    "middle",
+    44.5,
+    20.823
+   ],
+   [
+    "BOX",
+    "middle",
+    44.5,
+    27.198
+   ],
+   [
+    "SiO2",
+    "middle",
+    31.635,
+    20.226
+   ]
+  ]
+ },
+ "siepic_ebeam_sin/pyramid": {
+  "layers": [
+   [
+    4,
+    0
+   ]
+  ],
+  "regions": [
+   [
+    "handle",
+    "f863d27c0b1eb05d3e976d3f511ff023eda5c84df01b8f507aad43c43a8f4815"
+   ],
+   [
+    "box",
+    "fc665c627d0f047c40a952b0503d9f83bb7b6652870ba35d03278d101658b86e"
+   ],
+   [
+    "device",
+    "5c96443ae8123d06153294f850eef89892c45dc3608f8986ab5ce8b1adfba20a"
+   ],
+   [
+    "oxide",
+    "584e79431b0e1e2e88b4ebcc4726369f9d73fe359abefbb69d7e51dc899f6b4a"
+   ]
+  ],
+  "art": "69933a19e10959e7c19137efc81f87ff70ea133eed889db315c77d0418bad85f",
+  "labels": [
+   [
+    "Si substrate",
+    "middle",
+    44.5,
+    35.204
+   ],
+   [
+    "1 \u00b5m",
+    "start",
+    20.0,
+    43.18
+   ],
+   [
+    "3 \u00b5m",
+    "middle",
+    44.5,
+    14.206
+   ],
+   [
+    "400 nm",
+    "end",
+    17.2,
+    15.806
+   ],
+   [
+    "SiN",
+    "middle",
+    44.5,
+    20.329
+   ],
+   [
+    "BOX",
+    "middle",
+    44.5,
+    27.979
+   ],
+   [
+    "SiO2",
+    "middle",
+    9.409,
+    19.019
+   ]
+  ]
+ }
+}

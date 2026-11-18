@@ -1,0 +1,10 @@
+# Optical dimensions from the public SiEPIC EBeam SiN.lbr.
+# This profile is separate from the silicon process. No silicon rib or implants.
+name: SiEPIC EBeam silicon nitride optical stack
+units: um
+oxide:
+  box: {thickness: 4.5, material: sio2}
+  tox: {thickness: 3.0, material: sio2}
+  handle: {thickness: 2.0, material: silicon} # display depth, not wafer thickness
+layers:
+  "4/0": {name: SiN core, role: core, zmin: 0.0, thickness: 0.40, material: silicon_nitride, color: "#a6cee3", tone: grow}

@@ -1,0 +1,40 @@
+# Alex Tait wrote the initial drawsvg-based package this grew out of and is
+# credited in the README and the paper's acknowledgments; the released code is
+# the author's own work. ORCID is recorded below.
+cff-version: 1.2.0
+message: >-
+  If you use optodraw in your research, teaching, or content, please cite it
+  using the metadata below.
+title: "optodraw: Unified 2D/3D Authoring of Free-Space Optical Setups and Photonic Integrated Circuits"
+type: software
+authors:
+  - given-names: Prosper Dellah
+    family-names: Allo
+    affiliation: "ACCELUMA"
+    orcid: "https://orcid.org/0009-0005-2027-5794"
+version: 0.10.0
+license: BSD-3-Clause
+keywords:
+  - optics
+  - photonics
+  - photonic integrated circuits
+  - scientific visualization
+  - diagrams
+  - GDSII
+abstract: >-
+  optodraw is an open-source Python package and browser editor in which a
+  single declarative scene description of an optical setup renders to
+  publication SVG/TikZ, interactive 3D, animation, and GLB — spanning
+  free-space optics, bench instruments, and photonic integrated circuits,
+  including GDSII import with foundry layer stacks and mixed bench-and-chip
+  scenes.
+preferred-citation:
+  type: article
+  title: "optodraw: Unified 2D/3D Authoring of Free-Space Optical Setups and Photonic Integrated Circuits"
+  authors:
+    - given-names: Prosper Dellah
+      family-names: Allo
+      affiliation: "ACCELUMA"
+      orcid: "https://orcid.org/0009-0005-2027-5794"
+  year: 2026
+  notes: "Preprint in preparation."

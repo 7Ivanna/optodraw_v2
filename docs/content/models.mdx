@@ -1,0 +1,52 @@
+optodraw computes the steady spectrum of a chip from closed forms of its parts, or from S-parameters that you
+import from a simulation. The drawn electronics compute their signals too. Each number says where it comes from:
+measured, literature, simulated or model.
+
+## Compute it
+
+Two rings on one chip. The group index and the loss come from papers. The coupling is a design value, so the
+notes call it a model.
+
+<!-- cell: models/01-ring-spectrum -->
+
+The heater moves the add-drop resonance onto the laser line. Panel a reads the animation's own numbers.
+
+<!-- cell: models/02-ring-heater -->
+
+An MZI of two couplers. Each coupler is a table from a 2D Meep simulation on fieldrt, and
+`docs/examples/models/data/coupler_fieldrt.py` makes the table again.
+
+<!-- cell: models/03-imported-mzi -->
+
+A receiver. The heater sweeps the ring, and the drop light runs through the photodiode, the TIA drawn as an op
+amp, and a 12-bit ADC to the scope.
+
+<!-- cell: models/04-receiver -->
+
+A transmitter. DAC codes drive the modulator through a driver.
+
+<!-- cell: models/05-drive -->
+
+## Options
+
+- `spectrum(scene, start_nm=1540, stop_nm=1560, points=2001)`: the power at each port where light ends.
+  `s.of(part, "o1")` gives one curve, and `s.notes` says what it rests on.
+- `signal_chain(scene, t_ns=t, inputs=[((ring, "heater"), ramp)])`: every drawn signal on the grid `t`.
+  `chain.at(adc, "dout")` gives one, and `chain.show(scope)` draws it on the scope.
+- `Sourced(4.08, Source("literature", "James et al. (2023)"))`: a number with its source.
+- `SParameters.load("coupler.npz", source=...)`: a table from SAX `.npz` or Touchstone `.sNp`.
+  `part.model = table` replaces the closed form.
+- `to_sax(scene, wavelengths_nm=w)` from `optodraw.sax_export`: the circuit as a SAX netlist.
+
+## What it supports
+
+Closed forms for each part that `registered_types()` lists. Tables carry TE only. optodraw warns when the largest
+singular value of a table is above 1 + 1e-6, and refuses it above 1.05 or outside its wavelengths. The chain
+models detectors, TIAs, amplifiers, ADCs, DACs, laser drivers, modulators and heaters, with first-order poles and
+no noise.
+
+## How it works
+
+The engine adds complex fields in the `exp(-iωt)` convention of SAX, with the group index. The free spectral range
+is right, and the absolute resonance position is a model value. The chain solves the light once per time sample.
+SAX gives the same spectrum to 1e-9.

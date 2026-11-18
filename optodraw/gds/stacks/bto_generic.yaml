@@ -1,0 +1,28 @@
+# literature stack: BaTiO3 on silicon, the Si strip waveguide device. Not a foundry stack.
+# Source: Eltes, F. et al., An integrated cryogenic optical modulator, arXiv:1904.10902v1 (2019), Methods ("Device
+# fabrication") and the Fig. 1 caption; published in Nature Materials 19, 1164 (2020), doi:10.1038/s41563-020-0725-5.
+# Only numbers are taken from it. After the bond, the Si strip lies on the BaTiO3 ("a silicon ... layer forms a
+# strip-waveguide on top of an BaTiO3 layer", Fig. 1 caption), and the BaTiO3 on the 3 um oxide (Methods).
+# The layer number is optodraw's own.
+# model (not in the source): the substrate depth (optodraw's 2 um drawing depth); the SiO2 fill drawn flush with the
+# top of the Si strip (Methods names a SiO2 cladding deposition but gives no thickness); vertical walls (no angle).
+# Left out: the W electrodes (Fig. 1 caption: no thickness and no height in the source), and the 4 nm SrTiO3 seed
+# between the BaTiO3 and the Si (Methods): it would stretch z in every section, a model choice.
+# For a figure GDS: the Si strip 0.75 um wide, the electrode gap 2.3 um (Methods).
+
+name: BTO on silicon (literature)
+units: um
+
+substrate: {material: silicon, provenance: model,
+            source: "Methods: high-resistivity Si wafer. Its depth is in no source: optodraw's 2 um"}
+films:
+  - {name: BOX, material: sio2, thickness: 3.0, provenance: literature,
+     source: "Methods: Si wafers capped with a 3-um-thick thermal oxide"}
+  - {name: BaTiO_3, material: barium_titanate, thickness: 0.225, provenance: literature,
+     source: "Methods: 225-nm-thick BaTiO3 for the Si strip waveguides; bonded onto the oxide"}
+fill: {material: sio2, top: flush, planarized: true, provenance: model,
+       source: "Methods: SiO2 cladding deposition, no thickness; Fig. 1 caption: embedded in SiO2. Drawn flush"}
+
+layers:
+  "1/0": {name: Si strip, role: core, zmin: 0.0, thickness: 0.1, material: silicon, provenance: literature,
+          source: "Methods: 100-nm-thick Si, patterned by dry etching into strip waveguides (etched through)"}

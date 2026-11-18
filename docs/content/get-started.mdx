@@ -1,0 +1,45 @@
+optodraw is a Python package. Install it, then draw a setup in a few lines: the same scene gives a 2D
+drawing, a 1D schematic and a 3D view. Run each cell below in your browser; nothing to install.
+
+## Install
+
+```bash
+pip install "git+https://github.com/ACCELUMA/optodraw"
+pip install "optodraw[gui,gds] @ git+https://github.com/ACCELUMA/optodraw"   # with the editor and GDS tools
+```
+
+It needs Python 3.10 or newer. The [extras](/reference/compatibility/) add the editor, GDS import, video and
+more.
+
+## A first setup
+
+This redraws the Advanced LIGO detector of Abbott et al. (2016), Fig. 3: a laser, a power-recycling mirror,
+a beam splitter, two Fabry-Perot arms, signal recycling and the photodetector. Each `add` places a part;
+each `Beam` runs light through the parts it names. The recycling and input mirrors are `PartialMirror`s with
+the transmissions of Aasi et al. (2015); only the two end mirrors reflect all the light.
+
+<!-- cell: get-started/01-ligo -->
+
+One scene gives all three views: the tabs show the 1D schematic for a paper, the 2D layout and the 3D bench.
+The `set_view_layout` line gives the 3D bench its own spacing, so each part stands on its post with room
+around it; the 1D and 2D views stay compact. To save them:
+
+```python
+from optodraw.notebook_1d import render_notebook_1d
+
+render_notebook_1d(scene)              # the 1D schematic, as SVG
+scene.render_svg("ligo.svg")           # the 2D layout
+scene.render_threejs("ligo.html")      # the 3D bench, one interactive page
+```
+
+## Next
+
+- [Examples](/examples/): more published figures, redrawn.
+- [Free-space benches](/free-space/) and [photonic chips](/chips/): the two kinds of setup.
+- [Figures for papers](/figures/): SVG, TikZ and 1D at the size of the page.
+- [The editor](/guides/editor/): the same scenes without code.
+
+- Aasi, J. et al. Advanced LIGO. *Class. Quantum Grav.* 32, 074001 (2015).
+  [doi:10.1088/0264-9381/32/7/074001](https://doi.org/10.1088/0264-9381/32/7/074001)
+- Abbott, B. P. et al. Observation of gravitational waves from a binary black hole merger. *Phys. Rev. Lett.*
+  116, 061102 (2016). [doi:10.1103/PhysRevLett.116.061102](https://doi.org/10.1103/PhysRevLett.116.061102)

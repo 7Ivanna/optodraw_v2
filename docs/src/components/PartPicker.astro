@@ -1,0 +1,39 @@
+---
+// "Does it have my part?" With scripts off: the counts and a link to the catalogue (rule D8).
+import data from '../data/site-data.json';
+const parts = (data as any).parts as { name: string; platform: string; description: string }[];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<div class="od-picker" data-parts={JSON.stringify(parts.map((p) => [p.name, p.platform, p.description]))}>
+  <input type="search" placeholder="Search parts: lens, ring, objective, AWG ..." aria-label="Search parts" hidden />
+  <ul class="od-picker-hits"></ul>
+  <a href={base + '/reference/parts/'}>All {parts.length} parts</a>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('.od-picker')) {
+    const parts: [string, string, string][] = JSON.parse(root.dataset.parts!);
+    const input = root.querySelector('input')!;
+    const hits = root.querySelector('ul')!;
+    input.hidden = false;
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      hits.innerHTML = '';
+      if (!q) return;
+      for (const [name, platform, text] of parts.filter((p) => (p[0] + ' ' + p[2]).toLowerCase().includes(q)).slice(0, 8)) {
+        const li = document.createElement('li');
+        li.innerHTML = `<code></code> <span></span>`;
+        li.querySelector('code')!.textContent = name;
+        li.querySelector('span')!.textContent = `${platform}: ${text}`;
+        hits.append(li);
+      }
+    });
+  }
+</script>
+
+<style>
+  .od-picker{margin:1rem 0}
+  .od-picker input{width:100%;padding:.5rem .7rem;border:1px solid var(--sl-color-gray-5);border-radius:8px;background:transparent;color:inherit;font-size:.95rem}
+  .od-picker-hits{list-style:none;padding:0;margin:.6rem 0}
+  .od-picker-hits li{padding:.25rem 0;font-size:.85rem;color:var(--sl-color-gray-2)}
+</style>

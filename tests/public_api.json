@@ -1,0 +1,3104 @@
+{
+  "ABCDMatrix": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "label"
+  ],
+  "ADC": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size"
+  ],
+  "ADCBlock": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "bit_count",
+    "package_style",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "AOM": [
+    "center",
+    "angle",
+    "aperture",
+    "interaction_length",
+    "center_frequency_mhz",
+    "diffraction_efficiency"
+  ],
+  "AWG": [
+    "center",
+    "angle",
+    "channel_count",
+    "array_count",
+    "channel_spacing",
+    "slab_length",
+    "slab_width",
+    "array_length",
+    "free_spectral_range_nm",
+    "channel_spacing_nm",
+    "center_wavelength_nm",
+    "waveguide_width"
+  ],
+  "AWGR": [
+    "center",
+    "angle",
+    "channel_count",
+    "array_count",
+    "dummy_count",
+    "channel_spacing",
+    "fpr_length",
+    "fpr_width",
+    "fpr_separation",
+    "array_height",
+    "tilt_deg",
+    "free_spectral_range_nm",
+    "channel_spacing_nm",
+    "center_wavelength_nm",
+    "waveguide_width",
+    "aperture_width"
+  ],
+  "AdiabaticCoupler": [
+    "center",
+    "angle",
+    "coupling_length",
+    "transition_length",
+    "port_spacing",
+    "waveguide_gap",
+    "waveguide_width",
+    "width_mismatch"
+  ],
+  "AmplifiedPhotodetector": [
+    "center",
+    "angle"
+  ],
+  "Amplifier": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "Analyzer": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "axis_angle",
+    "extinction_ratio"
+  ],
+  "AnimationTimeline": [
+    "scene"
+  ],
+  "ApertureStop": [
+    "center",
+    "angle",
+    "outer_diameter",
+    "aperture_diameter"
+  ],
+  "AsphericLens": [
+    "center",
+    "angle",
+    "aperture",
+    "focal_length",
+    "radius",
+    "conic_constant",
+    "asphere_coefficients",
+    "center_thickness",
+    "edge_thickness",
+    "numerical_aperture"
+  ],
+  "AvalanchePhotodetector": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "multiplication_length",
+    "taper_length",
+    "pad_width",
+    "pad_length",
+    "waveguide_width",
+    "gain"
+  ],
+  "BalancedDetector": [
+    "center",
+    "angle",
+    "box_size"
+  ],
+  "BalancedPhotodetector": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "optical_gap",
+    "output_gap",
+    "pad_size",
+    "responsivity_a_per_w",
+    "bandwidth_ghz",
+    "dark_current_na",
+    "cmrr_db",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "Baseplate": [
+    "center",
+    "angle",
+    "optical_height"
+  ],
+  "Beam": [
+    "anchors",
+    "wavelength",
+    "width",
+    "opacity",
+    "offset"
+  ],
+  "BeamDump": [
+    "center",
+    "angle",
+    "aperture"
+  ],
+  "BeamExpanderTelescope": [
+    "center",
+    "angle",
+    "input_aperture",
+    "output_aperture",
+    "length",
+    "magnification"
+  ],
+  "BeamSplitter": [
+    "center",
+    "angle",
+    "aperture",
+    "dichroic",
+    "thickness",
+    "transmission",
+    "cutoff_wavelength"
+  ],
+  "BeamStyle": [
+    "opacity",
+    "scale",
+    "by_wavelength"
+  ],
+  "BiasTee": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "BiconcaveMirror": [
+    "args"
+  ],
+  "BiconvexMirror": [
+    "args"
+  ],
+  "Block": [
+    "center",
+    "angle",
+    "size"
+  ],
+  "Bracket": [
+    "text",
+    "start",
+    "end",
+    "side",
+    "clear",
+    "depth",
+    "color",
+    "anchor",
+    "bold",
+    "label",
+    "center",
+    "ends",
+    "reach"
+  ],
+  "BraggGrating": [
+    "center",
+    "angle",
+    "length",
+    "period",
+    "corrugation_width",
+    "waveguide_width",
+    "center_wavelength_nm",
+    "reflectivity"
+  ],
+  "Breadboard": [
+    "center",
+    "angle"
+  ],
+  "BrewsterWindow": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "window_angle_deg"
+  ],
+  "CMOSCamera": [
+    "center",
+    "angle"
+  ],
+  "Callout": [
+    "text",
+    "center",
+    "target",
+    "angle",
+    "color",
+    "anchor",
+    "bold",
+    "label"
+  ],
+  "Camera": [
+    "center",
+    "angle"
+  ],
+  "CameraSensor": [
+    "center",
+    "angle",
+    "sensor_width",
+    "sensor_height",
+    "pixel_pitch_um",
+    "resolution"
+  ],
+  "Capacitor": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "ChipSubstrate": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "kind",
+    "chamfer"
+  ],
+  "CoherentReceiver": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "optical_gap",
+    "output_gap",
+    "responsivity_a_per_w",
+    "bandwidth_ghz",
+    "polarization_diverse",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "CoincidenceCounter": [
+    "center",
+    "angle",
+    "channels",
+    "window_ns"
+  ],
+  "Component": [
+    "label",
+    "color",
+    "opacity",
+    "base_mount",
+    "mount_height",
+    "beam_height",
+    "label_side",
+    "anim_params",
+    "transform",
+    "_parent",
+    "_id"
+  ],
+  "ComponentRayInteraction": [
+    "input_direction_deg",
+    "output_direction_deg",
+    "deflection_deg",
+    "interaction",
+    "wavelength_nm",
+    "component_type",
+    "metadata"
+  ],
+  "Computer": [
+    "center",
+    "angle"
+  ],
+  "ConcaveMirror": [
+    "args"
+  ],
+  "ConvexMirror": [
+    "args"
+  ],
+  "CoupledRingFilter": [
+    "center",
+    "angle",
+    "order",
+    "ring_shape",
+    "radius",
+    "coupling_length",
+    "gaps",
+    "waveguide_width",
+    "with_heaters",
+    "heater_width",
+    "heater_gap",
+    "heater_pad_size",
+    "power_couplings",
+    "round_trip_amplitude"
+  ],
+  "CrossSectionStripLayout": [
+    "strips",
+    "y_min",
+    "y_max",
+    "x",
+    "window",
+    "label"
+  ],
+  "Cryostat": [
+    "center",
+    "angle",
+    "radius",
+    "with_sample"
+  ],
+  "CryostatWindow": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "material",
+    "temperature_k"
+  ],
+  "CustomModel": [
+    "source",
+    "center",
+    "angle",
+    "model_format",
+    "scale",
+    "footprint",
+    "height"
+  ],
+  "CutLink": [
+    "source",
+    "a",
+    "b",
+    "section",
+    "name",
+    "center",
+    "angle",
+    "label"
+  ],
+  "CylindricalLens": [
+    "center",
+    "angle",
+    "aperture",
+    "length",
+    "focal_length",
+    "cylinder_axis",
+    "thickness"
+  ],
+  "DAC": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "bit_count",
+    "differential",
+    "package_style",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "DACDriver": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "output_gap"
+  ],
+  "DAQ": [
+    "center",
+    "angle"
+  ],
+  "DBRLaser": [
+    "center",
+    "angle",
+    "gain_length",
+    "dbr_length",
+    "ridge_width",
+    "output_taper_length",
+    "waveguide_width",
+    "pad_size",
+    "tooth_count"
+  ],
+  "DMD": [
+    "center",
+    "angle",
+    "active_width",
+    "active_height",
+    "resolution",
+    "tilt_angle_deg",
+    "fill_factor"
+  ],
+  "DashedLink": [
+    "start",
+    "end",
+    "text",
+    "side",
+    "dashed",
+    "arrow",
+    "color",
+    "anchor",
+    "bold",
+    "label",
+    "center",
+    "ends"
+  ],
+  "DichroicMirror": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "cutoff_wavelength",
+    "pass_band"
+  ],
+  "DirectionalCoupler": [
+    "center",
+    "angle",
+    "coupling_length",
+    "transition_length",
+    "straight_length",
+    "port_spacing",
+    "waveguide_gap",
+    "waveguide_width",
+    "coupling_ratio"
+  ],
+  "EIC": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "pin_count",
+    "package_style",
+    "role",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "EMCCD": [
+    "center",
+    "angle"
+  ],
+  "EOM": [
+    "center",
+    "angle",
+    "aperture",
+    "crystal_length",
+    "half_wave_voltage_v",
+    "bandwidth_ghz"
+  ],
+  "EORacetrackModulator": [
+    "center",
+    "angle",
+    "straight_length",
+    "bend_radius",
+    "waveguide_width",
+    "gap",
+    "electrode_gap",
+    "electrode_width"
+  ],
+  "EchelleGrating": [
+    "center",
+    "angle",
+    "channel_count",
+    "slab_length",
+    "slab_width",
+    "grating_radius",
+    "waveguide_width",
+    "facet_count",
+    "center_wavelength_nm",
+    "channel_spacing_nm"
+  ],
+  "EdgeCoupler": [
+    "center",
+    "angle",
+    "taper_length",
+    "cladding_length",
+    "tip_width",
+    "waveguide_width",
+    "cladding_width",
+    "fiber_mode_diameter",
+    "with_fiber",
+    "fiber_length"
+  ],
+  "ElectricalIOBank": [
+    "center",
+    "angle",
+    "count",
+    "pitch",
+    "pad_width",
+    "pad_height",
+    "side",
+    "bank_kind",
+    "signal_kinds",
+    "layer",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "ElectricalPad": [
+    "center",
+    "angle",
+    "width",
+    "height",
+    "port_side",
+    "port_width",
+    "layer",
+    "pad_opening",
+    "color",
+    "opacity",
+    "label",
+    "visual_style",
+    "visual_scale",
+    "render_physical"
+  ],
+  "ElectricalSignalSpec": [
+    "kind",
+    "component_type",
+    "port_name",
+    "voltage_v",
+    "current_a",
+    "impedance_ohms",
+    "resistance_ohms",
+    "bandwidth_ghz",
+    "rf_power_dbm",
+    "phase_deg",
+    "bit_rate_gbps",
+    "timing_ps",
+    "metadata"
+  ],
+  "ElectroAbsorptionModulator": [
+    "center",
+    "angle",
+    "length",
+    "active_length",
+    "waveguide_width",
+    "pad_size"
+  ],
+  "ElectronicIntegratedCircuit": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "pin_count",
+    "package_style",
+    "role",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "Equation": [
+    "latex",
+    "tex"
+  ],
+  "FPGABoard": [
+    "center",
+    "angle"
+  ],
+  "FaradayRotator": [
+    "center",
+    "angle",
+    "length",
+    "aperture",
+    "rotation_deg"
+  ],
+  "FiberAmplifier": [
+    "center",
+    "angle",
+    "length",
+    "gain_db",
+    "doping"
+  ],
+  "FiberArray": [
+    "center",
+    "angle",
+    "count",
+    "pitch",
+    "label",
+    "opacity"
+  ],
+  "FiberCirculator": [
+    "center",
+    "angle",
+    "size"
+  ],
+  "FiberCollimator": [
+    "center",
+    "angle",
+    "aperture",
+    "length",
+    "focal_length"
+  ],
+  "FiberCoupler": [
+    "center",
+    "angle",
+    "length",
+    "port_gap",
+    "ratio"
+  ],
+  "FiberLaser": [
+    "center",
+    "angle",
+    "wavelength",
+    "head_length",
+    "head_height",
+    "head_depth",
+    "probe_length",
+    "probe_diameter",
+    "fiber_diameter"
+  ],
+  "FiberPort": [
+    "center",
+    "angle",
+    "core_diameter",
+    "cladding_diameter",
+    "length"
+  ],
+  "FiberRoute": [
+    "points"
+  ],
+  "FiberSpool": [
+    "center",
+    "angle",
+    "diameter",
+    "fiber_length_km"
+  ],
+  "Filter": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "cutoff_wavelength",
+    "pass_band"
+  ],
+  "FlipMirror": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "state",
+    "out_offset"
+  ],
+  "FocusedApodizedGratingCoupler": [
+    "center",
+    "angle",
+    "taper_length",
+    "taper_angle",
+    "extension_length",
+    "waveguide_stub_length",
+    "tooth_count",
+    "apodization",
+    "min_feature",
+    "wavelength",
+    "fiber_tilt_deg",
+    "fiber_port_width",
+    "waveguide_width",
+    "with_fiber",
+    "fiber_length"
+  ],
+  "FocusingBeam": [
+    "anchor1",
+    "anchor2",
+    "width1",
+    "width2",
+    "wavelength",
+    "opacity",
+    "offset"
+  ],
+  "FourFSystem": [
+    "center",
+    "angle",
+    "focal_length_1",
+    "focal_length_2",
+    "aperture",
+    "lens_spacing",
+    "include_planes"
+  ],
+  "FrequencyComb": [
+    "center",
+    "angle",
+    "line_spacing_ghz",
+    "line_count"
+  ],
+  "GDSLayerRecord": [
+    "spec",
+    "name",
+    "description",
+    "color",
+    "opacity",
+    "thickness",
+    "zmin",
+    "material_preset",
+    "polygons",
+    "matched_pdk",
+    "visible",
+    "material_name",
+    "level_name",
+    "style_source",
+    "physical_stack_known"
+  ],
+  "GDSLayout": [
+    "source_path",
+    "cell_name",
+    "bounds",
+    "layer_records",
+    "technology",
+    "gdsfactory_layer_stack",
+    "gdsfactory_layer_views",
+    "crop_region"
+  ],
+  "GDSModel": [
+    "source",
+    "cell_name",
+    "center",
+    "angle",
+    "scale",
+    "footprint",
+    "thickness",
+    "z_exaggeration",
+    "process_context",
+    "oxide_opacity",
+    "handle_opacity",
+    "context_edge_opacity",
+    "box_depth",
+    "cladding_top",
+    "handle_thickness",
+    "passivation",
+    "passivation_material",
+    "layer_stack",
+    "crop_region"
+  ],
+  "GDSSection": [
+    "label",
+    "x",
+    "window",
+    "mode"
+  ],
+  "GSGProbePad": [
+    "center",
+    "angle",
+    "pad_width",
+    "pad_height",
+    "gap",
+    "port_side",
+    "layer",
+    "color",
+    "opacity",
+    "label",
+    "visual_style",
+    "visual_scale",
+    "render_physical",
+    "impedance_ohms",
+    "bandwidth_ghz",
+    "insertion_loss_db"
+  ],
+  "GalvoMirror": [
+    "center",
+    "angle",
+    "aperture",
+    "mirror_width",
+    "scan_range_deg",
+    "drive_frequency_khz"
+  ],
+  "GaussianBeamState": [
+    "wavelength",
+    "waist_radius",
+    "z_from_waist",
+    "refractive_index",
+    "power",
+    "label"
+  ],
+  "GdsView": [
+    "gds",
+    "stack",
+    "region",
+    "layers",
+    "cell_name",
+    "limit"
+  ],
+  "GlanLaserPolarizer": [
+    "center",
+    "angle",
+    "length",
+    "aperture",
+    "reject_angle_deg",
+    "extinction_ratio"
+  ],
+  "Glyph": [
+    "kind",
+    "center",
+    "angle",
+    "size",
+    "color",
+    "label"
+  ],
+  "Grating": [
+    "center",
+    "angle",
+    "aperture",
+    "pitch",
+    "thickness"
+  ],
+  "GratingAntennaArray": [
+    "center",
+    "angle",
+    "count",
+    "pitch",
+    "length",
+    "period",
+    "etch_depth",
+    "waveguide_width"
+  ],
+  "GratingCouplerArray": [
+    "center",
+    "angle",
+    "count",
+    "pitch",
+    "coupler_kind",
+    "align_ends",
+    "stub_length",
+    "alignment_drop",
+    "alignment_waveguide_width",
+    "with_fiber"
+  ],
+  "Grid": [
+    "pitch",
+    "width",
+    "height"
+  ],
+  "Ground": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "Group": [
+    "label",
+    "color",
+    "opacity",
+    "base_mount",
+    "mount_height",
+    "beam_height",
+    "label_side",
+    "anim_params",
+    "transform",
+    "_parent",
+    "_id",
+    "children"
+  ],
+  "GuidedModeTraceResult": [
+    "path_length_um",
+    "effective_index",
+    "phase_rad",
+    "loss_db",
+    "group_index",
+    "group_delay_ps",
+    "loss_budget_db",
+    "loss_budget_exceeded",
+    "neff_min",
+    "neff_max",
+    "segment_count",
+    "wavelength_nm"
+  ],
+  "HalfWavePlate": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "fast_axis_angle"
+  ],
+  "HeaterPad": [
+    "center",
+    "angle",
+    "heater_length",
+    "heater_width",
+    "contact_width",
+    "contact_height",
+    "layer",
+    "sheet_resistance_ohm_per_sq",
+    "resistance_ohms",
+    "tuning_efficiency_pm_per_mw",
+    "max_power_mw",
+    "color",
+    "opacity",
+    "label",
+    "visual_style",
+    "visual_scale",
+    "render_physical"
+  ],
+  "IQModulator": [
+    "center",
+    "angle",
+    "arm_gap",
+    "bend_length"
+  ],
+  "Image": [
+    "data",
+    "scale_um_per_px",
+    "kind"
+  ],
+  "Inductor": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "Inset": [
+    "source",
+    "center",
+    "width",
+    "height",
+    "angle",
+    "frame",
+    "over",
+    "letter",
+    "bar",
+    "label",
+    "opacity"
+  ],
+  "Iris": [
+    "center",
+    "angle",
+    "outer_diameter",
+    "aperture_diameter",
+    "blade_count"
+  ],
+  "JonesMatrix": [
+    "m00",
+    "m01",
+    "m10",
+    "m11"
+  ],
+  "JonesVector": [
+    "Ex",
+    "Ey"
+  ],
+  "KinematicMount": [
+    "center",
+    "angle",
+    "optic_diameter",
+    "base_width",
+    "adjustment_range_deg"
+  ],
+  "Lamp": [
+    "center",
+    "angle"
+  ],
+  "Laser": [
+    "center",
+    "angle",
+    "wavelength",
+    "beam_width",
+    "rays",
+    "ray_width",
+    "beam_color",
+    "divergence_deg",
+    "show_envelope",
+    "sync"
+  ],
+  "LaserDriver": [
+    "center",
+    "angle"
+  ],
+  "LayoutCut": [
+    "y_min",
+    "y_max",
+    "x",
+    "window",
+    "label",
+    "layer_intervals"
+  ],
+  "Lens": [
+    "center",
+    "angle",
+    "radius",
+    "aperture",
+    "focal_length",
+    "center_thickness",
+    "edge_thickness"
+  ],
+  "LensPrescription": [
+    "surfaces",
+    "aperture_epd",
+    "wavelengths_um",
+    "field_angles_deg",
+    "object_distance",
+    "label"
+  ],
+  "LensTube": [
+    "center",
+    "angle",
+    "diameter",
+    "length"
+  ],
+  "LockInAmplifier": [
+    "center",
+    "angle"
+  ],
+  "MEMSActuator": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "finger_count",
+    "pad_size",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "MMI1x2": [
+    "center",
+    "angle",
+    "body_length",
+    "body_width",
+    "taper_length",
+    "waveguide_width",
+    "width_taper",
+    "output_gap"
+  ],
+  "MMI1x3": [
+    "center",
+    "angle",
+    "body_length",
+    "body_width",
+    "taper_length",
+    "waveguide_width",
+    "width_taper",
+    "output_gap"
+  ],
+  "MMI1x4": [
+    "center",
+    "angle",
+    "body_length",
+    "body_width",
+    "taper_length",
+    "waveguide_width",
+    "width_taper",
+    "output_gap"
+  ],
+  "MMI2x2": [
+    "center",
+    "angle",
+    "body_length",
+    "body_width",
+    "taper_length",
+    "waveguide_width",
+    "width_taper",
+    "port_gap"
+  ],
+  "MMI2x2PowerSplitter": [
+    "center",
+    "angle",
+    "body_length",
+    "body_width",
+    "taper_length",
+    "waveguide_width",
+    "width_taper",
+    "port_gap"
+  ],
+  "MZI": [
+    "center",
+    "angle",
+    "coupler_length",
+    "coupler_width",
+    "arm_length",
+    "arm_gap",
+    "waveguide_width",
+    "taper_length",
+    "waveguide_gap"
+  ],
+  "MZM": [
+    "center",
+    "angle",
+    "electrode_width",
+    "electrode_length",
+    "drive_style",
+    "mechanism",
+    "splitter"
+  ],
+  "MetalRoute": [
+    "points",
+    "center",
+    "angle",
+    "width",
+    "thickness",
+    "layer",
+    "sheet_resistance_ohm_per_sq",
+    "color",
+    "opacity",
+    "label",
+    "visual_style",
+    "visual_scale",
+    "render_physical"
+  ],
+  "Microcontroller": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "pin_count",
+    "package_style",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "MicroringResonator": [
+    "center",
+    "angle",
+    "ring_radius",
+    "waveguide_width",
+    "gap",
+    "length_x",
+    "length_y",
+    "add_drop",
+    "with_heater",
+    "heater_width",
+    "heater_gap",
+    "heater_length",
+    "heater_pad_size"
+  ],
+  "MicroringWeightBank": [
+    "center",
+    "angle",
+    "ring_count",
+    "ring_pitch",
+    "ring_radius",
+    "waveguide_width",
+    "gap",
+    "drop_turn_radius",
+    "turn_radius_step",
+    "with_heaters",
+    "heater_width",
+    "heater_pad_size",
+    "left_link_vertical_length"
+  ],
+  "Mirror": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "surface_type",
+    "curvature_depth",
+    "focal_length",
+    "piezo"
+  ],
+  "ModeCleaner": [
+    "center",
+    "angle",
+    "size",
+    "transmission",
+    "piezo"
+  ],
+  "Monochromator": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "groove_density_l_mm",
+    "focal_length_mm"
+  ],
+  "MuellerMatrix": [
+    "m00",
+    "m01",
+    "m02",
+    "m03",
+    "m10",
+    "m11",
+    "m12",
+    "m13",
+    "m20",
+    "m21",
+    "m22",
+    "m23",
+    "m30",
+    "m31",
+    "m32",
+    "m33"
+  ],
+  "NDFilter": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "optical_density"
+  ],
+  "NonPolarizingBeamSplitter": [
+    "center",
+    "angle",
+    "aperture",
+    "split_ratio"
+  ],
+  "NonlinearCrystal": [
+    "center",
+    "angle",
+    "length",
+    "aperture",
+    "material",
+    "process",
+    "poled"
+  ],
+  "Note": [
+    "text",
+    "center",
+    "angle",
+    "color",
+    "anchor",
+    "bold",
+    "label"
+  ],
+  "OSA": [
+    "center",
+    "angle"
+  ],
+  "Objective": [
+    "center",
+    "angle",
+    "aperture",
+    "length",
+    "working_distance"
+  ],
+  "OnChipBalancedPhotodetector": [
+    "center",
+    "angle",
+    "detector_gap"
+  ],
+  "OnChipLaser": [
+    "center",
+    "angle",
+    "cavity_length",
+    "ridge_width",
+    "output_taper_length",
+    "grating_period",
+    "grating_count",
+    "waveguide_width",
+    "pad_length",
+    "pad_width",
+    "wavelength_nm"
+  ],
+  "OnChipPhotodetector": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "taper_length",
+    "pad_width",
+    "pad_length",
+    "waveguide_width",
+    "contact_finger_count",
+    "contact_finger_width"
+  ],
+  "OpAmp": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "OpticalChopper": [
+    "center",
+    "angle",
+    "wheel_diameter",
+    "blades"
+  ],
+  "OpticalIOBank": [
+    "center",
+    "angle",
+    "count",
+    "pitch",
+    "coupler_kind",
+    "side",
+    "stub_length",
+    "port_width",
+    "fiber_port_width",
+    "with_fibers"
+  ],
+  "OpticalIsolator": [
+    "center",
+    "angle",
+    "aperture",
+    "length",
+    "isolation_db"
+  ],
+  "OpticalPost": [
+    "center",
+    "angle",
+    "height",
+    "post_diameter"
+  ],
+  "OpticalPowerMeter": [
+    "center",
+    "angle"
+  ],
+  "OpticalSurface": [
+    "radius",
+    "thickness",
+    "material",
+    "conic",
+    "is_stop",
+    "semi_diameter"
+  ],
+  "OpticalTable": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "thickness",
+    "hole_pitch"
+  ],
+  "Oscilloscope": [
+    "center",
+    "angle"
+  ],
+  "OutputStack": [
+    "process_name",
+    "cut_label",
+    "layers",
+    "internal_regions",
+    "debug_steps",
+    "steps",
+    "materials",
+    "doping"
+  ],
+  "PBS": [
+    "center",
+    "angle",
+    "aperture",
+    "split_ratio"
+  ],
+  "PCB": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_count",
+    "pad_size",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label",
+    "style"
+  ],
+  "PCMCell": [
+    "center",
+    "angle",
+    "length",
+    "cell_length",
+    "waveguide_width",
+    "state"
+  ],
+  "PIDController": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "PMT": [
+    "center",
+    "angle"
+  ],
+  "PNMicroringModulator": [
+    "center",
+    "angle",
+    "contact_pad_size",
+    "add_drop",
+    "with_heater",
+    "heater_width",
+    "heater_gap",
+    "heater_length",
+    "heater_pad_size"
+  ],
+  "PRESETS": [],
+  "Page": [
+    "width_mm",
+    "height_mm",
+    "font_pt",
+    "title",
+    "letters",
+    "letter_pt"
+  ],
+  "Panel": [
+    "source",
+    "letter",
+    "drop_text",
+    "share",
+    "zoom",
+    "view"
+  ],
+  "PanelSpec": [
+    "name",
+    "label",
+    "width_fraction",
+    "height_fraction",
+    "row",
+    "column",
+    "role"
+  ],
+  "ParaxialSample": [
+    "point",
+    "distance",
+    "beam",
+    "event",
+    "element_type",
+    "element_label"
+  ],
+  "ParaxialTraceResult": [
+    "samples",
+    "direction_deg"
+  ],
+  "PartDefinition": [
+    "name",
+    "platform",
+    "parameters",
+    "variants",
+    "default_variant",
+    "description"
+  ],
+  "PartLibrary": [],
+  "PartialMirror": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "transmission"
+  ],
+  "PdfFile": [
+    "path",
+    "page"
+  ],
+  "Pentaprism": [
+    "center",
+    "angle",
+    "size",
+    "refractive_index"
+  ],
+  "Periscope": [
+    "center",
+    "angle",
+    "rise",
+    "output_angle_deg",
+    "aperture"
+  ],
+  "PhaseShifter": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "mechanism",
+    "shifter_length"
+  ],
+  "Photodiode": [
+    "center",
+    "angle"
+  ],
+  "PhotonCounter": [
+    "center",
+    "angle",
+    "channels"
+  ],
+  "Pinhole": [
+    "center",
+    "angle",
+    "outer_diameter",
+    "aperture_diameter"
+  ],
+  "PlatformMount": [
+    "center",
+    "angle",
+    "platform",
+    "height"
+  ],
+  "Plot": [
+    "figure",
+    "height",
+    "kind"
+  ],
+  "PolarizationController": [
+    "center",
+    "angle",
+    "length",
+    "paddle_diameter",
+    "paddles"
+  ],
+  "PolarizationRotator": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "rib_width"
+  ],
+  "PolarizationSplitterRotator": [
+    "center",
+    "angle",
+    "length",
+    "port_spacing",
+    "waveguide_width",
+    "rotator_length"
+  ],
+  "PolarizationTraceResult": [
+    "jones",
+    "stokes",
+    "components_applied",
+    "warnings"
+  ],
+  "Polarizer": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "axis_angle",
+    "extinction_ratio"
+  ],
+  "Port": [
+    "name",
+    "center",
+    "orientation_deg",
+    "width",
+    "kind",
+    "layer"
+  ],
+  "PowerMeter": [
+    "center",
+    "angle",
+    "aperture",
+    "length",
+    "spectral_min_nm",
+    "spectral_max_nm"
+  ],
+  "Prism": [
+    "center",
+    "angle",
+    "size",
+    "apex_angle",
+    "refractive_index"
+  ],
+  "ProcessDefinition": [
+    "name",
+    "units",
+    "scale",
+    "wafer",
+    "layout_layers",
+    "process",
+    "output_layers",
+    "render",
+    "raw",
+    "fill_material"
+  ],
+  "PublicationBundle": [
+    "output_dir",
+    "template",
+    "primary_paths",
+    "panels",
+    "caption_path",
+    "manifest_path",
+    "xsection_bundle",
+    "figure_path"
+  ],
+  "Q_from_kappa_gamma": [
+    "lambda0_nm",
+    "kappa",
+    "gamma"
+  ],
+  "QuadrantPhotodiode": [
+    "center",
+    "angle",
+    "box_size",
+    "active_diameter_mm"
+  ],
+  "QuarterWavePlate": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "fast_axis_angle",
+    "design_wavelength_nm"
+  ],
+  "RFCoupler": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "RFDriver": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "output_gap",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "RFFilter": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "response",
+    "color",
+    "opacity"
+  ],
+  "RFMixer": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "RFPhaseShifter": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "RFSpectrumAnalyzer": [
+    "center",
+    "angle"
+  ],
+  "RFSplitter": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "RacetrackModulator": [
+    "center",
+    "angle",
+    "electrode_length",
+    "contact_pad_size",
+    "add_drop"
+  ],
+  "RacetrackResonator": [
+    "center",
+    "angle",
+    "bend_radius",
+    "coupling_length",
+    "waveguide_width",
+    "gap",
+    "length_y",
+    "add_drop",
+    "with_heater",
+    "heater_width",
+    "heater_pad_size"
+  ],
+  "RayTraceResult": [
+    "points",
+    "direction_deg",
+    "power",
+    "ray",
+    "offset"
+  ],
+  "Razor": [
+    "center",
+    "angle",
+    "blade_pos"
+  ],
+  "ReceiverMacro": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "responsivity_a_per_w",
+    "bandwidth_ghz",
+    "adc_bits",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "Region": [
+    "parts",
+    "label",
+    "pad",
+    "color",
+    "bold",
+    "center",
+    "corners"
+  ],
+  "Resistor": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "Retroreflector": [
+    "center",
+    "angle",
+    "aperture"
+  ],
+  "RightAnglePrism": [
+    "center",
+    "angle",
+    "leg",
+    "thickness",
+    "refractive_index"
+  ],
+  "RingAssistedMZI": [
+    "center",
+    "angle",
+    "rings_per_arm",
+    "ring_radius",
+    "ring_gap",
+    "arm_length",
+    "arm_gap",
+    "coupler",
+    "with_heaters"
+  ],
+  "RoofMirror": [
+    "center",
+    "angle",
+    "aperture"
+  ],
+  "RotationStage": [
+    "center",
+    "angle",
+    "diameter",
+    "thickness",
+    "rotation_range_deg",
+    "angular_resolution_deg"
+  ],
+  "Route": [
+    "points",
+    "width",
+    "width2",
+    "kind",
+    "path_type",
+    "smooth",
+    "bend_radius",
+    "backend",
+    "color",
+    "opacity",
+    "label",
+    "signal",
+    "voltage_v",
+    "current_a",
+    "impedance_ohms",
+    "bandwidth_ghz",
+    "required_bandwidth_ghz",
+    "rf_power_dbm",
+    "phase_deg",
+    "bit_rate_gbps",
+    "timing_ps",
+    "start_component",
+    "start_port",
+    "end_component",
+    "end_port"
+  ],
+  "SILICON_STRIP_NEFF_STUB": [],
+  "SLM": [
+    "center",
+    "angle",
+    "active_width",
+    "active_height",
+    "pixel_pitch",
+    "resolution",
+    "fill_factor",
+    "mode"
+  ],
+  "SMAConnector": [
+    "center",
+    "angle",
+    "label",
+    "opacity"
+  ],
+  "SMU": [
+    "center",
+    "angle"
+  ],
+  "SNSPD": [
+    "center",
+    "angle",
+    "length",
+    "efficiency",
+    "dark_count_hz",
+    "temperature_k"
+  ],
+  "SOA": [
+    "center",
+    "angle",
+    "amplifier_length",
+    "taper_length",
+    "ridge_width",
+    "waveguide_width",
+    "pad_length",
+    "pad_width"
+  ],
+  "SPADArray": [
+    "center",
+    "angle"
+  ],
+  "SagnacLoop": [
+    "center",
+    "angle",
+    "loop_radius",
+    "coupler_length",
+    "port_spacing",
+    "waveguide_width"
+  ],
+  "Sample": [
+    "center",
+    "angle",
+    "aperture",
+    "in_cryostat"
+  ],
+  "Scene": [
+    "title",
+    "width",
+    "height",
+    "platform",
+    "units",
+    "metadata",
+    "layout",
+    "beam_style"
+  ],
+  "ScenePreview": [
+    "scene",
+    "width",
+    "height",
+    "title",
+    "show_3d",
+    "svg_kwargs",
+    "threejs_kwargs"
+  ],
+  "SceneView": [
+    "scene",
+    "view",
+    "polarization"
+  ],
+  "SectionMark": [
+    "start",
+    "end",
+    "name",
+    "color",
+    "label",
+    "center",
+    "ends"
+  ],
+  "SectionView": [
+    "xs",
+    "data"
+  ],
+  "SemView": [
+    "item",
+    "width_px",
+    "tilt",
+    "rotation",
+    "seed",
+    "mark"
+  ],
+  "SignalArrow": [
+    "start",
+    "end",
+    "center",
+    "angle",
+    "signal",
+    "width",
+    "head_size",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "SignalSource": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "color",
+    "opacity"
+  ],
+  "SpatialLightModulator": [
+    "center",
+    "angle",
+    "active_width",
+    "active_height",
+    "pixel_pitch",
+    "resolution",
+    "fill_factor",
+    "mode"
+  ],
+  "Spectrometer": [
+    "center",
+    "angle"
+  ],
+  "SpectrometerSlit": [
+    "center",
+    "angle",
+    "slit_width_um",
+    "slit_height",
+    "body_width"
+  ],
+  "Spiral": [
+    "center",
+    "angle",
+    "turns",
+    "spacing",
+    "inner_radius",
+    "width"
+  ],
+  "StarCoupler": [
+    "center",
+    "angle",
+    "input_count",
+    "output_count",
+    "dummy_count",
+    "slab_length",
+    "slab_width",
+    "port_spacing",
+    "port_spacing_in",
+    "port_spacing_out",
+    "aperture_width",
+    "waveguide_width",
+    "taper_length",
+    "mounting"
+  ],
+  "StokesTraceResult": [
+    "stokes",
+    "components_applied",
+    "warnings",
+    "dual_outputs"
+  ],
+  "StokesVector": [
+    "S0",
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "SummingJunction": [
+    "center",
+    "angle",
+    "length",
+    "value",
+    "label",
+    "signs",
+    "color",
+    "opacity"
+  ],
+  "SvgFile": [
+    "path",
+    "drop_text"
+  ],
+  "TIA": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size"
+  ],
+  "TIABlock": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "mode",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "TapCoupler": [
+    "center",
+    "angle",
+    "coupling_length",
+    "transition_length",
+    "port_spacing",
+    "waveguide_gap",
+    "waveguide_width",
+    "tap_ratio"
+  ],
+  "Taper": [
+    "center",
+    "angle",
+    "length",
+    "width1",
+    "width2"
+  ],
+  "Technology": [
+    "name",
+    "layers",
+    "source",
+    "metadata"
+  ],
+  "TechnologyLayer": [
+    "spec",
+    "name",
+    "description",
+    "color",
+    "opacity",
+    "thickness",
+    "zmin",
+    "material_preset",
+    "visible",
+    "material_name",
+    "level_name",
+    "purpose",
+    "style_source",
+    "metadata",
+    "physical_stack_known"
+  ],
+  "Telescope": [
+    "center",
+    "angle",
+    "focal_length_1",
+    "focal_length_2",
+    "input_aperture",
+    "output_aperture",
+    "spacing",
+    "telescope_type"
+  ],
+  "TemplateSpec": [
+    "name",
+    "description",
+    "panels",
+    "rows",
+    "columns",
+    "suggested_preset",
+    "suggested_width_mm",
+    "suggested_height_mm"
+  ],
+  "Terminator": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "tip_width"
+  ],
+  "Text": [
+    "text",
+    "width",
+    "size_pt",
+    "align"
+  ],
+  "Timing": [
+    "rows",
+    "span",
+    "unit",
+    "marks",
+    "row_mm",
+    "illustrative"
+  ],
+  "Transform": [
+    "position",
+    "rotation_deg"
+  ],
+  "TranslationStage": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "travel_range_mm",
+    "axis"
+  ],
+  "TransmitterMacro": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "pad_size",
+    "data_rate_gbps",
+    "wavelength_nm",
+    "extinction_ratio_db",
+    "visual_style",
+    "visual_scale",
+    "color",
+    "opacity",
+    "label"
+  ],
+  "TwoDGratingCoupler": [
+    "center",
+    "angle",
+    "body_size",
+    "taper_length",
+    "waveguide_width",
+    "hole_rows",
+    "with_fiber",
+    "fiber_length"
+  ],
+  "UserPart": [
+    "definition",
+    "center",
+    "angle",
+    "label",
+    "scale",
+    "variant",
+    "parameters"
+  ],
+  "VNA": [
+    "center",
+    "angle"
+  ],
+  "VacuumChamber": [
+    "center",
+    "angle",
+    "diameter",
+    "length",
+    "viewport_diameter",
+    "pressure_mbar"
+  ],
+  "VacuumPump": [
+    "center",
+    "angle"
+  ],
+  "VariableAttenuator": [
+    "center",
+    "angle",
+    "length",
+    "attenuation_db"
+  ],
+  "Vec3": [
+    "x",
+    "y",
+    "z"
+  ],
+  "VerticalGratingCoupler": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "tooth_pitch",
+    "tooth_count",
+    "tooth_width",
+    "waveguide_width",
+    "taper_length",
+    "fiber_port_width",
+    "with_fiber",
+    "fiber_length",
+    "coupling_angle_deg"
+  ],
+  "View3D": [
+    "scene",
+    "direction",
+    "projection",
+    "style",
+    "camera",
+    "shadows",
+    "face_limit"
+  ],
+  "WavePlate": [
+    "center",
+    "angle",
+    "aperture",
+    "thickness",
+    "retardance",
+    "fast_axis_angle",
+    "design_wavelength_nm"
+  ],
+  "WaveformGenerator": [
+    "center",
+    "angle"
+  ],
+  "Waveguide": [
+    "center",
+    "angle",
+    "length",
+    "width",
+    "bend_radius",
+    "effective_index"
+  ],
+  "WaveguideBend": [
+    "center",
+    "angle",
+    "radius",
+    "width",
+    "angle_deg"
+  ],
+  "WaveguideCrossing": [
+    "center",
+    "angle",
+    "arm_length",
+    "waveguide_width",
+    "taper_width",
+    "center_size"
+  ],
+  "WaveguideRoute": [
+    "points"
+  ],
+  "WedgePlate": [
+    "center",
+    "angle",
+    "aperture",
+    "wedge_angle_deg",
+    "thickness",
+    "refractive_index"
+  ],
+  "WireBond": [
+    "points"
+  ],
+  "WollastonPrism": [
+    "center",
+    "angle",
+    "length",
+    "aperture",
+    "separation_deg",
+    "extinction_ratio"
+  ],
+  "XSectionBundle": [
+    "composite_path",
+    "layer_paths",
+    "manifest_path",
+    "png_paths",
+    "output_stack",
+    "mode"
+  ],
+  "XSectionEngine": [
+    "process"
+  ],
+  "YBranch": [
+    "center",
+    "angle",
+    "branch_length",
+    "stem_length",
+    "waveguide_width",
+    "branch_gap",
+    "branch_width"
+  ],
+  "ZoomLink": [
+    "small",
+    "region",
+    "big",
+    "center",
+    "angle",
+    "label"
+  ],
+  "animate_directional_coupler_power_transfer": [
+    "scene",
+    "coupler",
+    "caption",
+    "length_steps",
+    "full_crossover_length",
+    "pulse_width",
+    "wavelength_nm"
+  ],
+  "animate_dispersion": [
+    "scene",
+    "dispersive_element",
+    "wavelength_steps",
+    "caption",
+    "center_wavelength_nm",
+    "wavelength_span_nm"
+  ],
+  "animate_fiber_alignment": [
+    "scene",
+    "coupler",
+    "caption",
+    "start_offset_um",
+    "end_offset_um",
+    "alignment_steps",
+    "mode_field_diameter_um",
+    "axial_tolerance_um",
+    "pulse_width",
+    "wavelength_nm",
+    "steps"
+  ],
+  "animate_focus": [
+    "scene",
+    "lens",
+    "caption",
+    "input_beam",
+    "exit_length"
+  ],
+  "animate_grating_coupler_in_out": [
+    "scene",
+    "coupler",
+    "caption",
+    "direction",
+    "coupling_efficiency",
+    "pulse_width",
+    "wavelength_nm",
+    "steps"
+  ],
+  "animate_interference": [
+    "scene",
+    "arm1",
+    "arm2",
+    "combiner",
+    "phase_steps",
+    "caption"
+  ],
+  "animate_layer_stack": [
+    "gds_layout_or_scene",
+    "caption"
+  ],
+  "animate_mmi_split_recombine": [
+    "scene",
+    "mmi",
+    "caption",
+    "imbalance_db",
+    "pulse_width",
+    "wavelength_nm",
+    "steps"
+  ],
+  "animate_modulation": [
+    "scene",
+    "mzm",
+    "voltage_steps",
+    "caption",
+    "Vpi",
+    "wavelength_nm"
+  ],
+  "animate_mzm_mechanism": [
+    "scene",
+    "mzm",
+    "phase_steps",
+    "caption",
+    "Vpi",
+    "wavelength_nm"
+  ],
+  "animate_photodetector_absorption": [
+    "scene",
+    "photodetector",
+    "caption",
+    "readout_chain",
+    "absorption_efficiency",
+    "responsivity_a_per_w",
+    "pulse_width",
+    "wavelength_nm",
+    "steps"
+  ],
+  "animate_pn_modulation_phase_shift": [
+    "scene",
+    "modulator",
+    "voltage_steps",
+    "voltage_max",
+    "caption",
+    "wavelength_nm"
+  ],
+  "animate_polarization": [
+    "scene",
+    "components",
+    "caption",
+    "wavelength_nm",
+    "stokes_in",
+    "unpolarized",
+    "dwell"
+  ],
+  "animate_resonance_scan": [
+    "scene",
+    "resonator",
+    "wavelength_steps",
+    "caption",
+    "wavelength_nm"
+  ],
+  "animate_ring_coupling": [
+    "scene",
+    "ring",
+    "coupling_steps",
+    "caption",
+    "wavelength_nm"
+  ],
+  "apply_authoring_patch": [
+    "scene",
+    "patch"
+  ],
+  "arrange_grid": [
+    "components",
+    "columns",
+    "spacing",
+    "origin"
+  ],
+  "arrange_line": [
+    "components",
+    "axis",
+    "spacing",
+    "origin",
+    "grid"
+  ],
+  "beam_splitter_mueller": [
+    "split_ratio",
+    "depolarization"
+  ],
+  "build_caption": [
+    "scene",
+    "title",
+    "extra_notes",
+    "include_routes",
+    "max_components"
+  ],
+  "build_detector_readout_chain": [
+    "title",
+    "width",
+    "height"
+  ],
+  "build_gds_sections": [
+    "layout",
+    "count"
+  ],
+  "build_gds_trimesh": [
+    "layout_or_records",
+    "backend",
+    "merge_polygons"
+  ],
+  "build_microring_weight_mesh": [
+    "scene",
+    "title",
+    "rows",
+    "cols",
+    "row_pitch_um",
+    "col_pitch_um",
+    "origin",
+    "topology",
+    "ring_count",
+    "with_heaters",
+    "cell_kwargs"
+  ],
+  "build_modulator_drive_chain": [
+    "title",
+    "width",
+    "height",
+    "drive_style"
+  ],
+  "build_mzm_coupler_mesh": [
+    "scene",
+    "title",
+    "modes",
+    "layers",
+    "drive_style",
+    "mode_pitch_um",
+    "stage_pitch_um",
+    "origin"
+  ],
+  "build_mzm_mesh": [
+    "scene",
+    "title",
+    "rows",
+    "cols",
+    "row_pitch_um",
+    "col_pitch_um",
+    "origin",
+    "drive_style",
+    "topology",
+    "include_io",
+    "cell_kwargs"
+  ],
+  "build_optic": [
+    "prescription"
+  ],
+  "build_preset": [
+    "name"
+  ],
+  "build_publication_bundle": [
+    "scene",
+    "output_dir",
+    "template",
+    "formats",
+    "preset",
+    "dpi",
+    "include_polarization",
+    "stem",
+    "caption",
+    "caption_notes",
+    "extra_scenes",
+    "xsection",
+    "extras",
+    "view"
+  ],
+  "build_qwp_circular_lab": [],
+  "build_ring_filter": [
+    "scene",
+    "title",
+    "add_drop",
+    "spacing_um"
+  ],
+  "builtin_component_catalog": [
+    "platform",
+    "category"
+  ],
+  "check_export": [
+    "path"
+  ],
+  "check_figure": [
+    "scene",
+    "preset",
+    "view"
+  ],
+  "check_part_3d": [
+    "part"
+  ],
+  "component_catalog": [
+    "platform",
+    "category"
+  ],
+  "define_part": [
+    "name",
+    "platform",
+    "ports",
+    "symbol_2d",
+    "symbol_1d",
+    "parameters",
+    "variants",
+    "default_variant",
+    "description",
+    "library"
+  ],
+  "describe_component": [
+    "name"
+  ],
+  "describe_workflow_api": [
+    "name"
+  ],
+  "electrical_signal_spec": [
+    "component",
+    "port_name"
+  ],
+  "export_blender_script": [
+    "output_path",
+    "source_glb",
+    "output_image",
+    "camera_preset",
+    "resolution",
+    "background_color",
+    "engine",
+    "samples",
+    "lens_mm",
+    "view_margin",
+    "camera_from_scene",
+    "labels",
+    "scale_bar",
+    "clipping_planes",
+    "material_overrides",
+    "layer_styles",
+    "addon_invocation"
+  ],
+  "export_figure_bundle": [
+    "scene",
+    "output_dir",
+    "formats",
+    "dpi",
+    "include_polarization",
+    "preset",
+    "stem",
+    "view",
+    "fit"
+  ],
+  "export_panels": [
+    "path",
+    "rows",
+    "width_mm",
+    "font_size_pt",
+    "dpi",
+    "gap_mm",
+    "letters",
+    "letter_pt",
+    "formats"
+  ],
+  "export_paper_figures": [
+    "scene",
+    "output_dir",
+    "preset"
+  ],
+  "export_xsection_bundle": [
+    "process",
+    "cut",
+    "output_dir",
+    "mode",
+    "rasterize",
+    "layout",
+    "section"
+  ],
+  "figure_rasters": [
+    "path"
+  ],
+  "free_space_matrix": [
+    "length"
+  ],
+  "get_gdsfactory_layer_styles": [
+    "pdk",
+    "layers",
+    "layer_stack",
+    "layer_views",
+    "aux_layer_depths",
+    "material_aliases"
+  ],
+  "get_generic_pdk_layer_styles": [],
+  "get_layer_name_map": [
+    "layer_source"
+  ],
+  "get_material_preset": [
+    "name"
+  ],
+  "get_publication_template": [
+    "name"
+  ],
+  "grating_diffraction_angle_deg": [
+    "pitch",
+    "wavelength_nm",
+    "order"
+  ],
+  "half_wave_plate": [
+    "fast_axis_deg",
+    "wavelength_nm",
+    "design_wavelength_nm"
+  ],
+  "import_svg_part": [
+    "name",
+    "source",
+    "platform",
+    "origin",
+    "scale",
+    "ports",
+    "symbol_1d",
+    "parameters",
+    "description",
+    "library"
+  ],
+  "jones_to_mueller": [
+    "jones"
+  ],
+  "jones_to_stokes": [
+    "jones"
+  ],
+  "list_animation_recipes": [],
+  "list_component_categories": [],
+  "list_components": [
+    "platform",
+    "category"
+  ],
+  "list_material_presets": [],
+  "list_on_chip_components": [
+    "schematic_default"
+  ],
+  "list_paper_figure_presets": [],
+  "list_presets": [],
+  "list_publication_templates": [],
+  "load_authoring_patch": [
+    "path"
+  ],
+  "load_gds_cell": [
+    "source_path",
+    "cell_name"
+  ],
+  "load_gds_layout": [
+    "source_path",
+    "cell_name",
+    "crop_region",
+    "merge_polygons",
+    "technology",
+    "pdk",
+    "layers",
+    "layer_styles",
+    "layer_style_overrides",
+    "gds3d_techfile",
+    "gds3d_unit_scale",
+    "aux_layer_depths",
+    "fallback_thickness",
+    "fallback_material_preset",
+    "fallback_layer_gap",
+    "include_hidden"
+  ],
+  "load_part": [
+    "path",
+    "library"
+  ],
+  "load_process_definition": [
+    "path"
+  ],
+  "lorentzian_fwhm_nm": [
+    "lambda0_nm",
+    "Q"
+  ],
+  "lorentzian_transmission": [
+    "wavelength_nm",
+    "lambda0_nm",
+    "Q",
+    "port"
+  ],
+  "material_catalog": [],
+  "optic_to_beams": [
+    "optic",
+    "origin",
+    "direction_deg",
+    "field_angles_deg",
+    "wavelengths_um",
+    "num_rays",
+    "distribution",
+    "axial_scale",
+    "transverse_scale",
+    "axial_offset",
+    "width",
+    "scene"
+  ],
+  "optiland_available": [],
+  "optimize_layout": [
+    "components",
+    "strategy"
+  ],
+  "paper_figure_preset": [
+    "name"
+  ],
+  "parse_blendergds_layer_config": [
+    "layer_config_path",
+    "color_config_path",
+    "include_filler",
+    "z_scale",
+    "default_opacity",
+    "fallback_material_preset",
+    "material_aliases"
+  ],
+  "parse_gds3d_techfile": [
+    "techfile_path",
+    "unit_scale",
+    "include_hidden",
+    "material_aliases"
+  ],
+  "parse_klayout_lyp": [
+    "lyp_path",
+    "include_hidden",
+    "default_opacity",
+    "transparent_opacity",
+    "fallback_material_preset",
+    "material_aliases"
+  ],
+  "pbs_matrix": [],
+  "physics_trace_to_timeline_hints": [
+    "scene",
+    "wavelength_nm",
+    "include_guided_paths"
+  ],
+  "plot_gds_cross_section": [
+    "layout",
+    "section",
+    "ax",
+    "z_exaggeration"
+  ],
+  "plot_gds_top_view": [
+    "layout",
+    "sections",
+    "ax",
+    "label_layers",
+    "label_fontsize"
+  ],
+  "polarizer_matrix": [
+    "axis_angle_deg",
+    "extinction_ratio_db"
+  ],
+  "polarizer_mueller": [
+    "axis_angle_deg",
+    "extinction_ratio_db"
+  ],
+  "port_signal_kind": [
+    "component",
+    "port_name"
+  ],
+  "quarter_wave_plate": [
+    "fast_axis_deg",
+    "wavelength_nm",
+    "design_wavelength_nm"
+  ],
+  "qwp_circular_lab": [
+    "title"
+  ],
+  "register_part": [
+    "name",
+    "parameters",
+    "platform",
+    "description",
+    "library"
+  ],
+  "render_blender_script": [
+    "script_path",
+    "blender_executable",
+    "background",
+    "timeout"
+  ],
+  "route_bundle": [
+    "ports1",
+    "ports2",
+    "separation",
+    "sort_ports",
+    "path_type",
+    "kind",
+    "width",
+    "start_straight_length",
+    "end_straight_length",
+    "backend"
+  ],
+  "route_ports": [
+    "port1",
+    "port2",
+    "path_type",
+    "kind",
+    "width",
+    "width2",
+    "bend_radius",
+    "start_straight_length",
+    "end_straight_length",
+    "steps",
+    "smooth",
+    "backend",
+    "snap_tolerance",
+    "color",
+    "label",
+    "signal",
+    "voltage_v",
+    "current_a",
+    "impedance_ohms",
+    "bandwidth_ghz",
+    "required_bandwidth_ghz",
+    "rf_power_dbm",
+    "phase_deg",
+    "bit_rate_gbps",
+    "timing_ps"
+  ],
+  "route_signal_spec": [
+    "route"
+  ],
+  "save_part": [
+    "part",
+    "path"
+  ],
+  "snell_refract": [
+    "incident_angle_deg",
+    "n1",
+    "n2"
+  ],
+  "stokes_to_ellipse": [
+    "stokes",
+    "cx",
+    "cy",
+    "scale"
+  ],
+  "stokes_to_jones": [
+    "stokes"
+  ],
+  "stokes_to_poincare_2d": [
+    "stokes"
+  ],
+  "summarize_path": [
+    "trace_or_components",
+    "wavelength_nm",
+    "effective_index",
+    "group_index",
+    "loss_db",
+    "loss_db_per_um",
+    "loss_budget_db"
+  ],
+  "thin_lens_matrix": [
+    "focal_length"
+  ],
+  "threejs_iframe_html": [
+    "scene",
+    "height",
+    "width"
+  ],
+  "threejs_widget": [
+    "scene",
+    "height",
+    "width"
+  ],
+  "trace_active_chain": [
+    "components",
+    "wavelength_nm",
+    "phase_bias_rad",
+    "drive_voltage",
+    "Vpi"
+  ],
+  "trace_beam_through_component": [
+    "component",
+    "wavelength_nm",
+    "direction_deg",
+    "beamsplitter_mode",
+    "diffraction_order"
+  ],
+  "trace_guided_mode": [
+    "start_port",
+    "route_or_waveguide",
+    "wavelength_nm",
+    "effective_index",
+    "loss_db"
+  ],
+  "trace_guided_path": [
+    "components_or_route",
+    "wavelength_nm",
+    "effective_index",
+    "group_index",
+    "loss_db",
+    "loss_db_per_um",
+    "loss_budget_db"
+  ],
+  "trace_jones_through": [
+    "components",
+    "jones_in",
+    "wavelength_nm",
+    "unpolarized"
+  ],
+  "trace_lens_beams": [
+    "prescription",
+    "origin",
+    "direction_deg",
+    "num_rays",
+    "distribution",
+    "axial_scale",
+    "transverse_scale",
+    "axial_offset",
+    "width",
+    "scene"
+  ],
+  "trace_mzi_power": [
+    "mzi",
+    "phase_bias_rad",
+    "wavelength_nm"
+  ],
+  "trace_mzi_transfer": [
+    "mzi",
+    "phase_bias_rad",
+    "phase_bias_upper_rad",
+    "phase_bias_lower_rad",
+    "arm_imbalance_um",
+    "effective_index",
+    "wavelength_nm"
+  ],
+  "trace_mzm_transfer": [
+    "mzm",
+    "drive_voltage",
+    "Vpi",
+    "wavelength_nm"
+  ],
+  "trace_paraxial_beam": [
+    "start",
+    "direction_deg",
+    "optics",
+    "input_beam",
+    "exit_length",
+    "beamsplitter_mode"
+  ],
+  "trace_paraxial_ray": [
+    "scene",
+    "start_port",
+    "direction",
+    "wavelength_nm",
+    "exit_length",
+    "beamsplitter_mode",
+    "diffraction_order",
+    "optics"
+  ],
+  "trace_ray": [
+    "start",
+    "direction_deg",
+    "optics",
+    "exit_length",
+    "beamsplitter_mode",
+    "wavelength_nm",
+    "diffraction_order"
+  ],
+  "trace_readout_chain": [
+    "components",
+    "optical_power_w",
+    "transimpedance_ohm",
+    "adc_full_scale_v",
+    "adc_bits"
+  ],
+  "trace_ring_resonance": [
+    "ring",
+    "wavelength_nm",
+    "bias_voltage_v",
+    "tuning_efficiency_nm_per_v",
+    "port",
+    "Q"
+  ],
+  "trace_stokes_through": [
+    "components",
+    "stokes_in",
+    "wavelength_nm",
+    "unpolarized"
+  ],
+  "validate_coupler_transition": [
+    "gc",
+    "wavelength_nm",
+    "fiber_port_or_wavelength"
+  ],
+  "validate_electrical_chain": [
+    "components"
+  ],
+  "validate_paraxial_chain": [
+    "components"
+  ],
+  "validate_polarization_chain": [
+    "components"
+  ],
+  "validate_ray_chain": [
+    "components"
+  ],
+  "wave_plate_mueller": [
+    "fast_axis_deg",
+    "retardance_rad",
+    "wavelength_nm",
+    "design_wavelength_nm"
+  ],
+  "workflow_catalog": []
+}

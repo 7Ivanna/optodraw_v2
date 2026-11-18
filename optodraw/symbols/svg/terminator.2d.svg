@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.633126 9.987208" width="17.633126pt" height="9.987208pt"><g transform="translate(72.0,72.0)">
+<g id='od-terminator-page1'>
+<g stroke-miterlimit='10' transform='translate(-69.55916,-67.006401)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g fill='#fff'>
+<path d='M0-1.9919L8.5359-.71114V.71114L0 1.9919Z'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-terminator-pgfcp6'>
+<path d='M8.5359-2.73734V2.73734H12.97426V-2.73734ZM12.97426 2.73734'/> </clipPath>
+<g clip-path='url(#od-terminator-pgfcp6)'>
+<g transform='matrix(1,0,0,1,10.75507,0.0)'>
+<g transform='matrix(0.08844,0,0,0.10909,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-terminator-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-terminator-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M8.5359-2.73734V2.73734H12.97426V-2.73734ZM12.97426 2.73734' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

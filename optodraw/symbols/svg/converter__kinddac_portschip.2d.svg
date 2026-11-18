@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.382994 23.808359" width="41.382994pt" height="23.808359pt"><g transform="translate(72.0,72.0)">
+<g id='od-converter__kinddac_portschip-page1'>
+<g stroke-miterlimit='10' transform='translate(-51.308509,-60.095823)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-12.80363-9.67383H4.26773L14.22636 0L4.26773 9.67383H-12.80363Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-12.80363-9.67383H4.26773L14.22636 0L4.26773 9.67383H-12.80363Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-12.80363-9.67383H4.26773L14.22636 0L4.26773 9.67383H-12.80363Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-12.80363-9.67383H4.26773L14.22636 0L4.26773 9.67383H-12.80363Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-converter__kinddac_portschip-pgfcp6'>
+<path d='M-12.80363-9.67383H4.26773L14.22636 0L4.26773 9.67383H-12.80363Z'/> </clipPath>
+<g clip-path='url(#od-converter__kinddac_portschip-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.71136,0.0)'>
+<g transform='matrix(0.53865,0,0,0.38556,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-converter__kinddac_portschip-pgfsh7'>
+ <stop offset='0.0' stop-color=' #e2e8f0 '/>
+ <stop offset='0.25' stop-color=' #e2e8f0 '/>
+ <stop offset='0.5' stop-color=' #f1f4f8 '/>
+ <stop offset='0.75' stop-color=' #fff '/>
+ <stop offset='1.0' stop-color=' #fff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-converter__kinddac_portschip-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-12.80363-9.67383H4.26773L14.22636 0L4.26773 9.67383H-12.80363Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke-width='0.45'>
+<g stroke='#6366f1'>
+<path d='M-10.243-2.56064H-7.96674V0H-5.69048V2.56064H-3.41422' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke-width='0.45'>
+<g stroke='#14b8a6'>
+<path d='M-1.70709 0C-.56918 3.98335 .56918 3.98335 1.70709 0S3.98337-3.98335 5.12128 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-18.4941 4.55254H-12.80363M-18.4941-4.55254H-12.80363M9.53185 4.55254H18.4941M9.53185-4.55254H18.4941' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

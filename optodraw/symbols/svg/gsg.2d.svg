@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.887133 32.729983" width="12.887133pt" height="32.729983pt"><g transform="translate(72.0,72.0)">
+<g id='od-gsg-page1'>
+<g stroke-miterlimit='10' transform='translate(-65.55644,-55.635012)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#a8841f'>
+<clipPath id='od-gsg-pgfcp6'>
+<path d='M-4.26773 6.25963V14.22636H4.26773V6.25963ZM4.26773 14.22636'/> </clipPath>
+<g clip-path='url(#od-gsg-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,10.24298)'>
+<g transform='matrix(0.17009,0,0,0.15875,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-gsg-pgfsh7'>
+ <stop offset='0.0' stop-color=' #ecd177 '/>
+ <stop offset='0.25' stop-color=' #ecd177 '/>
+ <stop offset='0.5' stop-color=' #f4dc8c '/>
+ <stop offset='0.75' stop-color=' #fbe7a1 '/>
+ <stop offset='1.0' stop-color=' #fbe7a1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-gsg-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-4.26773 6.25963V14.22636H4.26773V6.25963ZM4.26773 14.22636' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#a8841f'>
+<clipPath id='od-gsg-pgfcp8'>
+<path d='M-4.26773-3.98335V3.98335H4.26773V-3.98335ZM4.26773 3.98335'/> </clipPath>
+<g clip-path='url(#od-gsg-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.17009,0,0,0.15875,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-gsg-pgfsh9'>
+ <stop offset='0.0' stop-color=' #d4af37 '/>
+ <stop offset='0.25' stop-color=' #d4af37 '/>
+ <stop offset='0.5' stop-color=' #e8cb6c '/>
+ <stop offset='0.75' stop-color=' #fbe7a1 '/>
+ <stop offset='1.0' stop-color=' #fbe7a1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-gsg-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-4.26773-3.98335V3.98335H4.26773V-3.98335ZM4.26773 3.98335' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#a8841f'>
+<clipPath id='od-gsg-pgfcp10'>
+<path d='M-4.26773-14.22636V-6.25963H4.26773V-14.22636ZM4.26773-6.25963'/> </clipPath>
+<g clip-path='url(#od-gsg-pgfcp10)'>
+<g transform='matrix(1,0,0,1,0.0,-10.24298)'>
+<g transform='matrix(0.17009,0,0,0.15875,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-gsg-pgfsh7'>
+ <stop offset='0.0' stop-color=' #ecd177 '/>
+ <stop offset='0.25' stop-color=' #ecd177 '/>
+ <stop offset='0.5' stop-color=' #f4dc8c '/>
+ <stop offset='0.75' stop-color=' #fbe7a1 '/>
+ <stop offset='1.0' stop-color=' #fbe7a1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-gsg-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-4.26773-14.22636V-6.25963H4.26773V-14.22636ZM4.26773-6.25963' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

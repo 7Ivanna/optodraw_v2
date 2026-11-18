@@ -1,0 +1,11190 @@
+{
+ "version": 1,
+ "source_hash": "bd0b8854798f51590b642fe78e6e211cfa25ff935fb1a723a813922b68eb43b7",
+ "symbols": {
+  "waveguide": {
+   "symbol": "waveguide",
+   "params": {},
+   "svg": "waveguide.svg",
+   "svg2d": "waveguide.2d.svg",
+   "width": 61.574575,
+   "height": 4.881694,
+   "origin": [
+    30.787,
+    2.441
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 2.441,
+     "kind": "optical"
+    }
+   },
+   "component": "Waveguide",
+   "args": {},
+   "also": []
+  },
+  "waveguide__length3.5": {
+   "symbol": "waveguide",
+   "params": {
+    "length": 3.5
+   },
+   "svg": "waveguide__length3.5.svg",
+   "svg2d": "waveguide__length3.5.2d.svg",
+   "width": 104.094237,
+   "height": 4.881694,
+   "origin": [
+    52.047,
+    2.441
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 101.653,
+     "y": 2.441,
+     "kind": "optical"
+    }
+   }
+  },
+  "mzi__length2": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2
+   },
+   "svg": "mzi__length2.svg",
+   "svg2d": "mzi__length2.2d.svg",
+   "width": 106.929036,
+   "height": 27.558486,
+   "origin": [
+    53.465,
+    13.779
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 13.779,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 104.488,
+     "y": 13.779,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 53.465,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 53.465,
+     "y": 25.118,
+     "kind": "optical"
+    }
+   }
+  },
+  "mzi__drivegs_length2": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "drive": "gs"
+   },
+   "svg": "mzi__drivegs_length2.svg",
+   "svg2d": "mzi__drivegs_length2.2d.svg",
+   "width": 106.929036,
+   "height": 38.080767,
+   "origin": [
+    53.465,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 104.488,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 53.465,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 53.465,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "sig": {
+     "x": 29.37,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 24.302,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {},
+   "also": []
+  },
+  "mzi__drivegsg_length2": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "drive": "gsg"
+   },
+   "svg": "mzi__drivegsg_length2.svg",
+   "svg2d": "mzi__drivegsg_length2.2d.svg",
+   "width": 106.929036,
+   "height": 48.603049,
+   "origin": [
+    53.465,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 104.488,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 53.465,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 53.465,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "gnd1": {
+     "x": 29.37,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "sig": {
+     "x": 29.37,
+     "y": 24.302,
+     "kind": "electrical"
+    },
+    "gnd2": {
+     "x": 29.37,
+     "y": 43.01,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "drive_style": "gsg"
+   },
+   "also": []
+  },
+  "mzi__driveheater_length2": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "drive": "heater"
+   },
+   "svg": "mzi__driveheater_length2.svg",
+   "svg2d": "mzi__driveheater_length2.2d.svg",
+   "width": 106.929036,
+   "height": 30.710854,
+   "origin": [
+    53.465,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 104.488,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 53.465,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 53.465,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "h1": {
+     "x": 32.771,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 74.158,
+     "y": 2.192,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "mechanism": "thermo_optic"
+   },
+   "also": []
+  },
+  "mzi__drivegs_length2_splittercoupler": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "coupler",
+    "drive": "gs"
+   },
+   "svg": "mzi__drivegs_length2_splittercoupler.svg",
+   "svg2d": "mzi__drivegs_length2_splittercoupler.2d.svg",
+   "width": 135.275497,
+   "height": 38.080767,
+   "origin": [
+    67.638,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 132.835,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 132.835,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "sig": {
+     "x": 43.543,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 43.543,
+     "y": 24.302,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "splitter": "coupler"
+   },
+   "also": []
+  },
+  "mzi__drivegsg_length2_splittercoupler": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "coupler",
+    "drive": "gsg"
+   },
+   "svg": "mzi__drivegsg_length2_splittercoupler.svg",
+   "svg2d": "mzi__drivegsg_length2_splittercoupler.2d.svg",
+   "width": 135.275497,
+   "height": 48.603049,
+   "origin": [
+    67.638,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 132.835,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 132.835,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "gnd1": {
+     "x": 43.543,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "sig": {
+     "x": 43.543,
+     "y": 24.302,
+     "kind": "electrical"
+    },
+    "gnd2": {
+     "x": 43.543,
+     "y": 43.01,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "splitter": "coupler",
+    "drive_style": "gsg"
+   },
+   "also": []
+  },
+  "mzi__driveheater_length2_splittercoupler": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "coupler",
+    "drive": "heater"
+   },
+   "svg": "mzi__driveheater_length2_splittercoupler.svg",
+   "svg2d": "mzi__driveheater_length2_splittercoupler.2d.svg",
+   "width": 135.275497,
+   "height": 30.710854,
+   "origin": [
+    67.638,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 132.835,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 132.835,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "h1": {
+     "x": 46.945,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 88.331,
+     "y": 2.192,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "splitter": "coupler",
+    "mechanism": "thermo_optic"
+   },
+   "also": [
+    "MZI"
+   ]
+  },
+  "mzi__drivegs_length2_splitterbranchcoupler": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "branch_coupler",
+    "drive": "gs"
+   },
+   "svg": "mzi__drivegs_length2_splitterbranchcoupler.svg",
+   "svg2d": "mzi__drivegs_length2_splitterbranchcoupler.2d.svg",
+   "width": 121.102267,
+   "height": 38.080767,
+   "origin": [
+    53.465,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 118.661,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 118.661,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "sig": {
+     "x": 29.37,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 24.302,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "splitter": "branch_coupler"
+   },
+   "also": []
+  },
+  "mzi__drivegsg_length2_splitterbranchcoupler": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "branch_coupler",
+    "drive": "gsg"
+   },
+   "svg": "mzi__drivegsg_length2_splitterbranchcoupler.svg",
+   "svg2d": "mzi__drivegsg_length2_splitterbranchcoupler.2d.svg",
+   "width": 121.102267,
+   "height": 48.603049,
+   "origin": [
+    53.465,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 118.661,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 118.661,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "gnd1": {
+     "x": 29.37,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "sig": {
+     "x": 29.37,
+     "y": 24.302,
+     "kind": "electrical"
+    },
+    "gnd2": {
+     "x": 29.37,
+     "y": 43.01,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "splitter": "branch_coupler",
+    "drive_style": "gsg"
+   },
+   "also": []
+  },
+  "mzi__driveheater_length2_splitterbranchcoupler": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "branch_coupler",
+    "drive": "heater"
+   },
+   "svg": "mzi__driveheater_length2_splitterbranchcoupler.svg",
+   "svg2d": "mzi__driveheater_length2_splitterbranchcoupler.2d.svg",
+   "width": 121.102267,
+   "height": 30.710854,
+   "origin": [
+    53.465,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 118.661,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 118.661,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "h1": {
+     "x": 32.771,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 74.158,
+     "y": 2.192,
+     "kind": "electrical"
+    }
+   },
+   "component": "MZM",
+   "args": {
+    "splitter": "branch_coupler",
+    "mechanism": "thermo_optic"
+   },
+   "also": []
+  },
+  "mzi__drivegs_length2_splittermmi": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "mmi",
+    "drive": "gs"
+   },
+   "svg": "mzi__drivegs_length2_splittermmi.svg",
+   "svg2d": "mzi__drivegs_length2_splittermmi.2d.svg",
+   "width": 126.771039,
+   "height": 38.080767,
+   "origin": [
+    63.386,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 124.33,
+     "y": 24.302,
+     "kind": "optical"
+    },
+    "sig": {
+     "x": 39.291,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 39.291,
+     "y": 24.302,
+     "kind": "electrical"
+    }
+   }
+  },
+  "mzi__drivegsg_length2_splittermmi2x2": {
+   "symbol": "mzi",
+   "params": {
+    "length": 2,
+    "splitter": "mmi2x2",
+    "drive": "gsg"
+   },
+   "svg": "mzi__drivegsg_length2_splittermmi2x2.svg",
+   "svg2d": "mzi__drivegsg_length2_splittermmi2x2.2d.svg",
+   "width": 140.944269,
+   "height": 48.603049,
+   "origin": [
+    70.472,
+    24.302
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 138.503,
+     "y": 12.963,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 138.503,
+     "y": 35.64,
+     "kind": "optical"
+    },
+    "gnd1": {
+     "x": 46.377,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "sig": {
+     "x": 46.377,
+     "y": 24.302,
+     "kind": "electrical"
+    },
+    "gnd2": {
+     "x": 46.377,
+     "y": 43.01,
+     "kind": "electrical"
+    }
+   }
+  },
+  "mzi__drivesegmented_length3_segments3": {
+   "symbol": "mzi",
+   "params": {
+    "length": 3,
+    "drive": "segmented",
+    "segments": 3
+   },
+   "svg": "mzi__drivesegmented_length3_segments3.svg",
+   "svg2d": "mzi__drivesegmented_length3_segments3.2d.svg",
+   "width": 135.275497,
+   "height": 33.863213,
+   "origin": [
+    67.638,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 132.835,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 67.638,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 67.638,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 16.932,
+     "kind": "electrical"
+    },
+    "a1": {
+     "x": 34.472,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a2": {
+     "x": 52.33,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a3": {
+     "x": 85.496,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "b1": {
+     "x": 34.472,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b2": {
+     "x": 52.33,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b3": {
+     "x": 85.496,
+     "y": 31.671,
+     "kind": "electrical"
+    }
+   }
+  },
+  "mzi__drivesegmented_length4_segments4": {
+   "symbol": "mzi",
+   "params": {
+    "length": 4,
+    "drive": "segmented",
+    "segments": 4
+   },
+   "svg": "mzi__drivesegmented_length4_segments4.svg",
+   "svg2d": "mzi__drivesegmented_length4_segments4.2d.svg",
+   "width": 163.621918,
+   "height": 33.863213,
+   "origin": [
+    81.811,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 161.181,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 81.811,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 81.811,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 16.932,
+     "kind": "electrical"
+    },
+    "a1": {
+     "x": 32.611,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a2": {
+     "x": 44.885,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a3": {
+     "x": 66.882,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a4": {
+     "x": 108.324,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "b1": {
+     "x": 32.611,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b2": {
+     "x": 44.885,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b3": {
+     "x": 66.882,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b4": {
+     "x": 108.324,
+     "y": 31.671,
+     "kind": "electrical"
+    }
+   }
+  },
+  "mzi__drivesegmented_length3_segments4_weightsequal": {
+   "symbol": "mzi",
+   "params": {
+    "length": 3,
+    "drive": "segmented",
+    "segments": 4,
+    "weights": "equal"
+   },
+   "svg": "mzi__drivesegmented_length3_segments4_weightsequal.svg",
+   "svg2d": "mzi__drivesegmented_length3_segments4_weightsequal.2d.svg",
+   "width": 135.275497,
+   "height": 33.863213,
+   "origin": [
+    67.638,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 132.835,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 67.638,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 67.638,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 16.932,
+     "kind": "electrical"
+    },
+    "a1": {
+     "x": 37.98,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a2": {
+     "x": 57.751,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a3": {
+     "x": 77.523,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a4": {
+     "x": 97.294,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "b1": {
+     "x": 37.98,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b2": {
+     "x": 57.751,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b3": {
+     "x": 77.523,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b4": {
+     "x": 97.294,
+     "y": 31.671,
+     "kind": "electrical"
+    }
+   }
+  },
+  "mzi__drivesegmented_length3_onearm_segments3": {
+   "symbol": "mzi",
+   "params": {
+    "length": 3,
+    "drive": "segmented",
+    "segments": 3,
+    "one arm": true
+   },
+   "svg": "mzi__drivesegmented_length3_onearm_segments3.svg",
+   "svg2d": "mzi__drivesegmented_length3_onearm_segments3.2d.svg",
+   "width": 135.275497,
+   "height": 30.710854,
+   "origin": [
+    67.638,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 132.835,
+     "y": 16.932,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 67.638,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 67.638,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 16.932,
+     "kind": "electrical"
+    },
+    "a1": {
+     "x": 34.472,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a2": {
+     "x": 52.33,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a3": {
+     "x": 85.496,
+     "y": 2.192,
+     "kind": "electrical"
+    }
+   }
+  },
+  "mzi__drivesegmented_length3_segments3_splittercoupler": {
+   "symbol": "mzi",
+   "params": {
+    "length": 3,
+    "splitter": "coupler",
+    "drive": "segmented",
+    "segments": 3
+   },
+   "svg": "mzi__drivesegmented_length3_segments3_splittercoupler.svg",
+   "svg2d": "mzi__drivesegmented_length3_segments3_splittercoupler.2d.svg",
+   "width": 163.621918,
+   "height": 33.863213,
+   "origin": [
+    81.811,
+    16.932
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 161.181,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 161.181,
+     "y": 28.27,
+     "kind": "optical"
+    },
+    "gnd": {
+     "x": 43.543,
+     "y": 16.932,
+     "kind": "electrical"
+    },
+    "a1": {
+     "x": 48.645,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a2": {
+     "x": 66.504,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "a3": {
+     "x": 99.669,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "b1": {
+     "x": 48.645,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b2": {
+     "x": 66.504,
+     "y": 31.671,
+     "kind": "electrical"
+    },
+    "b3": {
+     "x": 99.669,
+     "y": 31.671,
+     "kind": "electrical"
+    }
+   }
+  },
+  "ring": {
+   "symbol": "ring",
+   "params": {},
+   "svg": "ring.svg",
+   "svg2d": "ring.2d.svg",
+   "width": 61.574575,
+   "height": 33.059557,
+   "origin": [
+    30.787,
+    30.619
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 30.619,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 30.619,
+     "kind": "optical"
+    }
+   },
+   "component": "MicroringResonator",
+   "args": {},
+   "also": []
+  },
+  "ring__drop": {
+   "symbol": "ring",
+   "params": {
+    "drop": true
+   },
+   "svg": "ring__drop.svg",
+   "svg2d": "ring__drop.2d.svg",
+   "width": 61.574575,
+   "height": 34.928847,
+   "origin": [
+    30.787,
+    32.488
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 32.488,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 32.488,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 59.134,
+     "y": 2.441,
+     "kind": "optical"
+    }
+   }
+  },
+  "ring__heater": {
+   "symbol": "ring",
+   "params": {
+    "heater": true
+   },
+   "svg": "ring__heater.svg",
+   "svg2d": "ring__heater.2d.svg",
+   "width": 61.574575,
+   "height": 38.332025,
+   "origin": [
+    30.787,
+    35.891
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 35.891,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 35.891,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 23.839,
+     "y": 5.967,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 37.735,
+     "y": 5.967,
+     "kind": "electrical"
+    }
+   }
+  },
+  "ring__drop_heater": {
+   "symbol": "ring",
+   "params": {
+    "drop": true,
+    "heater": true
+   },
+   "svg": "ring__drop_heater.svg",
+   "svg2d": "ring__drop_heater.2d.svg",
+   "width": 61.574575,
+   "height": 34.928847,
+   "origin": [
+    30.787,
+    32.488
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 32.488,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 32.488,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 59.134,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 41.236,
+     "y": 10.148,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 41.236,
+     "y": 24.781,
+     "kind": "electrical"
+    }
+   }
+  },
+  "ring__heater_pn_radius0.5": {
+   "symbol": "ring",
+   "params": {
+    "radius": 0.5,
+    "pn": true,
+    "heater": true
+   },
+   "svg": "ring__heater_pn_radius0.5.svg",
+   "svg2d": "ring__heater_pn_radius0.5.2d.svg",
+   "width": 61.574575,
+   "height": 42.412244,
+   "origin": [
+    30.787,
+    39.971
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 39.971,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 39.971,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 35.666,
+     "y": 14.729,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 46.778,
+     "y": 14.667,
+     "kind": "electrical"
+    },
+    "h1": {
+     "x": 19.177,
+     "y": 31.66,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 19.177,
+     "y": 15.401,
+     "kind": "electrical"
+    }
+   },
+   "component": "PNMicroringModulator",
+   "args": {},
+   "also": []
+  },
+  "ring__pn_radius0.5": {
+   "symbol": "ring",
+   "params": {
+    "radius": 0.5,
+    "pn": true
+   },
+   "svg": "ring__pn_radius0.5.svg",
+   "svg2d": "ring__pn_radius0.5.2d.svg",
+   "width": 61.574575,
+   "height": 43.935462,
+   "origin": [
+    30.787,
+    41.495
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 41.495,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 41.495,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 28.014,
+     "y": 15.381,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 35.827,
+     "y": 7.479,
+     "kind": "electrical"
+    }
+   }
+  },
+  "ring__drop_pn_radius0.5": {
+   "symbol": "ring",
+   "params": {
+    "radius": 0.5,
+    "pn": true,
+    "drop": true
+   },
+   "svg": "ring__drop_pn_radius0.5.svg",
+   "svg2d": "ring__drop_pn_radius0.5.2d.svg",
+   "width": 61.574575,
+   "height": 37.763656,
+   "origin": [
+    30.787,
+    35.323
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 35.323,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 59.134,
+     "y": 35.323,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 59.134,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 40.46,
+     "y": 16.108,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 48.362,
+     "y": 23.921,
+     "kind": "electrical"
+    }
+   }
+  },
+  "coupledring__order1": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 1
+   },
+   "svg": "coupledring__order1.svg",
+   "svg2d": "coupledring__order1.2d.svg",
+   "width": 46.83472,
+   "height": 22.457196,
+   "origin": [
+    23.417,
+    20.016
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 20.016,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 20.016,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 1
+   },
+   "also": []
+  },
+  "coupledring__order2": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 2
+   },
+   "svg": "coupledring__order2.svg",
+   "svg2d": "coupledring__order2.2d.svg",
+   "width": 46.83472,
+   "height": 38.048269,
+   "origin": [
+    23.417,
+    35.607
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 35.607,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 35.607,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 2
+   },
+   "also": []
+  },
+  "coupledring__order3": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 3
+   },
+   "svg": "coupledring__order3.svg",
+   "svg2d": "coupledring__order3.2d.svg",
+   "width": 46.83472,
+   "height": 53.639323,
+   "origin": [
+    23.417,
+    51.198
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 51.198,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 51.198,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 3
+   },
+   "also": []
+  },
+  "coupledring__order4": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 4
+   },
+   "svg": "coupledring__order4.svg",
+   "svg2d": "coupledring__order4.2d.svg",
+   "width": 46.83472,
+   "height": 69.230386,
+   "origin": [
+    23.417,
+    66.79
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 66.79,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 66.79,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 4
+   },
+   "also": []
+  },
+  "coupledring__order5": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 5
+   },
+   "svg": "coupledring__order5.svg",
+   "svg2d": "coupledring__order5.2d.svg",
+   "width": 46.83472,
+   "height": 84.82146,
+   "origin": [
+    23.417,
+    82.381
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 82.381,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 82.381,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 5
+   },
+   "also": []
+  },
+  "coupledring__heater_order2": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 2,
+    "heater": true
+   },
+   "svg": "coupledring__heater_order2.svg",
+   "svg2d": "coupledring__heater_order2.2d.svg",
+   "width": 46.83472,
+   "height": 38.048269,
+   "origin": [
+    23.417,
+    35.607
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 35.607,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 35.607,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    },
+    "h1a": {
+     "x": 18.206,
+     "y": 22.447,
+     "kind": "electrical"
+    },
+    "h1b": {
+     "x": 18.206,
+     "y": 31.193,
+     "kind": "electrical"
+    },
+    "h2a": {
+     "x": 28.628,
+     "y": 6.856,
+     "kind": "electrical"
+    },
+    "h2b": {
+     "x": 28.628,
+     "y": 15.602,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 2,
+    "with_heaters": true
+   },
+   "also": []
+  },
+  "coupledring__heater_order3": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 3,
+    "heater": true
+   },
+   "svg": "coupledring__heater_order3.svg",
+   "svg2d": "coupledring__heater_order3.2d.svg",
+   "width": 46.83472,
+   "height": 53.639323,
+   "origin": [
+    23.417,
+    51.198
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 51.198,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 51.198,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    },
+    "h1a": {
+     "x": 18.206,
+     "y": 38.038,
+     "kind": "electrical"
+    },
+    "h1b": {
+     "x": 18.206,
+     "y": 46.784,
+     "kind": "electrical"
+    },
+    "h2a": {
+     "x": 28.628,
+     "y": 22.447,
+     "kind": "electrical"
+    },
+    "h2b": {
+     "x": 28.628,
+     "y": 31.193,
+     "kind": "electrical"
+    },
+    "h3a": {
+     "x": 18.206,
+     "y": 6.856,
+     "kind": "electrical"
+    },
+    "h3b": {
+     "x": 18.206,
+     "y": 15.601,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 3,
+    "with_heaters": true
+   },
+   "also": []
+  },
+  "coupledring__heater_order4": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 4,
+    "heater": true
+   },
+   "svg": "coupledring__heater_order4.svg",
+   "svg2d": "coupledring__heater_order4.2d.svg",
+   "width": 46.83472,
+   "height": 69.230386,
+   "origin": [
+    23.417,
+    66.79
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 66.79,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 66.79,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    },
+    "h1a": {
+     "x": 18.206,
+     "y": 53.629,
+     "kind": "electrical"
+    },
+    "h1b": {
+     "x": 18.206,
+     "y": 62.375,
+     "kind": "electrical"
+    },
+    "h2a": {
+     "x": 28.628,
+     "y": 38.038,
+     "kind": "electrical"
+    },
+    "h2b": {
+     "x": 28.628,
+     "y": 46.784,
+     "kind": "electrical"
+    },
+    "h3a": {
+     "x": 18.206,
+     "y": 22.447,
+     "kind": "electrical"
+    },
+    "h3b": {
+     "x": 18.206,
+     "y": 31.193,
+     "kind": "electrical"
+    },
+    "h4a": {
+     "x": 28.628,
+     "y": 6.856,
+     "kind": "electrical"
+    },
+    "h4b": {
+     "x": 28.628,
+     "y": 15.602,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 4,
+    "with_heaters": true
+   },
+   "also": []
+  },
+  "coupledring__heater_order5": {
+   "symbol": "coupledring",
+   "params": {
+    "order": 5,
+    "heater": true
+   },
+   "svg": "coupledring__heater_order5.svg",
+   "svg2d": "coupledring__heater_order5.2d.svg",
+   "width": 46.83472,
+   "height": 84.82146,
+   "origin": [
+    23.417,
+    82.381
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 82.381,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o2": {
+     "x": 44.394,
+     "y": 82.381,
+     "kind": "optical",
+     "side": "right"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "left"
+    },
+    "o4": {
+     "x": 44.394,
+     "y": 2.441,
+     "kind": "optical",
+     "side": "right"
+    },
+    "h1a": {
+     "x": 18.206,
+     "y": 69.22,
+     "kind": "electrical"
+    },
+    "h1b": {
+     "x": 18.206,
+     "y": 77.966,
+     "kind": "electrical"
+    },
+    "h2a": {
+     "x": 28.628,
+     "y": 53.629,
+     "kind": "electrical"
+    },
+    "h2b": {
+     "x": 28.628,
+     "y": 62.375,
+     "kind": "electrical"
+    },
+    "h3a": {
+     "x": 18.206,
+     "y": 38.038,
+     "kind": "electrical"
+    },
+    "h3b": {
+     "x": 18.206,
+     "y": 46.784,
+     "kind": "electrical"
+    },
+    "h4a": {
+     "x": 28.628,
+     "y": 22.447,
+     "kind": "electrical"
+    },
+    "h4b": {
+     "x": 28.628,
+     "y": 31.193,
+     "kind": "electrical"
+    },
+    "h5a": {
+     "x": 18.206,
+     "y": 6.856,
+     "kind": "electrical"
+    },
+    "h5b": {
+     "x": 18.206,
+     "y": 15.602,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoupledRingFilter",
+   "args": {
+    "order": 5,
+    "with_heaters": true
+   },
+   "also": []
+  },
+  "ramzi__bottom0_top1": {
+   "symbol": "ramzi",
+   "params": {
+    "top": 1,
+    "bottom": 0
+   },
+   "svg": "ramzi__bottom0_top1.svg",
+   "svg2d": "ramzi__bottom0_top1.2d.svg",
+   "width": 143.779068,
+   "height": 52.901569,
+   "origin": [
+    71.89,
+    39.122
+   ],
+   "ports": {
+    "h1": {
+     "x": 45.528,
+     "y": 24.382,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 59.984,
+     "y": 24.382,
+     "kind": "electrical"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 27.784,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 50.461,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 141.338,
+     "y": 27.784,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 141.338,
+     "y": 50.461,
+     "kind": "optical"
+    },
+    "rh1a": {
+     "x": 81.348,
+     "y": 7.445,
+     "kind": "electrical"
+    },
+    "rh1b": {
+     "x": 90.777,
+     "y": 7.445,
+     "kind": "electrical"
+    }
+   },
+   "component": "RingAssistedMZI",
+   "args": {
+    "rings_per_arm": [
+     1,
+     0
+    ]
+   },
+   "also": []
+  },
+  "ramzi__bottom1_top1": {
+   "symbol": "ramzi",
+   "params": {
+    "top": 1,
+    "bottom": 1
+   },
+   "svg": "ramzi__bottom1_top1.svg",
+   "svg2d": "ramzi__bottom1_top1.2d.svg",
+   "width": 143.779068,
+   "height": 78.244643,
+   "origin": [
+    71.89,
+    39.122
+   ],
+   "ports": {
+    "h1": {
+     "x": 45.528,
+     "y": 24.382,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 59.984,
+     "y": 24.382,
+     "kind": "electrical"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 27.784,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 50.461,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 141.338,
+     "y": 27.784,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 141.338,
+     "y": 50.461,
+     "kind": "optical"
+    },
+    "rh1a": {
+     "x": 81.348,
+     "y": 7.445,
+     "kind": "electrical"
+    },
+    "rh1b": {
+     "x": 90.777,
+     "y": 7.445,
+     "kind": "electrical"
+    },
+    "rh2a": {
+     "x": 81.348,
+     "y": 70.8,
+     "kind": "electrical"
+    },
+    "rh2b": {
+     "x": 90.777,
+     "y": 70.8,
+     "kind": "electrical"
+    }
+   },
+   "component": "RingAssistedMZI",
+   "args": {
+    "rings_per_arm": [
+     1,
+     1
+    ]
+   },
+   "also": []
+  },
+  "ramzi__bottom1_top2": {
+   "symbol": "ramzi",
+   "params": {
+    "top": 2,
+    "bottom": 1
+   },
+   "svg": "ramzi__bottom1_top2.svg",
+   "svg2d": "ramzi__bottom1_top2.2d.svg",
+   "width": 174.960359,
+   "height": 78.244643,
+   "origin": [
+    87.48,
+    39.122
+   ],
+   "ports": {
+    "h1": {
+     "x": 45.528,
+     "y": 24.382,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 59.984,
+     "y": 24.382,
+     "kind": "electrical"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 27.784,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 50.461,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 172.52,
+     "y": 27.784,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 172.52,
+     "y": 50.461,
+     "kind": "optical"
+    },
+    "rh1a": {
+     "x": 81.348,
+     "y": 7.445,
+     "kind": "electrical"
+    },
+    "rh1b": {
+     "x": 90.777,
+     "y": 7.445,
+     "kind": "electrical"
+    },
+    "rh2a": {
+     "x": 112.529,
+     "y": 7.445,
+     "kind": "electrical"
+    },
+    "rh2b": {
+     "x": 121.959,
+     "y": 7.445,
+     "kind": "electrical"
+    },
+    "rh3a": {
+     "x": 96.939,
+     "y": 70.8,
+     "kind": "electrical"
+    },
+    "rh3b": {
+     "x": 106.368,
+     "y": 70.8,
+     "kind": "electrical"
+    }
+   },
+   "component": "RingAssistedMZI",
+   "args": {
+    "rings_per_arm": [
+     2,
+     1
+    ]
+   },
+   "also": []
+  },
+  "photodiode": {
+   "symbol": "photodiode",
+   "params": {},
+   "svg": "photodiode.svg",
+   "svg2d": "photodiode.2d.svg",
+   "width": 30.785993,
+   "height": 33.729773,
+   "origin": [
+    22.283,
+    18.707
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 18.707,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 22.283,
+     "y": 5.952,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 22.283,
+     "y": 31.463,
+     "kind": "electrical"
+    }
+   },
+   "component": "OnChipPhotodetector",
+   "args": {},
+   "also": [
+    "AvalanchePhotodetector"
+   ]
+  },
+  "photodiode__balanced": {
+   "symbol": "photodiode",
+   "params": {
+    "balanced": true
+   },
+   "svg": "photodiode__balanced.svg",
+   "svg2d": "photodiode__balanced.2d.svg",
+   "width": 38.722969,
+   "height": 56.974077,
+   "origin": [
+    22.283,
+    30.613
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 18.707,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 42.518,
+     "kind": "optical"
+    },
+    "out": {
+     "x": 36.456,
+     "y": 30.613,
+     "kind": "electrical"
+    },
+    "e1": {
+     "x": 22.283,
+     "y": 6.518,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 22.283,
+     "y": 54.708,
+     "kind": "electrical"
+    }
+   },
+   "component": "OnChipBalancedPhotodetector",
+   "args": {},
+   "also": []
+  },
+  "mmi__outputs2_pitch0.3": {
+   "symbol": "mmi",
+   "params": {
+    "outputs": 2,
+    "pitch": 0.3
+   },
+   "svg": "mmi__outputs2_pitch0.3.svg",
+   "svg2d": "mmi__outputs2_pitch0.3.2d.svg",
+   "width": 45.700633,
+   "height": 24.723666,
+   "origin": [
+    22.85,
+    12.362
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 12.362,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 43.26,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 43.26,
+     "y": 8.11,
+     "kind": "optical"
+    }
+   },
+   "component": "MMI1x2",
+   "args": {},
+   "also": []
+  },
+  "mmi__inputs2_outputs2_pitch0.3": {
+   "symbol": "mmi",
+   "params": {
+    "inputs": 2,
+    "outputs": 2,
+    "pitch": 0.3
+   },
+   "svg": "mmi__inputs2_outputs2_pitch0.3.svg",
+   "svg2d": "mmi__inputs2_outputs2_pitch0.3.2d.svg",
+   "width": 45.700633,
+   "height": 24.723666,
+   "origin": [
+    22.85,
+    12.362
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 8.11,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 43.26,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 43.26,
+     "y": 8.11,
+     "kind": "optical"
+    }
+   },
+   "component": "MMI2x2",
+   "args": {},
+   "also": [
+    "MMI2x2PowerSplitter"
+   ]
+  },
+  "mmi__inputs2_outputs4_pitch0.3": {
+   "symbol": "mmi",
+   "params": {
+    "inputs": 2,
+    "outputs": 4,
+    "pitch": 0.3
+   },
+   "svg": "mmi__inputs2_outputs4_pitch0.3.svg",
+   "svg2d": "mmi__inputs2_outputs4_pitch0.3.2d.svg",
+   "width": 45.700633,
+   "height": 41.731686,
+   "origin": [
+    22.85,
+    20.866
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 25.118,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 43.26,
+     "y": 33.622,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 43.26,
+     "y": 25.118,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 43.26,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 43.26,
+     "y": 8.11,
+     "kind": "optical"
+    }
+   }
+  },
+  "splitter__outputs2": {
+   "symbol": "splitter",
+   "params": {
+    "outputs": 2
+   },
+   "svg": "splitter__outputs2.svg",
+   "svg2d": "splitter__outputs2.2d.svg",
+   "width": 55.904917,
+   "height": 33.228115,
+   "origin": [
+    27.952,
+    16.614
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 53.464,
+     "y": 23.701,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 53.464,
+     "y": 9.527,
+     "kind": "optical"
+    }
+   }
+  },
+  "splitter__outputs4": {
+   "symbol": "splitter",
+   "params": {
+    "outputs": 4
+   },
+   "svg": "splitter__outputs4.svg",
+   "svg2d": "splitter__outputs4.2d.svg",
+   "width": 55.904917,
+   "height": 61.574575,
+   "origin": [
+    27.952,
+    30.787
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 30.787,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 53.464,
+     "y": 52.047,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 53.464,
+     "y": 37.874,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 53.464,
+     "y": 23.701,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 53.464,
+     "y": 9.527,
+     "kind": "optical"
+    }
+   }
+  },
+  "splitter__outputs8_pitch0.35": {
+   "symbol": "splitter",
+   "params": {
+    "outputs": 8,
+    "pitch": 0.35
+   },
+   "svg": "splitter__outputs8_pitch0.35.svg",
+   "svg2d": "splitter__outputs8_pitch0.35.2d.svg",
+   "width": 55.904917,
+   "height": 88.504897,
+   "origin": [
+    27.952,
+    44.252
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 44.252,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 53.464,
+     "y": 78.977,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 53.464,
+     "y": 69.056,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 53.464,
+     "y": 59.135,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 53.464,
+     "y": 49.213,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 53.464,
+     "y": 39.292,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 53.464,
+     "y": 29.37,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 53.464,
+     "y": 19.449,
+     "kind": "optical"
+    },
+    "o9": {
+     "x": 53.464,
+     "y": 9.527,
+     "kind": "optical"
+    }
+   }
+  },
+  "star__inputs1_outputs8_pitch0.3": {
+   "symbol": "star",
+   "params": {
+    "inputs": 1,
+    "outputs": 8,
+    "pitch": 0.3
+   },
+   "svg": "star__inputs1_outputs8_pitch0.3.svg",
+   "svg2d": "star__inputs1_outputs8_pitch0.3.2d.svg",
+   "width": 67.244204,
+   "height": 80.283318,
+   "origin": [
+    33.622,
+    40.142
+   ],
+   "ports": {
+    "o1": {
+     "x": 64.803,
+     "y": 10.378,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 64.803,
+     "y": 18.882,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 64.803,
+     "y": 27.386,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 64.803,
+     "y": 35.89,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 64.803,
+     "y": 44.394,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 64.803,
+     "y": 52.898,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 64.803,
+     "y": 61.402,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 64.803,
+     "y": 69.906,
+     "kind": "optical"
+    },
+    "i1": {
+     "x": 2.441,
+     "y": 40.142,
+     "kind": "optical"
+    }
+   },
+   "component": "StarCoupler",
+   "args": {},
+   "also": []
+  },
+  "star__inputs1_outputs4_pitch0.3": {
+   "symbol": "star",
+   "params": {
+    "inputs": 1,
+    "outputs": 4,
+    "pitch": 0.3
+   },
+   "svg": "star__inputs1_outputs4_pitch0.3.svg",
+   "svg2d": "star__inputs1_outputs4_pitch0.3.2d.svg",
+   "width": 67.244204,
+   "height": 46.267228,
+   "origin": [
+    33.622,
+    23.134
+   ],
+   "ports": {
+    "o1": {
+     "x": 64.803,
+     "y": 10.378,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 64.803,
+     "y": 18.882,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 64.803,
+     "y": 27.386,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 64.803,
+     "y": 35.89,
+     "kind": "optical"
+    },
+    "i1": {
+     "x": 2.441,
+     "y": 23.134,
+     "kind": "optical"
+    }
+   },
+   "component": "StarCoupler",
+   "args": {
+    "output_count": 4
+   },
+   "also": []
+  },
+  "star__inputs4_outputs4_pitch0.3": {
+   "symbol": "star",
+   "params": {
+    "inputs": 4,
+    "outputs": 4,
+    "pitch": 0.3
+   },
+   "svg": "star__inputs4_outputs4_pitch0.3.svg",
+   "svg2d": "star__inputs4_outputs4_pitch0.3.2d.svg",
+   "width": 67.244204,
+   "height": 46.267228,
+   "origin": [
+    33.622,
+    23.134
+   ],
+   "ports": {
+    "o1": {
+     "x": 64.803,
+     "y": 10.378,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 64.803,
+     "y": 18.882,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 64.803,
+     "y": 27.386,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 64.803,
+     "y": 35.89,
+     "kind": "optical"
+    },
+    "i1": {
+     "x": 2.441,
+     "y": 10.378,
+     "kind": "optical"
+    },
+    "i2": {
+     "x": 2.441,
+     "y": 18.882,
+     "kind": "optical"
+    },
+    "i3": {
+     "x": 2.441,
+     "y": 27.386,
+     "kind": "optical"
+    },
+    "i4": {
+     "x": 2.441,
+     "y": 35.89,
+     "kind": "optical"
+    }
+   },
+   "component": "StarCoupler",
+   "args": {
+    "input_count": 4,
+    "output_count": 4
+   },
+   "also": []
+  },
+  "awg__arms7_inputs1_outputs8_pitch0.3": {
+   "symbol": "awg",
+   "params": {
+    "inputs": 1,
+    "outputs": 8,
+    "arms": 7,
+    "pitch": 0.3
+   },
+   "svg": "awg__arms7_inputs1_outputs8_pitch0.3.svg",
+   "svg2d": "awg__arms7_inputs1_outputs8_pitch0.3.2d.svg",
+   "width": 84.819656,
+   "height": 82.949031,
+   "origin": [
+    42.41,
+    56.527
+   ],
+   "ports": {
+    "i1": {
+     "x": 2.441,
+     "y": 56.527,
+     "kind": "optical"
+    },
+    "o1": {
+     "x": 82.379,
+     "y": 74.385,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 82.379,
+     "y": 69.283,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 82.379,
+     "y": 64.18,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 82.379,
+     "y": 59.078,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 82.379,
+     "y": 53.975,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 82.379,
+     "y": 48.873,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 82.379,
+     "y": 43.771,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 82.379,
+     "y": 38.668,
+     "kind": "optical"
+    }
+   },
+   "component": "AWG",
+   "args": {},
+   "also": []
+  },
+  "awg__arms7_inputs1_outputs4_pitch0.3": {
+   "symbol": "awg",
+   "params": {
+    "inputs": 1,
+    "outputs": 4,
+    "arms": 7,
+    "pitch": 0.3
+   },
+   "svg": "awg__arms7_inputs1_outputs4_pitch0.3.svg",
+   "svg2d": "awg__arms7_inputs1_outputs4_pitch0.3.2d.svg",
+   "width": 84.819656,
+   "height": 62.539178,
+   "origin": [
+    42.41,
+    46.322
+   ],
+   "ports": {
+    "i1": {
+     "x": 2.441,
+     "y": 46.322,
+     "kind": "optical"
+    },
+    "o1": {
+     "x": 82.379,
+     "y": 53.975,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 82.379,
+     "y": 48.873,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 82.379,
+     "y": 43.771,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 82.379,
+     "y": 38.668,
+     "kind": "optical"
+    }
+   },
+   "component": "AWG",
+   "args": {
+    "channel_count": 4
+   },
+   "also": []
+  },
+  "awg__arms7_inputs4_outputs4_pitch0.3": {
+   "symbol": "awg",
+   "params": {
+    "inputs": 4,
+    "outputs": 4,
+    "arms": 7,
+    "pitch": 0.3
+   },
+   "svg": "awg__arms7_inputs4_outputs4_pitch0.3.svg",
+   "svg2d": "awg__arms7_inputs4_outputs4_pitch0.3.2d.svg",
+   "width": 84.819656,
+   "height": 62.539178,
+   "origin": [
+    42.41,
+    46.322
+   ],
+   "ports": {
+    "i1": {
+     "x": 2.441,
+     "y": 38.668,
+     "kind": "optical"
+    },
+    "i2": {
+     "x": 2.441,
+     "y": 43.771,
+     "kind": "optical"
+    },
+    "i3": {
+     "x": 2.441,
+     "y": 48.873,
+     "kind": "optical"
+    },
+    "i4": {
+     "x": 2.441,
+     "y": 53.976,
+     "kind": "optical"
+    },
+    "o1": {
+     "x": 82.379,
+     "y": 38.668,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 82.379,
+     "y": 43.771,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 82.379,
+     "y": 48.873,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 82.379,
+     "y": 53.976,
+     "kind": "optical"
+    }
+   },
+   "component": "AWGR",
+   "args": {},
+   "also": []
+  },
+  "awg__arms7_inputs8_outputs8_pitch0.3": {
+   "symbol": "awg",
+   "params": {
+    "inputs": 8,
+    "outputs": 8,
+    "arms": 7,
+    "pitch": 0.3
+   },
+   "svg": "awg__arms7_inputs8_outputs8_pitch0.3.svg",
+   "svg2d": "awg__arms7_inputs8_outputs8_pitch0.3.2d.svg",
+   "width": 84.819656,
+   "height": 82.949031,
+   "origin": [
+    42.41,
+    56.527
+   ],
+   "ports": {
+    "i1": {
+     "x": 2.441,
+     "y": 38.668,
+     "kind": "optical"
+    },
+    "i2": {
+     "x": 2.441,
+     "y": 43.771,
+     "kind": "optical"
+    },
+    "i3": {
+     "x": 2.441,
+     "y": 48.873,
+     "kind": "optical"
+    },
+    "i4": {
+     "x": 2.441,
+     "y": 53.976,
+     "kind": "optical"
+    },
+    "i5": {
+     "x": 2.441,
+     "y": 59.078,
+     "kind": "optical"
+    },
+    "i6": {
+     "x": 2.441,
+     "y": 64.181,
+     "kind": "optical"
+    },
+    "i7": {
+     "x": 2.441,
+     "y": 69.283,
+     "kind": "optical"
+    },
+    "i8": {
+     "x": 2.441,
+     "y": 74.386,
+     "kind": "optical"
+    },
+    "o1": {
+     "x": 82.379,
+     "y": 38.668,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 82.379,
+     "y": 43.771,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 82.379,
+     "y": 48.873,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 82.379,
+     "y": 53.976,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 82.379,
+     "y": 59.078,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 82.379,
+     "y": 64.181,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 82.379,
+     "y": 69.283,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 82.379,
+     "y": 74.386,
+     "kind": "optical"
+    }
+   },
+   "component": "AWGR",
+   "args": {
+    "channel_count": 8
+   },
+   "also": []
+  },
+  "laser__contactstop": {
+   "symbol": "laser",
+   "params": {
+    "contacts": "top"
+   },
+   "svg": "laser__contactstop.svg",
+   "svg2d": "laser__contactstop.2d.svg",
+   "width": 37.873036,
+   "height": 27.777255,
+   "origin": [
+    11.338,
+    16.44
+   ],
+   "ports": {
+    "o1": {
+     "x": 35.432,
+     "y": 16.44,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 2.267,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 11.338,
+     "y": 2.267,
+     "kind": "electrical"
+    }
+   },
+   "component": "OnChipLaser",
+   "args": {},
+   "also": []
+  },
+  "laser__dbr": {
+   "symbol": "laser",
+   "params": {
+    "dbr": true
+   },
+   "svg": "laser__dbr.svg",
+   "svg2d": "laser__dbr.2d.svg",
+   "width": 45.984359,
+   "height": 32.879422,
+   "origin": [
+    19.449,
+    16.44
+   ],
+   "ports": {
+    "o1": {
+     "x": 43.544,
+     "y": 16.44,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 19.449,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 19.449,
+     "y": 30.613,
+     "kind": "electrical"
+    }
+   },
+   "component": "DBRLaser",
+   "args": {},
+   "also": []
+  },
+  "soa": {
+   "symbol": "soa",
+   "params": {},
+   "svg": "soa.svg",
+   "svg2d": "soa.2d.svg",
+   "width": 44.566516,
+   "height": 25.4001,
+   "origin": [
+    22.283,
+    15.022
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 15.022,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 42.126,
+     "y": 15.022,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 16.614,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 23.417,
+     "y": 2.267,
+     "kind": "electrical"
+    }
+   },
+   "component": "SOA",
+   "args": {},
+   "also": []
+  },
+  "ybranch": {
+   "symbol": "ybranch",
+   "params": {},
+   "svg": "ybranch.svg",
+   "svg2d": "ybranch.2d.svg",
+   "width": 36.062944,
+   "height": 21.889714,
+   "origin": [
+    18.031,
+    10.945
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 33.622,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 33.622,
+     "y": 19.449,
+     "kind": "optical"
+    }
+   },
+   "component": "YBranch",
+   "args": {},
+   "also": []
+  },
+  "coupler": {
+   "symbol": "coupler",
+   "params": {},
+   "svg": "coupler.svg",
+   "svg2d": "coupler.2d.svg",
+   "width": 47.401345,
+   "height": 20.755606,
+   "origin": [
+    23.701,
+    10.378
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 18.315,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 44.96,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 44.96,
+     "y": 18.315,
+     "kind": "optical"
+    }
+   },
+   "component": "DirectionalCoupler",
+   "args": {},
+   "also": [
+    "AdiabaticCoupler"
+   ]
+  },
+  "coupler__namestap": {
+   "symbol": "coupler",
+   "params": {
+    "names": "tap"
+   },
+   "svg": "coupler__namestap.svg",
+   "svg2d": "coupler__namestap.2d.svg",
+   "width": 47.401345,
+   "height": 20.755606,
+   "origin": [
+    23.701,
+    10.378
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 44.96,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 44.96,
+     "y": 18.315,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 18.315,
+     "kind": "optical"
+    }
+   },
+   "component": "TapCoupler",
+   "args": {},
+   "also": []
+  },
+  "mmi__outputs3_pitch0.3": {
+   "symbol": "mmi",
+   "params": {
+    "outputs": 3,
+    "pitch": 0.3
+   },
+   "svg": "mmi__outputs3_pitch0.3.svg",
+   "svg2d": "mmi__outputs3_pitch0.3.2d.svg",
+   "width": 45.700633,
+   "height": 33.228115,
+   "origin": [
+    22.85,
+    16.614
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 43.26,
+     "y": 25.118,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 43.26,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 43.26,
+     "y": 8.11,
+     "kind": "optical"
+    }
+   },
+   "component": "MMI1x3",
+   "args": {},
+   "also": []
+  },
+  "mmi__outputs4_pitch0.3": {
+   "symbol": "mmi",
+   "params": {
+    "outputs": 4,
+    "pitch": 0.3
+   },
+   "svg": "mmi__outputs4_pitch0.3.svg",
+   "svg2d": "mmi__outputs4_pitch0.3.2d.svg",
+   "width": 45.700633,
+   "height": 41.731686,
+   "origin": [
+    22.85,
+    20.866
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 20.866,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 43.26,
+     "y": 33.622,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 43.26,
+     "y": 25.118,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 43.26,
+     "y": 16.614,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 43.26,
+     "y": 8.11,
+     "kind": "optical"
+    }
+   },
+   "component": "MMI1x4",
+   "args": {},
+   "also": []
+  },
+  "phase": {
+   "symbol": "phase",
+   "params": {},
+   "svg": "phase.svg",
+   "svg2d": "phase.2d.svg",
+   "width": 44.566516,
+   "height": 11.186411,
+   "origin": [
+    22.283,
+    5.593
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 42.126,
+     "y": 5.593,
+     "kind": "optical"
+    },
+    "h1": {
+     "x": 13.779,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 30.787,
+     "y": 2.192,
+     "kind": "electrical"
+    }
+   },
+   "component": "PhaseShifter",
+   "args": {},
+   "also": []
+  },
+  "phase__kindpn": {
+   "symbol": "phase",
+   "params": {
+    "kind": "pn"
+   },
+   "svg": "phase__kindpn.svg",
+   "svg2d": "phase__kindpn.2d.svg",
+   "width": 44.566516,
+   "height": 12.887133,
+   "origin": [
+    22.283,
+    6.444
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 6.444,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 42.126,
+     "y": 6.444,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 22.283,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 22.283,
+     "y": 10.695,
+     "kind": "electrical"
+    }
+   },
+   "component": "PhaseShifter",
+   "args": {
+    "mechanism": "electro_optic"
+   },
+   "also": []
+  },
+  "grating__fiber": {
+   "symbol": "grating",
+   "params": {
+    "fiber": true
+   },
+   "svg": "grating__fiber.svg",
+   "svg2d": "grating__fiber.2d.svg",
+   "width": 33.053768,
+   "height": 15.871392,
+   "origin": [
+    16.614,
+    7.936
+   ],
+   "ports": {
+    "f1": {
+     "x": 22.85,
+     "y": 7.936,
+     "kind": "fiber"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 7.936,
+     "kind": "optical"
+    }
+   },
+   "component": "VerticalGratingCoupler",
+   "args": {},
+   "also": []
+  },
+  "grating__fiber_focused": {
+   "symbol": "grating",
+   "params": {
+    "focused": true,
+    "fiber": true
+   },
+   "svg": "grating__fiber_focused.svg",
+   "svg2d": "grating__fiber_focused.2d.svg",
+   "width": 34.876812,
+   "height": 27.95468,
+   "origin": [
+    16.614,
+    13.977
+   ],
+   "ports": {
+    "f1": {
+     "x": 22.283,
+     "y": 13.977,
+     "kind": "fiber"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 13.977,
+     "kind": "optical"
+    }
+   },
+   "component": "FocusedApodizedGratingCoupler",
+   "args": {},
+   "also": []
+  },
+  "grating2d": {
+   "symbol": "grating2d",
+   "params": {},
+   "svg": "grating2d.svg",
+   "svg2d": "grating2d.2d.svg",
+   "width": 32.203407,
+   "height": 32.203407,
+   "origin": [
+    23.701,
+    8.503
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 8.503,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 23.701,
+     "y": 29.763,
+     "kind": "optical"
+    },
+    "f1": {
+     "x": 23.701,
+     "y": 2.266,
+     "kind": "fiber"
+    }
+   },
+   "component": "TwoDGratingCoupler",
+   "args": {},
+   "also": []
+  },
+  "edge": {
+   "symbol": "edge",
+   "params": {},
+   "svg": "edge.svg",
+   "svg2d": "edge.2d.svg",
+   "width": 38.723387,
+   "height": 21.541021,
+   "origin": [
+    19.275,
+    10.771
+   ],
+   "ports": {
+    "f1": {
+     "x": 2.266,
+     "y": 10.771,
+     "kind": "fiber"
+    },
+    "o1": {
+     "x": 36.283,
+     "y": 10.771,
+     "kind": "optical"
+    }
+   },
+   "component": "EdgeCoupler",
+   "args": {},
+   "also": []
+  },
+  "delay": {
+   "symbol": "delay",
+   "params": {},
+   "svg": "delay.svg",
+   "svg2d": "delay.2d.svg",
+   "width": 44.566516,
+   "height": 16.220085,
+   "origin": [
+    22.283,
+    13.779
+   ],
+   "ports": {
+    "o1": {
+     "x": 42.126,
+     "y": 13.779,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 13.779,
+     "kind": "optical"
+    }
+   },
+   "component": "Spiral",
+   "args": {},
+   "also": []
+  },
+  "terminator": {
+   "symbol": "terminator",
+   "params": {},
+   "svg": "terminator.svg",
+   "svg2d": "terminator.2d.svg",
+   "width": 17.633126,
+   "height": 9.987208,
+   "origin": [
+    2.441,
+    4.994
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 4.994,
+     "kind": "optical"
+    }
+   },
+   "component": "Terminator",
+   "args": {},
+   "also": []
+  },
+  "crossing": {
+   "symbol": "crossing",
+   "params": {},
+   "svg": "crossing.svg",
+   "svg2d": "crossing.2d.svg",
+   "width": 30.393285,
+   "height": 30.393285,
+   "origin": [
+    15.197,
+    15.197
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 15.197,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 27.952,
+     "y": 15.197,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 15.197,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 15.197,
+     "y": 27.952,
+     "kind": "optical"
+    }
+   },
+   "component": "WaveguideCrossing",
+   "args": {},
+   "also": []
+  },
+  "bend": {
+   "symbol": "bend",
+   "params": {},
+   "svg": "bend.svg",
+   "svg2d": "bend.2d.svg",
+   "width": 17.637489,
+   "height": 17.637489,
+   "origin": [
+    15.197,
+    15.197
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 15.197,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 15.197,
+     "y": 2.441,
+     "kind": "optical"
+    }
+   },
+   "component": "WaveguideBend",
+   "args": {},
+   "also": []
+  },
+  "taper": {
+   "symbol": "taper",
+   "params": {},
+   "svg": "taper.svg",
+   "svg2d": "taper.2d.svg",
+   "width": 21.541021,
+   "height": 13.604045,
+   "origin": [
+    10.771,
+    6.802
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.267,
+     "y": 6.802,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 19.275,
+     "y": 6.802,
+     "kind": "optical"
+    }
+   },
+   "component": "Taper",
+   "args": {},
+   "also": []
+  },
+  "bragg": {
+   "symbol": "bragg",
+   "params": {},
+   "svg": "bragg.svg",
+   "svg2d": "bragg.2d.svg",
+   "width": 44.566516,
+   "height": 11.335851,
+   "origin": [
+    22.283,
+    5.668
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 5.668,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 42.126,
+     "y": 5.668,
+     "kind": "optical"
+    }
+   },
+   "component": "BraggGrating",
+   "args": {},
+   "also": []
+  },
+  "eam": {
+   "symbol": "eam",
+   "params": {},
+   "svg": "eam.svg",
+   "svg2d": "eam.2d.svg",
+   "width": 44.566516,
+   "height": 15.721953,
+   "origin": [
+    22.283,
+    7.861
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 7.861,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 42.126,
+     "y": 7.861,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 22.283,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 22.283,
+     "y": 13.53,
+     "kind": "electrical"
+    }
+   },
+   "component": "ElectroAbsorptionModulator",
+   "args": {},
+   "also": []
+  },
+  "racetrack": {
+   "symbol": "racetrack",
+   "params": {},
+   "svg": "racetrack.svg",
+   "svg2d": "racetrack.2d.svg",
+   "width": 50.236144,
+   "height": 22.288219,
+   "origin": [
+    25.118,
+    19.847
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 19.847,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 19.847,
+     "kind": "optical"
+    }
+   },
+   "component": "RacetrackResonator",
+   "args": {},
+   "also": []
+  },
+  "racetrack__drop": {
+   "symbol": "racetrack",
+   "params": {
+    "drop": true
+   },
+   "svg": "racetrack__drop.svg",
+   "svg2d": "racetrack__drop.2d.svg",
+   "width": 50.236144,
+   "height": 24.157061,
+   "origin": [
+    25.118,
+    21.716
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 47.795,
+     "y": 2.441,
+     "kind": "optical"
+    }
+   },
+   "component": "RacetrackResonator",
+   "args": {
+    "add_drop": true
+   },
+   "also": []
+  },
+  "racetrack__heater": {
+   "symbol": "racetrack",
+   "params": {
+    "heater": true
+   },
+   "svg": "racetrack__heater.svg",
+   "svg2d": "racetrack__heater.2d.svg",
+   "width": 50.236144,
+   "height": 23.353425,
+   "origin": [
+    25.118,
+    20.913
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 20.913,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 20.913,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 35.606,
+     "y": 4.892,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 35.606,
+     "y": 17.657,
+     "kind": "electrical"
+    }
+   },
+   "component": "RacetrackResonator",
+   "args": {
+    "with_heater": true
+   },
+   "also": []
+  },
+  "racetrack__drop_heater": {
+   "symbol": "racetrack",
+   "params": {
+    "drop": true,
+    "heater": true
+   },
+   "svg": "racetrack__drop_heater.svg",
+   "svg2d": "racetrack__drop_heater.2d.svg",
+   "width": 50.236144,
+   "height": 24.157061,
+   "origin": [
+    25.118,
+    21.716
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 47.795,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 35.606,
+     "y": 5.696,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 35.606,
+     "y": 18.461,
+     "kind": "electrical"
+    }
+   }
+  },
+  "racetrack__pn": {
+   "symbol": "racetrack",
+   "params": {
+    "pn": true
+   },
+   "svg": "racetrack__pn.svg",
+   "svg2d": "racetrack__pn.2d.svg",
+   "width": 50.236144,
+   "height": 22.888946,
+   "origin": [
+    25.118,
+    20.448
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 20.448,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 20.448,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 14.586,
+     "y": 9.453,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 8.193,
+     "y": 14.494,
+     "kind": "electrical"
+    }
+   },
+   "component": "RacetrackModulator",
+   "args": {
+    "add_drop": false,
+    "with_heater": false
+   },
+   "also": []
+  },
+  "racetrack__heater_pn": {
+   "symbol": "racetrack",
+   "params": {
+    "pn": true,
+    "heater": true
+   },
+   "svg": "racetrack__heater_pn.svg",
+   "svg2d": "racetrack__heater_pn.2d.svg",
+   "width": 50.236144,
+   "height": 23.353425,
+   "origin": [
+    25.118,
+    20.913
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 20.913,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 20.913,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 14.586,
+     "y": 9.918,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 8.193,
+     "y": 14.959,
+     "kind": "electrical"
+    },
+    "h1": {
+     "x": 35.606,
+     "y": 4.892,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 35.606,
+     "y": 17.657,
+     "kind": "electrical"
+    }
+   },
+   "component": "RacetrackModulator",
+   "args": {
+    "add_drop": false
+   },
+   "also": []
+  },
+  "racetrack__drop_pn": {
+   "symbol": "racetrack",
+   "params": {
+    "drop": true,
+    "pn": true
+   },
+   "svg": "racetrack__drop_pn.svg",
+   "svg2d": "racetrack__drop_pn.2d.svg",
+   "width": 50.236144,
+   "height": 24.157061,
+   "origin": [
+    25.118,
+    21.716
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 47.795,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 14.586,
+     "y": 10.721,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 8.193,
+     "y": 15.762,
+     "kind": "electrical"
+    }
+   }
+  },
+  "sagnac": {
+   "symbol": "sagnac",
+   "params": {},
+   "svg": "sagnac.svg",
+   "svg2d": "sagnac.2d.svg",
+   "width": 51.653131,
+   "height": 38.897743,
+   "origin": [
+    23.701,
+    19.449
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 11.512,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 27.386,
+     "kind": "optical"
+    }
+   },
+   "component": "SagnacLoop",
+   "args": {},
+   "also": []
+  },
+  "converter__kinddac": {
+   "symbol": "converter",
+   "params": {
+    "kind": "dac"
+   },
+   "svg": "converter__kinddac.svg",
+   "svg2d": "converter__kinddac.2d.svg",
+   "width": 41.382994,
+   "height": 34.013529,
+   "origin": [
+    20.691,
+    17.007
+   ],
+   "ports": {
+    "din": {
+     "x": 2.266,
+     "y": 12.471,
+     "kind": "electrical"
+    },
+    "clk": {
+     "x": 2.266,
+     "y": 21.542,
+     "kind": "electrical"
+    },
+    "ref": {
+     "x": 16.44,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 16.44,
+     "y": 31.747,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 39.117,
+     "y": 12.471,
+     "kind": "electrical"
+    },
+    "out_n": {
+     "x": 39.117,
+     "y": 21.542,
+     "kind": "electrical"
+    }
+   },
+   "component": "DAC",
+   "args": {},
+   "also": []
+  },
+  "converter__kinddac_portschip": {
+   "symbol": "converter",
+   "params": {
+    "kind": "dac",
+    "ports": "chip"
+   },
+   "svg": "converter__kinddac_portschip.svg",
+   "svg2d": "converter__kinddac_portschip.2d.svg",
+   "width": 41.382994,
+   "height": 23.808359,
+   "origin": [
+    20.691,
+    11.904
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.266,
+     "y": 7.369,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 2.266,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "e3": {
+     "x": 39.117,
+     "y": 7.369,
+     "kind": "electrical"
+    },
+    "e4": {
+     "x": 39.117,
+     "y": 16.44,
+     "kind": "electrical"
+    }
+   },
+   "component": "DACDriver",
+   "args": {},
+   "also": []
+  },
+  "converter__kindadc": {
+   "symbol": "converter",
+   "params": {
+    "kind": "adc"
+   },
+   "svg": "converter__kindadc.svg",
+   "svg2d": "converter__kindadc.2d.svg",
+   "width": 41.382994,
+   "height": 34.013529,
+   "origin": [
+    20.691,
+    17.007
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 17.007,
+     "kind": "electrical"
+    },
+    "clk": {
+     "x": 16.44,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "ref": {
+     "x": 12.187,
+     "y": 31.747,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 20.691,
+     "y": 31.747,
+     "kind": "electrical"
+    },
+    "dout": {
+     "x": 39.117,
+     "y": 17.007,
+     "kind": "electrical"
+    }
+   },
+   "component": "ADCBlock",
+   "args": {},
+   "also": []
+  },
+  "converter__kindadc_portschip": {
+   "symbol": "converter",
+   "params": {
+    "kind": "adc",
+    "ports": "chip"
+   },
+   "svg": "converter__kindadc_portschip.svg",
+   "svg2d": "converter__kindadc_portschip.2d.svg",
+   "width": 41.382994,
+   "height": 28.910944,
+   "origin": [
+    20.691,
+    11.904
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.266,
+     "y": 11.904,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 16.44,
+     "y": 26.644,
+     "kind": "electrical"
+    },
+    "e3": {
+     "x": 39.117,
+     "y": 11.904,
+     "kind": "electrical"
+    }
+   },
+   "component": "ADC",
+   "args": {},
+   "also": []
+  },
+  "amplifier__markresistor_portschip": {
+   "symbol": "amplifier",
+   "params": {
+    "mark": "resistor",
+    "ports": "chip"
+   },
+   "svg": "amplifier__markresistor_portschip.svg",
+   "svg2d": "amplifier__markresistor_portschip.2d.svg",
+   "width": 38.549041,
+   "height": 24.942446,
+   "origin": [
+    19.275,
+    12.471
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.266,
+     "y": 12.471,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 36.283,
+     "y": 12.471,
+     "kind": "electrical"
+    }
+   },
+   "component": "TIA",
+   "args": {},
+   "also": []
+  },
+  "amplifier__markresistor": {
+   "symbol": "amplifier",
+   "params": {
+    "mark": "resistor"
+   },
+   "svg": "amplifier__markresistor.svg",
+   "svg2d": "amplifier__markresistor.2d.svg",
+   "width": 38.549041,
+   "height": 32.879422,
+   "origin": [
+    19.275,
+    16.44
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 36.283,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "vdd": {
+     "x": 16.44,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 16.44,
+     "y": 30.613,
+     "kind": "electrical"
+    }
+   },
+   "component": "TIABlock",
+   "args": {},
+   "also": []
+  },
+  "amplifier__markcapacitor": {
+   "symbol": "amplifier",
+   "params": {
+    "mark": "capacitor"
+   },
+   "svg": "amplifier__markcapacitor.svg",
+   "svg2d": "amplifier__markcapacitor.2d.svg",
+   "width": 38.549041,
+   "height": 32.879422,
+   "origin": [
+    19.275,
+    16.44
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 36.283,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "vdd": {
+     "x": 16.44,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 16.44,
+     "y": 30.613,
+     "kind": "electrical"
+    }
+   },
+   "component": "TIABlock",
+   "args": {
+    "mode": "integrator"
+   },
+   "also": []
+  },
+  "amplifier__diff": {
+   "symbol": "amplifier",
+   "params": {
+    "diff": true
+   },
+   "svg": "amplifier__diff.svg",
+   "svg2d": "amplifier__diff.2d.svg",
+   "width": 38.549041,
+   "height": 32.879422,
+   "origin": [
+    19.275,
+    16.44
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "out_p": {
+     "x": 36.283,
+     "y": 13.038,
+     "kind": "electrical"
+    },
+    "out_n": {
+     "x": 36.283,
+     "y": 19.841,
+     "kind": "electrical"
+    },
+    "bias": {
+     "x": 16.44,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 16.44,
+     "y": 30.613,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFDriver",
+   "args": {},
+   "also": []
+  },
+  "photodiode__balanced_portsblock": {
+   "symbol": "photodiode",
+   "params": {
+    "balanced": true,
+    "ports": "block"
+   },
+   "svg": "photodiode__balanced_portsblock.svg",
+   "svg2d": "photodiode__balanced_portsblock.2d.svg",
+   "width": 38.722969,
+   "height": 56.974077,
+   "origin": [
+    22.283,
+    30.613
+   ],
+   "ports": {
+    "opt_p": {
+     "x": 2.441,
+     "y": 18.707,
+     "kind": "optical"
+    },
+    "opt_n": {
+     "x": 2.441,
+     "y": 42.518,
+     "kind": "optical"
+    },
+    "out": {
+     "x": 36.456,
+     "y": 30.613,
+     "kind": "electrical"
+    },
+    "bias": {
+     "x": 22.283,
+     "y": 6.518,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 22.283,
+     "y": 54.708,
+     "kind": "electrical"
+    }
+   },
+   "component": "BalancedPhotodetector",
+   "args": {},
+   "also": []
+  },
+  "photodiode__balanced_portsblock_viewtop": {
+   "symbol": "photodiode",
+   "params": {
+    "balanced": true,
+    "ports": "block",
+    "view": "top"
+   },
+   "svg": "photodiode__balanced_portsblock_viewtop.svg",
+   "svg2d": "photodiode__balanced_portsblock_viewtop.2d.svg",
+   "width": 54.511691,
+   "height": 60.091766,
+   "origin": [
+    18.91,
+    30.046
+   ],
+   "ports": {
+    "opt_p": {
+     "x": 2.441,
+     "y": 18.14,
+     "kind": "optical"
+    },
+    "opt_n": {
+     "x": 2.441,
+     "y": 41.951,
+     "kind": "optical"
+    },
+    "out": {
+     "x": 52.245,
+     "y": 30.046,
+     "kind": "electrical"
+    },
+    "bias": {
+     "x": 18.91,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 18.91,
+     "y": 57.825,
+     "kind": "electrical"
+    }
+   },
+   "component": "BalancedPhotodetector",
+   "args": {},
+   "also": []
+  },
+  "echelle__outputs8_pitch0.2": {
+   "symbol": "echelle",
+   "params": {
+    "outputs": 8,
+    "pitch": 0.2
+   },
+   "svg": "echelle__outputs8_pitch0.2.svg",
+   "svg2d": "echelle__outputs8_pitch0.2.2d.svg",
+   "width": 44.280239,
+   "height": 59.288498,
+   "origin": [
+    22.283,
+    29.644
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 52.321,
+     "kind": "optical"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 46.652,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 40.983,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 35.313,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 29.644,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 2.441,
+     "y": 23.975,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 2.441,
+     "y": 18.306,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 2.441,
+     "y": 12.637,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 2.441,
+     "y": 6.967,
+     "kind": "optical"
+    }
+   },
+   "component": "EchelleGrating",
+   "args": {},
+   "also": []
+  },
+  "echelle__outputs4_pitch0.2": {
+   "symbol": "echelle",
+   "params": {
+    "outputs": 4,
+    "pitch": 0.2
+   },
+   "svg": "echelle__outputs4_pitch0.2.svg",
+   "svg2d": "echelle__outputs4_pitch0.2.2d.svg",
+   "width": 44.280249,
+   "height": 37.50658,
+   "origin": [
+    22.283,
+    18.753
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 30.091,
+     "kind": "optical"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 24.422,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 18.753,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 13.084,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 7.415,
+     "kind": "optical"
+    }
+   },
+   "component": "EchelleGrating",
+   "args": {
+    "channel_count": 4
+   },
+   "also": []
+  },
+  "gratingarray__count8": {
+   "symbol": "gratingarray",
+   "params": {
+    "count": 8
+   },
+   "svg": "gratingarray__count8.svg",
+   "svg2d": "gratingarray__count8.2d.svg",
+   "width": 74.26673,
+   "height": 27.384568,
+   "origin": [
+    37.133,
+    7.936
+   ],
+   "ports": {
+    "o1": {
+     "x": 5.385,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f1": {
+     "x": 5.385,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o2": {
+     "x": 14.456,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f2": {
+     "x": 14.456,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o3": {
+     "x": 23.527,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f3": {
+     "x": 23.527,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o4": {
+     "x": 32.598,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f4": {
+     "x": 32.598,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o5": {
+     "x": 41.669,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f5": {
+     "x": 41.669,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o6": {
+     "x": 50.74,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f6": {
+     "x": 50.74,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o7": {
+     "x": 59.811,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f7": {
+     "x": 59.811,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o8": {
+     "x": 68.882,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f8": {
+     "x": 68.882,
+     "y": 2.266,
+     "kind": "fiber"
+    }
+   },
+   "component": "GratingCouplerArray",
+   "args": {},
+   "also": []
+  },
+  "gratingarray__count4": {
+   "symbol": "gratingarray",
+   "params": {
+    "count": 4
+   },
+   "svg": "gratingarray__count4.svg",
+   "svg2d": "gratingarray__count4.2d.svg",
+   "width": 37.982446,
+   "height": 27.384568,
+   "origin": [
+    18.991,
+    7.936
+   ],
+   "ports": {
+    "o1": {
+     "x": 5.385,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f1": {
+     "x": 5.385,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o2": {
+     "x": 14.456,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f2": {
+     "x": 14.456,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o3": {
+     "x": 23.527,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f3": {
+     "x": 23.527,
+     "y": 2.266,
+     "kind": "fiber"
+    },
+    "o4": {
+     "x": 32.598,
+     "y": 24.944,
+     "kind": "optical"
+    },
+    "f4": {
+     "x": 32.598,
+     "y": 2.266,
+     "kind": "fiber"
+    }
+   },
+   "component": "GratingCouplerArray",
+   "args": {
+    "count": 4
+   },
+   "also": []
+  },
+  "iobank__count8": {
+   "symbol": "iobank",
+   "params": {
+    "count": 8
+   },
+   "svg": "iobank__count8.svg",
+   "svg2d": "iobank__count8.2d.svg",
+   "width": 29.369026,
+   "height": 70.863562,
+   "origin": [
+    18.031,
+    35.432
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 63.211,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 55.274,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 47.337,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 39.4,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 2.441,
+     "y": 31.463,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 2.441,
+     "y": 23.526,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 2.441,
+     "y": 15.589,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 2.441,
+     "y": 7.652,
+     "kind": "optical"
+    }
+   },
+   "component": "OpticalIOBank",
+   "args": {},
+   "also": []
+  },
+  "iobank__count4": {
+   "symbol": "iobank",
+   "params": {
+    "count": 4
+   },
+   "svg": "iobank__count4.svg",
+   "svg2d": "iobank__count4.2d.svg",
+   "width": 29.369026,
+   "height": 39.115676,
+   "origin": [
+    18.031,
+    19.558
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 31.463,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 23.526,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 15.589,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 7.652,
+     "kind": "optical"
+    }
+   },
+   "component": "OpticalIOBank",
+   "args": {
+    "count": 4
+   },
+   "also": []
+  },
+  "weightbank__count4": {
+   "symbol": "weightbank",
+   "params": {
+    "count": 4
+   },
+   "svg": "weightbank__count4.svg",
+   "svg2d": "weightbank__count4.2d.svg",
+   "width": 93.889066,
+   "height": 34.187866,
+   "origin": [
+    46.945,
+    26.252
+   ],
+   "ports": {
+    "d1": {
+     "x": 18.031,
+     "y": 8.11,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 12.816,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 23.247,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "d2": {
+     "x": 37.307,
+     "y": 8.11,
+     "kind": "optical"
+    },
+    "e3": {
+     "x": 32.091,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "e4": {
+     "x": 42.523,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "d3": {
+     "x": 56.582,
+     "y": 8.11,
+     "kind": "optical"
+    },
+    "e5": {
+     "x": 51.366,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "e6": {
+     "x": 61.798,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "d4": {
+     "x": 75.858,
+     "y": 8.11,
+     "kind": "optical"
+    },
+    "e7": {
+     "x": 70.642,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "e8": {
+     "x": 81.073,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 26.252,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 91.448,
+     "y": 26.252,
+     "kind": "optical"
+    },
+    "drop": {
+     "x": 91.448,
+     "y": 2.441,
+     "kind": "optical"
+    }
+   },
+   "component": "MicroringWeightBank",
+   "args": {},
+   "also": []
+  },
+  "weightbank__count2": {
+   "symbol": "weightbank",
+   "params": {
+    "count": 2
+   },
+   "svg": "weightbank__count2.svg",
+   "svg2d": "weightbank__count2.2d.svg",
+   "width": 55.338321,
+   "height": 34.187866,
+   "origin": [
+    27.669,
+    26.252
+   ],
+   "ports": {
+    "d1": {
+     "x": 18.031,
+     "y": 8.11,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 12.816,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 23.247,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "d2": {
+     "x": 37.307,
+     "y": 8.11,
+     "kind": "optical"
+    },
+    "e3": {
+     "x": 32.091,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "e4": {
+     "x": 42.523,
+     "y": 31.921,
+     "kind": "electrical"
+    },
+    "o1": {
+     "x": 2.441,
+     "y": 26.252,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 52.897,
+     "y": 26.252,
+     "kind": "optical"
+    },
+    "drop": {
+     "x": 52.897,
+     "y": 2.441,
+     "kind": "optical"
+    }
+   },
+   "component": "MicroringWeightBank",
+   "args": {
+    "ring_count": 2
+   },
+   "also": []
+  },
+  "polrotator": {
+   "symbol": "polrotator",
+   "params": {},
+   "svg": "polrotator.svg",
+   "svg2d": "polrotator.2d.svg",
+   "width": 38.897743,
+   "height": 18.323268,
+   "origin": [
+    19.449,
+    13.789
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 13.789,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 36.457,
+     "y": 13.789,
+     "kind": "optical"
+    }
+   },
+   "component": "PolarizationRotator",
+   "args": {},
+   "also": []
+  },
+  "psr": {
+   "symbol": "psr",
+   "params": {},
+   "svg": "psr.svg",
+   "svg2d": "psr.2d.svg",
+   "width": 44.566516,
+   "height": 31.121823,
+   "origin": [
+    22.283,
+    15.561
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 15.561,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 42.126,
+     "y": 8.191,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 42.126,
+     "y": 22.931,
+     "kind": "optical"
+    }
+   },
+   "component": "PolarizationSplitterRotator",
+   "args": {},
+   "also": []
+  },
+  "wdminput": {
+   "symbol": "wdminput",
+   "params": {},
+   "svg": "wdminput.svg",
+   "svg2d": "wdminput.2d.svg",
+   "width": 37.305574,
+   "height": 21.889714,
+   "origin": [
+    23.526,
+    10.945
+   ],
+   "ports": {
+    "o1": {
+     "x": 34.865,
+     "y": 10.945,
+     "kind": "optical"
+    }
+   },
+   "component": "PresetWDMInput",
+   "args": {},
+   "also": []
+  },
+  "racetrack__drop_heater_pn": {
+   "symbol": "racetrack",
+   "params": {
+    "drop": true,
+    "pn": true,
+    "heater": true
+   },
+   "svg": "racetrack__drop_heater_pn.svg",
+   "svg2d": "racetrack__drop_heater_pn.2d.svg",
+   "width": 50.236144,
+   "height": 24.157061,
+   "origin": [
+    25.118,
+    21.716
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 47.795,
+     "y": 21.716,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 47.795,
+     "y": 2.441,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 14.586,
+     "y": 10.721,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 8.193,
+     "y": 15.762,
+     "kind": "electrical"
+    },
+    "h1": {
+     "x": 35.606,
+     "y": 5.696,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 35.606,
+     "y": 18.461,
+     "kind": "electrical"
+    }
+   },
+   "component": "RacetrackModulator",
+   "args": {},
+   "also": []
+  },
+  "antennaarray__count8": {
+   "symbol": "antennaarray",
+   "params": {
+    "count": 8
+   },
+   "svg": "antennaarray__count8.svg",
+   "svg2d": "antennaarray__count8.2d.svg",
+   "width": 37.305993,
+   "height": 62.642839,
+   "origin": [
+    19.449,
+    31.321
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 59.101,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 51.164,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 43.227,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 35.29,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 2.441,
+     "y": 27.353,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 2.441,
+     "y": 19.416,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 2.441,
+     "y": 11.479,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 2.441,
+     "y": 3.542,
+     "kind": "optical"
+    }
+   },
+   "component": "GratingAntennaArray",
+   "args": {},
+   "also": []
+  },
+  "antennaarray__count4": {
+   "symbol": "antennaarray",
+   "params": {
+    "count": 4
+   },
+   "svg": "antennaarray__count4.svg",
+   "svg2d": "antennaarray__count4.2d.svg",
+   "width": 37.305993,
+   "height": 30.894944,
+   "origin": [
+    19.449,
+    15.447
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 27.353,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 19.416,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 11.479,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 3.542,
+     "kind": "optical"
+    }
+   },
+   "component": "GratingAntennaArray",
+   "args": {
+    "count": 4
+   },
+   "also": []
+  },
+  "antennaarray__count16": {
+   "symbol": "antennaarray",
+   "params": {
+    "count": 16
+   },
+   "svg": "antennaarray__count16.svg",
+   "svg2d": "antennaarray__count16.2d.svg",
+   "width": 37.305993,
+   "height": 126.13858,
+   "origin": [
+    19.449,
+    63.069
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 122.597,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 114.66,
+     "kind": "optical"
+    },
+    "o3": {
+     "x": 2.441,
+     "y": 106.723,
+     "kind": "optical"
+    },
+    "o4": {
+     "x": 2.441,
+     "y": 98.786,
+     "kind": "optical"
+    },
+    "o5": {
+     "x": 2.441,
+     "y": 90.849,
+     "kind": "optical"
+    },
+    "o6": {
+     "x": 2.441,
+     "y": 82.912,
+     "kind": "optical"
+    },
+    "o7": {
+     "x": 2.441,
+     "y": 74.975,
+     "kind": "optical"
+    },
+    "o8": {
+     "x": 2.441,
+     "y": 67.038,
+     "kind": "optical"
+    },
+    "o9": {
+     "x": 2.441,
+     "y": 59.101,
+     "kind": "optical"
+    },
+    "o10": {
+     "x": 2.441,
+     "y": 51.164,
+     "kind": "optical"
+    },
+    "o11": {
+     "x": 2.441,
+     "y": 43.227,
+     "kind": "optical"
+    },
+    "o12": {
+     "x": 2.441,
+     "y": 35.29,
+     "kind": "optical"
+    },
+    "o13": {
+     "x": 2.441,
+     "y": 27.353,
+     "kind": "optical"
+    },
+    "o14": {
+     "x": 2.441,
+     "y": 19.416,
+     "kind": "optical"
+    },
+    "o15": {
+     "x": 2.441,
+     "y": 11.479,
+     "kind": "optical"
+    },
+    "o16": {
+     "x": 2.441,
+     "y": 3.542,
+     "kind": "optical"
+    }
+   },
+   "component": "GratingAntennaArray",
+   "args": {
+    "count": 16
+   },
+   "also": []
+  },
+  "pcm": {
+   "symbol": "pcm",
+   "params": {},
+   "svg": "pcm.svg",
+   "svg2d": "pcm.2d.svg",
+   "width": 33.228115,
+   "height": 9.068503,
+   "origin": [
+    16.614,
+    4.534
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 4.534,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 30.787,
+     "y": 4.534,
+     "kind": "optical"
+    }
+   },
+   "component": "PCMCell",
+   "args": {},
+   "also": []
+  },
+  "eoracetrack": {
+   "symbol": "eoracetrack",
+   "params": {},
+   "svg": "eoracetrack.svg",
+   "svg2d": "eoracetrack.2d.svg",
+   "width": 45.248757,
+   "height": 30.462635,
+   "origin": [
+    23.701,
+    15.231
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 3.326,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 2.441,
+     "y": 27.137,
+     "kind": "optical"
+    },
+    "gnd1": {
+     "x": 23.701,
+     "y": 2.192,
+     "kind": "electrical"
+    },
+    "sig": {
+     "x": 23.701,
+     "y": 15.231,
+     "kind": "electrical"
+    },
+    "gnd2": {
+     "x": 23.701,
+     "y": 28.271,
+     "kind": "electrical"
+    }
+   },
+   "component": "EORacetrackModulator",
+   "args": {},
+   "also": []
+  },
+  "pad": {
+   "symbol": "pad",
+   "params": {},
+   "svg": "pad.svg",
+   "svg2d": "pad.2d.svg",
+   "width": 11.186411,
+   "height": 11.186411,
+   "origin": [
+    5.593,
+    5.593
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.192,
+     "y": 5.593,
+     "kind": "electrical"
+    }
+   },
+   "component": "ElectricalPad",
+   "args": {},
+   "also": []
+  },
+  "gsg": {
+   "symbol": "gsg",
+   "params": {},
+   "svg": "gsg.svg",
+   "svg2d": "gsg.2d.svg",
+   "width": 12.887133,
+   "height": 32.729983,
+   "origin": [
+    6.444,
+    16.365
+   ],
+   "ports": {
+    "g1": {
+     "x": 2.192,
+     "y": 6.16,
+     "kind": "electrical"
+    },
+    "s": {
+     "x": 2.192,
+     "y": 16.365,
+     "kind": "electrical"
+    },
+    "g2": {
+     "x": 2.192,
+     "y": 26.57,
+     "kind": "electrical"
+    }
+   },
+   "component": "GSGProbePad",
+   "args": {},
+   "also": []
+  },
+  "heaterpad": {
+   "symbol": "heaterpad",
+   "params": {},
+   "svg": "heaterpad.svg",
+   "svg2d": "heaterpad.2d.svg",
+   "width": 32.729983,
+   "height": 11.186411,
+   "origin": [
+    16.365,
+    5.593
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.192,
+     "y": 5.593,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 30.538,
+     "y": 5.593,
+     "kind": "electrical"
+    }
+   },
+   "component": "HeaterPad",
+   "args": {},
+   "also": []
+  },
+  "mems": {
+   "symbol": "mems",
+   "params": {},
+   "svg": "mems.svg",
+   "svg2d": "mems.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 30.613,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "MEMSActuator",
+   "args": {},
+   "also": []
+  },
+  "polcontroller__count3": {
+   "symbol": "polcontroller",
+   "params": {
+    "count": 3
+   },
+   "svg": "polcontroller__count3.svg",
+   "svg2d": "polcontroller__count3.2d.svg",
+   "width": 53.070117,
+   "height": 20.505136,
+   "origin": [
+    26.535,
+    14.27
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 14.27,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 50.629,
+     "y": 14.27,
+     "kind": "fiber"
+    }
+   },
+   "component": "PolarizationController",
+   "args": {},
+   "also": []
+  },
+  "fiberamp": {
+   "symbol": "fiberamp",
+   "params": {},
+   "svg": "fiberamp.svg",
+   "svg2d": "fiberamp.2d.svg",
+   "width": 44.566516,
+   "height": 21.889714,
+   "origin": [
+    22.283,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 42.126,
+     "y": 10.945,
+     "kind": "fiber"
+    }
+   },
+   "component": "FiberAmplifier",
+   "args": {},
+   "also": []
+  },
+  "circulator": {
+   "symbol": "circulator",
+   "params": {},
+   "svg": "circulator.svg",
+   "svg2d": "circulator.2d.svg",
+   "width": 38.897743,
+   "height": 30.393724,
+   "origin": [
+    19.449,
+    10.945
+   ],
+   "ports": {
+    "p1": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "fiber"
+    },
+    "p2": {
+     "x": 36.457,
+     "y": 10.945,
+     "kind": "fiber"
+    },
+    "p3": {
+     "x": 19.449,
+     "y": 27.953,
+     "kind": "fiber"
+    }
+   },
+   "component": "FiberCirculator",
+   "args": {},
+   "also": []
+  },
+  "fibercoupler": {
+   "symbol": "fibercoupler",
+   "params": {},
+   "svg": "fibercoupler.svg",
+   "svg2d": "fibercoupler.2d.svg",
+   "width": 50.236144,
+   "height": 16.220085,
+   "origin": [
+    25.118,
+    8.11
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "fiber"
+    },
+    "in2": {
+     "x": 2.441,
+     "y": 13.779,
+     "kind": "fiber"
+    },
+    "out1": {
+     "x": 47.795,
+     "y": 2.441,
+     "kind": "fiber"
+    },
+    "out2": {
+     "x": 47.795,
+     "y": 13.779,
+     "kind": "fiber"
+    }
+   },
+   "component": "FiberCoupler",
+   "args": {},
+   "also": []
+  },
+  "spool": {
+   "symbol": "spool",
+   "params": {},
+   "svg": "spool.svg",
+   "svg2d": "spool.2d.svg",
+   "width": 38.897743,
+   "height": 23.75999,
+   "origin": [
+    19.449,
+    11.88
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 11.88,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 36.457,
+     "y": 11.88,
+     "kind": "fiber"
+    }
+   },
+   "component": "FiberSpool",
+   "args": {},
+   "also": []
+  },
+  "voa": {
+   "symbol": "voa",
+   "params": {},
+   "svg": "voa.svg",
+   "svg2d": "voa.2d.svg",
+   "width": 38.897743,
+   "height": 20.406904,
+   "origin": [
+    19.449,
+    10.203
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.203,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 36.457,
+     "y": 10.203,
+     "kind": "fiber"
+    }
+   },
+   "component": "VariableAttenuator",
+   "args": {},
+   "also": []
+  },
+  "polcontroller__count2": {
+   "symbol": "polcontroller",
+   "params": {
+    "count": 2
+   },
+   "svg": "polcontroller__count2.svg",
+   "svg2d": "polcontroller__count2.2d.svg",
+   "width": 41.731686,
+   "height": 20.505136,
+   "origin": [
+    20.866,
+    14.27
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 14.27,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 39.291,
+     "y": 14.27,
+     "kind": "fiber"
+    }
+   },
+   "component": "PolarizationController",
+   "args": {
+    "paddles": 2
+   },
+   "also": []
+  },
+  "polcontroller__count4": {
+   "symbol": "polcontroller",
+   "params": {
+    "count": 4
+   },
+   "svg": "polcontroller__count4.svg",
+   "svg2d": "polcontroller__count4.2d.svg",
+   "width": 64.408518,
+   "height": 20.505136,
+   "origin": [
+    32.204,
+    14.27
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 14.27,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 61.968,
+     "y": 14.27,
+     "kind": "fiber"
+    }
+   },
+   "component": "PolarizationController",
+   "args": {
+    "paddles": 4
+   },
+   "also": []
+  },
+  "comb": {
+   "symbol": "comb",
+   "params": {},
+   "svg": "comb.svg",
+   "svg2d": "comb.2d.svg",
+   "width": 44.392179,
+   "height": 32.879422,
+   "origin": [
+    7.936,
+    16.44
+   ],
+   "ports": {
+    "o1": {
+     "x": 41.951,
+     "y": 16.44,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 7.936,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 7.936,
+     "y": 30.613,
+     "kind": "electrical"
+    }
+   },
+   "component": "FrequencyComb",
+   "args": {},
+   "also": []
+  },
+  "iqmod": {
+   "symbol": "iqmod",
+   "params": {},
+   "svg": "iqmod.svg",
+   "svg2d": "iqmod.2d.svg",
+   "width": 104.094237,
+   "height": 50.87213,
+   "origin": [
+    52.047,
+    25.436
+   ],
+   "ports": {
+    "o1": {
+     "x": 2.441,
+     "y": 25.436,
+     "kind": "optical"
+    },
+    "o2": {
+     "x": 101.653,
+     "y": 25.436,
+     "kind": "optical"
+    },
+    "i_sig": {
+     "x": 36.4,
+     "y": 3.184,
+     "kind": "electrical"
+    },
+    "i_gnd": {
+     "x": 36.4,
+     "y": 9.845,
+     "kind": "electrical"
+    },
+    "q_sig": {
+     "x": 36.4,
+     "y": 47.688,
+     "kind": "electrical"
+    },
+    "q_gnd": {
+     "x": 36.4,
+     "y": 41.027,
+     "kind": "electrical"
+    },
+    "h1": {
+     "x": 69.253,
+     "y": 46.129,
+     "kind": "electrical"
+    },
+    "h2": {
+     "x": 79.175,
+     "y": 46.129,
+     "kind": "electrical"
+    }
+   },
+   "component": "IQModulator",
+   "args": {},
+   "also": []
+  },
+  "comb__contactstop": {
+   "symbol": "comb",
+   "params": {
+    "contacts": "top"
+   },
+   "svg": "comb__contactstop.svg",
+   "svg2d": "comb__contactstop.2d.svg",
+   "width": 47.794042,
+   "height": 27.777255,
+   "origin": [
+    11.338,
+    16.44
+   ],
+   "ports": {
+    "o1": {
+     "x": 45.353,
+     "y": 16.44,
+     "kind": "optical"
+    },
+    "e1": {
+     "x": 2.267,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 11.338,
+     "y": 2.267,
+     "kind": "electrical"
+    }
+   }
+  },
+  "oscilloscope": {
+   "symbol": "oscilloscope",
+   "params": {},
+   "svg": "oscilloscope.svg",
+   "svg2d": "oscilloscope.2d.svg",
+   "width": 50.236144,
+   "height": 34.471163,
+   "origin": [
+    25.118,
+    15.197
+   ],
+   "ports": {
+    "ch1": {
+     "x": 13.78,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "ch2": {
+     "x": 25.118,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "usb": {
+     "x": 41.559,
+     "y": 32.205,
+     "kind": "electrical"
+    }
+   },
+   "component": "Oscilloscope",
+   "args": {},
+   "also": []
+  },
+  "awginstrument": {
+   "symbol": "awginstrument",
+   "params": {},
+   "svg": "awginstrument.svg",
+   "svg2d": "awginstrument.2d.svg",
+   "width": 50.236144,
+   "height": 34.470735,
+   "origin": [
+    25.118,
+    15.197
+   ],
+   "ports": {
+    "sync": {
+     "x": 13.78,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "out1": {
+     "x": 26.535,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "out2": {
+     "x": 39.291,
+     "y": 32.205,
+     "kind": "electrical"
+    }
+   },
+   "component": "WaveformGenerator",
+   "args": {},
+   "also": []
+  },
+  "vna": {
+   "symbol": "vna",
+   "params": {},
+   "svg": "vna.svg",
+   "svg2d": "vna.2d.svg",
+   "width": 50.236144,
+   "height": 34.470735,
+   "origin": [
+    25.118,
+    15.197
+   ],
+   "ports": {
+    "p1": {
+     "x": 13.78,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "p2": {
+     "x": 27.953,
+     "y": 32.205,
+     "kind": "electrical"
+    }
+   },
+   "component": "VNA",
+   "args": {},
+   "also": []
+  },
+  "osa": {
+   "symbol": "osa",
+   "params": {},
+   "svg": "osa.svg",
+   "svg2d": "osa.2d.svg",
+   "width": 50.236144,
+   "height": 34.470735,
+   "origin": [
+    25.118,
+    15.197
+   ],
+   "ports": {
+    "in": {
+     "x": 10.945,
+     "y": 32.205,
+     "kind": "fiber"
+    }
+   },
+   "component": "OSA",
+   "args": {},
+   "also": []
+  },
+  "smu": {
+   "symbol": "smu",
+   "params": {},
+   "svg": "smu.svg",
+   "svg2d": "smu.2d.svg",
+   "width": 50.236144,
+   "height": 34.470735,
+   "origin": [
+    25.118,
+    15.197
+   ],
+   "ports": {
+    "hi": {
+     "x": 36.456,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "lo": {
+     "x": 43.26,
+     "y": 32.205,
+     "kind": "electrical"
+    }
+   },
+   "component": "SMU",
+   "args": {},
+   "also": []
+  },
+  "laserdriver": {
+   "symbol": "laserdriver",
+   "params": {},
+   "svg": "laserdriver.svg",
+   "svg2d": "laserdriver.2d.svg",
+   "width": 50.236144,
+   "height": 34.470735,
+   "origin": [
+    25.118,
+    15.197
+   ],
+   "ports": {
+    "mod": {
+     "x": 10.945,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "tec": {
+     "x": 25.118,
+     "y": 32.205,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 37.024,
+     "y": 32.205,
+     "kind": "electrical"
+    }
+   },
+   "component": "LaserDriver",
+   "args": {},
+   "also": []
+  },
+  "daq": {
+   "symbol": "daq",
+   "params": {},
+   "svg": "daq.svg",
+   "svg2d": "daq.2d.svg",
+   "width": 44.566516,
+   "height": 31.352628,
+   "origin": [
+    22.283,
+    13.779
+   ],
+   "ports": {
+    "ch1": {
+     "x": 10.945,
+     "y": 29.086,
+     "kind": "electrical"
+    },
+    "ch2": {
+     "x": 33.622,
+     "y": 29.086,
+     "kind": "electrical"
+    }
+   },
+   "component": "DAQ",
+   "args": {},
+   "also": []
+  },
+  "lockin": {
+   "symbol": "lockin",
+   "params": {},
+   "svg": "lockin.svg",
+   "svg2d": "lockin.2d.svg",
+   "width": 58.739746,
+   "height": 28.801983,
+   "origin": [
+    29.37,
+    12.362
+   ],
+   "ports": {
+    "in": {
+     "x": 12.362,
+     "y": 26.535,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 25.118,
+     "y": 26.535,
+     "kind": "electrical"
+    },
+    "ref": {
+     "x": 47.795,
+     "y": 26.535,
+     "kind": "electrical"
+    }
+   },
+   "component": "LockInAmplifier",
+   "args": {},
+   "also": []
+  },
+  "fpga": {
+   "symbol": "fpga",
+   "params": {},
+   "svg": "fpga.svg",
+   "svg2d": "fpga.2d.svg",
+   "width": 44.566516,
+   "height": 30.393285,
+   "origin": [
+    22.283,
+    15.197
+   ],
+   "ports": {
+    "io1": {
+     "x": 2.441,
+     "y": 15.197,
+     "kind": "electrical"
+    },
+    "io2": {
+     "x": 42.126,
+     "y": 15.197,
+     "kind": "electrical"
+    },
+    "io3": {
+     "x": 2.441,
+     "y": 6.693,
+     "kind": "electrical"
+    },
+    "io4": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "electrical"
+    },
+    "io5": {
+     "x": 2.441,
+     "y": 19.448,
+     "kind": "electrical"
+    },
+    "io6": {
+     "x": 2.441,
+     "y": 23.701,
+     "kind": "electrical"
+    },
+    "io7": {
+     "x": 42.126,
+     "y": 6.693,
+     "kind": "electrical"
+    },
+    "io8": {
+     "x": 42.126,
+     "y": 10.945,
+     "kind": "electrical"
+    },
+    "io9": {
+     "x": 42.126,
+     "y": 19.448,
+     "kind": "electrical"
+    },
+    "io10": {
+     "x": 42.126,
+     "y": 23.701,
+     "kind": "electrical"
+    }
+   },
+   "component": "FPGABoard",
+   "args": {},
+   "also": []
+  },
+  "computer": {
+   "symbol": "computer",
+   "params": {},
+   "svg": "computer.svg",
+   "svg2d": "computer.2d.svg",
+   "width": 33.228115,
+   "height": 32.486715,
+   "origin": [
+    16.614,
+    18.315
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.441,
+     "y": 11.511,
+     "kind": "electrical"
+    }
+   },
+   "component": "Computer",
+   "args": {},
+   "also": []
+  },
+  "vacuumpump": {
+   "symbol": "vacuumpump",
+   "params": {},
+   "svg": "vacuumpump.svg",
+   "svg2d": "vacuumpump.2d.svg",
+   "width": 28.125958,
+   "height": 30.960349,
+   "origin": [
+    11.512,
+    16.047
+   ],
+   "ports": {},
+   "component": "VacuumPump",
+   "args": {},
+   "also": []
+  },
+  "powermeter": {
+   "symbol": "powermeter",
+   "params": {},
+   "svg": "powermeter.svg",
+   "svg2d": "powermeter.2d.svg",
+   "width": 25.291148,
+   "height": 40.140384,
+   "origin": [
+    12.646,
+    22.109
+   ],
+   "ports": {
+    "in": {
+     "x": 12.646,
+     "y": 2.267,
+     "kind": "fiber"
+    }
+   },
+   "component": "OpticalPowerMeter",
+   "args": {},
+   "also": []
+  },
+  "eic": {
+   "symbol": "eic",
+   "params": {},
+   "svg": "eic.svg",
+   "svg2d": "eic.2d.svg",
+   "width": 31.745305,
+   "height": 31.745305,
+   "origin": [
+    15.873,
+    15.873
+   ],
+   "ports": {
+    "ctrl": {
+     "x": 2.266,
+     "y": 10.203,
+     "kind": "electrical"
+    },
+    "in": {
+     "x": 2.266,
+     "y": 15.873,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 29.479,
+     "y": 15.873,
+     "kind": "electrical"
+    },
+    "sense": {
+     "x": 29.479,
+     "y": 21.542,
+     "kind": "electrical"
+    },
+    "vdd": {
+     "x": 15.873,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 15.873,
+     "y": 29.479,
+     "kind": "electrical"
+    }
+   },
+   "component": "EIC",
+   "args": {},
+   "also": []
+  },
+  "mcu": {
+   "symbol": "mcu",
+   "params": {},
+   "svg": "mcu.svg",
+   "svg2d": "mcu.2d.svg",
+   "width": 31.745305,
+   "height": 31.745305,
+   "origin": [
+    15.873,
+    15.873
+   ],
+   "ports": {
+    "pwr": {
+     "x": 2.266,
+     "y": 10.203,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 2.266,
+     "y": 21.542,
+     "kind": "electrical"
+    },
+    "clk": {
+     "x": 15.873,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "usb": {
+     "x": 15.873,
+     "y": 29.479,
+     "kind": "electrical"
+    },
+    "gpio1": {
+     "x": 29.479,
+     "y": 10.203,
+     "kind": "electrical"
+    },
+    "gpio2": {
+     "x": 29.479,
+     "y": 15.873,
+     "kind": "electrical"
+    },
+    "gpio3": {
+     "x": 29.479,
+     "y": 21.542,
+     "kind": "electrical"
+    }
+   },
+   "component": "Microcontroller",
+   "args": {},
+   "also": []
+  },
+  "coherentreceiver": {
+   "symbol": "coherentreceiver",
+   "params": {},
+   "svg": "coherentreceiver.svg",
+   "svg2d": "coherentreceiver.2d.svg",
+   "width": 44.392169,
+   "height": 56.690331,
+   "origin": [
+    22.283,
+    28.345
+   ],
+   "ports": {
+    "i_p": {
+     "x": 42.126,
+     "y": 13.038,
+     "kind": "electrical"
+    },
+    "i_n": {
+     "x": 42.126,
+     "y": 23.243,
+     "kind": "electrical"
+    },
+    "q_p": {
+     "x": 42.126,
+     "y": 33.447,
+     "kind": "electrical"
+    },
+    "q_n": {
+     "x": 42.126,
+     "y": 43.652,
+     "kind": "electrical"
+    },
+    "signal": {
+     "x": 2.441,
+     "y": 19.841,
+     "kind": "optical"
+    },
+    "lo": {
+     "x": 2.441,
+     "y": 36.849,
+     "kind": "optical"
+    },
+    "vdd": {
+     "x": 13.779,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "clk": {
+     "x": 22.283,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 18.031,
+     "y": 54.424,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoherentReceiver",
+   "args": {},
+   "also": []
+  },
+  "coherentreceiver__viewtop": {
+   "symbol": "coherentreceiver",
+   "params": {
+    "view": "top"
+   },
+   "svg": "coherentreceiver__viewtop.svg",
+   "svg2d": "coherentreceiver__viewtop.2d.svg",
+   "width": 58.739746,
+   "height": 35.268802,
+   "origin": [
+    29.37,
+    17.634
+   ],
+   "ports": {
+    "i_p": {
+     "x": 56.299,
+     "y": 8.309,
+     "kind": "electrical"
+    },
+    "i_n": {
+     "x": 56.299,
+     "y": 14.516,
+     "kind": "electrical"
+    },
+    "q_p": {
+     "x": 56.299,
+     "y": 20.753,
+     "kind": "electrical"
+    },
+    "q_n": {
+     "x": 56.299,
+     "y": 26.96,
+     "kind": "electrical"
+    },
+    "signal": {
+     "x": 2.441,
+     "y": 12.787,
+     "kind": "optical"
+    },
+    "lo": {
+     "x": 2.441,
+     "y": 22.482,
+     "kind": "optical"
+    },
+    "vdd": {
+     "x": 22.878,
+     "y": 2.441,
+     "kind": "electrical"
+    },
+    "clk": {
+     "x": 41.247,
+     "y": 2.441,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 32.828,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoherentReceiver",
+   "args": {},
+   "also": []
+  },
+  "receiver": {
+   "symbol": "receiver",
+   "params": {},
+   "svg": "receiver.svg",
+   "svg2d": "receiver.2d.svg",
+   "width": 58.5654,
+   "height": 32.879422,
+   "origin": [
+    29.37,
+    16.44
+   ],
+   "ports": {
+    "opt_in": {
+     "x": 2.441,
+     "y": 16.44,
+     "kind": "optical"
+    },
+    "digital_out": {
+     "x": 56.299,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "bias": {
+     "x": 20.866,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "clk": {
+     "x": 39.291,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 29.37,
+     "y": 30.613,
+     "kind": "electrical"
+    }
+   },
+   "component": "ReceiverMacro",
+   "args": {},
+   "also": []
+  },
+  "transmitter": {
+   "symbol": "transmitter",
+   "params": {},
+   "svg": "transmitter.svg",
+   "svg2d": "transmitter.2d.svg",
+   "width": 58.5654,
+   "height": 32.879422,
+   "origin": [
+    29.196,
+    16.44
+   ],
+   "ports": {
+    "data": {
+     "x": 2.267,
+     "y": 12.471,
+     "kind": "electrical"
+    },
+    "clk": {
+     "x": 2.267,
+     "y": 20.408,
+     "kind": "electrical"
+    },
+    "bias": {
+     "x": 29.196,
+     "y": 2.267,
+     "kind": "electrical"
+    },
+    "gnd": {
+     "x": 29.196,
+     "y": 30.613,
+     "kind": "electrical"
+    },
+    "opt_out": {
+     "x": 56.125,
+     "y": 16.44,
+     "kind": "optical"
+    }
+   },
+   "component": "TransmitterMacro",
+   "args": {},
+   "also": []
+  },
+  "metalroute": {
+   "symbol": "metalroute",
+   "params": {},
+   "svg": "metalroute.svg",
+   "svg2d": "metalroute.2d.svg",
+   "width": 32.729983,
+   "height": 7.784986,
+   "origin": [
+    16.365,
+    3.892
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.192,
+     "y": 3.892,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 30.538,
+     "y": 3.892,
+     "kind": "electrical"
+    }
+   },
+   "component": "MetalRoute",
+   "args": {},
+   "also": []
+  },
+  "signalarrow": {
+   "symbol": "signalarrow",
+   "params": {},
+   "svg": "signalarrow.svg",
+   "svg2d": "signalarrow.2d.svg",
+   "width": 27.558486,
+   "height": 8.169345,
+   "origin": [
+    13.779,
+    4.085
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 4.085,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 25.118,
+     "y": 4.085,
+     "kind": "electrical"
+    }
+   },
+   "component": "SignalArrow",
+   "args": {},
+   "also": []
+  },
+  "pcb": {
+   "symbol": "pcb",
+   "params": {},
+   "svg": "pcb.svg",
+   "svg2d": "pcb.2d.svg",
+   "width": 50.236144,
+   "height": 34.362232,
+   "origin": [
+    25.118,
+    17.181
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.441,
+     "y": 5.843,
+     "kind": "electrical"
+    },
+    "e7": {
+     "x": 47.795,
+     "y": 5.843,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 2.441,
+     "y": 10.378,
+     "kind": "electrical"
+    },
+    "e8": {
+     "x": 47.795,
+     "y": 10.378,
+     "kind": "electrical"
+    },
+    "e3": {
+     "x": 2.441,
+     "y": 14.914,
+     "kind": "electrical"
+    },
+    "e9": {
+     "x": 47.795,
+     "y": 14.914,
+     "kind": "electrical"
+    },
+    "e4": {
+     "x": 2.441,
+     "y": 19.449,
+     "kind": "electrical"
+    },
+    "e10": {
+     "x": 47.795,
+     "y": 19.449,
+     "kind": "electrical"
+    },
+    "e5": {
+     "x": 2.441,
+     "y": 23.985,
+     "kind": "electrical"
+    },
+    "e11": {
+     "x": 47.795,
+     "y": 23.985,
+     "kind": "electrical"
+    },
+    "e6": {
+     "x": 2.441,
+     "y": 28.52,
+     "kind": "electrical"
+    },
+    "e12": {
+     "x": 47.795,
+     "y": 28.52,
+     "kind": "electrical"
+    }
+   },
+   "component": "PCB",
+   "args": {},
+   "also": []
+  },
+  "iopads__count8": {
+   "symbol": "iopads",
+   "params": {
+    "count": 8
+   },
+   "svg": "iopads__count8.svg",
+   "svg2d": "iopads__count8.2d.svg",
+   "width": 10.053181,
+   "height": 61.075118,
+   "origin": [
+    5.027,
+    30.536
+   ],
+   "ports": {
+    "e1": {
+     "x": 7.861,
+     "y": 56.332,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 7.861,
+     "y": 48.962,
+     "kind": "electrical"
+    },
+    "e3": {
+     "x": 7.861,
+     "y": 41.592,
+     "kind": "electrical"
+    },
+    "e4": {
+     "x": 7.861,
+     "y": 34.223,
+     "kind": "electrical"
+    },
+    "e5": {
+     "x": 7.861,
+     "y": 26.853,
+     "kind": "electrical"
+    },
+    "e6": {
+     "x": 7.861,
+     "y": 19.483,
+     "kind": "electrical"
+    },
+    "e7": {
+     "x": 7.861,
+     "y": 12.113,
+     "kind": "electrical"
+    },
+    "e8": {
+     "x": 7.861,
+     "y": 4.743,
+     "kind": "electrical"
+    }
+   },
+   "component": "ElectricalIOBank",
+   "args": {},
+   "also": []
+  },
+  "iopads__count4": {
+   "symbol": "iopads",
+   "params": {
+    "count": 4
+   },
+   "svg": "iopads__count4.svg",
+   "svg2d": "iopads__count4.2d.svg",
+   "width": 10.053181,
+   "height": 31.595457,
+   "origin": [
+    5.027,
+    15.797
+   ],
+   "ports": {
+    "e1": {
+     "x": 7.861,
+     "y": 26.853,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 7.861,
+     "y": 19.483,
+     "kind": "electrical"
+    },
+    "e3": {
+     "x": 7.861,
+     "y": 12.113,
+     "kind": "electrical"
+    },
+    "e4": {
+     "x": 7.861,
+     "y": 4.743,
+     "kind": "electrical"
+    }
+   },
+   "component": "ElectricalIOBank",
+   "args": {
+    "count": 4
+   },
+   "also": []
+  },
+  "lasersource": {
+   "symbol": "lasersource",
+   "params": {},
+   "svg": "lasersource.svg",
+   "svg2d": "lasersource.2d.svg",
+   "width": 54.139248,
+   "height": 27.558486,
+   "origin": [
+    27.778,
+    13.779
+   ],
+   "ports": {
+    "out": {
+     "x": 51.873,
+     "y": 13.779,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 2.267,
+     "y": 13.779,
+     "kind": "electrical"
+    }
+   },
+   "component": "Laser",
+   "args": {},
+   "also": []
+  },
+  "lasersource__viewtop": {
+   "symbol": "lasersource",
+   "params": {
+    "view": "top"
+   },
+   "svg": "lasersource__viewtop.svg",
+   "svg2d": "lasersource__viewtop.2d.svg",
+   "width": 64.627308,
+   "height": 30.393285,
+   "origin": [
+    34.014,
+    15.197
+   ],
+   "ports": {
+    "out": {
+     "x": 62.361,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 2.266,
+     "y": 15.197,
+     "kind": "electrical"
+    }
+   },
+   "component": "Laser",
+   "args": {},
+   "also": []
+  },
+  "lasersource__syncyes": {
+   "symbol": "lasersource",
+   "params": {
+    "sync": "yes"
+   },
+   "svg": "lasersource__syncyes.svg",
+   "svg2d": "lasersource__syncyes.2d.svg",
+   "width": 54.139248,
+   "height": 29.510037,
+   "origin": [
+    27.778,
+    13.779
+   ],
+   "ports": {
+    "out": {
+     "x": 51.873,
+     "y": 13.779,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 2.267,
+     "y": 13.779,
+     "kind": "electrical"
+    },
+    "sync": {
+     "x": 18.14,
+     "y": 27.244,
+     "kind": "electrical"
+    }
+   },
+   "component": "Laser",
+   "args": {
+    "sync": true
+   },
+   "also": []
+  },
+  "lasersource__syncyes_viewtop": {
+   "symbol": "lasersource",
+   "params": {
+    "view": "top",
+    "sync": "yes"
+   },
+   "svg": "lasersource__syncyes_viewtop.svg",
+   "svg2d": "lasersource__syncyes_viewtop.2d.svg",
+   "width": 64.627308,
+   "height": 31.919651,
+   "origin": [
+    34.014,
+    15.197
+   ],
+   "ports": {
+    "out": {
+     "x": 62.361,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 2.266,
+     "y": 15.197,
+     "kind": "electrical"
+    },
+    "sync": {
+     "x": 25.794,
+     "y": 29.653,
+     "kind": "electrical"
+    }
+   },
+   "component": "Laser",
+   "args": {
+    "sync": true
+   },
+   "also": []
+  },
+  "lamp": {
+   "symbol": "lamp",
+   "params": {},
+   "svg": "lamp.svg",
+   "svg2d": "lamp.2d.svg",
+   "width": 25.40011,
+   "height": 24.944179,
+   "origin": [
+    9.811,
+    12.472
+   ],
+   "ports": {
+    "out": {
+     "x": 23.134,
+     "y": 12.472,
+     "kind": "free_space"
+    }
+   },
+   "component": "Lamp",
+   "args": {},
+   "also": []
+  },
+  "snspd": {
+   "symbol": "snspd",
+   "params": {},
+   "svg": "snspd.svg",
+   "svg2d": "snspd.2d.svg",
+   "width": 44.392169,
+   "height": 21.889714,
+   "origin": [
+    22.283,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 42.126,
+     "y": 10.945,
+     "kind": "electrical"
+    }
+   },
+   "component": "SNSPD",
+   "args": {},
+   "also": []
+  },
+  "photoncounter__count4": {
+   "symbol": "photoncounter",
+   "params": {
+    "count": 4
+   },
+   "svg": "photoncounter__count4.svg",
+   "svg2d": "photoncounter__count4.2d.svg",
+   "width": 44.392169,
+   "height": 43.431552,
+   "origin": [
+    22.283,
+    21.716
+   ],
+   "ports": {
+    "fiber1": {
+     "x": 2.441,
+     "y": 8.961,
+     "kind": "fiber"
+    },
+    "pulse1": {
+     "x": 42.126,
+     "y": 8.961,
+     "kind": "electrical"
+    },
+    "fiber2": {
+     "x": 2.441,
+     "y": 17.465,
+     "kind": "fiber"
+    },
+    "pulse2": {
+     "x": 42.126,
+     "y": 17.465,
+     "kind": "electrical"
+    },
+    "fiber3": {
+     "x": 2.441,
+     "y": 25.969,
+     "kind": "fiber"
+    },
+    "pulse3": {
+     "x": 42.126,
+     "y": 25.969,
+     "kind": "electrical"
+    },
+    "fiber4": {
+     "x": 2.441,
+     "y": 34.473,
+     "kind": "fiber"
+    },
+    "pulse4": {
+     "x": 42.126,
+     "y": 34.473,
+     "kind": "electrical"
+    }
+   },
+   "component": "PhotonCounter",
+   "args": {},
+   "also": []
+  },
+  "photoncounter__count1": {
+   "symbol": "photoncounter",
+   "params": {
+    "count": 1
+   },
+   "svg": "photoncounter__count1.svg",
+   "svg2d": "photoncounter__count1.2d.svg",
+   "width": 44.392169,
+   "height": 17.920797,
+   "origin": [
+    22.283,
+    8.96
+   ],
+   "ports": {
+    "fiber1": {
+     "x": 2.441,
+     "y": 8.961,
+     "kind": "fiber"
+    },
+    "pulse1": {
+     "x": 42.126,
+     "y": 8.961,
+     "kind": "electrical"
+    }
+   },
+   "component": "PhotonCounter",
+   "args": {
+    "channels": 1
+   },
+   "also": []
+  },
+  "photoncounter__count2": {
+   "symbol": "photoncounter",
+   "params": {
+    "count": 2
+   },
+   "svg": "photoncounter__count2.svg",
+   "svg2d": "photoncounter__count2.2d.svg",
+   "width": 44.392169,
+   "height": 26.424379,
+   "origin": [
+    22.283,
+    13.212
+   ],
+   "ports": {
+    "fiber1": {
+     "x": 2.441,
+     "y": 8.961,
+     "kind": "fiber"
+    },
+    "pulse1": {
+     "x": 42.126,
+     "y": 8.961,
+     "kind": "electrical"
+    },
+    "fiber2": {
+     "x": 2.441,
+     "y": 17.465,
+     "kind": "fiber"
+    },
+    "pulse2": {
+     "x": 42.126,
+     "y": 17.465,
+     "kind": "electrical"
+    }
+   },
+   "component": "PhotonCounter",
+   "args": {
+    "channels": 2
+   },
+   "also": []
+  },
+  "photoncounter__count3": {
+   "symbol": "photoncounter",
+   "params": {
+    "count": 3
+   },
+   "svg": "photoncounter__count3.svg",
+   "svg2d": "photoncounter__count3.2d.svg",
+   "width": 44.392169,
+   "height": 34.92798,
+   "origin": [
+    22.283,
+    17.464
+   ],
+   "ports": {
+    "fiber1": {
+     "x": 2.441,
+     "y": 8.961,
+     "kind": "fiber"
+    },
+    "pulse1": {
+     "x": 42.126,
+     "y": 8.961,
+     "kind": "electrical"
+    },
+    "fiber2": {
+     "x": 2.441,
+     "y": 17.465,
+     "kind": "fiber"
+    },
+    "pulse2": {
+     "x": 42.126,
+     "y": 17.465,
+     "kind": "electrical"
+    },
+    "fiber3": {
+     "x": 2.441,
+     "y": 25.969,
+     "kind": "fiber"
+    },
+    "pulse3": {
+     "x": 42.126,
+     "y": 25.969,
+     "kind": "electrical"
+    }
+   },
+   "component": "PhotonCounter",
+   "args": {
+    "channels": 3
+   },
+   "also": []
+  },
+  "coincidence__count4": {
+   "symbol": "coincidence",
+   "params": {
+    "count": 4
+   },
+   "svg": "coincidence__count4.svg",
+   "svg2d": "coincidence__count4.2d.svg",
+   "width": 44.217823,
+   "height": 43.431552,
+   "origin": [
+    22.109,
+    21.716
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.267,
+     "y": 8.961,
+     "kind": "electrical"
+    },
+    "in2": {
+     "x": 2.267,
+     "y": 17.465,
+     "kind": "electrical"
+    },
+    "in3": {
+     "x": 2.267,
+     "y": 25.969,
+     "kind": "electrical"
+    },
+    "in4": {
+     "x": 2.267,
+     "y": 34.473,
+     "kind": "electrical"
+    },
+    "data": {
+     "x": 41.951,
+     "y": 21.716,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoincidenceCounter",
+   "args": {},
+   "also": []
+  },
+  "coincidence__count1": {
+   "symbol": "coincidence",
+   "params": {
+    "count": 1
+   },
+   "svg": "coincidence__count1.svg",
+   "svg2d": "coincidence__count1.2d.svg",
+   "width": 44.217823,
+   "height": 26.425255,
+   "origin": [
+    22.109,
+    13.213
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.267,
+     "y": 13.213,
+     "kind": "electrical"
+    },
+    "data": {
+     "x": 41.951,
+     "y": 13.213,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoincidenceCounter",
+   "args": {
+    "channels": 1
+   },
+   "also": []
+  },
+  "coincidence__count2": {
+   "symbol": "coincidence",
+   "params": {
+    "count": 2
+   },
+   "svg": "coincidence__count2.svg",
+   "svg2d": "coincidence__count2.2d.svg",
+   "width": 44.217823,
+   "height": 26.425255,
+   "origin": [
+    22.109,
+    13.213
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.267,
+     "y": 8.961,
+     "kind": "electrical"
+    },
+    "in2": {
+     "x": 2.267,
+     "y": 17.465,
+     "kind": "electrical"
+    },
+    "data": {
+     "x": 41.951,
+     "y": 13.213,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoincidenceCounter",
+   "args": {
+    "channels": 2
+   },
+   "also": []
+  },
+  "coincidence__count3": {
+   "symbol": "coincidence",
+   "params": {
+    "count": 3
+   },
+   "svg": "coincidence__count3.svg",
+   "svg2d": "coincidence__count3.2d.svg",
+   "width": 44.217823,
+   "height": 34.92798,
+   "origin": [
+    22.109,
+    17.464
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.267,
+     "y": 8.961,
+     "kind": "electrical"
+    },
+    "in2": {
+     "x": 2.267,
+     "y": 17.465,
+     "kind": "electrical"
+    },
+    "in3": {
+     "x": 2.267,
+     "y": 25.969,
+     "kind": "electrical"
+    },
+    "data": {
+     "x": 41.951,
+     "y": 17.464,
+     "kind": "electrical"
+    }
+   },
+   "component": "CoincidenceCounter",
+   "args": {
+    "channels": 3
+   },
+   "also": []
+  },
+  "detector": {
+   "symbol": "detector",
+   "params": {},
+   "svg": "detector.svg",
+   "svg2d": "detector.2d.svg",
+   "width": 28.34387,
+   "height": 32.312379,
+   "origin": [
+    19.841,
+    18.707
+   ],
+   "ports": {
+    "in": {
+     "x": 16.723,
+     "y": 18.707,
+     "kind": "free_space",
+     "side": "left"
+    },
+    "e1": {
+     "x": 19.841,
+     "y": 30.046,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 19.841,
+     "y": 7.369,
+     "kind": "electrical"
+    }
+   },
+   "component": "Photodiode",
+   "args": {},
+   "also": []
+  },
+  "detector__viewtop": {
+   "symbol": "detector",
+   "params": {
+    "view": "top"
+   },
+   "svg": "detector__viewtop.svg",
+   "svg2d": "detector__viewtop.2d.svg",
+   "width": 28.344309,
+   "height": 21.889714,
+   "origin": [
+    13.038,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 10.945,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 26.078,
+     "y": 10.945,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 26.078,
+     "y": 10.945,
+     "kind": "electrical"
+    }
+   },
+   "component": "Photodiode",
+   "args": {},
+   "also": []
+  },
+  "qpd": {
+   "symbol": "qpd",
+   "params": {},
+   "svg": "qpd.svg",
+   "svg2d": "qpd.2d.svg",
+   "width": 18.706192,
+   "height": 22.957988,
+   "origin": [
+    9.353,
+    13.605
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 13.605,
+     "kind": "free_space"
+    },
+    "x": {
+     "x": 5.101,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "y": {
+     "x": 9.353,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "sum": {
+     "x": 13.605,
+     "y": 2.266,
+     "kind": "electrical"
+    }
+   },
+   "component": "QuadrantPhotodiode",
+   "args": {},
+   "also": []
+  },
+  "qpd__viewtop": {
+   "symbol": "qpd",
+   "params": {
+    "view": "top"
+   },
+   "svg": "qpd__viewtop.svg",
+   "svg2d": "qpd__viewtop.2d.svg",
+   "width": 16.612782,
+   "height": 23.41608,
+   "origin": [
+    9.41,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "x": {
+     "x": 7.029,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "y": {
+     "x": 9.41,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "sum": {
+     "x": 11.791,
+     "y": 2.266,
+     "kind": "electrical"
+    }
+   },
+   "component": "QuadrantPhotodiode",
+   "args": {},
+   "also": []
+  },
+  "ampdetector": {
+   "symbol": "ampdetector",
+   "params": {},
+   "svg": "ampdetector.svg",
+   "svg2d": "ampdetector.2d.svg",
+   "width": 47.052653,
+   "height": 25.291148,
+   "origin": [
+    23.526,
+    12.646
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 12.646,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 44.786,
+     "y": 12.646,
+     "kind": "electrical"
+    }
+   },
+   "component": "AmplifiedPhotodetector",
+   "args": {},
+   "also": []
+  },
+  "pmt": {
+   "symbol": "pmt",
+   "params": {},
+   "svg": "pmt.svg",
+   "svg2d": "pmt.2d.svg",
+   "width": 47.401345,
+   "height": 19.621519,
+   "origin": [
+    23.701,
+    9.811
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 9.811,
+     "kind": "free_space"
+    }
+   },
+   "component": "PMT",
+   "args": {},
+   "also": []
+  },
+  "camera": {
+   "symbol": "camera",
+   "params": {},
+   "svg": "camera.svg",
+   "svg2d": "camera.2d.svg",
+   "width": 37.480349,
+   "height": 25.291148,
+   "origin": [
+    18.031,
+    12.646
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 12.646,
+     "kind": "free_space"
+    }
+   },
+   "component": "Camera",
+   "args": {},
+   "also": []
+  },
+  "spectrometer": {
+   "symbol": "spectrometer",
+   "params": {},
+   "svg": "spectrometer.svg",
+   "svg2d": "spectrometer.2d.svg",
+   "width": 47.226999,
+   "height": 41.165091,
+   "origin": [
+    23.526,
+    16.614
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 16.614,
+     "kind": "free_space"
+    }
+   },
+   "component": "Spectrometer",
+   "args": {},
+   "also": []
+  },
+  "cryostat": {
+   "symbol": "cryostat",
+   "params": {},
+   "svg": "cryostat.svg",
+   "svg2d": "cryostat.2d.svg",
+   "width": 34.013529,
+   "height": 38.330271,
+   "origin": [
+    17.007,
+    24.551
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 24.551,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 31.747,
+     "y": 24.551,
+     "kind": "free_space"
+    },
+    "sample": {
+     "x": 17.007,
+     "y": 4.142,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 17.007,
+     "y": 35.889,
+     "kind": "electrical"
+    }
+   },
+   "component": "Cryostat",
+   "args": {},
+   "also": []
+  },
+  "cryostat__viewtop": {
+   "symbol": "cryostat",
+   "params": {
+    "view": "top"
+   },
+   "svg": "cryostat__viewtop.svg",
+   "svg2d": "cryostat__viewtop.2d.svg",
+   "width": 32.879422,
+   "height": 30.393285,
+   "origin": [
+    16.44,
+    15.197
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "sample": {
+     "x": 16.44,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 16.44,
+     "y": 27.952,
+     "kind": "electrical"
+    }
+   },
+   "component": "Cryostat",
+   "args": {},
+   "also": []
+  },
+  "cryostat__sampleno": {
+   "symbol": "cryostat",
+   "params": {
+    "sample": "no"
+   },
+   "svg": "cryostat__sampleno.svg",
+   "svg2d": "cryostat__sampleno.2d.svg",
+   "width": 34.013529,
+   "height": 38.330271,
+   "origin": [
+    17.007,
+    24.551
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 24.551,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 31.747,
+     "y": 24.551,
+     "kind": "free_space"
+    },
+    "sample": {
+     "x": 17.007,
+     "y": 4.142,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 17.007,
+     "y": 35.889,
+     "kind": "electrical"
+    }
+   },
+   "component": "Cryostat",
+   "args": {
+    "with_sample": false
+   },
+   "also": []
+  },
+  "cryostat__sampleno_viewtop": {
+   "symbol": "cryostat",
+   "params": {
+    "view": "top",
+    "sample": "no"
+   },
+   "svg": "cryostat__sampleno_viewtop.svg",
+   "svg2d": "cryostat__sampleno_viewtop.2d.svg",
+   "width": 32.879422,
+   "height": 30.393285,
+   "origin": [
+    16.44,
+    15.197
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "sample": {
+     "x": 16.44,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 16.44,
+     "y": 27.952,
+     "kind": "electrical"
+    }
+   },
+   "component": "Cryostat",
+   "args": {
+    "with_sample": false
+   },
+   "also": []
+  },
+  "sample": {
+   "symbol": "sample",
+   "params": {},
+   "svg": "sample.svg",
+   "svg2d": "sample.2d.svg",
+   "width": 7.481136,
+   "height": 18.592757,
+   "origin": [
+    3.627,
+    9.296
+   ],
+   "ports": {
+    "in": {
+     "x": 2.947,
+     "y": 9.296,
+     "kind": "free_space",
+     "side": "left"
+    },
+    "out": {
+     "x": 5.215,
+     "y": 9.296,
+     "kind": "free_space",
+     "side": "right"
+    },
+    "side_in": {
+     "x": 3.4,
+     "y": 14.966,
+     "kind": "free_space"
+    },
+    "side_out": {
+     "x": 3.4,
+     "y": 3.627,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 4.534,
+     "y": 16.326,
+     "kind": "electrical"
+    }
+   },
+   "component": "Sample",
+   "args": {},
+   "also": []
+  },
+  "sample__kindcryostat": {
+   "symbol": "sample",
+   "params": {
+    "kind": "cryostat"
+   },
+   "svg": "sample__kindcryostat.svg",
+   "svg2d": "sample__kindcryostat.2d.svg",
+   "width": 26.534197,
+   "height": 25.291148,
+   "origin": [
+    13.322,
+    12.646
+   ],
+   "ports": {
+    "in": {
+     "x": 11.904,
+     "y": 12.646,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 14.739,
+     "y": 12.646,
+     "kind": "free_space"
+    },
+    "e1": {
+     "x": 13.889,
+     "y": 22.85,
+     "kind": "electrical"
+    }
+   },
+   "component": "Sample",
+   "args": {
+    "in_cryostat": true
+   },
+   "also": []
+  },
+  "beamblock": {
+   "symbol": "beamblock",
+   "params": {},
+   "svg": "beamblock.svg",
+   "svg2d": "beamblock.2d.svg",
+   "width": 19.84012,
+   "height": 27.238824,
+   "origin": [
+    9.92,
+    12.897
+   ],
+   "ports": {
+    "in": {
+     "x": 8.389,
+     "y": 12.897,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 11.451,
+     "y": 12.897,
+     "kind": "free_space"
+    }
+   },
+   "component": "Block",
+   "args": {},
+   "also": []
+  },
+  "knifeedge": {
+   "symbol": "knifeedge",
+   "params": {},
+   "svg": "knifeedge.svg",
+   "svg2d": "knifeedge.2d.svg",
+   "width": 13.603736,
+   "height": 22.674839,
+   "origin": [
+    6.802,
+    2.267
+   ],
+   "ports": {
+    "in": {
+     "x": 4.534,
+     "y": 2.267,
+     "kind": "free_space",
+     "side": "left"
+    },
+    "out": {
+     "x": 9.07,
+     "y": 2.267,
+     "kind": "free_space",
+     "side": "right"
+    }
+   },
+   "component": "Razor",
+   "args": {},
+   "also": []
+  },
+  "lens": {
+   "symbol": "lens",
+   "params": {},
+   "svg": "lens.svg",
+   "svg2d": "lens.2d.svg",
+   "width": 11.900742,
+   "height": 24.942446,
+   "origin": [
+    5.95,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.186,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 8.714,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "Lens",
+   "args": {},
+   "also": []
+  },
+  "lens__kindconcave": {
+   "symbol": "lens",
+   "params": {
+    "kind": "concave"
+   },
+   "svg": "lens__kindconcave.svg",
+   "svg2d": "lens__kindconcave.2d.svg",
+   "width": 10.20262,
+   "height": 24.942446,
+   "origin": [
+    5.101,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.968,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 6.235,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "Lens",
+   "args": {
+    "focal_length": -30.0
+   },
+   "also": []
+  },
+  "lens__kindaspheric": {
+   "symbol": "lens",
+   "params": {
+    "kind": "aspheric"
+   },
+   "svg": "lens__kindaspheric.svg",
+   "svg2d": "lens__kindaspheric.2d.svg",
+   "width": 11.335851,
+   "height": 24.942446,
+   "origin": [
+    3.967,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 9.069,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "AsphericLens",
+   "args": {},
+   "also": []
+  },
+  "lens__kindcylindrical": {
+   "symbol": "lens",
+   "params": {
+    "kind": "cylindrical"
+   },
+   "svg": "lens__kindcylindrical.svg",
+   "svg2d": "lens__kindcylindrical.2d.svg",
+   "width": 11.621499,
+   "height": 24.092085,
+   "origin": [
+    3.969,
+    13.322
+   ],
+   "ports": {
+    "in": {
+     "x": 2.268,
+     "y": 13.322,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 9.355,
+     "y": 13.322,
+     "kind": "free_space"
+    }
+   },
+   "component": "CylindricalLens",
+   "args": {},
+   "also": []
+  },
+  "objective": {
+   "symbol": "objective",
+   "params": {},
+   "svg": "objective.svg",
+   "svg2d": "objective.2d.svg",
+   "width": 30.129813,
+   "height": 17.354172,
+   "origin": [
+    14.739,
+    8.677
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 8.677,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 27.41,
+     "y": 8.677,
+     "kind": "free_space"
+    }
+   },
+   "component": "Objective",
+   "args": {},
+   "also": []
+  },
+  "lenstube": {
+   "symbol": "lenstube",
+   "params": {},
+   "svg": "lenstube.svg",
+   "svg2d": "lenstube.2d.svg",
+   "width": 27.558486,
+   "height": 16.220085,
+   "origin": [
+    13.779,
+    8.11
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 8.11,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 25.118,
+     "y": 8.11,
+     "kind": "free_space"
+    }
+   },
+   "component": "LensTube",
+   "args": {},
+   "also": []
+  },
+  "telescope": {
+   "symbol": "telescope",
+   "params": {},
+   "svg": "telescope.svg",
+   "svg2d": "telescope.2d.svg",
+   "width": 34.294655,
+   "height": 24.942446,
+   "origin": [
+    16.439,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 2.833,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 31.108,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "Telescope",
+   "args": {},
+   "also": []
+  },
+  "telescope__kindgalilean": {
+   "symbol": "telescope",
+   "params": {
+    "kind": "galilean"
+   },
+   "svg": "telescope__kindgalilean.svg",
+   "svg2d": "telescope__kindgalilean.2d.svg",
+   "width": 32.878127,
+   "height": 24.942446,
+   "origin": [
+    15.589,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.457,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 29.692,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "Telescope",
+   "args": {
+    "telescope_type": "galilean"
+   },
+   "also": []
+  },
+  "beamexpander": {
+   "symbol": "beamexpander",
+   "params": {},
+   "svg": "beamexpander.svg",
+   "svg2d": "beamexpander.2d.svg",
+   "width": 30.393285,
+   "height": 23.023801,
+   "origin": [
+    15.197,
+    11.512
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 11.512,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 27.952,
+     "y": 11.512,
+     "kind": "free_space"
+    }
+   },
+   "component": "BeamExpanderTelescope",
+   "args": {},
+   "also": []
+  },
+  "fourf": {
+   "symbol": "fourf",
+   "params": {},
+   "svg": "fourf.svg",
+   "svg2d": "fourf.2d.svg",
+   "width": 40.617156,
+   "height": 23.609126,
+   "origin": [
+    20.309,
+    11.805
+   ],
+   "ports": {
+    "object": {
+     "x": 2.167,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "image": {
+     "x": 38.45,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "fourier": {
+     "x": 20.308,
+     "y": 2.167,
+     "kind": "free_space"
+    }
+   },
+   "component": "FourFSystem",
+   "args": {},
+   "also": []
+  },
+  "fourf__split0.25": {
+   "symbol": "fourf",
+   "params": {
+    "split": 0.25
+   },
+   "svg": "fourf__split0.25.svg",
+   "svg2d": "fourf__split0.25.2d.svg",
+   "width": 40.617156,
+   "height": 23.609126,
+   "origin": [
+    20.309,
+    11.805
+   ],
+   "ports": {
+    "object": {
+     "x": 2.167,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "image": {
+     "x": 38.45,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "fourier": {
+     "x": 11.237,
+     "y": 2.167,
+     "kind": "free_space"
+    }
+   },
+   "component": "FourFSystem",
+   "args": {
+    "focal_length_1": 20.0,
+    "focal_length_2": 60.0
+   },
+   "also": []
+  },
+  "fourf__split0.33": {
+   "symbol": "fourf",
+   "params": {
+    "split": 0.33
+   },
+   "svg": "fourf__split0.33.svg",
+   "svg2d": "fourf__split0.33.2d.svg",
+   "width": 40.617156,
+   "height": 23.609126,
+   "origin": [
+    20.309,
+    11.805
+   ],
+   "ports": {
+    "object": {
+     "x": 2.167,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "image": {
+     "x": 38.45,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "fourier": {
+     "x": 14.14,
+     "y": 2.167,
+     "kind": "free_space"
+    }
+   },
+   "component": "FourFSystem",
+   "args": {
+    "focal_length_1": 20.0,
+    "focal_length_2": 40.0
+   },
+   "also": []
+  },
+  "fourf__split0.4": {
+   "symbol": "fourf",
+   "params": {
+    "split": 0.4
+   },
+   "svg": "fourf__split0.4.svg",
+   "svg2d": "fourf__split0.4.2d.svg",
+   "width": 40.617156,
+   "height": 23.609126,
+   "origin": [
+    20.309,
+    11.805
+   ],
+   "ports": {
+    "object": {
+     "x": 2.167,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "image": {
+     "x": 38.45,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "fourier": {
+     "x": 16.679,
+     "y": 2.167,
+     "kind": "free_space"
+    }
+   },
+   "component": "FourFSystem",
+   "args": {
+    "focal_length_1": 20.0,
+    "focal_length_2": 30.0
+   },
+   "also": []
+  },
+  "fourf__split0.6": {
+   "symbol": "fourf",
+   "params": {
+    "split": 0.6
+   },
+   "svg": "fourf__split0.6.svg",
+   "svg2d": "fourf__split0.6.2d.svg",
+   "width": 40.617156,
+   "height": 23.609126,
+   "origin": [
+    20.309,
+    11.805
+   ],
+   "ports": {
+    "object": {
+     "x": 2.167,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "image": {
+     "x": 38.45,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "fourier": {
+     "x": 23.937,
+     "y": 2.167,
+     "kind": "free_space"
+    }
+   },
+   "component": "FourFSystem",
+   "args": {
+    "focal_length_1": 20.0,
+    "focal_length_2": 13.333
+   },
+   "also": []
+  },
+  "fourf__split0.67": {
+   "symbol": "fourf",
+   "params": {
+    "split": 0.67
+   },
+   "svg": "fourf__split0.67.svg",
+   "svg2d": "fourf__split0.67.2d.svg",
+   "width": 40.617156,
+   "height": 23.609126,
+   "origin": [
+    20.309,
+    11.805
+   ],
+   "ports": {
+    "object": {
+     "x": 2.167,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "image": {
+     "x": 38.45,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "fourier": {
+     "x": 26.476,
+     "y": 2.167,
+     "kind": "free_space"
+    }
+   },
+   "component": "FourFSystem",
+   "args": {
+    "focal_length_1": 20.0,
+    "focal_length_2": 10.0
+   },
+   "also": []
+  },
+  "fourf__split0.75": {
+   "symbol": "fourf",
+   "params": {
+    "split": 0.75
+   },
+   "svg": "fourf__split0.75.svg",
+   "svg2d": "fourf__split0.75.2d.svg",
+   "width": 40.617156,
+   "height": 23.609126,
+   "origin": [
+    20.309,
+    11.805
+   ],
+   "ports": {
+    "object": {
+     "x": 2.167,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "image": {
+     "x": 38.45,
+     "y": 11.805,
+     "kind": "free_space"
+    },
+    "fourier": {
+     "x": 29.379,
+     "y": 2.167,
+     "kind": "free_space"
+    }
+   },
+   "component": "FourFSystem",
+   "args": {
+    "focal_length_1": 20.0,
+    "focal_length_2": 6.667
+   },
+   "also": []
+  },
+  "collimator": {
+   "symbol": "collimator",
+   "params": {},
+   "svg": "collimator.svg",
+   "svg2d": "collimator.2d.svg",
+   "width": 29.82667,
+   "height": 13.385265,
+   "origin": [
+    19.449,
+    6.693
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 6.693,
+     "kind": "fiber"
+    },
+    "out": {
+     "x": 27.386,
+     "y": 6.693,
+     "kind": "free_space"
+    }
+   },
+   "component": "FiberCollimator",
+   "args": {},
+   "also": []
+  },
+  "fiberport": {
+   "symbol": "fiberport",
+   "params": {},
+   "svg": "fiberport.svg",
+   "svg2d": "fiberport.2d.svg",
+   "width": 30.393724,
+   "height": 21.889714,
+   "origin": [
+    10.945,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 27.953,
+     "y": 10.945,
+     "kind": "fiber"
+    }
+   },
+   "component": "FiberPort",
+   "args": {},
+   "also": []
+  },
+  "mirror": {
+   "symbol": "mirror",
+   "params": {},
+   "svg": "mirror.svg",
+   "svg2d": "mirror.2d.svg",
+   "width": 8.218162,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 2.267,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "Mirror",
+   "args": {},
+   "also": []
+  },
+  "flipmirror": {
+   "symbol": "flipmirror",
+   "params": {},
+   "svg": "flipmirror.svg",
+   "svg2d": "flipmirror.2d.svg",
+   "width": 8.218162,
+   "height": 45.35193,
+   "origin": [
+    2.267,
+    33.448
+   ],
+   "ports": {
+    "io": {
+     "x": 2.267,
+     "y": 33.448,
+     "kind": "free_space",
+     "side": "left"
+    },
+    "pass": {
+     "x": 5.952,
+     "y": 33.448,
+     "kind": "free_space",
+     "side": "right"
+    }
+   },
+   "component": "FlipMirror",
+   "args": {},
+   "also": []
+  },
+  "flipmirror__viewtop": {
+   "symbol": "flipmirror",
+   "params": {
+    "view": "top"
+   },
+   "svg": "flipmirror__viewtop.svg",
+   "svg2d": "flipmirror__viewtop.2d.svg",
+   "width": 8.218162,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 2.267,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "pass": {
+     "x": 5.952,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "FlipMirror",
+   "args": {},
+   "also": []
+  },
+  "mirror__kindconcave": {
+   "symbol": "mirror",
+   "params": {
+    "kind": "concave"
+   },
+   "svg": "mirror__kindconcave.svg",
+   "svg2d": "mirror__kindconcave.2d.svg",
+   "width": 9.918874,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 4.18,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "ConcaveMirror",
+   "args": {},
+   "also": []
+  },
+  "mirror__kindconvex": {
+   "symbol": "mirror",
+   "params": {
+    "kind": "convex"
+   },
+   "svg": "mirror__kindconvex.svg",
+   "svg2d": "mirror__kindconvex.2d.svg",
+   "width": 10.769235,
+   "height": 23.808359,
+   "origin": [
+    2.834,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 2.904,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "ConvexMirror",
+   "args": {},
+   "also": []
+  },
+  "mirror__kindbiconcave": {
+   "symbol": "mirror",
+   "params": {
+    "kind": "biconcave"
+   },
+   "svg": "mirror__kindbiconcave.svg",
+   "svg2d": "mirror__kindbiconcave.2d.svg",
+   "width": 12.18665,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 4.18,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "BiconcaveMirror",
+   "args": {},
+   "also": []
+  },
+  "mirror__kindbiconvex": {
+   "symbol": "mirror",
+   "params": {
+    "kind": "biconvex"
+   },
+   "svg": "mirror__kindbiconvex.svg",
+   "svg2d": "mirror__kindbiconvex.2d.svg",
+   "width": 12.469948,
+   "height": 23.808359,
+   "origin": [
+    2.834,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 2.904,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "BiconvexMirror",
+   "args": {},
+   "also": []
+  },
+  "dichroic": {
+   "symbol": "dichroic",
+   "params": {},
+   "svg": "dichroic.svg",
+   "svg2d": "dichroic.2d.svg",
+   "width": 20.641813,
+   "height": 22.655143,
+   "origin": [
+    10.458,
+    10.184
+   ],
+   "ports": {
+    "in": {
+     "x": 9.041,
+     "y": 10.184,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 11.875,
+     "y": 10.184,
+     "kind": "free_space"
+    }
+   }
+  },
+  "galvo": {
+   "symbol": "galvo",
+   "params": {},
+   "svg": "galvo.svg",
+   "svg2d": "galvo.2d.svg",
+   "width": 15.512169,
+   "height": 25.236483,
+   "origin": [
+    7.756,
+    14.688
+   ],
+   "ports": {
+    "in": {
+     "x": 6.055,
+     "y": 14.688,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 9.457,
+     "y": 14.688,
+     "kind": "free_space"
+    }
+   },
+   "component": "GalvoMirror",
+   "args": {},
+   "also": []
+  },
+  "galvocompact": {
+   "symbol": "galvocompact",
+   "params": {},
+   "svg": "galvocompact.svg",
+   "svg2d": "galvocompact.2d.svg",
+   "width": 10.062775,
+   "height": 18.901988,
+   "origin": [
+    4.738,
+    11.114
+   ],
+   "ports": {
+    "in": {
+     "x": 2.754,
+     "y": 11.114,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 6.723,
+     "y": 11.114,
+     "kind": "free_space"
+    }
+   },
+   "component": "GalvoMirror",
+   "args": {},
+   "also": []
+  },
+  "retro": {
+   "symbol": "retro",
+   "params": {},
+   "svg": "retro.svg",
+   "svg2d": "retro.2d.svg",
+   "width": 14.550077,
+   "height": 23.621559,
+   "origin": [
+    8.409,
+    11.811
+   ],
+   "ports": {
+    "io": {
+     "x": 2.74,
+     "y": 11.811,
+     "kind": "free_space"
+    }
+   },
+   "component": "Retroreflector",
+   "args": {},
+   "also": []
+  },
+  "periscope": {
+   "symbol": "periscope",
+   "params": {},
+   "svg": "periscope.svg",
+   "svg2d": "periscope.2d.svg",
+   "width": 19.771467,
+   "height": 32.094446,
+   "origin": [
+    6.276,
+    15.48
+   ],
+   "ports": {
+    "in": {
+     "x": 6.276,
+     "y": 23.984,
+     "kind": "free_space",
+     "side": "left"
+    },
+    "out": {
+     "x": 6.276,
+     "y": 6.976,
+     "kind": "free_space",
+     "side": "right"
+    },
+    "mount": {
+     "x": 12.795,
+     "y": 29.654,
+     "kind": "free_space"
+    }
+   },
+   "component": "Periscope",
+   "args": {},
+   "also": []
+  },
+  "periscope__viewtop": {
+   "symbol": "periscope",
+   "params": {
+    "view": "top"
+   },
+   "svg": "periscope__viewtop.svg",
+   "svg2d": "periscope__viewtop.2d.svg",
+   "width": 28.692573,
+   "height": 16.659447,
+   "origin": [
+    14.346,
+    8.48
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 8.48,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 26.252,
+     "y": 8.48,
+     "kind": "free_space"
+    },
+    "mount": {
+     "x": 14.346,
+     "y": 8.48,
+     "kind": "free_space"
+    }
+   },
+   "component": "Periscope",
+   "args": {},
+   "also": []
+  },
+  "platesplitter": {
+   "symbol": "platesplitter",
+   "params": {},
+   "svg": "platesplitter.svg",
+   "svg2d": "platesplitter.2d.svg",
+   "width": 20.993086,
+   "height": 20.993086,
+   "origin": [
+    10.497,
+    10.497
+   ],
+   "ports": {
+    "in": {
+     "x": 1.993,
+     "y": 10.497,
+     "kind": "free_space"
+    },
+    "trans": {
+     "x": 19.001,
+     "y": 10.497,
+     "kind": "free_space"
+    },
+    "refl": {
+     "x": 10.497,
+     "y": 19.001,
+     "kind": "free_space"
+    },
+    "tap": {
+     "x": 10.497,
+     "y": 1.993,
+     "kind": "free_space"
+    },
+    "front": {
+     "x": 6.245,
+     "y": 14.748,
+     "kind": "free_space"
+    },
+    "back": {
+     "x": 14.748,
+     "y": 6.245,
+     "kind": "free_space"
+    }
+   },
+   "hub": [
+    10.497,
+    10.497
+   ],
+   "component": "BeamSplitter",
+   "args": {},
+   "also": []
+  },
+  "platesplitter__kinddichroic": {
+   "symbol": "platesplitter",
+   "params": {
+    "kind": "dichroic"
+   },
+   "svg": "platesplitter__kinddichroic.svg",
+   "svg2d": "platesplitter__kinddichroic.2d.svg",
+   "width": 20.993086,
+   "height": 20.993086,
+   "origin": [
+    10.497,
+    10.497
+   ],
+   "ports": {
+    "in": {
+     "x": 1.993,
+     "y": 10.497,
+     "kind": "free_space"
+    },
+    "trans": {
+     "x": 19.001,
+     "y": 10.497,
+     "kind": "free_space"
+    },
+    "refl": {
+     "x": 10.497,
+     "y": 19.001,
+     "kind": "free_space"
+    },
+    "tap": {
+     "x": 10.497,
+     "y": 1.993,
+     "kind": "free_space"
+    },
+    "front": {
+     "x": 6.245,
+     "y": 14.748,
+     "kind": "free_space"
+    },
+    "back": {
+     "x": 14.748,
+     "y": 6.245,
+     "kind": "free_space"
+    }
+   },
+   "hub": [
+    10.497,
+    10.497
+   ],
+   "component": "BeamSplitter",
+   "args": {
+    "dichroic": true
+   },
+   "also": []
+  },
+  "partialmirror": {
+   "symbol": "partialmirror",
+   "params": {},
+   "svg": "partialmirror.svg",
+   "svg2d": "partialmirror.2d.svg",
+   "width": 6.691776,
+   "height": 24.157061,
+   "origin": [
+    3.433,
+    12.079
+   ],
+   "ports": {
+    "front": {
+     "x": 2.441,
+     "y": 12.079,
+     "kind": "free_space"
+    },
+    "back": {
+     "x": 4.425,
+     "y": 12.079,
+     "kind": "free_space"
+    },
+    "in": {
+     "x": 2.441,
+     "y": 11.086,
+     "kind": "free_space"
+    },
+    "trans": {
+     "x": 4.425,
+     "y": 13.071,
+     "kind": "free_space"
+    },
+    "refl": {
+     "x": 2.441,
+     "y": 13.071,
+     "kind": "free_space"
+    },
+    "tap": {
+     "x": 4.425,
+     "y": 11.086,
+     "kind": "free_space"
+    }
+   },
+   "component": "PartialMirror",
+   "args": {},
+   "also": []
+  },
+  "cubesplitter": {
+   "symbol": "cubesplitter",
+   "params": {},
+   "svg": "cubesplitter.svg",
+   "svg2d": "cubesplitter.2d.svg",
+   "width": 19.272827,
+   "height": 19.272827,
+   "origin": [
+    9.636,
+    9.636
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 9.636,
+     "kind": "free_space"
+    },
+    "trans": {
+     "x": 17.006,
+     "y": 9.636,
+     "kind": "free_space"
+    },
+    "refl": {
+     "x": 9.636,
+     "y": 2.267,
+     "kind": "free_space"
+    },
+    "tap": {
+     "x": 9.636,
+     "y": 17.006,
+     "kind": "free_space"
+    }
+   },
+   "hub": [
+    9.636,
+    9.636
+   ],
+   "component": "PBS",
+   "args": {},
+   "also": []
+  },
+  "cubesplitter__kindplain": {
+   "symbol": "cubesplitter",
+   "params": {
+    "kind": "plain"
+   },
+   "svg": "cubesplitter__kindplain.svg",
+   "svg2d": "cubesplitter__kindplain.2d.svg",
+   "width": 19.272827,
+   "height": 19.272827,
+   "origin": [
+    9.636,
+    9.636
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 9.636,
+     "kind": "free_space"
+    },
+    "trans": {
+     "x": 17.006,
+     "y": 9.636,
+     "kind": "free_space"
+    },
+    "refl": {
+     "x": 9.636,
+     "y": 2.267,
+     "kind": "free_space"
+    },
+    "tap": {
+     "x": 9.636,
+     "y": 17.006,
+     "kind": "free_space"
+    }
+   },
+   "hub": [
+    9.636,
+    9.636
+   ],
+   "component": "NonPolarizingBeamSplitter",
+   "args": {},
+   "also": []
+  },
+  "glanlaser": {
+   "symbol": "glanlaser",
+   "params": {},
+   "svg": "glanlaser.svg",
+   "svg2d": "glanlaser.2d.svg",
+   "width": 38.897743,
+   "height": 21.889714,
+   "origin": [
+    19.449,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 36.457,
+     "y": 10.945,
+     "kind": "free_space"
+    },
+    "reject": {
+     "x": 22.284,
+     "y": 19.449,
+     "kind": "free_space"
+    }
+   },
+   "component": "GlanLaserPolarizer",
+   "args": {},
+   "also": []
+  },
+  "wollaston": {
+   "symbol": "wollaston",
+   "params": {},
+   "svg": "wollaston.svg",
+   "svg2d": "wollaston.2d.svg",
+   "width": 21.541021,
+   "height": 21.541021,
+   "origin": [
+    10.771,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "free_space"
+    },
+    "o": {
+     "x": 19.275,
+     "y": 9.268,
+     "kind": "free_space"
+    },
+    "e": {
+     "x": 19.275,
+     "y": 12.273,
+     "kind": "free_space"
+    }
+   },
+   "component": "WollastonPrism",
+   "args": {},
+   "also": []
+  },
+  "crystal": {
+   "symbol": "crystal",
+   "params": {},
+   "svg": "crystal.svg",
+   "svg2d": "crystal.2d.svg",
+   "width": 21.541021,
+   "height": 18.139587,
+   "origin": [
+    10.771,
+    9.07
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 9.07,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 19.275,
+     "y": 9.07,
+     "kind": "free_space"
+    }
+   },
+   "component": "NonlinearCrystal",
+   "args": {},
+   "also": []
+  },
+  "crystal__kindpoled": {
+   "symbol": "crystal",
+   "params": {
+    "kind": "poled"
+   },
+   "svg": "crystal__kindpoled.svg",
+   "svg2d": "crystal__kindpoled.2d.svg",
+   "width": 30.044593,
+   "height": 13.036563,
+   "origin": [
+    15.022,
+    6.518
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 6.518,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 27.778,
+     "y": 6.518,
+     "kind": "free_space"
+    }
+   },
+   "component": "NonlinearCrystal",
+   "args": {
+    "poled": true
+   },
+   "also": []
+  },
+  "polarizer": {
+   "symbol": "polarizer",
+   "params": {},
+   "svg": "polarizer.svg",
+   "svg2d": "polarizer.2d.svg",
+   "width": 15.729943,
+   "height": 24.942446,
+   "origin": [
+    4.392,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.4,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 13.463,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "Polarizer",
+   "args": {},
+   "also": []
+  },
+  "polarizer__kindanalyzer": {
+   "symbol": "polarizer",
+   "params": {
+    "kind": "analyzer"
+   },
+   "svg": "polarizer__kindanalyzer.svg",
+   "svg2d": "polarizer__kindanalyzer.2d.svg",
+   "width": 15.729943,
+   "height": 24.942446,
+   "origin": [
+    4.392,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.4,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 13.463,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "Analyzer",
+   "args": {},
+   "also": []
+  },
+  "waveplate": {
+   "symbol": "waveplate",
+   "params": {},
+   "svg": "waveplate.svg",
+   "svg2d": "waveplate.2d.svg",
+   "width": 15.729943,
+   "height": 24.942446,
+   "origin": [
+    4.392,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.4,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 13.463,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "WavePlate",
+   "args": {
+    "retardance": 1.0
+   },
+   "also": []
+  },
+  "waveplate__kindhalf": {
+   "symbol": "waveplate",
+   "params": {
+    "kind": "half"
+   },
+   "svg": "waveplate__kindhalf.svg",
+   "svg2d": "waveplate__kindhalf.2d.svg",
+   "width": 15.729943,
+   "height": 24.942446,
+   "origin": [
+    4.392,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.4,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 13.463,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "WavePlate",
+   "args": {},
+   "also": [
+    "HalfWavePlate"
+   ]
+  },
+  "waveplate__kindquarter": {
+   "symbol": "waveplate",
+   "params": {
+    "kind": "quarter"
+   },
+   "svg": "waveplate__kindquarter.svg",
+   "svg2d": "waveplate__kindquarter.2d.svg",
+   "width": 15.729943,
+   "height": 24.942446,
+   "origin": [
+    4.392,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 3.4,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 13.463,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "QuarterWavePlate",
+   "args": {},
+   "also": []
+  },
+  "isolator": {
+   "symbol": "isolator",
+   "params": {},
+   "svg": "isolator.svg",
+   "svg2d": "isolator.2d.svg",
+   "width": 28.692573,
+   "height": 15.085978,
+   "origin": [
+    14.346,
+    7.543
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 7.543,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 26.252,
+     "y": 7.543,
+     "kind": "free_space"
+    }
+   },
+   "component": "OpticalIsolator",
+   "args": {},
+   "also": []
+  },
+  "brewster": {
+   "symbol": "brewster",
+   "params": {},
+   "svg": "brewster.svg",
+   "svg2d": "brewster.2d.svg",
+   "width": 24.44264,
+   "height": 18.85875,
+   "origin": [
+    12.221,
+    9.429
+   ],
+   "ports": {
+    "in": {
+     "x": 10.435,
+     "y": 9.429,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 14.007,
+     "y": 9.429,
+     "kind": "free_space"
+    }
+   },
+   "component": "BrewsterWindow",
+   "args": {},
+   "also": []
+  },
+  "wedge": {
+   "symbol": "wedge",
+   "params": {},
+   "svg": "wedge.svg",
+   "svg2d": "wedge.2d.svg",
+   "width": 9.351821,
+   "height": 23.808359,
+   "origin": [
+    3.4,
+    11.904
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 5.668,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "WedgePlate",
+   "args": {},
+   "also": []
+  },
+  "window": {
+   "symbol": "window",
+   "params": {},
+   "svg": "window.svg",
+   "svg2d": "window.2d.svg",
+   "width": 10.769215,
+   "height": 24.942446,
+   "origin": [
+    5.385,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 4.392,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 6.377,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "CryostatWindow",
+   "args": {},
+   "also": []
+  },
+  "filter": {
+   "symbol": "filter",
+   "params": {},
+   "svg": "filter.svg",
+   "svg2d": "filter.2d.svg",
+   "width": 9.918854,
+   "height": 25.509081,
+   "origin": [
+    4.959,
+    12.755
+   ],
+   "ports": {
+    "in": {
+     "x": 3.542,
+     "y": 12.755,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 6.377,
+     "y": 12.755,
+     "kind": "free_space"
+    }
+   },
+   "component": "Filter",
+   "args": {},
+   "also": []
+  },
+  "ndfilter": {
+   "symbol": "ndfilter",
+   "params": {},
+   "svg": "ndfilter.svg",
+   "svg2d": "ndfilter.2d.svg",
+   "width": 9.918854,
+   "height": 25.509081,
+   "origin": [
+    4.959,
+    12.755
+   ],
+   "ports": {
+    "in": {
+     "x": 3.542,
+     "y": 12.755,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 6.377,
+     "y": 12.755,
+     "kind": "free_space"
+    }
+   },
+   "component": "NDFilter",
+   "args": {},
+   "also": []
+  },
+  "aom": {
+   "symbol": "aom",
+   "params": {},
+   "svg": "aom.svg",
+   "svg2d": "aom.2d.svg",
+   "width": 28.910934,
+   "height": 20.332204,
+   "origin": [
+    11.338,
+    9.636
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 9.636,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 20.409,
+     "y": 9.636,
+     "kind": "free_space"
+    }
+   },
+   "component": "AOM",
+   "args": {},
+   "also": []
+  },
+  "eom": {
+   "symbol": "eom",
+   "params": {},
+   "svg": "eom.svg",
+   "svg2d": "eom.2d.svg",
+   "width": 24.942446,
+   "height": 18.915218,
+   "origin": [
+    12.471,
+    11.338
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 11.338,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 22.676,
+     "y": 11.338,
+     "kind": "free_space"
+    },
+    "rf": {
+     "x": 12.471,
+     "y": 2.267,
+     "kind": "electrical"
+    }
+   },
+   "component": "EOM",
+   "args": {},
+   "also": []
+  },
+  "slm": {
+   "symbol": "slm",
+   "params": {},
+   "svg": "slm.svg",
+   "svg2d": "slm.2d.svg",
+   "width": 15.02146,
+   "height": 27.776837,
+   "origin": [
+    4.251,
+    13.605
+   ],
+   "ports": {
+    "in": {
+     "x": 2.834,
+     "y": 13.605,
+     "kind": "free_space",
+     "side": "left"
+    },
+    "out": {
+     "x": 6.802,
+     "y": 13.605,
+     "kind": "free_space",
+     "side": "right"
+    }
+   },
+   "component": "SLM",
+   "args": {},
+   "also": []
+  },
+  "dmd": {
+   "symbol": "dmd",
+   "params": {},
+   "svg": "dmd.svg",
+   "svg2d": "dmd.2d.svg",
+   "width": 28.692573,
+   "height": 20.014635,
+   "origin": [
+    14.346,
+    8.677
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 2.441,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 26.252,
+     "y": 2.441,
+     "kind": "free_space"
+    }
+   },
+   "component": "DMD",
+   "args": {},
+   "also": []
+  },
+  "chopper": {
+   "symbol": "chopper",
+   "params": {},
+   "svg": "chopper.svg",
+   "svg2d": "chopper.2d.svg",
+   "width": 23.808359,
+   "height": 23.808359,
+   "origin": [
+    11.904,
+    7.369
+   ],
+   "ports": {
+    "in": {
+     "x": 3.4,
+     "y": 7.369,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 20.408,
+     "y": 7.369,
+     "kind": "free_space"
+    }
+   },
+   "component": "OpticalChopper",
+   "args": {},
+   "also": []
+  },
+  "iris": {
+   "symbol": "iris",
+   "params": {},
+   "svg": "iris.svg",
+   "svg2d": "iris.2d.svg",
+   "width": 8.8506,
+   "height": 29.510446,
+   "origin": [
+    4.425,
+    16.865
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 16.865,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 6.41,
+     "y": 16.865,
+     "kind": "free_space"
+    }
+   },
+   "component": "Iris",
+   "args": {},
+   "also": []
+  },
+  "iris__kindstop": {
+   "symbol": "iris",
+   "params": {
+    "kind": "stop"
+   },
+   "svg": "iris__kindstop.svg",
+   "svg2d": "iris__kindstop.2d.svg",
+   "width": 5.969494,
+   "height": 24.394521,
+   "origin": [
+    2.985,
+    12.197
+   ],
+   "ports": {
+    "in": {
+     "x": 1.993,
+     "y": 12.197,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 3.977,
+     "y": 12.197,
+     "kind": "free_space"
+    }
+   },
+   "component": "ApertureStop",
+   "args": {},
+   "also": []
+  },
+  "iris__kindpinhole": {
+   "symbol": "iris",
+   "params": {
+    "kind": "pinhole"
+   },
+   "svg": "iris__kindpinhole.svg",
+   "svg2d": "iris__kindpinhole.2d.svg",
+   "width": 5.119143,
+   "height": 24.157061,
+   "origin": [
+    2.56,
+    12.079
+   ],
+   "ports": {
+    "in": {
+     "x": 1.993,
+     "y": 12.079,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 3.127,
+     "y": 12.079,
+     "kind": "free_space"
+    }
+   },
+   "component": "Pinhole",
+   "args": {},
+   "also": []
+  },
+  "iris__kindslit": {
+   "symbol": "iris",
+   "params": {
+    "kind": "slit"
+   },
+   "svg": "iris__kindslit.svg",
+   "svg2d": "iris__kindslit.2d.svg",
+   "width": 9.635128,
+   "height": 24.942446,
+   "origin": [
+    4.818,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 7.369,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "SpectrometerSlit",
+   "args": {},
+   "also": []
+  },
+  "prism": {
+   "symbol": "prism",
+   "params": {},
+   "svg": "prism.svg",
+   "svg2d": "prism.2d.svg",
+   "width": 24.942446,
+   "height": 22.107636,
+   "origin": [
+    12.471,
+    12.471
+   ],
+   "ports": {
+    "in": {
+     "x": 6.547,
+     "y": 12.471,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 18.396,
+     "y": 12.471,
+     "kind": "free_space"
+    }
+   },
+   "component": "Prism",
+   "args": {},
+   "also": []
+  },
+  "prism__kindrightangle": {
+   "symbol": "prism",
+   "params": {
+    "kind": "rightangle"
+   },
+   "svg": "prism__kindrightangle.svg",
+   "svg2d": "prism__kindrightangle.2d.svg",
+   "width": 20.406904,
+   "height": 20.406904,
+   "origin": [
+    10.203,
+    10.203
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 10.203,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 10.203,
+     "y": 2.266,
+     "kind": "free_space"
+    }
+   },
+   "component": "RightAnglePrism",
+   "args": {},
+   "also": []
+  },
+  "prism__kindpenta": {
+   "symbol": "prism",
+   "params": {
+    "kind": "penta"
+   },
+   "svg": "prism__kindpenta.svg",
+   "svg2d": "prism__kindpenta.2d.svg",
+   "width": 26.907826,
+   "height": 26.907826,
+   "origin": [
+    11.044,
+    15.863
+   ],
+   "ports": {
+    "in": {
+     "x": 2.54,
+     "y": 15.863,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 10.052,
+     "y": 24.367,
+     "kind": "free_space"
+    }
+   },
+   "component": "Pentaprism",
+   "args": {},
+   "also": []
+  },
+  "ruledgrating": {
+   "symbol": "ruledgrating",
+   "params": {},
+   "svg": "ruledgrating.svg",
+   "svg2d": "ruledgrating.2d.svg",
+   "width": 15.588075,
+   "height": 23.808359,
+   "origin": [
+    3.684,
+    11.904
+   ],
+   "ports": {
+    "in": {
+     "x": 2.975,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 13.322,
+     "y": 11.904,
+     "kind": "free_space"
+    }
+   },
+   "component": "Grating",
+   "args": {},
+   "also": []
+  },
+  "monochromator": {
+   "symbol": "monochromator",
+   "params": {},
+   "svg": "monochromator.svg",
+   "svg2d": "monochromator.2d.svg",
+   "width": 47.600608,
+   "height": 30.393285,
+   "origin": [
+    23.8,
+    15.197
+   ],
+   "ports": {
+    "in": {
+     "x": 2.54,
+     "y": 15.197,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 45.06,
+     "y": 20.866,
+     "kind": "free_space"
+    }
+   },
+   "component": "Monochromator",
+   "args": {},
+   "also": []
+  },
+  "sensor": {
+   "symbol": "sensor",
+   "params": {},
+   "svg": "sensor.svg",
+   "svg2d": "sensor.2d.svg",
+   "width": 14.071044,
+   "height": 23.808359,
+   "origin": [
+    3.301,
+    11.904
+   ],
+   "ports": {
+    "in": {
+     "x": 2.167,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "sync": {
+     "x": 11.805,
+     "y": 11.904,
+     "kind": "electrical"
+    }
+   },
+   "component": "CameraSensor",
+   "args": {},
+   "also": []
+  },
+  "sensor__kindcmos": {
+   "symbol": "sensor",
+   "params": {
+    "kind": "cmos"
+   },
+   "svg": "sensor__kindcmos.svg",
+   "svg2d": "sensor__kindcmos.2d.svg",
+   "width": 26.250461,
+   "height": 24.157061,
+   "origin": [
+    13.605,
+    12.079
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 12.079,
+     "kind": "free_space"
+    },
+    "sync": {
+     "x": 23.81,
+     "y": 12.079,
+     "kind": "electrical"
+    }
+   },
+   "component": "CMOSCamera",
+   "args": {},
+   "also": []
+  },
+  "sensor__kindemccd": {
+   "symbol": "sensor",
+   "params": {
+    "kind": "emccd"
+   },
+   "svg": "sensor__kindemccd.svg",
+   "svg2d": "sensor__kindemccd.2d.svg",
+   "width": 29.08528,
+   "height": 25.683856,
+   "origin": [
+    13.605,
+    14.739
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 14.739,
+     "kind": "free_space"
+    },
+    "sync": {
+     "x": 26.644,
+     "y": 14.739,
+     "kind": "electrical"
+    }
+   },
+   "component": "EMCCD",
+   "args": {},
+   "also": []
+  },
+  "sensor__kindspad": {
+   "symbol": "sensor",
+   "params": {
+    "kind": "spad"
+   },
+   "svg": "sensor__kindspad.svg",
+   "svg2d": "sensor__kindspad.2d.svg",
+   "width": 24.157061,
+   "height": 24.157061,
+   "origin": [
+    12.079,
+    12.079
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 12.079,
+     "kind": "free_space"
+    },
+    "sync": {
+     "x": 21.716,
+     "y": 12.079,
+     "kind": "electrical"
+    }
+   },
+   "component": "SPADArray",
+   "args": {},
+   "also": []
+  },
+  "powerhead": {
+   "symbol": "powerhead",
+   "params": {},
+   "svg": "powerhead.svg",
+   "svg2d": "powerhead.2d.svg",
+   "width": 27.38413,
+   "height": 26.425245,
+   "origin": [
+    12.079,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 25.118,
+     "y": 10.945,
+     "kind": "free_space"
+    }
+   },
+   "component": "PowerMeter",
+   "args": {},
+   "also": []
+  },
+  "table": {
+   "symbol": "table",
+   "params": {},
+   "svg": "table.svg",
+   "svg2d": "table.2d.svg",
+   "width": 50.236144,
+   "height": 21.32266,
+   "origin": [
+    25.118,
+    8.677
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 5.276,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 47.795,
+     "y": 5.276,
+     "kind": "free_space"
+    }
+   },
+   "component": "OpticalTable",
+   "args": {},
+   "also": []
+  },
+  "table__kindbreadboard": {
+   "symbol": "table",
+   "params": {
+    "kind": "breadboard"
+   },
+   "svg": "table__kindbreadboard.svg",
+   "svg2d": "table__kindbreadboard.2d.svg",
+   "width": 33.228115,
+   "height": 21.889714,
+   "origin": [
+    16.614,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 30.787,
+     "y": 10.945,
+     "kind": "free_space"
+    }
+   },
+   "component": "Breadboard",
+   "args": {},
+   "also": []
+  },
+  "table__kindbaseplate": {
+   "symbol": "table",
+   "params": {
+    "kind": "baseplate"
+   },
+   "svg": "table__kindbaseplate.svg",
+   "svg2d": "table__kindbaseplate.2d.svg",
+   "width": 33.228115,
+   "height": 19.621519,
+   "origin": [
+    16.614,
+    9.811
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 9.811,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 30.787,
+     "y": 9.811,
+     "kind": "free_space"
+    }
+   },
+   "component": "Baseplate",
+   "args": {},
+   "also": []
+  },
+  "kinematic": {
+   "symbol": "kinematic",
+   "params": {},
+   "svg": "kinematic.svg",
+   "svg2d": "kinematic.2d.svg",
+   "width": 19.730909,
+   "height": 24.157061,
+   "origin": [
+    6.126,
+    12.079
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 12.079,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 10.945,
+     "y": 12.079,
+     "kind": "free_space"
+    }
+   },
+   "component": "KinematicMount",
+   "args": {},
+   "also": []
+  },
+  "post": {
+   "symbol": "post",
+   "params": {},
+   "svg": "post.svg",
+   "svg2d": "post.2d.svg",
+   "width": 19.272827,
+   "height": 29.194252,
+   "origin": [
+    9.636,
+    13.605
+   ],
+   "ports": {
+    "mount": {
+     "x": 9.636,
+     "y": 2.266,
+     "kind": "free_space"
+    }
+   },
+   "component": "OpticalPost",
+   "args": {},
+   "also": []
+  },
+  "post__viewtop": {
+   "symbol": "post",
+   "params": {
+    "view": "top"
+   },
+   "svg": "post__viewtop.svg",
+   "svg2d": "post__viewtop.2d.svg",
+   "width": 19.621519,
+   "height": 19.621519,
+   "origin": [
+    9.811,
+    9.811
+   ],
+   "ports": {
+    "mount": {
+     "x": 9.811,
+     "y": 9.811,
+     "kind": "free_space"
+    }
+   },
+   "component": "OpticalPost",
+   "args": {},
+   "also": []
+  },
+  "platform": {
+   "symbol": "platform",
+   "params": {},
+   "svg": "platform.svg",
+   "svg2d": "platform.2d.svg",
+   "width": 26.425255,
+   "height": 26.141499,
+   "origin": [
+    13.213,
+    10.378
+   ],
+   "ports": {},
+   "component": "PlatformMount",
+   "args": {},
+   "also": []
+  },
+  "platform__viewtop": {
+   "symbol": "platform",
+   "params": {
+    "view": "top"
+   },
+   "svg": "platform__viewtop.svg",
+   "svg2d": "platform__viewtop.2d.svg",
+   "width": 26.425255,
+   "height": 26.425255,
+   "origin": [
+    13.213,
+    13.213
+   ],
+   "ports": {},
+   "component": "PlatformMount",
+   "args": {},
+   "also": []
+  },
+  "rotation": {
+   "symbol": "rotation",
+   "params": {},
+   "svg": "rotation.svg",
+   "svg2d": "rotation.2d.svg",
+   "width": 25.291148,
+   "height": 25.291148,
+   "origin": [
+    12.646,
+    12.646
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 12.646,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 22.85,
+     "y": 12.646,
+     "kind": "free_space"
+    }
+   },
+   "component": "RotationStage",
+   "args": {},
+   "also": []
+  },
+  "translation": {
+   "symbol": "translation",
+   "params": {},
+   "svg": "translation.svg",
+   "svg2d": "translation.2d.svg",
+   "width": 30.785993,
+   "height": 35.321544,
+   "origin": [
+    16.44,
+    12.646
+   ],
+   "ports": {
+    "in": {
+     "x": 4.534,
+     "y": 12.646,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 28.345,
+     "y": 12.646,
+     "kind": "free_space"
+    }
+   },
+   "component": "TranslationStage",
+   "args": {},
+   "also": []
+  },
+  "chamber": {
+   "symbol": "chamber",
+   "params": {},
+   "svg": "chamber.svg",
+   "svg2d": "chamber.2d.svg",
+   "width": 46.486017,
+   "height": 30.393305,
+   "origin": [
+    23.243,
+    16.614
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 16.614,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 44.22,
+     "y": 16.614,
+     "kind": "free_space"
+    }
+   },
+   "component": "VacuumChamber",
+   "args": {},
+   "also": []
+  },
+  "beamdump": {
+   "symbol": "beamdump",
+   "params": {},
+   "svg": "beamdump.svg",
+   "svg2d": "beamdump.2d.svg",
+   "width": 16.32524,
+   "height": 21.631741,
+   "origin": [
+    7.426,
+    10.816
+   ],
+   "ports": {
+    "in": {
+     "x": 2.266,
+     "y": 10.816,
+     "kind": "free_space"
+    }
+   },
+   "component": "BeamDump",
+   "args": {},
+   "also": []
+  },
+  "resistor": {
+   "symbol": "resistor",
+   "params": {},
+   "svg": "resistor.svg",
+   "svg2d": "resistor.2d.svg",
+   "width": 32.879422,
+   "height": 10.20262,
+   "origin": [
+    16.44,
+    5.101
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.267,
+     "y": 5.101,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 30.613,
+     "y": 5.101,
+     "kind": "electrical"
+    }
+   },
+   "component": "Resistor",
+   "args": {},
+   "also": []
+  },
+  "capacitor": {
+   "symbol": "capacitor",
+   "params": {},
+   "svg": "capacitor.svg",
+   "svg2d": "capacitor.2d.svg",
+   "width": 32.879422,
+   "height": 16.419357,
+   "origin": [
+    16.44,
+    8.21
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.267,
+     "y": 8.21,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 30.613,
+     "y": 8.21,
+     "kind": "electrical"
+    }
+   },
+   "component": "Capacitor",
+   "args": {},
+   "also": []
+  },
+  "inductor": {
+   "symbol": "inductor",
+   "params": {},
+   "svg": "inductor.svg",
+   "svg2d": "inductor.2d.svg",
+   "width": 32.879422,
+   "height": 6.800747,
+   "origin": [
+    16.44,
+    4.534
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.267,
+     "y": 4.534,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 30.613,
+     "y": 4.534,
+     "kind": "electrical"
+    }
+   },
+   "component": "Inductor",
+   "args": {},
+   "also": []
+  },
+  "opamp": {
+   "symbol": "opamp",
+   "params": {},
+   "svg": "opamp.svg",
+   "svg2d": "opamp.2d.svg",
+   "width": 38.549041,
+   "height": 27.209793,
+   "origin": [
+    19.275,
+    13.605
+   ],
+   "ports": {
+    "in_n": {
+     "x": 2.266,
+     "y": 7.936,
+     "kind": "electrical"
+    },
+    "in_p": {
+     "x": 2.266,
+     "y": 19.274,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 36.283,
+     "y": 13.605,
+     "kind": "electrical"
+    },
+    "v_pos": {
+     "x": 19.275,
+     "y": 2.266,
+     "kind": "electrical"
+    },
+    "v_neg": {
+     "x": 19.275,
+     "y": 24.943,
+     "kind": "electrical"
+    }
+   },
+   "component": "OpAmp",
+   "args": {},
+   "also": []
+  },
+  "ground": {
+   "symbol": "ground",
+   "params": {},
+   "svg": "ground.svg",
+   "svg2d": "ground.2d.svg",
+   "width": 15.871392,
+   "height": 17.572533,
+   "origin": [
+    7.936,
+    10.771
+   ],
+   "ports": {
+    "e1": {
+     "x": 7.936,
+     "y": 2.267,
+     "kind": "electrical"
+    }
+   },
+   "component": "Ground",
+   "args": {},
+   "also": []
+  },
+  "biastee": {
+   "symbol": "biastee",
+   "params": {},
+   "svg": "biastee.svg",
+   "svg2d": "biastee.2d.svg",
+   "width": 44.217823,
+   "height": 27.776837,
+   "origin": [
+    22.109,
+    19.841
+   ],
+   "ports": {
+    "rf": {
+     "x": 2.267,
+     "y": 19.841,
+     "kind": "electrical"
+    },
+    "rf_dc": {
+     "x": 41.951,
+     "y": 19.841,
+     "kind": "electrical"
+    },
+    "dc": {
+     "x": 27.778,
+     "y": 2.266,
+     "kind": "electrical"
+    }
+   },
+   "component": "BiasTee",
+   "args": {},
+   "also": []
+  },
+  "mixer": {
+   "symbol": "mixer",
+   "params": {},
+   "svg": "mixer.svg",
+   "svg2d": "mixer.2d.svg",
+   "width": 35.714252,
+   "height": 28.627636,
+   "origin": [
+    17.857,
+    10.771
+   ],
+   "ports": {
+    "rf": {
+     "x": 2.266,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "if": {
+     "x": 33.448,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "lo": {
+     "x": 17.857,
+     "y": 26.361,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFMixer",
+   "args": {},
+   "also": []
+  },
+  "amp": {
+   "symbol": "amp",
+   "params": {},
+   "svg": "amp.svg",
+   "svg2d": "amp.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "Amplifier",
+   "args": {},
+   "also": []
+  },
+  "rffilter__responselowpass": {
+   "symbol": "rffilter",
+   "params": {
+    "response": "lowpass"
+   },
+   "svg": "rffilter__responselowpass.svg",
+   "svg2d": "rffilter__responselowpass.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFFilter",
+   "args": {},
+   "also": []
+  },
+  "rffilter__responsehighpass": {
+   "symbol": "rffilter",
+   "params": {
+    "response": "highpass"
+   },
+   "svg": "rffilter__responsehighpass.svg",
+   "svg2d": "rffilter__responsehighpass.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFFilter",
+   "args": {
+    "response": "highpass"
+   },
+   "also": []
+  },
+  "rffilter__responsebandpass": {
+   "symbol": "rffilter",
+   "params": {
+    "response": "bandpass"
+   },
+   "svg": "rffilter__responsebandpass.svg",
+   "svg2d": "rffilter__responsebandpass.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFFilter",
+   "args": {
+    "response": "bandpass"
+   },
+   "also": []
+  },
+  "rffilter__responsebandstop": {
+   "symbol": "rffilter",
+   "params": {
+    "response": "bandstop"
+   },
+   "svg": "rffilter__responsebandstop.svg",
+   "svg2d": "rffilter__responsebandstop.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFFilter",
+   "args": {
+    "response": "bandstop"
+   },
+   "also": []
+  },
+  "fiberarray__count8": {
+   "symbol": "fiberarray",
+   "params": {
+    "count": 8
+   },
+   "svg": "fiberarray__count8.svg",
+   "svg2d": "fiberarray__count8.2d.svg",
+   "width": 59.132453,
+   "height": 38.547308,
+   "origin": [
+    36.456,
+    19.274
+   ],
+   "ports": {
+    "o1": {
+     "x": 56.866,
+     "y": 31.179,
+     "kind": "fiber"
+    },
+    "o2": {
+     "x": 56.866,
+     "y": 27.777,
+     "kind": "fiber"
+    },
+    "o3": {
+     "x": 56.866,
+     "y": 24.376,
+     "kind": "fiber"
+    },
+    "o4": {
+     "x": 56.866,
+     "y": 20.974,
+     "kind": "fiber"
+    },
+    "o5": {
+     "x": 56.866,
+     "y": 17.573,
+     "kind": "fiber"
+    },
+    "o6": {
+     "x": 56.866,
+     "y": 14.172,
+     "kind": "fiber"
+    },
+    "o7": {
+     "x": 56.866,
+     "y": 10.77,
+     "kind": "fiber"
+    },
+    "o8": {
+     "x": 56.866,
+     "y": 7.369,
+     "kind": "fiber"
+    }
+   },
+   "component": "FiberArray",
+   "args": {},
+   "also": []
+  },
+  "fiberarray__count4": {
+   "symbol": "fiberarray",
+   "params": {
+    "count": 4
+   },
+   "svg": "fiberarray__count4.svg",
+   "svg2d": "fiberarray__count4.2d.svg",
+   "width": 59.132453,
+   "height": 24.941599,
+   "origin": [
+    36.456,
+    12.471
+   ],
+   "ports": {
+    "o1": {
+     "x": 56.866,
+     "y": 17.573,
+     "kind": "fiber"
+    },
+    "o2": {
+     "x": 56.866,
+     "y": 14.172,
+     "kind": "fiber"
+    },
+    "o3": {
+     "x": 56.866,
+     "y": 10.77,
+     "kind": "fiber"
+    },
+    "o4": {
+     "x": 56.866,
+     "y": 7.369,
+     "kind": "fiber"
+    }
+   },
+   "component": "FiberArray",
+   "args": {
+    "count": 4
+   },
+   "also": []
+  },
+  "sma": {
+   "symbol": "sma",
+   "params": {},
+   "svg": "sma.svg",
+   "svg2d": "sma.2d.svg",
+   "width": 24.375402,
+   "height": 15.871392,
+   "origin": [
+    16.44,
+    7.936
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.267,
+     "y": 7.936,
+     "kind": "electrical"
+    }
+   },
+   "component": "SMAConnector",
+   "args": {},
+   "also": []
+  },
+  "sma__viewtop": {
+   "symbol": "sma",
+   "params": {
+    "view": "top"
+   },
+   "svg": "sma__viewtop.svg",
+   "svg2d": "sma__viewtop.2d.svg",
+   "width": 27.777275,
+   "height": 17.005469,
+   "origin": [
+    9.07,
+    8.503
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.266,
+     "y": 8.503,
+     "kind": "electrical"
+    }
+   },
+   "component": "SMAConnector",
+   "args": {},
+   "also": []
+  },
+  "pcb__kindplain": {
+   "symbol": "pcb",
+   "params": {
+    "kind": "plain"
+   },
+   "svg": "pcb__kindplain.svg",
+   "svg2d": "pcb__kindplain.2d.svg",
+   "width": 50.236144,
+   "height": 34.362232,
+   "origin": [
+    25.118,
+    17.181
+   ],
+   "ports": {
+    "e1": {
+     "x": 2.441,
+     "y": 5.843,
+     "kind": "electrical"
+    },
+    "e7": {
+     "x": 47.795,
+     "y": 5.843,
+     "kind": "electrical"
+    },
+    "e2": {
+     "x": 2.441,
+     "y": 10.378,
+     "kind": "electrical"
+    },
+    "e8": {
+     "x": 47.795,
+     "y": 10.378,
+     "kind": "electrical"
+    },
+    "e3": {
+     "x": 2.441,
+     "y": 14.914,
+     "kind": "electrical"
+    },
+    "e9": {
+     "x": 47.795,
+     "y": 14.914,
+     "kind": "electrical"
+    },
+    "e4": {
+     "x": 2.441,
+     "y": 19.449,
+     "kind": "electrical"
+    },
+    "e10": {
+     "x": 47.795,
+     "y": 19.449,
+     "kind": "electrical"
+    },
+    "e5": {
+     "x": 2.441,
+     "y": 23.985,
+     "kind": "electrical"
+    },
+    "e11": {
+     "x": 47.795,
+     "y": 23.985,
+     "kind": "electrical"
+    },
+    "e6": {
+     "x": 2.441,
+     "y": 28.52,
+     "kind": "electrical"
+    },
+    "e12": {
+     "x": 47.795,
+     "y": 28.52,
+     "kind": "electrical"
+    }
+   },
+   "component": "PCB",
+   "args": {
+    "style": "plain"
+   },
+   "also": []
+  },
+  "pid": {
+   "symbol": "pid",
+   "params": {},
+   "svg": "pid.svg",
+   "svg2d": "pid.2d.svg",
+   "width": 32.879422,
+   "height": 28.617873,
+   "origin": [
+    16.44,
+    17.847
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 17.847,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 17.847,
+     "kind": "electrical"
+    }
+   },
+   "component": "PIDController",
+   "args": {},
+   "also": []
+  },
+  "signalsource": {
+   "symbol": "signalsource",
+   "params": {},
+   "svg": "signalsource.svg",
+   "svg2d": "signalsource.2d.svg",
+   "width": 28.627636,
+   "height": 21.541021,
+   "origin": [
+    10.771,
+    10.771
+   ],
+   "ports": {
+    "out": {
+     "x": 26.361,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "SignalSource",
+   "args": {},
+   "also": []
+  },
+  "sumjunction": {
+   "symbol": "sumjunction",
+   "params": {},
+   "svg": "sumjunction.svg",
+   "svg2d": "sumjunction.2d.svg",
+   "width": 35.714252,
+   "height": 28.627636,
+   "origin": [
+    17.857,
+    10.771
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.266,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "in2": {
+     "x": 17.857,
+     "y": 26.361,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 33.448,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "SummingJunction",
+   "args": {},
+   "also": []
+  },
+  "sumjunction__minus": {
+   "symbol": "sumjunction",
+   "params": {
+    "minus": true
+   },
+   "svg": "sumjunction__minus.svg",
+   "svg2d": "sumjunction__minus.2d.svg",
+   "width": 35.714252,
+   "height": 28.627636,
+   "origin": [
+    17.857,
+    10.771
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.266,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "in2": {
+     "x": 17.857,
+     "y": 26.361,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 33.448,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "SummingJunction",
+   "args": {
+    "signs": "+-"
+   },
+   "also": []
+  },
+  "esa": {
+   "symbol": "esa",
+   "params": {},
+   "svg": "esa.svg",
+   "svg2d": "esa.2d.svg",
+   "width": 50.236144,
+   "height": 34.470735,
+   "origin": [
+    25.118,
+    15.197
+   ],
+   "ports": {
+    "in": {
+     "x": 41.559,
+     "y": 32.205,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFSpectrumAnalyzer",
+   "args": {},
+   "also": []
+  },
+  "rfsplitter": {
+   "symbol": "rfsplitter",
+   "params": {},
+   "svg": "rfsplitter.svg",
+   "svg2d": "rfsplitter.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "out1": {
+     "x": 30.613,
+     "y": 6.519,
+     "kind": "electrical"
+    },
+    "out2": {
+     "x": 30.613,
+     "y": 15.022,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFSplitter",
+   "args": {},
+   "also": []
+  },
+  "rfcoupler": {
+   "symbol": "rfcoupler",
+   "params": {},
+   "svg": "rfcoupler.svg",
+   "svg2d": "rfcoupler.2d.svg",
+   "width": 32.879422,
+   "height": 27.210222,
+   "origin": [
+    16.44,
+    16.44
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 16.44,
+     "kind": "electrical"
+    },
+    "cpl": {
+     "x": 22.109,
+     "y": 2.267,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFCoupler",
+   "args": {},
+   "also": []
+  },
+  "rfphase": {
+   "symbol": "rfphase",
+   "params": {},
+   "svg": "rfphase.svg",
+   "svg2d": "rfphase.2d.svg",
+   "width": 32.879422,
+   "height": 21.541021,
+   "origin": [
+    16.44,
+    10.771
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 10.771,
+     "kind": "electrical"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 10.771,
+     "kind": "electrical"
+    }
+   },
+   "component": "RFPhaseShifter",
+   "args": {},
+   "also": []
+  },
+  "faraday": {
+   "symbol": "faraday",
+   "params": {},
+   "svg": "faraday.svg",
+   "svg2d": "faraday.2d.svg",
+   "width": 25.291148,
+   "height": 16.310904,
+   "origin": [
+    12.646,
+    8.155
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 8.155,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 22.85,
+     "y": 8.155,
+     "kind": "free_space"
+    }
+   },
+   "component": "FaradayRotator",
+   "args": {},
+   "also": []
+  },
+  "mirror__pztstack": {
+   "symbol": "mirror",
+   "params": {
+    "pzt": "stack"
+   },
+   "svg": "mirror__pztstack.svg",
+   "svg2d": "mirror__pztstack.2d.svg",
+   "width": 11.903333,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 2.267,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "pzt": {
+     "x": 9.637,
+     "y": 11.904,
+     "kind": "electrical"
+    }
+   },
+   "component": "Mirror",
+   "args": {
+    "piezo": "stack"
+   },
+   "also": []
+  },
+  "mirror__pzt3axis": {
+   "symbol": "mirror",
+   "params": {
+    "pzt": "3axis"
+   },
+   "svg": "mirror__pzt3axis.svg",
+   "svg2d": "mirror__pzt3axis.2d.svg",
+   "width": 11.903333,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 2.267,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "pzt": {
+     "x": 9.637,
+     "y": 11.904,
+     "kind": "electrical"
+    }
+   },
+   "component": "Mirror",
+   "args": {
+    "piezo": "3axis"
+   },
+   "also": []
+  },
+  "mirror__kindconcave_pztstack": {
+   "symbol": "mirror",
+   "params": {
+    "kind": "concave",
+    "pzt": "stack"
+   },
+   "svg": "mirror__kindconcave_pztstack.svg",
+   "svg2d": "mirror__kindconcave_pztstack.2d.svg",
+   "width": 13.604045,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 4.18,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "pzt": {
+     "x": 11.338,
+     "y": 11.904,
+     "kind": "electrical"
+    }
+   },
+   "component": "ConcaveMirror",
+   "args": {
+    "piezo": "stack"
+   },
+   "also": []
+  },
+  "mirror__kindconcave_pzt3axis": {
+   "symbol": "mirror",
+   "params": {
+    "kind": "concave",
+    "pzt": "3axis"
+   },
+   "svg": "mirror__kindconcave_pzt3axis.svg",
+   "svg2d": "mirror__kindconcave_pzt3axis.2d.svg",
+   "width": 13.604045,
+   "height": 23.808359,
+   "origin": [
+    2.267,
+    11.904
+   ],
+   "ports": {
+    "io": {
+     "x": 4.18,
+     "y": 11.904,
+     "kind": "free_space"
+    },
+    "pzt": {
+     "x": 11.338,
+     "y": 11.904,
+     "kind": "electrical"
+    }
+   },
+   "component": "ConcaveMirror",
+   "args": {
+    "piezo": "3axis"
+   },
+   "also": []
+  },
+  "modecleaner": {
+   "symbol": "modecleaner",
+   "params": {},
+   "svg": "modecleaner.svg",
+   "svg2d": "modecleaner.2d.svg",
+   "width": 38.897743,
+   "height": 31.919671,
+   "origin": [
+    19.449,
+    24.377
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 24.377,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 36.457,
+     "y": 24.377,
+     "kind": "free_space"
+    },
+    "refl": {
+     "x": 6.693,
+     "y": 29.479,
+     "kind": "free_space"
+    }
+   },
+   "component": "ModeCleaner",
+   "args": {},
+   "also": []
+  },
+  "modecleaner__pztstack": {
+   "symbol": "modecleaner",
+   "params": {
+    "pzt": "stack"
+   },
+   "svg": "modecleaner__pztstack.svg",
+   "svg2d": "modecleaner__pztstack.2d.svg",
+   "width": 38.897743,
+   "height": 33.053768,
+   "origin": [
+    19.449,
+    25.511
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 25.511,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 36.457,
+     "y": 25.511,
+     "kind": "free_space"
+    },
+    "refl": {
+     "x": 6.693,
+     "y": 30.613,
+     "kind": "free_space"
+    },
+    "pzt": {
+     "x": 19.449,
+     "y": 2.267,
+     "kind": "electrical"
+    }
+   },
+   "component": "ModeCleaner",
+   "args": {
+    "piezo": true
+   },
+   "also": []
+  },
+  "roof": {
+   "symbol": "roof",
+   "params": {},
+   "svg": "roof.svg",
+   "svg2d": "roof.2d.svg",
+   "width": 17.447542,
+   "height": 25.169106,
+   "origin": [
+    7.085,
+    12.585
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 7.766,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 2.267,
+     "y": 17.403,
+     "kind": "free_space"
+    }
+   },
+   "component": "RoofMirror",
+   "args": {},
+   "also": []
+  },
+  "balanced": {
+   "symbol": "balanced",
+   "params": {},
+   "svg": "balanced.svg",
+   "svg2d": "balanced.2d.svg",
+   "width": 22.107616,
+   "height": 27.558486,
+   "origin": [
+    11.054,
+    13.779
+   ],
+   "ports": {
+    "in1": {
+     "x": 2.266,
+     "y": 8.11,
+     "kind": "free_space"
+    },
+    "in2": {
+     "x": 2.266,
+     "y": 19.448,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 19.841,
+     "y": 13.779,
+     "kind": "electrical"
+    }
+   },
+   "component": "BalancedDetector",
+   "args": {},
+   "also": []
+  }
+ }
+}

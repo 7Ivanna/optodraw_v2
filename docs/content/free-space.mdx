@@ -1,0 +1,48 @@
+A free-space bench is a scene of optics on a table: lasers, lenses, mirrors, splitters, wave plates and
+detectors, with beams between them. optodraw has <!-- value: free-space-count --> free-space parts.
+
+## Draw it
+
+This redraws the instant structured illumination microscope of Curd et al. (2015), Fig. 1A. The 488 nm
+beam climbs a periscope, is expanded 8.9 times, and is scanned onto the sample; the emitted light returns
+through relay lenses to the camera. A small helper turns each fold mirror toward its two beams.
+
+<!-- cell: free-space/01-isim -->
+
+Its 3D tab spreads the parts on the table, so each post has room; parts keep their size and beams keep their
+heights. The first periscope raises the beam for the expander. A second periscope, not in the paper, brings
+it back down.
+
+## Options
+
+```python
+scene.set_view_layout({"3d": {"spacing": "auto", "clearance": 5.0}})
+```
+
+- `{"3d": {"spacing": 3.0}}`: three times the distance between part centres in 3D; `"auto"` makes room from
+  each part's footprint. The 2D drawing does not change.
+- `{"1d": {"spacing": 1.0}}`: the 1D schematic follows the 2D positions instead of its compact automatic
+  layout; a bench with loops, like this one, reads better that way.
+- `scene.preview(layout=...)`: the same setting for one preview only.
+- `Beam(a, b, c, wavelength=...)`: light through parts in order; the colour follows the wavelength.
+- `Beam((a, "out"), (b, "in"))`: through named ports, the place light really enters a part.
+- Beams on one path nest on the axis by themselves; `offset=0.7` draws a lane.
+- `Note.on(beam, "880 mW", leg=3)`: text beside one leg of a beam.
+- `scene.lens_beam(...)`: the lenses set the width.
+- `part.label_side`: the name above, below, at a side or at a corner of the part.
+- `part.beam_height`: the height of that part's beam in 3D; the periscopes before it follow.
+
+## What it supports
+
+Lenses, mirrors (flat and curved), splitters and dichroics, wave plates and polarizers, filters,
+objectives, fibres, cameras and detectors, stages, posts and periscopes. The
+[part catalogue](/reference/parts/) lists every one.
+
+## How it works
+
+Each part draws itself in 2D, 1D and 3D from one set of parameters. A beam is a list of anchors; a part's
+ports give the exact point light enters and leaves. For physics, [trace the rays](/ray-tracing/).
+Automatic 3D spacing reads footprints only; it does not check the 3D bodies for contact.
+
+Curd, A. et al. Construction of an instant structured illumination microscope. *Methods* 88, 37-47 (2015).
+[doi:10.1016/j.ymeth.2015.07.012](https://doi.org/10.1016/j.ymeth.2015.07.012)

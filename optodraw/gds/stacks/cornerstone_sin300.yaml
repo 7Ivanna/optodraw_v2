@@ -1,0 +1,22 @@
+# CornerStone SiN (300 nm) — open-source SiPh PDK (cspdk.sin300).
+# z + thickness in microns, z = 0 = bottom of the nitride device layer.
+
+name: CornerStone SiN 300 nm (open)
+units: um
+
+# The waveguide on-chip parts draw: the PDK's C-band strip (the O-band strip, xs_no, is 0.95 um).
+waveguide: {width: 1.20, provenance: pdk, source: "cspdk 1.0.1, sin300/tech.py:111: Tech.width_nc, the width of xs_nc"}
+
+# Process envelope: BOX below z=0, top cladding above; heater/pad sit ON the cladding.
+# The pad (41/0) stands on the heater (39/0), as in the PDK: a pad drawn with no heater under it
+# floats above the top oxide, and optodraw.gds.check_stack says so.
+oxide:
+  box:    {thickness: 3.0, material: sio2}   # buried oxide: z = -3.0 .. 0
+  tox:    {thickness: 1.1, material: sio2}   # top cladding: z = 0 .. 1.1
+  handle: {thickness: 2.0, material: silicon}
+
+layers:
+  "203/0": {name: Nitride,      zmin: 0.000, thickness: 0.300, material: silicon_nitride, color: "#ffa500"}
+  "204/0": {name: Nitride etch, zmin: 0.000, thickness: 0.300, material: silicon_nitride, color: "#5dade2", opacity: 0.6}
+  "39/0":  {name: Heater,       zmin: 1.100, thickness: 0.700, material: titanium_nitride, color: "#ebc634"}
+  "41/0":  {name: Pad,          zmin: 1.800, thickness: 0.700, material: aluminum,         color: "#008080"}

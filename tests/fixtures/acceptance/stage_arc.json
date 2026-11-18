@@ -1,0 +1,31 @@
+{
+ "schema_version": 2,
+ "optodraw_version": "0.9.0",
+ "units": {
+  "length": "um",
+  "angle": "deg",
+  "wavelength": "nm"
+ },
+ "title": "Acceptance stage arc",
+ "width": 120,
+ "height": 80,
+ "platform": "free_space",
+ "components": [
+  {
+   "type": "RotationStage",
+   "id": "Stage",
+   "center": [
+    0,
+    0
+   ],
+   "angle": 0,
+   "diameter": 26.0,
+   "thickness": 6.0,
+   "rotation_range_deg": 360.0,
+   "angular_resolution_deg": 0.1,
+   "label": "Stage"
+  }
+ ],
+ "routes": [],
+ "beams": []
+}

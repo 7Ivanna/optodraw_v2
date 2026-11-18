@@ -1,0 +1,55 @@
+The ray tracer sends rays through the optics in a scene. Lenses bend them by their focal length, mirrors
+fold them, splitters branch them, apertures clip them and detectors stop them.
+
+## Trace it
+
+The beam expander of Curd et al. (2015), Fig. 1A: a lens of 45 mm then a lens of 400 mm, 445 mm apart.
+`trace_bundle` sends a bundle of rays from the laser; each ray becomes a beam in the drawing.
+
+<!-- cell: ray-tracing/01-expander -->
+
+The traced rays carry numbers you can check:
+
+<!-- cell: ray-tracing/02-magnification -->
+
+## Options
+
+| Argument | Does |
+|---|---|
+| `rays` | How many rays in the bundle |
+| `width` | The bundle's width at the source |
+| `divergence_deg` | Spread from a point, like a lamp or a fibre tip |
+| `exit_length` | How far a ray runs after the last part |
+| `mode` | `"physical"` (true hit points) or `"schematic"` (snaps to part centres) |
+
+`trace_branched(scene, (laser, "out"))` traces one ray that splits at every splitter.
+
+## What it supports
+
+Thin lenses and curved mirrors (in the plane and in height), flat mirrors, splitters and dichroics by
+wavelength, refraction by index, gratings by order, apertures, periscopes, retroreflectors and absorbers.
+In the editor, Trace re-traces live as you move a part.
+
+## How it works
+
+Each part declares its optical faces: a segment, a kind and its numbers (focal length, index, cutoff). The
+tracer finds each ray's next face, applies it, and carries the ray's height along, so a 3D bundle comes to
+a true focus. A part's `optical_interfaces()` returns its faces; `None` lets the tracer build them from the
+part's type.
+
+```python
+from optodraw.core.raytrace import OpticalInterface
+
+OpticalInterface(p1=(0.0, -5.0), p2=(0.0, 5.0),   # the face, in the part's own frame
+                 kind="lens",                      # lens | mirror | beam_splitter | dichroic | refract
+                                                   # | grating | aperture | filter | relay | retro
+                                                   # | absorber | schematic
+                 efl=30.0)                         # the focal length; a mirror has f = R/2
+```
+
+## Where it falls short
+
+One wavelength per trace. Lenses and curved mirrors are thin elements: no thick-lens aberrations. The bundle is geometric, with no Gaussian waist or diffraction limit. Plain mirrors reflect from both sides. For lens design, use [Optiland](/reference/compatibility/) as the engine.
+
+Curd, A. et al. Construction of an instant structured illumination microscope. *Methods* 88, 37-47 (2015).
+[doi:10.1016/j.ymeth.2015.07.012](https://doi.org/10.1016/j.ymeth.2015.07.012)

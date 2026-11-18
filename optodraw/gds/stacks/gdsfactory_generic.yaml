@@ -1,0 +1,46 @@
+# gdsfactory "generic" silicon-photonics PDK — fully open-source.
+# Values mirror gdsfactory's published LayerStack (z + thickness in microns,
+# z = 0 = bottom of the Si device layer). Safe to bundle; use as a worked example
+# / starting point for your own foundry stack.
+
+name: gdsfactory generic (open)
+units: um
+
+# Process envelope matching gdsfactory's published LayerStack defaults.
+# M3 (49/0) stands on VIA2 (43/0) above the top oxide, as in the PDK: a GDS that draws M3 with no
+# VIA2 under it renders a floating pad, and optodraw.gds.check_stack says so.
+oxide:
+  box:    {thickness: 3.0, material: sio2}   # buried oxide: z = -3.0 .. 0
+  tox:    {thickness: 3.0, material: sio2}   # top cladding: z = 0 .. 3.0
+  handle: {thickness: 2.0, material: silicon}
+  # The passivation and its pad opening follow gdsfactory's own KLayout cross-section script
+  # (gdsfactory/gpdk/get_klayout_pyxs.py, "passivation and ML Open"): 0.5 um of oxide over M3, opened on
+  # PADOPEN (46/0).
+  passivation: {thickness: 0.5, material: sio2}
+
+layers:
+  # --- silicon device layer (220 nm) ---
+  # sidewall_deg is the wall's angle from the wafer plane: gdsfactory's LayerStack gives core sidewall_angle 10
+  # (from vertical) and via_contact -10 (the hole wider at the top); its KLayout script tapers VIA1, VIA2 and the
+  # metal etches 4 degrees and the pad opening 5
+  "1/0":   {name: WG, role: core,        zmin: 0.000, thickness: 0.220, material: silicon, sidewall_deg: 80, color: "#ff9d9d"}
+  "2/0":   {name: SLAB150,   zmin: 0.000, thickness: 0.150, material: silicon,         color: "#00c8c8"}
+  "3/0":   {name: SLAB90, role: slab,    zmin: 0.000, thickness: 0.090, material: silicon,         color: "#a06000"}
+  # --- implants (inside the silicon) ---
+  "20/0":  {name: N,         zmin: 0.160, thickness: 0.030, material: silicon, color: "#e74c3c", opacity: 0.5}
+  "21/0":  {name: P,         zmin: 0.160, thickness: 0.030, material: silicon, color: "#2980b9", opacity: 0.5}
+  "24/0":  {name: NPP,       zmin: 0.150, thickness: 0.050, material: silicon, color: "#c0392b", opacity: 0.6}
+  "25/0":  {name: PPP,       zmin: 0.150, thickness: 0.050, material: silicon, color: "#1f4e8c", opacity: 0.6}
+  # --- germanium + silicon nitride ---
+  "5/0":   {name: GE,        zmin: 0.220, thickness: 0.500, material: germanium,       color: "#cc44cc"}
+  "34/0":  {name: WGN (SiN), zmin: 0.320, thickness: 0.350, material: silicon_nitride, color: "#ff8000"}
+  # --- contacts / metals / heater ---
+  "40/0":  {name: VIAC, role: contact,      zmin: 0.090, thickness: 1.010, material: aluminum, sidewall_deg: 80, color: "#cc4c00"}
+  "41/0":  {name: M1, role: metal,        zmin: 1.100, thickness: 0.700, material: aluminum, sidewall_deg: 86, color: "#7f8c8d"}
+  "47/0":  {name: HEATER, role: heater,    zmin: 1.100, thickness: 0.750, material: titanium_nitride, color: "#af7ac5"}
+  "44/0":  {name: VIA1,      zmin: 1.800, thickness: 0.500, material: aluminum, sidewall_deg: 86, color: "#909090"}
+  "45/0":  {name: M2,        zmin: 2.300, thickness: 0.700, material: aluminum, sidewall_deg: 86, color: "#95a5a6"}
+  "43/0":  {name: VIA2,      zmin: 3.000, thickness: 0.200, material: aluminum, sidewall_deg: 86, color: "#806000"}
+  "49/0":  {name: M3, role: pad,        zmin: 3.200, thickness: 2.000, material: aluminum, sidewall_deg: 86, color: "#7d6608"}
+  # --- the pad opening in the passivation: no film of its own ---
+  "46/0":  {name: PADOPEN, role: pad_open, sidewall_deg: 85, visible: false}

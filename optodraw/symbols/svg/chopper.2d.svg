@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.808359 23.808359" width="23.808359pt" height="23.808359pt"><g transform="translate(72.0,72.0)">
+<g id='od-chopper-page1'>
+<g stroke-miterlimit='10' transform='translate(-60.095823,-64.631351)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#334155'>
+<path d='M0-4.55254L9.34386-2.04878C8.90457-.40898 8.04044 1.08751 6.84007 2.28787Z' stroke='none'/>
+</g>
+<g fill='#334155'>
+<path d='M0-4.55254L2.50375 4.79132C.86395 5.2306-.86398 5.2306-2.50378 4.79132Z' stroke='none'/>
+</g>
+<g fill='#334155'>
+<path d='M0-4.55254L-6.84009 2.28755C-8.04045 1.08719-8.90459-.4093-9.34387-2.0491Z' stroke='none'/>
+</g>
+<g fill='#334155'>
+<path d='M0-4.55254L-9.34386-7.05629C-8.90457-8.69609-8.04044-10.19258-6.84007-11.39294Z' stroke='none'/>
+</g>
+<g fill='#334155'>
+<path d='M0-4.55254L-2.50375-13.8964C-.86395-14.33568 .86398-14.33568 2.50378-13.8964Z' stroke='none'/>
+</g>
+<g fill='#334155'>
+<path d='M0-4.55254L6.84009-11.39262C8.04045-10.19226 8.90459-8.69577 9.34387-7.05597Z' stroke='none'/>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M9.67383-4.55254C9.67383 .79024 5.34277 5.12129 0 5.12129S-9.67383 .79024-9.67383-4.55254C-9.67383-9.89531-5.34277-14.22636 0-14.22636S9.67383-9.89531 9.67383-4.55254ZM0-4.55254' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-chopper-pgfcp6'>
+<path d='M1.9919-4.55254C1.9919-3.45244 1.1001-2.56064 0-2.56064S-1.9919-3.45244-1.9919-4.55254C-1.9919-5.65263-1.1001-6.54443 0-6.54443S1.9919-5.65263 1.9919-4.55254ZM0-4.55254'/> </clipPath>
+<g clip-path='url(#od-chopper-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,-4.55254)'>
+<g transform='matrix(0.07938,0,0,0.07938,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-chopper-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-chopper-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M1.9919-4.55254C1.9919-3.45244 1.1001-2.56064 0-2.56064S-1.9919-3.45244-1.9919-4.55254C-1.9919-5.65263-1.1001-6.54443 0-6.54443S1.9919-5.65263 1.9919-4.55254ZM0-4.55254' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

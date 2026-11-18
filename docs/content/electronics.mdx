@@ -1,0 +1,46 @@
+Electrical parts sit beside the optics: pads, probes, drivers, amplifiers, converters and the wires between
+them. A detector has two contacts, and both need a wire.
+
+## Draw it
+
+A balanced homodyne receiver and its amplifier, after Yang et al. (2025), Fig. 3: signal and local
+oscillator, a phase shifter, a 2x2 MMI and two detectors. The detectors' middle node goes to the TIA; their
+outer contacts go to the bias pads; the heater has its own two pads.
+
+<!-- cell: electronics/01-homodyne -->
+
+Its 1D tab tells optical and electrical links apart without colour.
+
+The amplifier as a circuit, on its 1D tab: each part is its IEC symbol.
+
+<!-- cell: electronics/02-tia 1d -->
+
+The die on its board: wire bonds from die pads to board pads, a fibre array and an SMA jack.
+
+<!-- cell: electronics/03-package -->
+
+## Options
+
+- `scene.route((pd, "e1"), (pad, "e1"), kind="electrical", width=1.2)`: a wire between electrical ports.
+- `scene.route((die_pad, "e1"), (board_pad, "e1"), kind="wirebond")`: a gold wire bond, an arc in 2D and a loop in 3D.
+- `Resistor`, `Capacitor`, `Inductor`, `OpAmp`, `Ground`, `BiasTee`, `RFMixer`: circuit parts. `value="10 kΩ"`
+  prints after the label.
+- `FiberArray(count=8, pitch=0.127)`, `SMAConnector()`, `PCB(style="plain", color=...)`: the package around a die.
+- `ElectricalPad(width=..., height=..., port_side="bottom")`: a bond pad facing its wire.
+- `GSGProbePad`, `HeaterPad`, `MetalRoute`: probes, heaters and drawn metal.
+- `TIA`, `ADC`, `DACDriver`: circuit blocks drawn on the chip; `TIABlock`, `EIC`, `PCB` for the board.
+
+## What it supports
+
+Every part's electrical ports have the kind `electrical`; `Laser`, `Sample` and `Cryostat` have `e1`, `Photodiode`
+`e1` (anode) and `e2` (cathode). A route can carry signal facts (impedance, bandwidth, bit rate), and `validate_electrical_chain` reports a
+mismatch such as RF into a DC input. `check_figure` reports a wire that ends more than 0.5 units from its drawn port.
+
+## How it works
+
+Electrical routes use the waveguide router; in 1D a wire turns square, and parts step into line so it runs
+straight or turns once. Pads and metal keep their true size. Circuit blocks are drawn as symbols. A circuit part keeps one plan of its ports and lines, and the 1D, 2D and
+TikZ drawings read it. In 3D it is a real package: a chip resistor, an SOIC op amp. A die draws over its board.
+
+Yang, H. et al. A low-noise hybrid-integrated balanced homodyne receiver with 2.5 GHz bandwidth and 15 dB
+quantum shot noise clearance. *Micromachines* 16, 1416 (2025). [doi:10.3390/mi16121416](https://doi.org/10.3390/mi16121416)

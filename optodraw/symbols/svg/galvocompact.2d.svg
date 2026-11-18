@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.062775 18.901988" width="10.062775pt" height="18.901988pt"><g transform="translate(72.0,72.0)">
+<g id='od-galvocompact-page1'>
+<g stroke-miterlimit='10' transform='translate(-67.261669,-60.885768)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-galvocompact-pgfcp6'>
+<path d='M2.26692-5.2306L-1.62563 5.464L-.82314 5.75609L3.06941-4.93852ZM-.82314 5.75609'/> </clipPath>
+<g clip-path='url(#od-galvocompact-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.7219,0.26274)'>
+<g transform='matrix(0.09355,0,0,0.21893,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-galvocompact-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-galvocompact-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M2.26692-5.2306L-1.62563 5.464L-.82314 5.75609L3.06941-4.93852ZM-.82314 5.75609' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-galvocompact-pgfcp7'>
+<path d='M1.41144-5.54196L-2.48111 5.15265L-1.62563 5.464L2.26692-5.2306ZM-1.62563 5.464'/> </clipPath>
+<g clip-path='url(#od-galvocompact-pgfcp7)'>
+<g transform='matrix(1,0,0,1,-0.1071,-0.03899)'>
+<g transform='matrix(0.0946,0,0,0.21931,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-galvocompact-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-galvocompact-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M1.41144-5.54196L-2.48111 5.15265L-1.62563 5.464L2.26692-5.2306ZM-1.62563 5.464' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-galvocompact-pgfcp8'>
+<path d='M.71114 0C.71114 .39275 .39275 .71114 0 .71114S-.71114 .39275-.71114 0S-.39275-.71114 0-.71114S.71114-.39275 .71114 0ZM0 0'/> </clipPath>
+<g clip-path='url(#od-galvocompact-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.02834,0,0,0.02834,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-galvocompact-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-galvocompact-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M.71114 0C.71114 .39275 .39275 .71114 0 .71114S-.71114 .39275-.71114 0S-.39275-.71114 0-.71114S.71114-.39275 .71114 0ZM0 0' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M.81335 7.8134C.8313 7.80762-.83142 7.80762-.81348 7.8134' fill='none'/>
+<g fill='#64748b'>
+<g transform='matrix(0.95107,-0.30899,0.30899,0.95107,-0.09882,8.10976)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.21504 0L.45015 .75204L1.0341 0L.45015-.75204Z'/>
+ </g>
+ </g>
+</g>
+</g>
+<g fill='#64748b'>
+<g transform='matrix(-0.95107,-0.30899,0.30899,-0.95107,0.0987,8.10976)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.21504 0L.45015 .75204L1.0341 0L.45015-.75204Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

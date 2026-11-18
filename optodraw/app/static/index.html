@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>optodraw</title>
+  <!-- Inter for the premium SaaS type; system font stack is the offline fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2096%2096%22%3E%3Crect%20width=%2296%22%20height=%2296%22%20rx=%2222%22%20fill=%22%232F5CFF%22/%3E%3Cg%20stroke=%22white%22%20stroke-width=%228%22%20stroke-linecap=%22round%22%20fill=%22none%22%3E%3Cpath%20d=%22M17%2026h23M56%2026h23%22/%3E%3Ccircle%20cx=%2248%22%20cy=%2257%22%20r=%2220%22/%3E%3C/g%3E%3Ccircle%20cx=%2248%22%20cy=%2226%22%20r=%225%22%20fill=%22%23FFB224%22/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/app.css" />
+  <style>
+    #view1d { position: absolute; inset: 0; overflow: auto; background: #fafaf8; }
+    #view1d[hidden] { display: none; }
+    .od1-surface { position: relative; min-width: 100%; min-height: 100%; }
+    .od1-wires { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+    .od1-wire { fill: none; stroke: #181818; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .od1-wire.electrical { stroke: #595959; stroke-width: 1.1; }   /* a cable: thin, grey, solid */
+    .od1-card { position: absolute; cursor: grab; touch-action: none; outline: 1px solid transparent; outline-offset: 3px; }
+    .od1-card:hover, .od1-card.dragging { outline-color: #777; }
+    .od1-card.inexact { outline: 1px dashed #b06a00; }
+    .od1-card.dragging { cursor: grabbing; }
+    .od1-art { position: absolute; inset: 0; }
+    .od1-art svg { display: block; width: 100%; height: 100%; }
+    .od1-label { position: absolute; left: 50%; top: 100%; transform: translateX(-50%); white-space: nowrap;
+      color: #181818; font-size: 11px; line-height: 16px; }
+    .od1-label.above { top: auto; bottom: 100%; }
+    .od1-port { position: absolute; width: 9px; height: 9px; margin: -4.5px; border: 1px solid #181818;
+      border-radius: 50%; background: #fff; box-sizing: border-box; cursor: crosshair; opacity: 0; }
+    .od1-port.electrical { border-radius: 0; }
+    .od1-card:hover .od1-port, .od1-port:focus-visible, .od1-port.connect-start { opacity: 1; }
+    .od1-port:hover, .od1-port:focus-visible { outline: 2px solid #181818; outline-offset: 2px; }
+    .od1-port.connect-start { background: #181818; box-shadow: 0 0 0 3px #fff, 0 0 0 4px #181818; }
+    .od1-status { position: fixed; right: 18px; bottom: 18px; z-index: 20; max-width: 360px;
+      padding: 9px 12px; border: 1px solid #181818; background: #fff; color: #181818;
+      font-size: 12px; line-height: 1.4; box-shadow: 0 3px 14px #0002; pointer-events: none; }
+    .od1-status.error { border-width: 2px; }
+    .od1-message { padding: 24px; color: #303030; font-size: 13px; }
+    .od1-note { position: absolute; left: 12px; top: 12px; z-index: 2; max-width: 440px;
+      padding: 7px 12px; border: 1px solid #e6e9f0; border-radius: 11px;
+      background: rgba(255,255,255,0.92); color: #586173; font-size: 12px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <!-- icon sprite (Feather-style line icons) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-new" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+      <symbol id="i-open" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></symbol>
+      <symbol id="i-undo" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></symbol>
+      <symbol id="i-redo" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+      <symbol id="i-duplicate" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+      <symbol id="i-export" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.3a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><path d="M12 17.5v.01"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.9 18a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17v.01"/></symbol>
+      <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.8 1 .8 1.6V16h5.4v-.5c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-fit" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M21 16v3a2 2 0 0 1-2 2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/></symbol>
+      <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-route" viewBox="0 0 24 24"><circle cx="5" cy="19" r="2"/><circle cx="19" cy="5" r="2"/><path d="M7 19h6a4 4 0 0 0 4-4V7"/></symbol>
+      <symbol id="i-trace" viewBox="0 0 24 24"><path d="M2 6h8l5 12h7"/><circle cx="2" cy="6" r="1.4"/></symbol>
+      <symbol id="i-caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+      <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+      <symbol id="i-cube" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="18" r="2"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></symbol>
+      <symbol id="i-rot-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3.4-7"/><path d="M3 3v6h6"/></symbol>
+      <symbol id="i-rot-cw" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3.4-7"/><path d="M21 3v6h-6"/></symbol>
+      <symbol id="i-flip-h" viewBox="0 0 24 24"><path d="M12 3v18" stroke-dasharray="2 2"/><path d="M8 8l-4 4 4 4"/><path d="M16 8l4 4-4 4"/></symbol>
+      <symbol id="i-flip-v" viewBox="0 0 24 24"><path d="M3 12h18" stroke-dasharray="2 2"/><path d="M8 8l4-4 4 4"/><path d="M8 16l4 4 4-4"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></symbol>
+      <symbol id="i-magnet" viewBox="0 0 24 24"><path d="M6 15l-4-4 6.75-6.77a7.79 7.79 0 0 1 11 11L13 22l-4-4 6.39-6.36a2.14 2.14 0 1 0-3-3z"/><path d="M5 8l4 4"/><path d="M12 15l4 4"/></symbol>
+      <symbol id="i-wave" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.7-4.6-1.9 4.6-1.9z"/><path d="M19 15l.95 2.3 2.3.95-2.3.95L19 21.5l-.95-2.3-2.3-.95 2.3-.95z"/><path d="M5 16l.8 1.9L7.7 18.7l-1.9.8L5 21.4l-.8-1.9-1.9-.8 1.9-.8z"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></symbol>
+      <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+      <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="topbar">
+    <!-- Global row: identity, file, history, export, view -->
+    <div class="tb-row tb-row-global">
+      <div class="brand"><span class="brand-mark"></span>optodraw</div>
+
+      <div class="ws-control">
+        <button class="ws-btn" id="btn-workspace" title="Switch / manage workspaces" aria-haspopup="true" aria-expanded="false">
+          <span id="ws-name">Untitled</span>
+          <svg class="ic ic-sm"><use href="#i-caret"/></svg>
+        </button>
+        <span id="ws-saved" class="ws-saved" title="Autosaved"></span>
+        <div class="ws-menu" id="ws-menu" hidden></div>
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <div class="tb-section">
+        <button class="tb-btn" id="btn-new" title="New scene"><svg class="ic"><use href="#i-new"/></svg></button>
+        <label class="tb-btn" id="btn-open-label" title="Open scene file (JSON)">
+          <svg class="ic"><use href="#i-open"/></svg>
+          <input id="file-open" type="file" accept="application/json,.json" hidden />
+        </label>
+        <button class="tb-btn" id="btn-save" title="Save (download scene JSON)"><svg class="ic"><use href="#i-save"/></svg></button>
+        <button class="tb-btn tb-text" id="btn-save-as" title="Save As — create a named workspace">Save As</button>
+        <button class="tb-btn tb-text" id="btn-presets" title="Browse ready-made preset setups"><svg class="ic"><use href="#i-layers"/></svg>Presets</button>
+        <label class="tb-btn" id="btn-import-gds" title="Import a GDS layout">
+          <svg class="ic"><use href="#i-chip"/></svg>
+          <input id="file-gds" type="file" accept=".gds" hidden />
+        </label>
+        <input id="file-model" type="file" accept=".glb,.gltf,.obj,.stl" hidden />
+        <input id="file-figure" type="file" hidden />
+        <input id="file-tech" type="file" accept=".lyp,.lyt,.lyd25,.zip,.xs,.txt,.tech,.yml,.yaml,.json" hidden />
+        <input id="folder-tech" type="file" webkitdirectory hidden />
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <div class="tb-section">
+        <button class="tb-btn" id="btn-undo" title="Undo (Ctrl+Z)" disabled><svg class="ic"><use href="#i-undo"/></svg></button>
+        <button class="tb-btn" id="btn-redo" title="Redo (Ctrl+Shift+Z)" disabled><svg class="ic"><use href="#i-redo"/></svg></button>
+      </div>
+
+      <div class="tb-spacer"></div>
+
+      <div class="tb-section">
+        <div class="route-control" id="export-control">
+          <button class="tb-btn tb-text" id="btn-export" title="Export the scene: SVG, TikZ, a publication figure, a 3D image, model or page, a Blender bundle" aria-haspopup="true" aria-expanded="false"><svg class="ic"><use href="#i-export"/></svg>Export<svg class="ic ic-sm"><use href="#i-caret"/></svg></button>
+          <div class="route-menu export-menu" id="export-menu" hidden></div>
+        </div>
+      </div>
+
+      <div class="segmented" role="group" aria-label="View mode">
+        <button id="btn-view-1d" title="Compact monochrome schematic; click two ports to connect">1D</button>
+        <button id="btn-view-2d" class="active" title="Planar layout and publication view">2D</button>
+        <button id="btn-view-3d" title="Spatial scene preview and editing">3D</button>
+        <button id="btn-view-layout" title="The imported GDS as in KLayout: wheel to zoom, drag to pan, cells, layers, M for a ruler" disabled>Layout</button>
+      </div>
+
+      <div class="route-control" id="help-control">
+        <button class="tb-btn" id="btn-help" title="Help, feedback, and requests" aria-haspopup="true" aria-expanded="false"><svg class="ic"><use href="#i-help"/></svg></button>
+        <div class="route-menu export-menu help-menu" id="help-menu" hidden></div>
+      </div>
+    </div>
+
+    <!-- Contextual row: tools + selection-dependent actions -->
+    <div class="tb-row tb-row-context">
+      <div class="route-control">
+        <button class="tb-btn tb-text tb-toggle" id="btn-connect" title="Route between component ports (Esc to exit)" aria-pressed="false"><svg class="ic"><use href="#i-route"/></svg><span id="route-label">Route</span></button>
+        <button class="tb-btn route-caret" id="btn-route-menu" title="Routing type" aria-haspopup="true" aria-expanded="false"><svg class="ic ic-sm"><use href="#i-caret"/></svg></button>
+        <div class="route-menu" id="route-menu" hidden></div>
+      </div>
+      <button class="tb-btn tb-text tb-toggle" id="btn-text-route" title="Define connections by typing port links" aria-pressed="false"><svg class="ic"><use href="#i-link"/></svg>Links</button>
+
+      <div class="tb-divider"></div>
+
+      <button class="tb-btn tb-text tb-toggle" id="btn-trace" aria-pressed="false" title="Trace mode — every source emits a live ray bundle; move optics into the light and watch it react (click again to switch the light off)"><svg class="ic"><use href="#i-trace"/></svg>Trace</button>
+      <button class="tb-btn tb-text" id="btn-simulate" title="Analytical simulation — resonance / MZI-MZM transfer / guided phase for the selected device, or polarization for a free-space chain"><svg class="ic"><use href="#i-wave"/></svg>Simulate</button>
+      <button class="tb-btn tb-text" id="btn-check" title="Run design-rule / consistency checks over the scene"><svg class="ic"><use href="#i-check"/></svg>Check</button>
+
+      <div class="tb-divider"></div>
+
+      <button class="tb-btn tb-text" id="btn-generate" title="Generate a parameterized layout — mesh, weight bank, ring filter, or driver chain"><svg class="ic"><use href="#i-sparkles"/></svg>Generate</button>
+      <div class="route-control">
+        <button class="tb-btn tb-text tb-toggle" id="btn-animate" aria-pressed="false" title="Light on or off. Off removes the light; Pause in the menu only freezes it"><svg class="ic"><use href="#i-play"/></svg>Animate</button>
+        <button class="tb-btn route-caret" id="btn-animate-menu" title="Animation controls" aria-haspopup="true" aria-expanded="false"><svg class="ic ic-sm"><use href="#i-caret"/></svg></button>
+        <div class="route-menu anim-menu" id="animate-menu" hidden></div>
+        <button class="tb-btn tb-text" id="btn-view3d-menu" aria-haspopup="true" aria-expanded="false" title="3D view: camera, world, labels, fullscreen, photoreal render"><svg class="ic"><use href="#i-cube"/></svg>View</button>
+        <div class="route-menu anim-menu" id="view3d-menu" hidden></div>
+      </div>
+
+      <div class="tb-divider"></div>
+
+      <span class="tb-mini-label" aria-hidden="true">Grid</span>
+      <button class="tb-btn tb-toggle" id="btn-snap" title="Snap to grid (align components + waypoints)" aria-pressed="true"><svg class="ic"><use href="#i-magnet"/></svg></button>
+      <button class="tb-btn tb-toggle" id="btn-grid" title="Show grid" aria-pressed="true"><svg class="ic"><use href="#i-grid"/></svg></button>
+      <input id="grid-size" class="tb-num" type="number" min="1" step="1" value="10" title="Grid spacing (scene units)" />
+
+      <div class="tb-divider"></div>
+
+      <button class="tb-btn tb-text" id="btn-scene" title="Scene settings — size, background, grid, title"><svg class="ic"><use href="#i-settings"/></svg>Scene</button>
+      <button class="tb-btn tb-text" id="btn-fit" title="Fit the scene to the view"><svg class="ic"><use href="#i-fit"/></svg>Fit</button>
+
+      <div class="tb-spacer"></div>
+
+      <!-- selection-dependent actions, populated by app.js -->
+      <div class="tb-section" id="context-actions"></div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <button type="button" id="palette-reveal" class="panel-reveal" title="Show components" aria-label="Show components"><svg class="ic ic-sm"><use href="#i-chev-r"/></svg></button>
+    <aside class="panel palette" aria-label="Component palette">
+      <div class="panel-head"><span>Components</span><button type="button" id="palette-collapse" class="panel-fold" title="Hide components" aria-label="Hide components"><svg class="ic ic-sm"><use href="#i-chev-l"/></svg></button></div>
+      <div class="search">
+        <svg class="ic ic-sm"><use href="#i-search"/></svg>
+        <input id="palette-search" type="search" placeholder="Search…" />
+      </div>
+      <div id="palette-list" class="palette-list"></div>
+      <div class="panel-head" style="flex-wrap:wrap;gap:6px">
+        <button type="button" class="tb-btn tb-text" id="btn-new-part">New part</button>
+        <button type="button" class="tb-btn tb-text" id="btn-import-part">Import part</button>
+        <button type="button" class="tb-btn tb-text" id="btn-export-part">Export part</button>
+        <input type="file" id="file-part" accept=".odpart,.zip" hidden />
+      </div>
+    </aside>
+
+    <section class="stage" id="stage">
+      <div id="canvas" class="canvas" aria-label="Scene canvas"></div>
+      <div id="view1d" aria-label="Compact 1D schematic" hidden></div>
+      <iframe id="view3d" class="view3d" title="3D preview" allow="fullscreen" hidden></iframe>
+      <nav id="inset-path" class="inset-path" aria-label="Open insets" hidden></nav>
+      <div id="view-layout" class="view-layout" aria-label="Layout view of an imported GDS" hidden></div>
+      <div class="zoom-cluster" role="group" aria-label="Zoom">
+        <button class="zc-btn" id="btn-zoom-out" title="Zoom out"><svg class="ic ic-sm"><use href="#i-minus"/></svg></button>
+        <button class="zc-level" id="btn-zoom-reset" title="Reset view"><span id="zoom-level">100%</span></button>
+        <button class="zc-btn" id="btn-zoom-in" title="Zoom in"><svg class="ic ic-sm"><use href="#i-plus"/></svg></button>
+      </div>
+      <div class="route-panel" id="route-panel" hidden>
+        <div class="rp-head" id="route-head">
+          <span class="rp-title">Connections <span class="rp-sub">— port links</span></span>
+          <span class="rp-head-btns">
+            <button id="route-collapse" class="rp-iconbtn" title="Minimize / expand"><svg class="ic ic-sm"><use href="#i-minus"/></svg></button>
+            <button id="route-close" class="rp-iconbtn" title="Close"><svg class="ic ic-sm"><use href="#i-x"/></svg></button>
+          </span>
+        </div>
+        <div class="rp-body" id="route-body">
+          <div class="rp-wl">
+            <span class="rp-wl-label">New-beam color</span>
+            <div id="route-wl"></div>
+          </div>
+          <div class="rp-hint">One per line: <code>laser.out -&gt; dichroic.in -&gt; obj.in</code>. The picked color applies to new beams; override a line with <code>532:</code> or a kind <code>wg:</code> / <code>beam:</code> / <code>fiber:</code>.</div>
+          <textarea id="route-text" spellcheck="false" placeholder="532 nm Pump.out -> Dichroic.in&#10;Dichroic.refl -> 100x Obj.in"></textarea>
+          <div class="rp-actions">
+            <button id="route-apply">Apply</button>
+            <button id="route-ref-toggle" class="rp-ghost">Ports…</button>
+          </div>
+          <div class="rp-errors" id="route-errors"></div>
+          <div class="rp-ref" id="route-ref" hidden></div>
+        </div>
+      </div>
+      <div class="route-panel xs-panel" id="xs-panel" hidden>
+        <div class="rp-head" id="xs-head">
+          <span class="rp-title">Cross-section <span class="rp-sub" id="xs-sub"></span></span>
+          <span class="rp-head-btns">
+            <button id="xs-expand" class="rp-iconbtn" title="Show large (Esc returns)" aria-pressed="false"><svg class="ic ic-sm"><use href="#i-expand"/></svg></button>
+            <button id="xs-collapse" class="rp-iconbtn" title="Minimize or restore"><svg class="ic ic-sm"><use href="#i-minus"/></svg></button>
+            <button id="xs-close" class="rp-iconbtn" title="Close"><svg class="ic ic-sm"><use href="#i-x"/></svg></button>
+          </span>
+        </div>
+        <div class="rp-body xs-body" id="xs-body">
+          <div class="xs-side">
+            <div class="xs-view xs-map"><div id="xs-top" class="xs-svg" role="img" aria-label="layout with the cut line"></div></div>
+            <button id="xs-cut-ruler" class="btn-primary-wide" title="Cut along the newest ruler of the Layout view (M, then two clicks)" hidden>Cut along ruler</button>
+            <label class="xs-field">Vertical cut, drag to scan
+              <input id="xs-scan" type="range" min="0" max="1" step="0.01" value="0.5" class="xs-scan" />
+            </label>
+            <div class="xs-hint" id="xs-legend">The red line is the cut. In the Top look, the dashed square is the part of the chip it shows.</div>
+          </div>
+          <div class="xs-main">
+            <div class="segmented xs-looks" id="xs-looks" role="group" aria-label="Cross-section look">
+              <button data-look="schematic" class="active" title="Process schematic, labels and dimensions">Schematic</button>
+              <button data-look="sem" title="SEM-like image of the cut, marked as a render" hidden>SEM</button>
+              <button data-look="slab" title="Cut 3D slab: the face is the cross-section">3D slab</button>
+              <button data-look="top" title="SEM-like top view of a square round the cut, marked as a render" hidden>Top</button>
+            </div>
+            <div class="xs-options" id="xs-options">
+              <div class="xs-opt" data-for="schematic">
+                <label>z scale
+                  <select id="xs-zscale">
+                    <option value="">Auto</option><option value="1">1 (true)</option><option value="2">2</option>
+                    <option value="5">5</option><option value="10">10</option><option value="20">20</option><option value="50">50</option>
+                  </select>
+                </label>
+              </div>
+              <div class="xs-opt" data-for="sem" hidden>
+                <label><input type="checkbox" id="xs-sem-mark" checked /> Marks</label>
+                <button id="xs-sem-noise" class="rp-ghost" title="Draw the detector noise again">New noise</button>
+              </div>
+              <div class="xs-opt" data-for="slab" hidden>
+                <label>Depth
+                  <select id="xs-depth">
+                    <option value="">Auto</option><option value="2">2 µm</option><option value="5">5 µm</option>
+                    <option value="10">10 µm</option><option value="20">20 µm</option>
+                  </select>
+                </label>
+                <label><input type="checkbox" id="xs-cutaway" checked /> Cut the cladding away</label>
+              </div>
+              <div class="xs-opt" data-for="top" hidden>
+                <div class="segmented" id="xs-stage" role="group" aria-label="Process stage">
+                  <button data-stage="device" title="The wafer before the first oxide">Device</button>
+                  <button data-stage="chip" class="active" title="The finished chip">Chip</button>
+                </div>
+                <label>Tilt <input type="range" id="xs-tilt" min="0" max="80" step="5" value="40" /> <output id="xs-tilt-val">40°</output></label>
+                <label>Rotation <input type="range" id="xs-rot" min="-180" max="180" step="5" value="0" /> <output id="xs-rot-val">0°</output></label>
+                <label><input type="checkbox" id="xs-top-mark" checked /> Marks</label>
+              </div>
+            </div>
+            <div class="xs-view xs-figure" id="xs-figure"><div id="xs-cross" class="xs-svg" role="img" aria-label="cross-section"></div></div>
+            <div class="xs-busy" id="xs-busy" role="status" hidden></div>
+            <div class="rp-errors" id="xs-findings"></div>
+            <div class="rp-actions">
+              <button id="xs-download-cross" class="rp-ghost">Save figure</button>
+              <button id="xs-download-top" class="rp-ghost">Save layout SVG</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /xs-panel -->
+
+      <div class="route-panel sim-panel" id="sim-panel" hidden>
+        <div class="rp-head" id="sim-head">
+          <span class="rp-title">Simulate <span class="rp-sub" id="sim-sub"></span></span>
+          <span class="rp-head-btns">
+            <button id="sim-collapse" class="rp-iconbtn" title="Minimize / expand"><svg class="ic ic-sm"><use href="#i-minus"/></svg></button>
+            <button id="sim-close" class="rp-iconbtn" title="Close"><svg class="ic ic-sm"><use href="#i-x"/></svg></button>
+          </span>
+        </div>
+        <div class="rp-body" id="sim-body">
+          <div class="sim-kinds" id="sim-kinds"></div>
+          <div id="sim-plot" class="sim-svg" role="img" aria-label="simulation plot"></div>
+          <div class="sim-controls" id="sim-controls"></div>
+        </div>
+      </div>
+
+      <div class="route-panel check-panel" id="check-panel" hidden>
+        <div class="rp-head" id="check-head">
+          <span class="rp-title">Checks <span class="rp-sub" id="check-sub"></span></span>
+          <span class="rp-head-btns">
+            <button id="check-close" class="rp-iconbtn" title="Close"><svg class="ic ic-sm"><use href="#i-x"/></svg></button>
+          </span>
+        </div>
+        <div class="rp-body">
+          <div class="check-list" id="check-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <button type="button" id="inspector-reveal" class="panel-reveal panel-reveal-right" title="Show the right panel" aria-label="Show the right panel"><svg class="ic ic-sm"><use href="#i-chev-l"/></svg></button>
+    <div class="col-resizer" id="insp-resizer" role="separator" aria-orientation="vertical" title="Drag to resize"></div>
+    <aside class="panel properties" aria-label="Properties">
+      <div class="panel-tabs" role="tablist" aria-label="Right panel">
+        <button type="button" id="tab-inspector" class="panel-tab active" role="tab" aria-selected="true">Inspector</button>
+        <button type="button" id="tab-outline" class="panel-tab" role="tab" aria-selected="false">Outline<span id="outline-count" class="tab-badge" hidden></span></button>
+        <button type="button" id="tab-code" class="panel-tab" role="tab" aria-selected="false" title="The scene as text: edit it here or on the canvas">Code</button>
+        <button type="button" id="inspector-collapse" class="panel-fold" title="Hide the right panel" aria-label="Hide the right panel"><svg class="ic ic-sm"><use href="#i-chev-r"/></svg></button>
+      </div>
+      <div id="pane-inspector" class="panel-pane">
+        <div class="props-empty" id="props-empty">
+          <svg class="ic" aria-hidden="true"><use href="#i-cube"/></svg>
+          <div class="pe-title">No selection</div>
+          <div class="pe-sub">Select a component on the canvas or in the Outline to edit its properties.</div>
+          <div class="pe-keys">
+            <div class="pe-key"><span>Select all</span><kbd>⌘A</kbd></div>
+            <div class="pe-key"><span>Duplicate</span><kbd>⌘D</kbd></div>
+            <div class="pe-key"><span>Delete</span><kbd>⌫</kbd></div>
+            <div class="pe-key"><span>Nudge · ×10</span><kbd>←→</kbd><kbd>⇧</kbd></div>
+            <div class="pe-key"><span>Commands</span><kbd>⌘K</kbd></div>
+          </div>
+        </div>
+        <form id="props-form" hidden></form>
+      </div>
+      <div id="pane-outline" class="panel-pane" hidden>
+        <div class="search">
+          <svg class="ic ic-sm"><use href="#i-search"/></svg>
+          <input id="outline-search" type="search" placeholder="Filter objects…" />
+        </div>
+        <div id="outline-list" class="outline-list"></div>
+      </div>
+      <div id="pane-code" class="panel-pane code-pane" hidden>
+        <div class="code-bar">
+          <button type="button" id="code-apply" class="code-btn code-apply" title="Apply the text to the scene (⌘↵ or Ctrl+Enter)">Apply <kbd>⌘↵</kbd></button>
+          <button type="button" id="code-revert" class="code-btn" title="Load the scene again and drop the text changes">Revert</button>
+          <span id="code-state" class="code-state" role="status"></span>
+        </div>
+        <div id="code-note" class="code-note" hidden>The canvas changed after you started typing. Apply puts your text over it; Revert loads the canvas.</div>
+        <div class="code-editor">
+          <div id="code-gutter" class="code-gutter" aria-hidden="true"></div>
+          <div class="code-body">
+            <div id="code-bands" class="code-bands" aria-hidden="true"></div>
+            <textarea id="code-text" class="code-text" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" aria-label="The scene as YAML text"></textarea>
+          </div>
+        </div>
+        <div id="code-error" class="code-error" role="alert" hidden></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="statusbar">
+    <span id="sel-info" class="sb-item">No selection</span>
+    <span class="sb-spacer"></span>
+    <span id="status" class="sb-item" aria-live="polite"></span>
+    <span id="sb-snap" class="sb-chip on" title="Snap to grid (G toggles the grid, button in toolbar toggles snap)">Snap 10</span>
+    <span id="sb-cursor" class="sb-item sb-mono" aria-hidden="true"></span>
+  </footer>
+
+  <!-- welcome / start screen (Blender/Inkscape style) -->
+  <div class="welcome" id="welcome" hidden>
+    <div class="welcome-card">
+      <div class="welcome-head">
+        <svg class="welcome-mark-full" viewBox="0 0 168 96" aria-hidden="true">
+          <g stroke="#2F5CFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M 24 8 C 40 24, 40 48, 24 64 C 8 48, 8 24, 24 8 Z"/>
+            <path d="M 50 36 C 54 25, 60 25, 64 36 C 67 45, 72 45, 76 37 C 78 34, 81 36, 85 36 L 110 36"/>
+            <path d="M 132 36 L 156 36"/>
+            <circle cx="121" cy="68" r="20"/>
+          </g>
+          <circle class="wm-photon" cx="121" cy="36" r="6" fill="#FFB224"/>
+        </svg>
+        <div>
+          <div class="welcome-title">optodraw</div>
+          <div class="welcome-sub">Design optical &amp; photonic setups</div>
+        </div>
+        <button class="welcome-x" id="wc-x" title="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="welcome-cols">
+        <div class="welcome-left">
+          <div class="welcome-section">Start</div>
+          <button class="welcome-action" id="wc-new"><svg class="ic"><use href="#i-new"/></svg><span><b>New scene</b><i>An empty artboard</i></span></button>
+          <button class="welcome-action" id="wc-open"><svg class="ic"><use href="#i-open"/></svg><span><b>Open file…</b><i>Load a scene JSON</i></span></button>
+          <button class="welcome-action" id="wc-import"><svg class="ic"><use href="#i-chip"/></svg><span><b>Import GDS…</b><i>A .gds layout</i></span></button>
+          <div class="welcome-section welcome-recent-head" id="wc-recent-head" hidden>Recent workspaces</div>
+          <div class="welcome-recent" id="wc-recent"></div>
+        </div>
+        <div class="welcome-right">
+          <div class="welcome-section">Start from a preset</div>
+          <div class="welcome-grid" id="wc-presets"></div>
+          <div class="welcome-section">Quick start</div>
+          <ol class="welcome-steps">
+            <li><b>Add</b> parts — drag from the left palette onto the canvas.</li>
+            <li><b>Connect</b> — the <b>Route</b>/<b>Links</b> tool draws beams (free-space) or waveguides (chip).</li>
+            <li><b>Choose a view</b> — 1D for compact diagrams, 2D for layouts, or 3D for spatial scenes.</li>
+            <li><b>Export</b> — PNG, GLB, TikZ, or a publication figure.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="welcome-foot">
+        <label class="welcome-hide"><input type="checkbox" id="wc-hide" /> Don't show on startup</label>
+        <button class="od-btn od-primary" id="wc-close">Start designing</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/view1d.js"></script>
+</body>
+</html>

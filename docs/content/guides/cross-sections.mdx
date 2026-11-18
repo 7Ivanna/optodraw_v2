@@ -1,0 +1,63 @@
+A cross-section cuts a GDS layout along a straight line and runs the process its layer stack implies: the
+etches that leave the rib and slab, the implants, the contacts etched through the oxide and filled, the metals
+and the passivation. The walls slope as the stack says. One cut gives each look of the same regions.
+
+## The device
+
+The PN rib phase shifter of the GDSFactory generic PDK, `straight_pn` with its default `via_stack_slab_m3`,
+as GDS records, on the bundled `gdsfactory_generic` stack. The contacts climb through M1 and M2 to M3,
+the pad metal. The oxide is one body over M3, and PADOPEN (46/0) etches it down to the pads. The stack has
+no NP and PP, so the cell leaves them out. For a file, pass its path: `cross_section("chip.gds", ...)`.
+
+## Schematic
+
+<!-- cell: cross-sections/01-schematic -->
+
+Labels, dimensions and a scale bar. Heights are stretched only when the thinnest layer would be under 2 pt
+tall; the figure then prints z × N and adds a height scale bar. `xs.steps_svg()` draws the process, one
+panel per step.
+
+## SEM-like image
+
+<!-- cell: cross-sections/02-sem -->
+
+A grey per material, edge rims, blur and noise. The image and its metadata say it is a render;
+`mark=False` removes the marks.
+
+## Cut 3D slab
+
+<!-- cell: cross-sections/03-slab -->
+
+A block of the layout behind the cut. Its face is the cross-section above. Behind it the process runs again
+wherever the layout changes, so a contact shows only where it is drawn. Toward the back the oxide is cut
+away in steps, with the wiring above each step: first M1 on its oxide, then the bare rib and its implants.
+
+```python
+xs.slab("pn_slab.glb")         # for Blender or any glTF viewer
+xs.slab("pn_slab.png")         # the viewer's image, headless: needs Chrome, Chromium or Edge
+xs.slab("pn_slab.html")        # the interactive view as one page
+```
+
+## Top view
+
+<!-- cell: cross-sections/04-top -->
+
+The same process runs on a cut along each pixel row and column. `stage="chip"` is the finished chip: a
+device under the oxide shows faintly (`see_through`, in µm), and metal hides what lies under it.
+`stage="device"` stops before the first oxide. `tilt` and `rotation` set the view in degrees. Turned to the
+layout's edges, every cut is new: a minute at 1000 px.
+
+## In the editor
+
+Select a GDS part. In the cross-section panel, cut along the Layout view's ruler (M, two clicks, Cut along
+ruler) or scan a vertical cut, then pick a look. The cut uses the part's own stack.
+
+## Check it
+
+`xs.check()` names a drawn layer the stack does not know, an implant on etched silicon and a contact that
+lands on nothing. The first cell asserts it is empty.
+
+## References
+
+- GDSFactory generic PDK: `straight_pn`, `via_stack_slab_m3` and its layer stack.
+  [gdsfactory.github.io](https://gdsfactory.github.io/gdsfactory/)

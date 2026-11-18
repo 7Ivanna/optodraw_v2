@@ -1,0 +1,136 @@
+% od-core.tex : shared base of the optodraw 1D symbol library.
+% Colors, line styles, the /od/ key family, the port macro and the read-back
+% macros. Family files (od-onchip.tex, ...) hold one pic per component and are
+% loaded after this file. The library needs TikZ and nothing else.
+\usetikzlibrary{calc,arrows.meta}
+
+% Line art is black. Color carries a fixed meaning and nothing else.
+\definecolor{odheat}{HTML}{F0E442}                         % heater metal
+\definecolor{odp}{HTML}{E8615F}                            % p doping (light red)
+\definecolor{odn}{HTML}{56B4E9}                            % n doping (light blue)
+\definecolor{odw1}{HTML}{0072B2}\definecolor{odw2}{HTML}{009E73} % wavelengths
+\definecolor{odw3}{HTML}{E69F00}\definecolor{odw4}{HTML}{CC79A7}
+
+\newif\ifodshowports \odshowportsfalse
+% The look. 1d (the default): line art, color only where it means something.
+% 2d: the same drawing painted, with materials and depth (gradients, a cast
+% shadow). The 2D art turns it on with \odtwodlook in the scope of a part.
+\def\odlook{1d}\def\odlooktwod{2d}
+\newcommand\odtwodlook{\def\odlook{2d}\definecolor{odtrace}{HTML}{FB923C}\color{ods700}}  % a trace glows; lines are slate
+% od paint={<1D options>}{<2D options>}: one style, two looks.
+\tikzset{od paint/.code 2 args={\ifx\odlook\odlooktwod\pgfkeysalso{#2}\else\pgfkeysalso{#1}\fi}}
+% Materials in 2D: the slate greys of modern interface design, light and muted.
+% Each is the top and the bottom of a soft gradient, and a hairline edge in a
+% darker tint of the same colour. No black line.
+\definecolor{ods50}{HTML}{F8FAFC}\definecolor{ods100}{HTML}{F1F5F9}\definecolor{ods200}{HTML}{E2E8F0}
+\definecolor{ods300}{HTML}{CBD5E1}\definecolor{ods400}{HTML}{94A3B8}\definecolor{ods500}{HTML}{64748B}
+\definecolor{ods600}{HTML}{475569}\definecolor{ods700}{HTML}{334155}\definecolor{ods800}{HTML}{1E293B}
+\definecolor{ods900}{HTML}{0F172A}
+\colorlet{odcaseA}{white}\colorlet{odcaseB}{ods200}\colorlet{odcaseE}{ods400}       % instrument case
+\colorlet{odanoA}{ods300}\colorlet{odanoB}{ods400}\colorlet{odanoE}{ods500}         % a housing (light, not black)
+\colorlet{odaluA}{ods50}\colorlet{odaluB}{ods300}\colorlet{odaluE}{ods400}          % aluminium, steel
+\definecolor{odglassA}{HTML}{F4FBFF}\definecolor{odglassB}{HTML}{CDE7F4}\definecolor{odglassE}{HTML}{7FB2CF} % glass
+\definecolor{odgoldA}{HTML}{FBE7A1}\definecolor{odgoldB}{HTML}{D4AF37}\definecolor{odgoldE}{HTML}{A8841F}  % gold, brass
+\definecolor{odpcbA}{HTML}{34D399}\definecolor{odpcbB}{HTML}{059669}\definecolor{odpcbE}{HTML}{047857}    % circuit board
+\colorlet{odscreen}{ods800}\colorlet{odedge}{ods500}                % a screen; the edge of a painted part
+\definecolor{odcopperA}{HTML}{EDC2A0}\definecolor{odcopperB}{HTML}{B87333}\definecolor{odcopperE}{HTML}{7A4A1E} % copper, as the 3D parts
+% The light falls from above. A shading maps the box of a path onto its middle, 25bp to 75bp.
+\pgfdeclareverticalshading{odbox}{100bp}{color(0bp)=(ods500); color(25bp)=(ods500); color(31bp)=(ods400); color(55bp)=(ods300); color(70bp)=(ods200); color(75bp)=(ods100); color(100bp)=(ods100)}   % a housing: a soft top edge
+\pgfdeclareverticalshading{odcylinder}{100bp}{color(0bp)=(ods500); color(25bp)=(ods500); color(36bp)=(ods400); color(50bp)=(ods200); color(62bp)=(ods50); color(69bp)=(ods200); color(75bp)=(ods400); color(100bp)=(ods400)}   % a tube, its highlight above the middle
+\pgfdeclarehorizontalshading{odrod}{100bp}{color(0bp)=(ods400); color(25bp)=(ods400); color(38bp)=(ods200); color(46bp)=(ods50); color(58bp)=(ods200); color(75bp)=(ods500); color(100bp)=(ods500)}   % a post: light from the left
+\pgfdeclareverticalshading{odsilver}{100bp}{color(0bp)=(ods300); color(25bp)=(ods300); color(45bp)=(ods100); color(58bp)=(white); color(66bp)=(ods100); color(75bp)=(ods300); color(100bp)=(ods300)}   % a mirror face
+\pgfdeclareverticalshading{odblack}{100bp}{color(0bp)=(ods900); color(25bp)=(ods900); color(60bp)=(ods800); color(71bp)=(ods700); color(75bp)=(ods600); color(100bp)=(ods600)}   % matte black anodising: a sheen on the top edge only
+\definecolor{odbeam}{HTML}{EF4444}                                  % a beam drawn inside a part, in 2D
+% Line scale: every line width is multiplied by it. 1 in the symbols; the 2D art
+% sets it per part (optodraw/symbols/art.py) so lines shrink with a small part.
+\def\odls{1}
+
+% Keys that more than one family uses. A family file adds its own keys.
+\pgfkeys{/od/.cd,
+  length/.initial=2,      % waveguide, ring bus, interferometer arm length
+  color/.initial=black,   % resonator color (a wavelength, in a weight bank)
+  inputs/.initial=1,
+  outputs/.initial=2,
+  pitch/.initial=0.5,     % port pitch
+  kind/.initial=,         % which variant of a pic: see the pic (phase, converter)
+  ports/.initial=,        % which set of port names: see the pic
+  count/.initial=8,       % arrays and banks: how many
+  view/.initial=,         % top: the view from above, for a part whose 1D symbol is a side view (2D art)
+  sample/.initial=,       % no: a holder drawn without its own sample (a cryostat a sample is placed in)
+  sync/.initial=,         % yes: a laser with a sync output (a jack under it, an electrical port)
+  show ports/.is if=odshowports,
+}
+\newcommand\odget[1]{\pgfkeysvalueof{/od/#1}}
+
+\tikzset{
+  od wg/.style={od paint={line width=0.9pt*\odls}{line width=0.55pt*\odls, draw=ods600}, line cap=round, line join=round},   % optical
+  od ring/.style={line width=1.7pt*\odls},                                  % the resonator itself
+  od el/.style={od paint={line width=0.55pt*\odls}{line width=0.4pt*\odls, draw=ods600}, line cap=round, line join=round},  % electrical
+  od ray/.style={od paint={line width=0.35pt*\odls}{line width=0.3pt*\odls, draw=ods500}, line cap=round},
+  od band/.style={draw=black!80, line width=0.4pt*\odls, line join=round},  % a strip of metal or doping
+  od ground/.style={od paint={od band, fill=white}{od hair, draw=odgoldE, top color=odgoldA, bottom color=odgoldA!60!odgoldB}},
+  od signal/.style={od paint={od band, fill=black!22}{od hair, draw=odgoldE, top color=odgoldA, bottom color=odgoldB}},
+  % 2D materials. In 1D each is the plain line art it was before.
+  % 2D: a hairline edge, the line every painted part uses.
+  od hair/.style={line width=0.3pt*\odls, line cap=round, line join=round},
+  % A soft cast shadow: two translucent copies of the outline, low and wide (no library needed).
+  od shadow/.style={preaction={draw=none, fill=ods900, fill opacity=0.03, transform canvas={xshift=0.012cm, yshift=-0.06cm}},
+                    preaction={draw=none, fill=ods900, fill opacity=0.04, transform canvas={xshift=0.008cm, yshift=-0.042cm}},
+                    preaction={draw=none, fill=ods900, fill opacity=0.05, transform canvas={xshift=0.004cm, yshift=-0.026cm}},
+                    preaction={draw=none, fill=ods900, fill opacity=0.06, transform canvas={yshift=-0.012cm}}},
+  od shine/.style={},                                                % the shadings hold the light now
+  od case/.style={od paint={od wg, fill=white}{od hair, draw=odcaseE, top color=odcaseA, bottom color=odcaseB, od shadow}},
+  od housing/.style={od paint={od wg, fill=white}{od hair, draw=odanoE, shading=odbox, od shadow}},
+  od tube/.style={od paint={od wg, fill=white}{od hair, draw=odanoE, shading=odcylinder, od shadow}},
+  od alu/.style={od paint={od wg, fill=white}{od hair, draw=odaluE, top color=odaluA, bottom color=odaluB, od shadow}},
+  od alusmall/.style={od paint={od el, fill=white}{od hair, draw=odaluE, top color=odaluA, bottom color=odaluB}},
+  od pcb/.style={od paint={od wg, fill=white}{od hair, draw=odpcbE, top color=odpcbA, bottom color=odpcbB, od shadow}},
+  % What stops light, and the dark head of a laser: black in 1D, matte black anodising in 2D.
+  od absorber/.style={od paint={od el, fill=black}{od hair, draw=ods900, shading=odblack}},
+  od rod/.style={od paint={od el, fill=white}{od hair, draw=odanoE, shading=odrod, shading angle=0}},     % a post: steel
+  od copper/.style={od paint={od el, fill=black!22}{od hair, draw=odcopperE, top color=odcopperA, bottom color=odcopperB}},
+  od chipcase/.style={od paint={od wg, fill=white}{od hair, draw=ods800, top color=ods600, bottom color=ods800}},
+  od pixel/.style={od paint={od ray, fill=white}{od hair, draw=ods500, top color=ods600, bottom color=ods700}},
+  od knob/.style={od paint={od el, fill=white}{od hair, draw=ods400, top color=white, bottom color=ods300, od shadow}},
+  od jack/.style={od paint={od el, fill=white}{od hair, draw=ods500, top color=ods100, bottom color=ods400}},
+  od port/.style={circle, draw, fill=white, line width=0.5pt*\odls, inner sep=0pt, minimum size=3.4pt},
+  od eport/.style={rectangle, draw, fill=white, line width=0.5pt*\odls, inner sep=0pt, minimum size=3.0pt},
+  od light/.style={od el, -{Stealth[length=3.2pt,width=2.6pt]}},
+  od cable/.style={od el, draw=black!65},                             % a cable between parts: thin, grey, solid
+}
+\def\odmw{0.12}   % half width of every metal strip: electrodes, heaters, segments
+
+% A port: \odport[<kind>]{<name>}{<position>}. The kind is optodraw's port kind
+% (optical, electrical, thermal, fiber, free_space); the default is optical.
+% The kind hub is not a port: it marks where the beams of a splitter meet, and a
+% view draws the beam from each port that a scene uses to it.
+% This gives the coordinate (<pic name>-<name>), an optional mark (circle =
+% light, square = electrical or thermal), and an entry in the list that the
+% build reads back.
+\gdef\odportlist{}
+\newcommand\odport[3][optical]{%
+  \coordinate (-#2) at (#3);
+  \ifodshowports
+    \def\odtmpa{#1}\def\odtmpb{electrical}\def\odtmpc{thermal}\def\odtmpd{hub}%
+    \ifx\odtmpa\odtmpb \node[od eport] at (#3) {};%
+    \else\ifx\odtmpa\odtmpc \node[od eport] at (#3) {};%
+    \else\ifx\odtmpa\odtmpd
+    \else \node[od port] at (#3) {};\fi\fi\fi
+  \fi
+  \xdef\odportlist{\odportlist\ifx\odportlist\empty\else,\fi#2/#1}%
+}
+
+% Read-back. The build compiles one pic named (s) at the origin and reads its
+% ports and bounding box from <job>.ports.
+\newwrite\odout
+\newcommand\odwriteports[1]{%
+  \foreach \odpname/\odpkind in \odportlist {%
+    \path (#1-\odpname); \pgfgetlastxy{\odpx}{\odpy}%
+    \immediate\write\odout{port \odpname\space\odpkind\space\odpx\space\odpy}}%
+}
+\newcommand\odwritebbox{%
+  \path (current bounding box.south west); \pgfgetlastxy{\odpx}{\odpy}%
+  \immediate\write\odout{sw \odpx\space\odpy}%
+  \path (current bounding box.north east); \pgfgetlastxy{\odpx}{\odpy}%
+  \immediate\write\odout{ne \odpx\space\odpy}%
+}

@@ -1,0 +1,32 @@
+---
+// A light and dark button in place of Starlight's theme menu. It uses Starlight's own key ('starlight-theme') and
+// its data-theme attribute, which Starlight sets before the page paints, so there is no flash.
+---
+<optodraw-theme-toggle>
+	<button type="button" class="theme-toggle" aria-label="Switch between light and dark theme">
+		<svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" /></svg>
+		<svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" /></svg>
+	</button>
+</optodraw-theme-toggle>
+
+<script>
+	const storageKey = 'starlight-theme';
+	const current = () => (document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+	function apply(theme: 'light' | 'dark', button: HTMLButtonElement) {
+		document.documentElement.dataset.theme = theme;
+		try { localStorage.setItem(storageKey, theme); } catch {}
+		button.setAttribute('aria-pressed', String(theme === 'dark'));
+		button.title = theme === 'dark' ? 'Switch to the light theme' : 'Switch to the dark theme';
+	}
+	class OptodrawThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			const button = this.querySelector('button');
+			if (!button) return;
+			button.setAttribute('aria-pressed', String(current() === 'dark'));
+			button.title = current() === 'dark' ? 'Switch to the light theme' : 'Switch to the dark theme';
+			button.addEventListener('click', () => apply(current() === 'dark' ? 'light' : 'dark', button));
+		}
+	}
+	customElements.define('optodraw-theme-toggle', OptodrawThemeToggle);
+</script>

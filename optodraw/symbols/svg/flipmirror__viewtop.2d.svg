@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8.218162 23.808359" width="8.218162pt" height="23.808359pt"><g transform="translate(72.0,72.0)">
+<g id='od-flipmirror__viewtop-page1'>
+<g stroke-miterlimit='10' transform='translate(-69.73351,-60.095823)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-flipmirror__viewtop-pgfcp6'>
+<path d='M1.42271-9.67383V9.67383H3.69899V-9.67383ZM3.69899 9.67383'/> </clipPath>
+<g clip-path='url(#od-flipmirror__viewtop-pgfcp6)'>
+<g transform='matrix(1,0,0,1,2.56084,0.0)'>
+<g transform='matrix(0.04535,0,0,0.38556,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-flipmirror__viewtop-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-flipmirror__viewtop-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M1.42271-9.67383V9.67383H3.69899V-9.67383ZM3.69899 9.67383' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-flipmirror__viewtop-pgfcp7'>
+<path d='M0-9.67383V9.67383H1.42271V-9.67383ZM1.42271 9.67383'/> </clipPath>
+<g clip-path='url(#od-flipmirror__viewtop-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.71135,0.0)'>
+<g transform='matrix(0.02835,0,0,0.38556,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-flipmirror__viewtop-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-flipmirror__viewtop-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M0-9.67383V9.67383H1.42271V-9.67383ZM1.42271 9.67383' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-flipmirror__viewtop-pgfcp8'>
+<path d='M3.3573-8.2511C3.3573-7.81111 3.00063-7.45444 2.56064-7.45444S1.76398-7.81111 1.76398-8.2511S2.12065-9.04776 2.56064-9.04776S3.3573-8.69109 3.3573-8.2511ZM2.56064-8.2511'/> </clipPath>
+<g clip-path='url(#od-flipmirror__viewtop-pgfcp8)'>
+<g transform='matrix(1,0,0,1,2.56064,-8.2511)'>
+<g transform='matrix(0.03174,0,0,0.03174,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-flipmirror__viewtop-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-flipmirror__viewtop-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M3.3573-8.2511C3.3573-7.81111 3.00063-7.45444 2.56064-7.45444S1.76398-7.81111 1.76398-8.2511S2.12065-9.04776 2.56064-9.04776S3.3573-8.69109 3.3573-8.2511ZM2.56064-8.2511' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

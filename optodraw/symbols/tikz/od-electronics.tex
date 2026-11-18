@@ -1,0 +1,287 @@
+% od-electronics.tex : converters, amplifiers and drivers. Load od-core.tex first.
+% No text in a symbol: a small mark inside tells the parts apart.
+
+\newif\ifoddiff \oddifffalse
+\pgfkeys{/od/.cd,
+  % kind (a shared key of od-core.tex) selects the converter: dac | adc
+  % ports (a shared key of od-core.tex): chip selects the on-chip names, anything else the block names
+  mark/.initial=none,      % amplifier: none | resistor (a TIA) | capacitor (an integrator)
+  diff/.is if=oddiff,      % amplifier: two outputs
+}
+
+% 2D: a block body (light, hairline, soft shadow), an IC package (mid slate,
+% silver pins), and one colour for a digital mark, another for an analog mark.
+\definecolor{oddigital}{HTML}{6366F1}\definecolor{odanalog}{HTML}{14B8A6}
+\tikzset{
+  od block/.style={od paint={od el, fill=white}{od hair, draw=ods400, top color=white, bottom color=ods200, od shadow, od shine}},
+  od blockwg/.style={od paint={od wg, fill=white}{od hair, draw=ods400, top color=white, bottom color=ods200, od shadow, od shine}},
+  od ic/.style={od paint={od el, fill=white}{od hair, draw=ods600, top color=ods400, bottom color=ods600, od shadow, od shine}},
+  od pin/.style={od el, od paint={}{line width=0.9pt*\odls, draw=ods300, line cap=butt}},
+  od digital/.style={od paint={}{draw=oddigital}},
+  od analog/.style={od paint={}{draw=odanalog}},
+}
+% Marks used inside the symbols: a staircase (digital) and a wave (analog).
+\newcommand\odsteps[2]{% #1 = x, #2 = y of the lower left corner; 0.24 wide, 0.18 high
+  \draw[od ray, line width=0.45pt*\odls, od digital] (#1,#2) -- ++(0.08,0) -- ++(0,0.09) -- ++(0.08,0) -- ++(0,0.09) -- ++(0.08,0);}
+\newcommand\odwave[2]{% #1 = x, #2 = y of the left end, on the centre line; 0.24 wide
+  \draw[od ray, line width=0.45pt*\odls, od analog] (#1,#2) .. controls +(0.04,0.14) and +(-0.04,0.14) .. ++(0.12,0)
+    .. controls +(0.04,-0.14) and +(-0.04,-0.14) .. ++(0.12,0);}
+
+% ---------------------------------------------------------------- converter
+% The pentagon of a data converter. A DAC shows steps then a wave, an ADC a
+% wave then steps.
+%   kind=dac, ports=block : din, clk (left) ref (top) out, out_n (right) gnd (bottom)
+%   kind=dac, ports=chip  : e1, e2 (left) e3, e4 (right)
+%   kind=adc, ports=block : in (left) clk (top) dout (right) ref, gnd (bottom)
+%   kind=adc, ports=chip  : e1 (left) e2 (bottom) e3 (right)
+\tikzset{pics/od converter/.default={}, pics/od converter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od block] (-0.45,-0.34) -- (0.15,-0.34) -- (0.5,0) -- (0.15,0.34) -- (-0.45,0.34) -- cycle;
+  \edef\odkind{\odget{kind}}\edef\odnames{\odget{ports}}
+  \def\odtmpa{dac}\def\odtmpb{chip}%
+  \ifx\odkind\odtmpa
+    \odsteps{-0.36}{-0.09}\odwave{-0.06}{0}
+    \draw[od el] (-0.65,0.16) -- (-0.45,0.16) (-0.65,-0.16) -- (-0.45,-0.16)
+      (0.335,0.16) -- (0.65,0.16) (0.335,-0.16) -- (0.65,-0.16);
+    \ifx\odnames\odtmpb
+      \odport[electrical]{e1}{-0.65,0.16}\odport[electrical]{e2}{-0.65,-0.16}
+      \odport[electrical]{e3}{0.65,0.16}\odport[electrical]{e4}{0.65,-0.16}
+    \else
+      \draw[od el] (-0.15,0.34) -- (-0.15,0.52) (-0.15,-0.34) -- (-0.15,-0.52);
+      \odport[electrical]{din}{-0.65,0.16}\odport[electrical]{clk}{-0.65,-0.16}
+      \odport[electrical]{ref}{-0.15,0.52}\odport[electrical]{gnd}{-0.15,-0.52}
+      \odport[electrical]{out}{0.65,0.16}\odport[electrical]{out_n}{0.65,-0.16}
+    \fi
+  \else
+    \odwave{-0.36}{0}\odsteps{-0.06}{-0.09}
+    \draw[od el] (-0.65,0) -- (-0.45,0) (0.5,0) -- (0.65,0);
+    \ifx\odnames\odtmpb
+      \draw[od el] (-0.15,-0.34) -- (-0.15,-0.52);
+      \odport[electrical]{e1}{-0.65,0}\odport[electrical]{e2}{-0.15,-0.52}\odport[electrical]{e3}{0.65,0}
+    \else
+      \draw[od el] (-0.15,0.34) -- (-0.15,0.52) (-0.3,-0.34) -- (-0.3,-0.52) (0,-0.34) -- (0,-0.52);
+      \odport[electrical]{in}{-0.65,0}\odport[electrical]{clk}{-0.15,0.52}
+      \odport[electrical]{ref}{-0.3,-0.52}\odport[electrical]{gnd}{0,-0.52}\odport[electrical]{dout}{0.65,0}
+    \fi
+  \fi
+}}}
+
+% ---------------------------------------------------------------- amplifier
+% The triangle of an amplifier. mark=resistor is a transimpedance amplifier,
+% mark=capacitor an integrator.
+%   ports=chip             : e1 (left) e2 (right)
+%   ports=block            : in (left) out (right) vdd (top) gnd (bottom)
+%   ports=block, diff      : in (left) out_p, out_n (right) bias (top) gnd (bottom)
+\tikzset{pics/od amplifier/.default={}, pics/od amplifier/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od block] (-0.36,-0.36) -- (-0.36,0.36) -- (0.36,0) -- cycle;
+  \draw[od el] (-0.6,0) -- (-0.36,0);
+  \edef\odmark{\odget{mark}}\edef\odnames{\odget{ports}}
+  \def\odtmpa{resistor}\ifx\odmark\odtmpa
+    \draw[od ray, line width=0.45pt*\odls] (-0.28,0) -- (-0.24,0) -- (-0.21,0.07) -- (-0.15,-0.07) -- (-0.09,0.07) -- (-0.03,-0.07) -- (0,0) -- (0.04,0);
+  \fi
+  \def\odtmpa{capacitor}\ifx\odmark\odtmpa
+    \draw[od ray, line width=0.45pt*\odls] (-0.28,0) -- (-0.15,0) (-0.15,-0.09) -- (-0.15,0.09) (-0.09,-0.09) -- (-0.09,0.09) (-0.09,0) -- (0.04,0);
+  \fi
+  \def\odtmpb{chip}%
+  \ifx\odnames\odtmpb
+    \draw[od el] (0.36,0) -- (0.6,0);
+    \odport[electrical]{e1}{-0.6,0}\odport[electrical]{e2}{0.6,0}
+  \else
+    \draw[od el] (-0.1,0.23) -- (-0.1,0.5) (-0.1,-0.23) -- (-0.1,-0.5);
+    \ifoddiff
+      \draw[od el] (0.12,0.12) -- (0.6,0.12) (0.12,-0.12) -- (0.6,-0.12);
+      \odport[electrical]{in}{-0.6,0}\odport[electrical]{out_p}{0.6,0.12}\odport[electrical]{out_n}{0.6,-0.12}
+      \odport[electrical]{bias}{-0.1,0.5}\odport[electrical]{gnd}{-0.1,-0.5}
+    \else
+      \draw[od el] (0.36,0) -- (0.6,0);
+      \odport[electrical]{in}{-0.6,0}\odport[electrical]{out}{0.6,0}
+      \odport[electrical]{vdd}{-0.1,0.5}\odport[electrical]{gnd}{-0.1,-0.5}
+    \fi
+  \fi
+}}}
+
+% ---------------------------------------------------------------- pads and wires
+% A pad is a small square of signal metal (rows of pads sit under the contacts they serve). Ports sit on
+% the pad: a pad needs no lead.
+\tikzset{pics/od pad/.default={}, pics/od pad/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \path[od signal] (-0.12,-0.12) rectangle (0.12,0.12);
+  \odport[electrical]{e1}{-0.12,0}
+}}}
+% Ground, signal, ground: the three pads of an RF probe.
+\tikzset{pics/od gsg/.default={}, pics/od gsg/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \path[od ground] (-0.15,0.22) rectangle (0.15,0.5);
+  \path[od signal] (-0.15,-0.14) rectangle (0.15,0.14);
+  \path[od ground] (-0.15,-0.5) rectangle (0.15,-0.22);
+  \odport[electrical]{g1}{-0.15,0.36}\odport[electrical]{s}{-0.15,0}\odport[electrical]{g2}{-0.15,-0.36}
+}}}
+% A heater strip between its two contact pads.
+\tikzset{pics/od heaterpad/.default={}, pics/od heaterpad/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \path[od band, fill=odheat] (-0.35,-0.07) rectangle (0.35,0.07);
+  \path[od signal] (-0.5,-0.12) rectangle (-0.35,0.12);
+  \path[od signal] (0.35,-0.12) rectangle (0.5,0.12);
+  \odport[electrical]{e1}{-0.5,0}\odport[electrical]{e2}{0.5,0}
+}}}
+% A comb drive: two combs whose fingers interleave.
+% 2D: the fixed comb (stator, mid slate) on the left, the moving comb (shuttle, light) on the right.
+\tikzset{pics/od mems/.default={}, pics/od mems/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \ifx\odlook\odlooktwod
+    \draw[od el] (-0.5,0) -- (-0.36,0) (0.36,0) -- (0.5,0);
+    \foreach \ody in {-0.24,-0.08,0.08,0.24} {
+      \draw[od hair, draw=ods500, top color=ods300, bottom color=ods400] (-0.3,\ody-0.022) rectangle (0.15,\ody+0.022);}
+    \foreach \ody in {-0.16,0,0.16} {
+      \draw[od hair, draw=ods400, top color=white, bottom color=ods200] (-0.15,\ody-0.022) rectangle (0.3,\ody+0.022);}
+    \draw[od hair, draw=ods500, top color=ods300, bottom color=ods400, od shadow] (-0.36,-0.32) rectangle (-0.28,0.32);
+    \draw[od hair, draw=ods400, top color=white, bottom color=ods200, od shadow, od shine] (0.28,-0.32) rectangle (0.36,0.32);
+  \else
+    \draw[od el] (-0.5,0) -- (-0.3,0) (0.3,0) -- (0.5,0) (-0.3,-0.3) -- (-0.3,0.3) (0.3,-0.3) -- (0.3,0.3);
+    \foreach \ody in {-0.24,-0.08,0.08,0.24} {\draw[od el] (-0.3,\ody) -- (0.15,\ody);}
+    \foreach \ody in {-0.16,0,0.16} {\draw[od el] (0.3,\ody) -- (-0.15,\ody);}
+  \fi
+  \odport[electrical]{e1}{-0.5,0}\odport[electrical]{e2}{0.5,0}
+}}}
+
+% ================================================================ chips, receivers, packaging
+% An IC package: a square with pins on its four sides and the mark of pin 1.
+\newcommand\odchip{%
+  \foreach \odt in {-0.2,0,0.2} {
+    \draw[od pin] (-0.36,\odt) -- (-0.48,\odt) (0.36,\odt) -- (0.48,\odt) (\odt,0.36) -- (\odt,0.48) (\odt,-0.36) -- (\odt,-0.48);}
+  \draw[od ic] (-0.36,-0.36) rectangle (0.36,0.36);
+  \fill[od paint={}{fill=ods200}] (-0.27,0.27) circle [radius=0.03];}
+% Electronic IC: the plain package.
+\tikzset{pics/od eic/.default={}, pics/od eic/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \odchip
+  \odport[electrical]{ctrl}{-0.48,0.2}\odport[electrical]{in}{-0.48,0}
+  \odport[electrical]{out}{0.48,0}\odport[electrical]{sense}{0.48,-0.2}
+  \odport[electrical]{vdd}{0,0.48}\odport[electrical]{gnd}{0,-0.48}
+}}}
+% Microcontroller: the package, with a clock wave inside.
+\tikzset{pics/od mcu/.default={}, pics/od mcu/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \odchip
+  \draw[od ray, line width=0.45pt*\odls, od paint={}{draw=oddigital!35!white}] (-0.2,-0.08) -- (-0.12,-0.08) -- (-0.12,0.08) -- (-0.02,0.08) -- (-0.02,-0.08) -- (0.08,-0.08) -- (0.08,0.08) -- (0.18,0.08) -- (0.18,-0.08) -- (0.22,-0.08);
+  \odport[electrical]{pwr}{-0.48,0.2}\odport[electrical]{gnd}{-0.48,-0.2}
+  \odport[electrical]{clk}{0,0.48}\odport[electrical]{usb}{0,-0.48}
+  \odport[electrical]{gpio1}{0.48,0.2}\odport[electrical]{gpio2}{0.48,0}\odport[electrical]{gpio3}{0.48,-0.2}
+}}}
+
+% A small photodiode that points right: #1,#2 = the point where the light arrives.
+\newcommand\odpdright[2]{%
+  \draw[od el, fill=white] (#1,#2-0.1) -- (#1,#2+0.1) -- (#1+0.17,#2) -- cycle;
+  \draw[od el] (#1+0.17,#2-0.1) -- (#1+0.17,#2+0.1);}
+
+% ---------------------------------------------------------------- coherent receiver
+% A 90 degree hybrid (the two inputs cross inside the body) and four detectors.
+% view=top: the wide body of the part in 2D, the detectors inside, the ports on its edges.
+\tikzset{pics/od coherentreceiver/.default={}, pics/od coherentreceiver/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od blockwg, rounded corners=0.11cm] (-0.95,-0.536) rectangle (0.95,0.536);
+    \draw[od el] (-0.95,0.171) .. controls +(0.45,0) and +(-0.3,0) .. (-0.1,-0.11)
+      (-0.95,-0.171) .. controls +(0.45,0) and +(-0.3,0) .. (-0.1,0.11)
+      (-0.95,0.171) .. controls +(0.45,0) and +(-0.3,0) .. (-0.1,0.329)
+      (-0.95,-0.171) .. controls +(0.45,0) and +(-0.3,0) .. (-0.1,-0.329);
+    \foreach \ody/\odname in {0.329/i_p, 0.11/i_n, -0.11/q_p, -0.329/q_n} {
+      \draw[od el] (-0.1,\ody) -- (0.35,\ody) (0.52,\ody) -- (0.95,\ody);
+      \odpdright{0.35}{\ody}
+      \odport[electrical]{\odname}{0.95,\ody}}
+    \draw[od el] (-0.229,0.536) -- (-0.229,0.44) (0.419,0.536) -- (0.419,0.44) (0,-0.536) -- (0,-0.44);
+    \odport{signal}{-0.95,0.171}\odport{lo}{-0.95,-0.171}
+    \odport[electrical]{vdd}{-0.229,0.536}\odport[electrical]{clk}{0.419,0.536}\odport[electrical]{gnd}{0,-0.536}
+  \else
+  \draw[od wg] (-0.7,0.3) -- (-0.45,0.3) (-0.7,-0.3) -- (-0.45,-0.3);
+  \draw[od blockwg, rounded corners=0.11cm] (-0.45,-0.75) rectangle (0.15,0.75);
+  \draw[od el] (-0.45,0.3) .. controls +(0.3,0) and +(-0.3,0) .. (0.15,-0.3)
+    (-0.45,-0.3) .. controls +(0.3,0) and +(-0.3,0) .. (0.15,0.3);
+  \foreach \ody/\odname in {0.54/i_p, 0.18/i_n, -0.18/q_p, -0.54/q_n} {
+    \draw[od el] (0.15,\ody) -- (0.3,\ody) (0.47,\ody) -- (0.7,\ody);
+    \odpdright{0.3}{\ody}
+    \odport[electrical]{\odname}{0.7,\ody}
+  }
+  \draw[od el] (-0.3,0.75) -- (-0.3,0.92) (0,0.75) -- (0,0.92) (-0.15,-0.75) -- (-0.15,-0.92);
+  \odport{signal}{-0.7,0.3}\odport{lo}{-0.7,-0.3}
+  \odport[electrical]{vdd}{-0.3,0.92}\odport[electrical]{clk}{0,0.92}\odport[electrical]{gnd}{-0.15,-0.92}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- receiver macro
+% Light in, bits out: a detector, an amplifier and a converter in one body.
+\tikzset{pics/od receiver/.default={}, pics/od receiver/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.95,0) -- (-0.75,0);
+  \draw[od blockwg, rounded corners=0.11cm] (-0.75,-0.34) rectangle (0.75,0.34);
+  \draw[od el] (-0.75,0) -- (-0.58,0) (-0.41,0) -- (-0.2,0) (0.1,0) -- (0.28,0) (0.62,0) -- (0.95,0);
+  \odpdright{-0.58}{0}
+  \draw[od el, fill=white] (-0.2,-0.17) -- (-0.2,0.17) -- (0.1,0) -- cycle;
+  \odsteps{0.32}{-0.09}
+  \draw[od el] (-0.3,0.34) -- (-0.3,0.5) (0.35,0.34) -- (0.35,0.5) (0,-0.34) -- (0,-0.5);
+  \odport{opt_in}{-0.95,0}\odport[electrical]{digital_out}{0.95,0}
+  \odport[electrical]{bias}{-0.3,0.5}\odport[electrical]{clk}{0.35,0.5}\odport[electrical]{gnd}{0,-0.5}
+}}}
+
+% ---------------------------------------------------------------- transmitter macro
+% Bits in, light out: a converter, a driver and a modulator in one body.
+\tikzset{pics/od transmitter/.default={}, pics/od transmitter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (0.75,0) -- (0.95,0);
+  \draw[od blockwg, rounded corners=0.11cm] (-0.75,-0.34) rectangle (0.75,0.34);
+  \draw[od el] (-0.95,0.14) -- (-0.75,0.14) (-0.95,-0.14) -- (-0.75,-0.14) (-0.32,0) -- (-0.2,0) (0.1,0) -- (0.24,0);
+  \odsteps{-0.62}{-0.09}
+  \draw[od el, fill=white] (-0.2,-0.17) -- (-0.2,0.17) -- (0.1,0) -- cycle;
+  \draw[od wg] (0.24,0) .. controls +(0.08,0.14) and +(-0.08,0.14) .. (0.62,0) (0.24,0) .. controls +(0.08,-0.14) and +(-0.08,-0.14) .. (0.62,0) -- (0.75,0);
+  \draw[od el] (0,0.34) -- (0,0.5) (0,-0.34) -- (0,-0.5);
+  \odport[electrical]{data}{-0.95,0.14}\odport[electrical]{clk}{-0.95,-0.14}
+  \odport[electrical]{bias}{0,0.5}\odport[electrical]{gnd}{0,-0.5}\odport{opt_out}{0.95,0}
+}}}
+
+% ---------------------------------------------------------------- pads, bumps, vias
+% A column of pads: e1 is the lowest.
+\tikzset{pics/od iopads/.default={}, pics/od iopads/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{-(\odn-1)*0.13+(\odi-1)*0.26}
+    \path[od signal] (-0.1,\ody-0.09) rectangle (0.1,\ody+0.09);
+    \odport[electrical]{e\odi}{0.1,\ody}
+  }
+}}}
+% A metal route: one strip of signal metal.
+\tikzset{pics/od metalroute/.default={}, pics/od metalroute/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \path[od signal] (-0.5,-0.06) rectangle (0.5,0.06);
+  \odport[electrical]{e1}{-0.5,0}\odport[electrical]{e2}{0.5,0}
+}}}
+% A signal arrow: which way a signal goes.
+\tikzset{pics/od signalarrow/.default={}, pics/od signalarrow/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \ifx\odlook\odlooktwod                    % 2D: a filled arrow
+    \draw[od hair, draw=ods600, left color=ods300, right color=ods600]
+      (-0.4,-0.035) -- (0.2,-0.035) -- (0.2,-0.1) -- (0.4,0) -- (0.2,0.1) -- (0.2,0.035) -- (-0.4,0.035) -- cycle;
+  \else
+    \draw[od wg, -{Stealth[length=5pt,width=4.2pt]}] (-0.4,0) -- (0.4,0);
+  \fi
+  \odport[electrical]{in}{-0.4,0}\odport[electrical]{out}{0.4,0}
+}}}
+% A printed circuit board: edge pads on two sides, traces and vias between them.
+% e1..e6 go down the left side, e7..e12 down the right side. kind=plain: the board and its pads, no traces or vias.
+\tikzset{pics/od pcb/.default={}, pics/od pcb/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od pcb] (-0.8,-0.52) rectangle (0.8,0.52);
+  \edef\odkind{\odget{kind}}\def\odtmp{plain}\ifx\odkind\odtmp\else
+  \draw[od ray, od paint={}{line width=0.45pt*\odls, draw=odgoldB}] (-0.7,0.4) -- (-0.2,0.4) -- (0.1,0.24) -- (0.7,0.24) (-0.7,0.08) -- (0.25,0.08) -- (0.4,-0.08) -- (0.7,-0.08)
+    (-0.7,-0.24) -- (-0.3,-0.24) -- (-0.1,-0.4) -- (0.7,-0.4);
+  \fill[od paint={}{fill=odgoldA}] (-0.2,0.4) circle [radius=0.03] (0.25,0.08) circle [radius=0.03] (-0.3,-0.24) circle [radius=0.03];
+  \fi
+  \foreach \odi in {1,...,6} {
+    \pgfmathsetmacro\ody{0.4-(\odi-1)*0.16}
+    \pgfmathtruncatemacro\odj{\odi+6}
+    \path[od signal] (-0.8,\ody-0.045) rectangle (-0.68,\ody+0.045);
+    \path[od signal] (0.68,\ody-0.045) rectangle (0.8,\ody+0.045);
+    \odport[electrical]{e\odi}{-0.8,\ody}\odport[electrical]{e\odj}{0.8,\ody}
+  }
+}}}

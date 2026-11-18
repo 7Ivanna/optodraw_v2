@@ -1,0 +1,169 @@
+% od-circuit.tex : circuit parts, as IEC 60617 line symbols. Load od-core.tex first; the bodies use od block
+% (od-electronics.tex). The numbers of each pic are the plan of its class (PORTS, LINES, BODY) in
+% optodraw/components/electronics/circuit.py: change both together.
+
+% ---------------------------------------------------------------- resistor
+% A rectangle between two leads.   e1 (left) e2 (right)
+\tikzset{pics/od resistor/.default={}, pics/od resistor/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.5,0) -- (-0.3,0) (0.3,0) -- (0.5,0);
+  \draw[od block] (-0.3,-0.1) rectangle (0.3,0.1);
+  \odport[electrical]{e1}{-0.5,0}\odport[electrical]{e2}{0.5,0}
+}}}
+
+% ---------------------------------------------------------------- capacitor
+% Two plates between two leads.   e1 (left) e2 (right)
+\tikzset{pics/od capacitor/.default={}, pics/od capacitor/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.5,0) -- (-0.06,0) (0.06,0) -- (0.5,0);
+  \draw[od el, line width=1.1pt*\odls, line cap=butt] (-0.06,-0.2) -- (-0.06,0.2) (0.06,-0.2) -- (0.06,0.2);
+  \odport[electrical]{e1}{-0.5,0}\odport[electrical]{e2}{0.5,0}
+}}}
+
+% ---------------------------------------------------------------- inductor
+% Four half turns between two leads.   e1 (left) e2 (right)
+\tikzset{pics/od inductor/.default={}, pics/od inductor/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.5,0) -- (-0.32,0) arc[start angle=180, end angle=0, radius=0.08]
+    arc[start angle=180, end angle=0, radius=0.08] arc[start angle=180, end angle=0, radius=0.08]
+    arc[start angle=180, end angle=0, radius=0.08] -- (0.5,0);
+  \odport[electrical]{e1}{-0.5,0}\odport[electrical]{e2}{0.5,0}
+}}}
+
+% ---------------------------------------------------------------- operational amplifier
+% A triangle; the minus sign marks the inverting input.   in_n, in_p (left) out (right) v_pos (top) v_neg (bottom)
+\tikzset{pics/od opamp/.default={}, pics/od opamp/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.6,0.2) -- (-0.4,0.2) (-0.6,-0.2) -- (-0.4,-0.2) (0.4,0) -- (0.6,0) (0,0.2) -- (0,0.4) (0,-0.2) -- (0,-0.4);
+  \draw[od block] (-0.4,-0.4) -- (-0.4,0.4) -- (0.4,0) -- cycle;
+  \draw[od el] (-0.34,0.2) -- (-0.22,0.2) (-0.34,-0.2) -- (-0.22,-0.2) (-0.28,-0.26) -- (-0.28,-0.14);
+  \odport[electrical]{in_n}{-0.6,0.2}\odport[electrical]{in_p}{-0.6,-0.2}\odport[electrical]{out}{0.6,0}
+  \odport[electrical]{v_pos}{0,0.4}\odport[electrical]{v_neg}{0,-0.4}
+}}}
+
+% ---------------------------------------------------------------- ground
+% A lead down to three bars that get shorter.   e1 (top)
+\tikzset{pics/od ground/.default={}, pics/od ground/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (0,0.3) -- (0,0) (-0.2,0) -- (0.2,0) (-0.13,-0.08) -- (0.13,-0.08) (-0.06,-0.16) -- (0.06,-0.16);
+  \odport[electrical]{e1}{0,0.3}
+}}}
+
+% ---------------------------------------------------------------- bias tee
+% In a case: RF through a series capacitor; DC in through an inductor to the junction.
+%   rf (left) rf_dc (right) dc (top)
+\tikzset{pics/od biastee/.default={}, pics/od biastee/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od block] (-0.45,-0.2) rectangle (0.45,0.42);
+  \draw[od el] (-0.7,0) -- (-0.24,0) (-0.16,0) -- (0.7,0);
+  \draw[od el, line width=1.1pt*\odls, line cap=butt] (-0.24,-0.12) -- (-0.24,0.12) (-0.16,-0.12) -- (-0.16,0.12);
+  \draw[od el] (0.2,0) -- (0.2,0.06) arc[start angle=-90, end angle=90, radius=0.05]
+    arc[start angle=-90, end angle=90, radius=0.05] arc[start angle=-90, end angle=90, radius=0.05] -- (0.2,0.62);
+  \fill[od paint={}{ods600}] (0.2,0) circle [radius=0.025];
+  \odport[electrical]{rf}{-0.7,0}\odport[electrical]{rf_dc}{0.7,0}\odport[electrical]{dc}{0.2,0.62}
+}}}
+
+% ---------------------------------------------------------------- RF mixer
+% A circle with a cross.   rf (left) if (right) lo (bottom)
+\tikzset{pics/od mixer/.default={}, pics/od mixer/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.55,0) -- (-0.3,0) (0.3,0) -- (0.55,0) (0,-0.3) -- (0,-0.55);
+  \draw[od block] (0,0) circle [radius=0.3];
+  \draw[od el] (-0.212,-0.212) -- (0.212,0.212) (-0.212,0.212) -- (0.212,-0.212);
+  \odport[electrical]{rf}{-0.55,0}\odport[electrical]{if}{0.55,0}\odport[electrical]{lo}{0,-0.55}
+}}}
+
+% ---------------------------------------------------------------- amplifier
+% The IEC triangle, pointing the way the signal runs.   in (left) out (right)
+\tikzset{pics/od amp/.default={}, pics/od amp/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.5,0) -- (-0.3,0) (0.3,0) -- (0.5,0);
+  \draw[od block] (-0.3,-0.3) -- (-0.3,0.3) -- (0.3,0) -- cycle;
+  \odport[electrical]{in}{-0.5,0}\odport[electrical]{out}{0.5,0}
+}}}
+
+% ---------------------------------------------------------------- filter
+% A box with three waves, low frequency at the bottom; a stroke through a wave stops that band.
+%   response=lowpass (top struck) | highpass (bottom) | bandpass (top and bottom) | bandstop (middle)
+%   in (left) out (right)
+\pgfkeys{/od/.cd, response/.initial=lowpass}
+\tikzset{pics/od rffilter/.default={}, pics/od rffilter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.5,0) -- (-0.3,0) (0.3,0) -- (0.5,0);
+  \draw[od block] (-0.3,-0.3) rectangle (0.3,0.3);
+  \foreach \ody in {0.15,0,-0.15} {\draw[od el] plot[domain=-0.18:0.18, samples=25, smooth] (\x, {\ody+0.04*sin(\x*1000)});}
+  \edef\odresp{\odget{response}}
+  \def\odtmpa{lowpass}\ifx\odresp\odtmpa \draw[od el] (-0.07,0.08) -- (0.07,0.22); \fi
+  \def\odtmpa{highpass}\ifx\odresp\odtmpa \draw[od el] (-0.07,-0.22) -- (0.07,-0.08); \fi
+  \def\odtmpa{bandpass}\ifx\odresp\odtmpa \draw[od el] (-0.07,0.08) -- (0.07,0.22) (-0.07,-0.22) -- (0.07,-0.08); \fi
+  \def\odtmpa{bandstop}\ifx\odresp\odtmpa \draw[od el] (-0.07,-0.07) -- (0.07,0.07); \fi
+  \odport[electrical]{in}{-0.5,0}\odport[electrical]{out}{0.5,0}
+}}}
+
+% ---------------------------------------------------------------- PID controller
+% An amplifier with a resistor and a capacitor in series in its feedback path: the PI integrator of a servo.
+%   in (left) out (right). The numbers are PIDController.LINES and BODY.
+\tikzset{pics/od pid/.default={}, pics/od pid/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.5,0) -- (-0.3,0) (0.3,0) -- (0.5,0);
+  \draw[od block] (-0.3,-0.3) -- (-0.3,0.3) -- (0.3,0) -- cycle;
+  \draw[od el] (-0.4,0) -- (-0.4,0.44) -- (-0.2,0.44) (0,0.44) -- (0.12,0.44) (0.18,0.44) -- (0.4,0.44) -- (0.4,0);
+  \draw[od block] (-0.2,0.39) rectangle (0,0.49);
+  \draw[od el, line width=1.1pt*\odls, line cap=butt] (0.12,0.34) -- (0.12,0.54) (0.18,0.34) -- (0.18,0.54);
+  \fill[od paint={}{ods600}] (-0.4,0) circle [radius=0.025] (0.4,0) circle [radius=0.025];
+  \odport[electrical]{in}{-0.5,0}\odport[electrical]{out}{0.5,0}
+}}}
+
+% ---------------------------------------------------------------- signal source
+% A circle with one period of a sine, the output lead at the right.   out (right)
+\tikzset{pics/od signalsource/.default={}, pics/od signalsource/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (0.3,0) -- (0.55,0);
+  \draw[od block] (0,0) circle [radius=0.3];
+  \draw[od el] plot[domain=-0.18:0.18, samples=25, smooth] (\x, {0.1*sin((\x+0.18)*1000)});
+  \odport[electrical]{out}{0.55,0}
+}}}
+
+% ---------------------------------------------------------------- summing junction
+% A circle with a plus; the sign of each input beside its lead. minus: in2 is subtracted.
+%   in1 (left) in2 (bottom) out (right). The numbers are SummingJunction.LINES and SIGN_AT.
+\newif\ifodminus \odminusfalse
+\pgfkeys{/od/.cd, minus/.is if=odminus}
+\tikzset{pics/od sumjunction/.default={}, pics/od sumjunction/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.55,0) -- (-0.3,0) (0.3,0) -- (0.55,0) (0,-0.55) -- (0,-0.3);
+  \draw[od block] (0,0) circle [radius=0.3];
+  \draw[od el] (-0.16,0) -- (0.16,0) (0,-0.16) -- (0,0.16);
+  \draw[od el] (-0.49,0.16) -- (-0.39,0.16) (-0.44,0.11) -- (-0.44,0.21) (-0.19,-0.44) -- (-0.09,-0.44);
+  \ifodminus\else \draw[od el] (-0.14,-0.49) -- (-0.14,-0.39); \fi
+  \odport[electrical]{in1}{-0.55,0}\odport[electrical]{in2}{0,-0.55}\odport[electrical]{out}{0.55,0}
+}}}
+
+% ---------------------------------------------------------------- RF power splitter
+% A box with a fork: one input, two equal outputs.   in (left) out1, out2 (right). RFSplitter.LINES and BODY.
+\tikzset{pics/od rfsplitter/.default={}, pics/od rfsplitter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od block] (-0.3,-0.3) rectangle (0.3,0.3);
+  \draw[od el] (-0.5,0) -- (-0.05,0) (-0.05,-0.15) -- (-0.05,0.15) (-0.05,0.15) -- (0.5,0.15) (-0.05,-0.15) -- (0.5,-0.15);
+  \fill[od paint={}{ods600}] (-0.05,0) circle [radius=0.025];
+  \odport[electrical]{in}{-0.5,0}\odport[electrical]{out1}{0.5,0.15}\odport[electrical]{out2}{0.5,-0.15}
+}}}
+
+% ---------------------------------------------------------------- RF directional coupler
+% A box with the main line through and a coupled line beside it.   in (left) out (right) cpl (top)
+\tikzset{pics/od rfcoupler/.default={}, pics/od rfcoupler/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od block] (-0.3,-0.3) rectangle (0.3,0.3);
+  \draw[od el] (-0.5,0) -- (0.5,0) (-0.2,0.13) -- (0.2,0.13) -- (0.2,0.5);
+  \odport[electrical]{in}{-0.5,0}\odport[electrical]{out}{0.5,0}\odport[electrical]{cpl}{0.2,0.5}
+}}}
+
+% ---------------------------------------------------------------- RF phase shifter
+% A box with phi as a ring and a stroke: it reads the same turned or mirrored.   in (left) out (right)
+\tikzset{pics/od rfphase/.default={}, pics/od rfphase/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od el] (-0.5,0) -- (-0.3,0) (0.3,0) -- (0.5,0);
+  \draw[od block] (-0.3,-0.3) rectangle (0.3,0.3);
+  \draw[od el] (0,0) circle [radius=0.1] (0,-0.19) -- (0,0.19);
+  \odport[electrical]{in}{-0.5,0}\odport[electrical]{out}{0.5,0}
+}}}

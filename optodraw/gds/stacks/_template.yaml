@@ -1,0 +1,45 @@
+# optodraw layer-stack TEMPLATE — gives a GDS real z-offset + thickness in 3D
+# and cross-sections. Copy this, fill in your foundry's numbers, and load it in
+# the editor via:  select a GDSModel  ->  "Attach tech / stack file"  ->  your .yml
+#
+# Foundry process data is usually under NDA, so optodraw does NOT bundle real
+# foundry stacks — you keep your own file (exactly like a PDK install). This
+# template and the stacks of open PDKs (gdsfactory generic, SiEPIC EBeam,
+# CornerStone) are the only ones shipped.
+#
+# FORMAT — one entry per GDS drawing layer, keyed by "layer/datatype":
+#   name        human label (shown in the layer panel)
+#   zmin        bottom of the layer, in microns (z = 0 = bottom of the device layer)
+#   thickness   layer thickness in microns
+#   material    a material preset: silicon, germanium, sio2, silicon_nitride,
+#               aluminum, copper, titanium_nitride, gold, ... (drives 3D look)
+#   color       hex, e.g. "#c0392b"
+#   opacity     0..1 (optional; handy for implants drawn inside the waveguide)
+#
+# The numbers below are a GENERIC 220 nm SOI EXAMPLE. Replace every value with
+# your foundry's process (from its cross-section / process docs).
+
+name: My PDK (edit me)
+units: um
+
+# OPTIONAL process envelope. If omitted, optodraw DERIVES it from the layers:
+# the tallest etch (material: air) top = the cladding surface; an etch dipping
+# below z=0 sets the BOX depth. Explicit values here are authoritative.
+oxide:
+  box:    {thickness: 2.0, material: sio2}   # buried oxide below z=0
+  tox:    {thickness: 2.0, material: sio2}   # top cladding above z=0 (device embedded)
+  handle: {thickness: 2.0, material: silicon}
+
+layers:
+  "1/0":  {name: Waveguide,  zmin: 0.00, thickness: 0.220, material: silicon,   color: "#c0392b"}
+  "2/0":  {name: Slab 150nm, zmin: 0.00, thickness: 0.150, material: silicon,   color: "#e74c3c"}
+  "3/0":  {name: Slab 90nm,  zmin: 0.00, thickness: 0.090, material: silicon,   color: "#f1948a"}
+  "5/0":  {name: Germanium,  zmin: 0.22, thickness: 0.500, material: germanium, color: "#27ae60"}
+  # implants live inside the silicon — thin + semi-transparent
+  "20/0": {name: N implant,  zmin: 0.16, thickness: 0.030, material: silicon,   color: "#2980b9", opacity: 0.5}
+  "21/0": {name: P implant,  zmin: 0.16, thickness: 0.030, material: silicon,   color: "#9b59b6", opacity: 0.5}
+  # contacts + metal routing
+  "40/0": {name: Contact via, zmin: 0.22, thickness: 0.880, material: copper,   color: "#b87333"}
+  "41/0": {name: Metal 1,     zmin: 1.10, thickness: 0.700, material: aluminum, color: "#bdc3c7"}
+  "45/0": {name: Metal 2,     zmin: 2.30, thickness: 0.700, material: aluminum, color: "#95a5a6"}
+  "47/0": {name: Heater,      zmin: 1.10, thickness: 0.200, material: titanium_nitride, color: "#af7ac5"}

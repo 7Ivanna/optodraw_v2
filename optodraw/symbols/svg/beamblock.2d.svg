@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.84012 27.238824" width="19.84012pt" height="27.238824pt"><g transform="translate(72.0,72.0)">
+<g id='od-beamblock-page1'>
+<g stroke-miterlimit='10' transform='translate(-62.079944,-59.103496)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-beamblock-pgfcp6'>
+<path d='M-1.19514-9.38954V-3.4143H1.19514V-9.38954ZM1.19514-3.4143'/> </clipPath>
+<g clip-path='url(#od-beamblock-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,-6.40192)'>
+<g transform='matrix(0.04762,0,0,0.11906,0.0,0.0)'>
+<linearGradient id='od-beamblock-pgfsh3'>
+ <stop offset='0.0' stop-color=' #94a3b8 '/>
+ <stop offset='0.25' stop-color=' #94a3b8 '/>
+ <stop offset='0.37999' stop-color=' #e2e8f0 '/>
+ <stop offset='0.45999' stop-color=' #f8fafc '/>
+ <stop offset='0.57999' stop-color=' #e2e8f0 '/>
+ <stop offset='0.75' stop-color=' #64748b '/>
+ <stop offset='1.0' stop-color=' #64748b '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-beamblock-pgfsh3); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.19514-9.38954V-3.4143H1.19514V-9.38954ZM1.19514-3.4143' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-7.68227-12.12111V-9.04803H7.68227V-12.12111ZM7.68227-9.04803' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-7.68227-12.12111V-9.04803H7.68227V-12.12111ZM7.68227-9.04803' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-7.68227-12.12111V-9.04803H7.68227V-12.12111ZM7.68227-9.04803' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-7.68227-12.12111V-9.04803H7.68227V-12.12111ZM7.68227-9.04803' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-beamblock-pgfcp7'>
+<path d='M-7.68227-12.12111V-9.04803H7.68227V-12.12111ZM7.68227-9.04803'/> </clipPath>
+<g clip-path='url(#od-beamblock-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.0,-10.58456)'>
+<g transform='matrix(0.30618,0,0,0.06123,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-beamblock-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-beamblock-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-7.68227-12.12111V-9.04803H7.68227V-12.12111ZM7.68227-9.04803' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-1.53639-3.84126V10.66988H1.53639V-3.84126ZM1.53639 10.66988' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-1.53639-3.84126V10.66988H1.53639V-3.84126ZM1.53639 10.66988' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-1.53639-3.84126V10.66988H1.53639V-3.84126ZM1.53639 10.66988' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-1.53639-3.84126V10.66988H1.53639V-3.84126ZM1.53639 10.66988' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-beamblock-pgfcp8'>
+<path d='M-1.53639-3.84126V10.66988H1.53639V-3.84126ZM1.53639 10.66988'/> </clipPath>
+<g clip-path='url(#od-beamblock-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,3.4143)'>
+<g transform='matrix(0.06123,0,0,0.28917,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-beamblock-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-beamblock-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.53639-3.84126V10.66988H1.53639V-3.84126ZM1.53639 10.66988' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

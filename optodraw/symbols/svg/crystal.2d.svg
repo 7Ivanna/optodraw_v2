@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.541021 18.139587" width="21.541021pt" height="18.139587pt"><g transform="translate(72.0,72.0)">
+<g id='od-crystal-page1'>
+<g stroke-miterlimit='10' transform='translate(-61.229496,-62.93021)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#9a7a1f'>
+<clipPath id='od-crystal-pgfcp6'>
+<path d='M-8.5359-6.82881V6.82881H8.5359V-6.82881ZM8.5359 6.82881'/> </clipPath>
+<g clip-path='url(#od-crystal-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.3402,0,0,0.27216,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-crystal-pgfsh7'>
+ <stop offset='0.0' stop-color=' #ebd58a '/>
+ <stop offset='0.25' stop-color=' #ebd58a '/>
+ <stop offset='0.5' stop-color=' #f3e4b0 '/>
+ <stop offset='0.75' stop-color=' #fbf3d5 '/>
+ <stop offset='1.0' stop-color=' #fbf3d5 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-crystal-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-8.5359-6.82881V6.82881H8.5359V-6.82881ZM8.5359 6.82881' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#9a7a1f'>
+<path d='M-8.5359-6.82881L8.5359 6.82881' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

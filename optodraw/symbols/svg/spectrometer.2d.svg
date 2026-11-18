@@ -1,0 +1,791 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.226999 41.165091" width="47.226999pt" height="41.165091pt"><g transform="translate(72.0,72.0)">
+<g id='od-spectrometer-page1'>
+<g stroke-miterlimit='10' transform='translate(-48.47368,-55.385946)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M8.2511-22.1931V-15.36429H20.20163V-22.1931ZM20.20163-15.36429' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M8.2511-22.1931V-15.36429H20.20163V-22.1931ZM20.20163-15.36429' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M8.2511-22.1931V-15.36429H20.20163V-22.1931ZM20.20163-15.36429' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M8.2511-22.1931V-15.36429H20.20163V-22.1931ZM20.20163-15.36429' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-spectrometer-pgfcp6'>
+<path d='M8.2511-22.1931V-15.36429H20.20163V-22.1931ZM20.20163-15.36429'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp6)'>
+<g transform='matrix(1,0,0,1,14.22636,-18.77869)'>
+<g transform='matrix(0.23814,0,0,0.13608,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M8.2511-22.1931V-15.36429H20.20163V-22.1931ZM20.20163-15.36429' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fb923c' stroke='#fb923c'>
+<path d='M8.2511-16.64503V-16.21826H20.20163V-16.64503ZM20.20163-16.21826' stroke='none'/>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M9.67383-21.62392V-17.64055' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M11.38092-21.62392V-17.64055' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M13.08801-21.62392V-17.64055' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M14.7951-21.62392V-17.64055' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M16.5022-21.62392V-17.64055' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M18.20929-21.62392V-17.64055' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-spectrometer-pgfcp8'>
+<path d='M9.95863-15.36429V-13.94199H18.4941V-15.36429ZM18.4941-13.94199'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp8)'>
+<g transform='matrix(1,0,0,1,14.22635,-14.65314)'>
+<g transform='matrix(0.17009,0,0,0.02834,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M9.95863-15.36429V-13.94199H18.4941V-15.36429ZM18.4941-13.94199' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-19.0633 14.22636H20.77039C21.08473 14.22636 21.33955 13.97154 21.33955 13.6572V-13.6572C21.33955-13.97154 21.08473-14.22636 20.77039-14.22636H-7.96674C-8.28108-14.22636-8.73788-14.071-8.98701-13.87936L-19.18135-6.03746C-19.43048-5.84583-19.63246-5.43564-19.63246-5.12129V13.6572C-19.63246 13.97154-19.37764 14.22636-19.0633 14.22636Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-19.0633 14.22636H20.77039C21.08473 14.22636 21.33955 13.97154 21.33955 13.6572V-13.6572C21.33955-13.97154 21.08473-14.22636 20.77039-14.22636H-7.96674C-8.28108-14.22636-8.73788-14.071-8.98701-13.87936L-19.18135-6.03746C-19.43048-5.84583-19.63246-5.43564-19.63246-5.12129V13.6572C-19.63246 13.97154-19.37764 14.22636-19.0633 14.22636Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-19.0633 14.22636H20.77039C21.08473 14.22636 21.33955 13.97154 21.33955 13.6572V-13.6572C21.33955-13.97154 21.08473-14.22636 20.77039-14.22636H-7.96674C-8.28108-14.22636-8.73788-14.071-8.98701-13.87936L-19.18135-6.03746C-19.43048-5.84583-19.63246-5.43564-19.63246-5.12129V13.6572C-19.63246 13.97154-19.37764 14.22636-19.0633 14.22636Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-19.0633 14.22636H20.77039C21.08473 14.22636 21.33955 13.97154 21.33955 13.6572V-13.6572C21.33955-13.97154 21.08473-14.22636 20.77039-14.22636H-7.96674C-8.28108-14.22636-8.73788-14.071-8.98701-13.87936L-19.18135-6.03746C-19.43048-5.84583-19.63246-5.43564-19.63246-5.12129V13.6572C-19.63246 13.97154-19.37764 14.22636-19.0633 14.22636Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-spectrometer-pgfcp9'>
+<path d='M-19.0633 14.22636H20.77039C21.08473 14.22636 21.33955 13.97154 21.33955 13.6572V-13.6572C21.33955-13.97154 21.08473-14.22636 20.77039-14.22636H-7.96674C-8.28108-14.22636-8.73788-14.071-8.98701-13.87936L-19.18135-6.03746C-19.43048-5.84583-19.63246-5.43564-19.63246-5.12129V13.6572C-19.63246 13.97154-19.37764 14.22636-19.0633 14.22636Z'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp9)'>
+<g transform='matrix(1,0,0,1,0.85355,0.0)'>
+<g transform='matrix(0.81648,0,0,0.567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-19.0633 14.22636H20.77039C21.08473 14.22636 21.33955 13.97154 21.33955 13.6572V-13.6572C21.33955-13.97154 21.08473-14.22636 20.77039-14.22636H-7.96674C-8.28108-14.22636-8.73788-14.071-8.98701-13.87936L-19.18135-6.03746C-19.43048-5.84583-19.63246-5.43564-19.63246-5.12129V13.6572C-19.63246 13.97154-19.37764 14.22636-19.0633 14.22636Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a' stroke='#0f172a'>
+<path d='M-18.20973 12.80363H19.91682V-12.80363H-7.96672L-18.20973-5.12128Z' stroke='none'/>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#475569'>
+<g fill='#1e293b'>
+<path d='M4.9793-8.2511C4.9793-5.81543 3.00484-3.84097 .56917-3.84097S-3.84096-5.81543-3.84096-8.2511S-1.8665-12.66122 .56917-12.66122S4.9793-10.68677 4.9793-8.2511ZM.56917-8.2511'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g fill-opacity='0.32'>
+<path d='M-19.63246 0L-11.4239 1.66454L-9.84444 11.29582L-16.33202 9.19017L-14.19206-1.10405Z' stroke='none'/>
+</g>
+</g>
+<g fill='#fff' stroke='#fff'>
+<g fill-opacity='0.24'>
+<path d='M-16.33202 9.19017L-9.84444 11.29582L4.58075-8.5359H-3.44284Z' stroke='none'/>
+</g>
+</g>
+<g fill='#8b5cf6' stroke='#8b5cf6'>
+<g fill-opacity='0.9'>
+<path d='M-.85355-8.5359L10.97975 11.29843L12.27832 10.87599L-.11374-8.5359Z' stroke='none'/>
+</g>
+</g>
+<g fill='#8b5cf6' stroke='#8b5cf6'>
+<g fill-opacity='0.9'>
+<path d='M10.97975 11.29843L12.27832 10.87599L11.62926-11.95009Z' stroke='none'/>
+</g>
+</g>
+<g fill='#38bdf8' stroke='#38bdf8'>
+<g fill-opacity='0.9'>
+<path d='M-.11374-8.5359L12.27832 10.87599L13.57687 10.45357L.62604-8.5359Z' stroke='none'/>
+</g>
+</g>
+<g fill='#38bdf8' stroke='#38bdf8'>
+<g fill-opacity='0.9'>
+<path d='M12.27832 10.87599L13.57687 10.45357L12.92781-11.95009Z' stroke='none'/>
+</g>
+</g>
+<g fill='#4ade80' stroke='#4ade80'>
+<g fill-opacity='0.9'>
+<path d='M.62604-8.5359L13.57687 10.45357L14.87543 10.03113L1.36584-8.5359Z' stroke='none'/>
+</g>
+</g>
+<g fill='#4ade80' stroke='#4ade80'>
+<g fill-opacity='0.9'>
+<path d='M13.57687 10.45357L14.87543 10.03113L14.22636-11.95009Z' stroke='none'/>
+</g>
+</g>
+<g fill='#facc15' stroke='#facc15'>
+<g fill-opacity='0.9'>
+<path d='M1.36584-8.5359L14.87543 10.03113L16.17398 9.6087L2.10564-8.5359Z' stroke='none'/>
+</g>
+</g>
+<g fill='#facc15' stroke='#facc15'>
+<g fill-opacity='0.9'>
+<path d='M14.87543 10.03113L16.17398 9.6087L15.52492-11.95009Z' stroke='none'/>
+</g>
+</g>
+<g fill='#f87171' stroke='#f87171'>
+<g fill-opacity='0.9'>
+<path d='M2.10564-8.5359L16.17398 9.6087L17.47253 9.18626L2.84544-8.5359Z' stroke='none'/>
+</g>
+</g>
+<g fill='#f87171' stroke='#f87171'>
+<g fill-opacity='0.9'>
+<path d='M16.17398 9.6087L17.47253 9.18626L16.82347-11.95009Z' stroke='none'/>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-spectrometer-pgfcp10'>
+<path d='M-14.09447-2.61525L-14.65779-2.05193L-11.03651 1.56935L-10.47319 1.00603ZM-11.03651 1.56935'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp10)'>
+<g transform='matrix(1,0,0,1,-12.56548,-0.52295)'>
+<g transform='matrix(0.08339,0,0,0.08339,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-14.09447-2.61525L-14.65779-2.05193L-11.03651 1.56935L-10.47319 1.00603ZM-11.03651 1.56935' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-spectrometer-pgfcp11'>
+<path d='M-14.65779-2.05193L-14.89908-1.81064L-11.2778 1.81064L-11.03651 1.56935ZM-11.2778 1.81064'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp11)'>
+<g transform='matrix(1,0,0,1,-12.96779,-0.12064)'>
+<g transform='matrix(0.07697,0,0,0.07697,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-14.65779-2.05193L-14.89908-1.81064L-11.2778 1.81064L-11.03651 1.56935ZM-11.2778 1.81064' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-spectrometer-pgfcp12'>
+<path d='M-9.51775 11.2238C-11.96396 11.38622-14.67014 10.50694-16.5537 8.9377L-17.04605 10.45303L-10.0101 12.73914Z'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp12)'>
+<g transform='matrix(1,0,0,1,-13.28189,10.83841)'>
+<g transform='matrix(0.15001,0,0,0.07574,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-9.51775 11.2238C-11.96396 11.38622-14.67014 10.50694-16.5537 8.9377L-17.04605 10.45303L-10.0101 12.73914Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-spectrometer-pgfcp13'>
+<path d='M-9.35944 10.73656C-11.80565 10.89899-14.51183 10.01971-16.39539 8.45045L-16.5537 8.9377C-14.67014 10.50694-11.96396 11.38622-9.51775 11.2238Z'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp13)'>
+<g transform='matrix(1,0,0,1,-12.95656,9.91832)'>
+<g transform='matrix(0.14336,0,0,0.0585,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-9.35944 10.73656C-11.80565 10.89899-14.51183 10.01971-16.39539 8.45045L-16.5537 8.9377C-14.67014 10.50694-11.96396 11.38622-9.51775 11.2238Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-spectrometer-pgfcp14'>
+<path d='M17.69162 8.9377C15.80806 10.50694 13.10188 11.38622 10.65567 11.2238L11.14803 12.73914L18.18398 10.45303Z'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp14)'>
+<g transform='matrix(1,0,0,1,14.41982,10.83841)'>
+<g transform='matrix(0.15001,0,0,0.07574,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M17.69162 8.9377C15.80806 10.50694 13.10188 11.38622 10.65567 11.2238L11.14803 12.73914L18.18398 10.45303Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-spectrometer-pgfcp15'>
+<path d='M17.53331 8.45045C15.64975 10.01971 12.94357 10.89899 10.49736 10.73656L10.65567 11.2238C13.10188 11.38622 15.80806 10.50694 17.69162 8.9377Z'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp15)'>
+<g transform='matrix(1,0,0,1,14.09448,9.91832)'>
+<g transform='matrix(0.14336,0,0,0.0585,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M17.53331 8.45045C15.64975 10.01971 12.94357 10.89899 10.49736 10.73656L10.65567 11.2238C13.10188 11.38622 15.80806 10.50694 17.69162 8.9377Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-spectrometer-pgfcp16'>
+<path d='M-3.69899-9.81622V-9.04778H4.83691V-9.81622ZM4.83691-9.04778'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp16)'>
+<g transform='matrix(1,0,0,1,0.56897,-9.43199)'>
+<g transform='matrix(0.17009,0,0,0.0153,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-3.69899-9.81622V-9.04778H4.83691V-9.81622ZM4.83691-9.04778' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-spectrometer-pgfcp17'>
+<path d='M-3.69899-9.04778V-8.5359H4.83691V-9.04778ZM4.83691-8.5359'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp17)'>
+<g transform='matrix(1,0,0,1,0.56897,-8.79182)'>
+<g transform='matrix(0.17009,0,0,0.0102,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-3.69899-9.04778V-8.5359H4.83691V-9.04778ZM4.83691-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M-3.1298-9.04778L-2.56064-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M-1.9919-9.04778L-1.42271-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M-.85397-9.04778L-.28479-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M.28394-9.04778L.8531-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M1.42184-9.04778L1.99103-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M2.55977-9.04778L3.12894-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<path d='M3.6977-9.04778L4.26686-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-spectrometer-pgfcp18'>
+<path d='M10.243-13.08844V-12.51927H18.20973V-13.08844ZM18.20973-12.51927'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp18)'>
+<g transform='matrix(1,0,0,1,14.22635,-12.80385)'>
+<g transform='matrix(0.15875,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M10.243-13.08844V-12.51927H18.20973V-13.08844ZM18.20973-12.51927' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-spectrometer-pgfcp19'>
+<path d='M10.243-12.51927V-11.95009H11.38092V-12.51927ZM11.38092-11.95009'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp19)'>
+<g transform='matrix(1,0,0,1,10.81195,-12.23466)'>
+<g transform='matrix(0.02267,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh20'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh20); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M10.243-12.51927V-11.95009H11.38092V-12.51927ZM11.38092-11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-spectrometer-pgfcp21'>
+<path d='M11.38092-12.51927V-11.95009H12.51883V-12.51927ZM12.51883-11.95009'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp21)'>
+<g transform='matrix(1,0,0,1,11.94987,-12.23466)'>
+<g transform='matrix(0.02267,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh20'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh20); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M11.38092-12.51927V-11.95009H12.51883V-12.51927ZM12.51883-11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-spectrometer-pgfcp22'>
+<path d='M12.51883-12.51927V-11.95009H13.65675V-12.51927ZM13.65675-11.95009'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp22)'>
+<g transform='matrix(1,0,0,1,13.08778,-12.23466)'>
+<g transform='matrix(0.02267,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh20'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh20); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M12.51883-12.51927V-11.95009H13.65675V-12.51927ZM13.65675-11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-spectrometer-pgfcp23'>
+<path d='M13.65675-12.51927V-11.95009H14.79468V-12.51927ZM14.79468-11.95009'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp23)'>
+<g transform='matrix(1,0,0,1,14.22571,-12.23466)'>
+<g transform='matrix(0.02267,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh20'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh20); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M13.65675-12.51927V-11.95009H14.79468V-12.51927ZM14.79468-11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-spectrometer-pgfcp24'>
+<path d='M14.79468-12.51927V-11.95009H15.93259V-12.51927ZM15.93259-11.95009'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp24)'>
+<g transform='matrix(1,0,0,1,15.36363,-12.23466)'>
+<g transform='matrix(0.02267,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh20'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh20); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M14.79468-12.51927V-11.95009H15.93259V-12.51927ZM15.93259-11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-spectrometer-pgfcp25'>
+<path d='M15.93259-12.51927V-11.95009H17.07051V-12.51927ZM17.07051-11.95009'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp25)'>
+<g transform='matrix(1,0,0,1,16.50154,-12.23466)'>
+<g transform='matrix(0.02267,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh20'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh20); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M15.93259-12.51927V-11.95009H17.07051V-12.51927ZM17.07051-11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-spectrometer-pgfcp26'>
+<path d='M17.07051-12.51927V-11.95009H18.20844V-12.51927ZM18.20844-11.95009'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp26)'>
+<g transform='matrix(1,0,0,1,17.63947,-12.23466)'>
+<g transform='matrix(0.02267,0,0,0.01134,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh20'>
+ <stop offset='0.0' stop-color=' #334155 '/>
+ <stop offset='0.25' stop-color=' #334155 '/>
+ <stop offset='0.5' stop-color=' #3d4b5f '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh20); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M17.07051-12.51927V-11.95009H18.20844V-12.51927ZM18.20844-11.95009' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-spectrometer-pgfcp27'>
+<path d='M-21.33955-4.26773V4.26773H-19.63246V-4.26773ZM-19.63246 4.26773'/> </clipPath>
+<g clip-path='url(#od-spectrometer-pgfcp27)'>
+<g transform='matrix(1,0,0,1,-20.486,0.0)'>
+<g transform='matrix(0.03401,0,0,0.17009,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-spectrometer-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-spectrometer-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-21.33955-4.26773V4.26773H-19.63246V-4.26773ZM-19.63246 4.26773' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#1e293b' stroke='#1e293b'>
+<path d='M-21.33955 .62604V2.84544H-19.63246V.62604ZM-21.33955-.62604V-2.84544H-19.63246V-.62604ZM-19.63246-2.84544' stroke='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

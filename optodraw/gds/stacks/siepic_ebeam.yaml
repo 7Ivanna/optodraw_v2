@@ -1,0 +1,68 @@
+# SiEPIC EBeam PDK — layer stack
+# Source (authoritative): github.com/SiEPIC/SiEPIC_EBeam_PDK
+#   klayout/EBeam/EBeam.lyp         -> GDS layer/datatype, names, colors
+#   klayout/EBeam/Silicon.lbr       -> Si flow z-stack (Si 220 nm, BOX 2.0 um, TOX 3.42 um)
+#   klayout/EBeam/SiN.lbr           -> SiN flow z-stack (SiN 400 nm, BOX 4.5 um, TOX 3.0 um)
+#
+# z = 0 is the BOTTOM of the silicon device layer; +z is up; units = microns.
+# Optical layers (Si / SiN / BOX / TOX) are taken verbatim from the PDK process files.
+# Metal z (M1/M2/VC) is NOMINAL — the optical .lbr files carry no metals; verify against
+# the metal process for metal-critical work.
+# `tone: etch` marks SUBTRACTIVE layers (they remove oxide/Si rather than add material) —
+# carried for the deep-trench / oxide-open cross-section + 3D subtraction.
+
+name: SiEPIC EBeam (UBC)
+units: um
+
+# Full-area background oxide + handle (not GDS-drawn polygons — applied by the renderer's
+# oxide/cross-section handling so the device is EMBEDDED in oxide and deep-trench / oxide-
+# open / m_open etches carve the full TOX + BOX, not just the thin top.
+# This chip = SiEPIC EBeam **SiN process** — ANT spec: TOX = 4.5 µm, BOX = 4.5 µm.
+# (Si flow alternative — edit if importing a Si-process chip: box 2.0, tox 3.42.)
+oxide:
+  box:    {thickness: 4.5, material: sio2}     # buried oxide: z = -4.5 .. 0
+  tox:    {thickness: 4.5, material: sio2}     # top cladding: z = 0 .. 4.5 (device embedded)
+  handle: {thickness: 2.0, material: silicon}  # Si handle below the BOX (cosmetic depth; real wafer ~525 µm)
+
+layers:
+  # --- guiding layers (grow) ----------------------------------------------------------
+  "1/0":  {name: Si, zmin: 0.0, thickness: 0.22, material: silicon, color: "#ff80a8", tone: grow}
+  "4/0":  {name: SiN, zmin: 0.0, thickness: 0.40, material: silicon_nitride, color: "#a6cee3", tone: grow}   # SiN-on-Si runs deposit SiN above the Si — raise zmin (~0.3) if both processes coexist
+  "2/0":  {name: Si 90 nm rib, zmin: 0.0, thickness: 0.09, material: silicon, color: "#80a8ff", tone: grow}  # 90 nm slab (rib waveguides)
+  "1/69": {name: Si Litho 193 nm, zmin: 0.0, thickness: 0.22, material: silicon, color: "#cc80a8", tone: grow}
+
+  # --- etch / openings -----------------------------------------------------------------
+  # material: air -> drawn as a translucent VOID carved at its real depth. Convention:
+  # zmin = bottom of the etched region, thickness = up to the
+  # oxide surface (TOX top = 4.5). Do NOT leave these blank — they default to z=0/0.22.
+  "6/0":   {name: Oxide open (to BOX), zmin: 0.0,  thickness: 4.5, material: air, color: "#ffae00", opacity: 0.30}   # etch TOX down to the BOX surface
+  "201/0": {name: Deep Trench, zmin: -5.0, thickness: 9.5, material: air, color: "#5d6d7e", opacity: 0.28}           # through TOX + BOX into the handle
+  "203/0": {name: Isolation Trench, zmin: -2.0, thickness: 6.5, material: air, color: "#7f8c9a", opacity: 0.28}      # Si + BOX isolation (approx depth)
+  "205/0": {name: Shelf Etch, zmin: 0.09, thickness: 0.13, material: air, color: "#c0e0c0", opacity: 0.40}           # partial Si etch (220 -> 90 nm slab)
+  "13/0":  {name: M_Open, zmin: 2.5, thickness: 2.0, material: air, color: "#000000", opacity: 0.30}                 # passivation open over the top metal
+
+  # --- metals (z NOMINAL — not in the optical process files) --------------------------
+  "11/0": {name: M1 heater, zmin: 1.0, thickness: 0.20, material: titanium_nitride, color: "#ebc634", tone: grow}
+  "12/0": {name: M2 router, zmin: 2.0, thickness: 0.50, material: aluminum, color: "#3471eb", tone: grow}
+  "40/0": {name: VC (via), zmin: 1.2, thickness: 0.80, material: aluminum, color: "#3a027f", tone: grow}
+
+  # --- doping / implant markers (no topography — hidden in 3D) -------------------------
+  "20/0": {name: Doping, visible: false, color: "#0000ff"}
+  "24/0": {name: Si N++, visible: false, color: "#0000ff"}
+
+  # --- non-fabrication EDA / documentation layers (hidden in 3D) ----------------------
+  "1/99":    {name: Waveguide (guiding), visible: false, color: "#ff80a8"}
+  "10/0":    {name: Text, visible: false, color: "#0000ff"}
+  "99/0":    {name: FloorPlan, visible: false, color: "#8000ff"}
+  "290/0":   {name: Chip design area, visible: false, color: "#800057"}
+  "202/0":   {name: Keep out, visible: false, color: "#a0a0c0"}
+  "210/0":   {name: Dicing, visible: false, color: "#a0a0c0"}
+  "200/0":   {name: SEM, visible: false, color: "#ff00ff"}
+  "68/0":    {name: DevRec, visible: false, color: "#004080"}
+  "1/10":    {name: PinRec, visible: false, color: "#004080"}
+  "1/11":    {name: PinRecM, visible: false, color: "#004080"}
+  "81/0":    {name: FbrTgt, visible: false, color: "#004080"}
+  "999/0":   {name: Errors, visible: false, color: "#000080"}
+  "733/0":   {name: Lumerical, visible: false, color: "#800057"}
+  "998/0":   {name: BlackBox, visible: false, color: "#004080"}
+  "131/155": {name: Laser, visible: false, color: "#ff0000"}

@@ -1,0 +1,53 @@
+% od-package.tex : package parts, a fibre array and an edge-launch SMA jack. Load od-core.tex first. The numbers of
+% each pic are the plan of its class in optodraw/components/electronics/packaging.py: change both together.
+
+\definecolor{odsiA}{HTML}{D5DCE6}\definecolor{odsiB}{HTML}{9AA9BD}\definecolor{odsiE}{HTML}{6B7A8F}  % silicon (B: the palette)
+\tikzset{
+  od fabase/.style={od paint={od el, fill=white}{od hair, draw=odsiE, top color=odsiA, bottom color=odsiB, od shadow}},
+  od falid/.style={od paint={od el, fill=white}{od hair, draw=odglassE, top color=odglassA, bottom color=odglassB}},
+  od smametal/.style={od paint={od el, fill=white}{od hair, draw=odgoldE, top color=odgoldA, bottom color=odgoldB}},
+  od smaline/.style={od paint={od el}{line width=0.3pt*\odls, draw=odgoldE}},
+}
+
+% ---------------------------------------------------------------- fibre array
+% A V-groove block seen from above: the silicon base, the glass lid over its front part, the fibres that leave the
+% back face. FiberArray at 0.12 cm per pitch: the base 12 pitches long and count + 2 wide, the lid 0.65 of the length
+% and one pitch narrower, the fibres 4 pitches.   o1..oN on the front face (right), o1 the lowest
+\tikzset{pics/od fiberarray/.default={}, pics/od fiberarray/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \pgfmathsetmacro\odw{(\odn+2)*0.06}
+  \pgfmathsetmacro\odlw{\odw-0.06}
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{(\odi-(\odn+1)/2)*0.12}
+    \draw[od fibre] (-1.2,\ody) -- (-0.72,\ody);
+  }
+  \draw[od fabase] (-0.72,-\odw) rectangle (0.72,\odw);
+  \draw[od falid] (-0.216,-\odlw) rectangle (0.72,\odlw);
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\ody{(\odi-(\odn+1)/2)*0.12}
+    \odport[fiber]{o\odi}{0.72,\ody}
+  }
+}}}
+
+% ---------------------------------------------------------------- SMA connector, edge launch
+% 1D: the IEC 60617 coaxial connector, a circle with the inner conductor at its centre and the lead to it.
+% view=top: the jack from above, SMAConnector at 1 cm to 10 mm: the pin on the board, two ground legs, the flange at
+% the board edge (x = 0), the hex across its corners with the edges of its top flat, the threaded barrel.   e1 (left)
+\tikzset{pics/od sma/.default={}, pics/od sma/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od smametal] (-0.2,0.12) rectangle (0,0.2) (-0.2,-0.2) rectangle (0,-0.12);
+    \draw[od smametal] (-0.24,-0.038) rectangle (0,0.038);
+    \draw[od smametal] (0,-0.22) rectangle (0.14,0.22);
+    \draw[od smametal] (0.14,-0.1642) rectangle (0.26,0.1642);
+    \draw[od smaline] (0.14,-0.0821) -- (0.26,-0.0821) (0.14,0.0821) -- (0.26,0.0821);
+    \draw[od smametal] (0.26,-0.1106) rectangle (0.58,0.1106);
+    \foreach \odx in {0.3,0.34,...,0.56} {\draw[od smaline] (\odx,-0.1106) -- (\odx,0.1106);}
+    \odport[electrical]{e1}{-0.24,0}
+  \else
+    \draw[od el] (-0.5,0) -- (0,0) (0,0) circle [radius=0.2];
+    \fill (0,0) circle [radius=0.04];
+    \odport[electrical]{e1}{-0.5,0}
+  \fi
+}}}

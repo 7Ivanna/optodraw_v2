@@ -1,0 +1,157 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "optodraw"
+version = "0.10.0"
+description = "Optical setups and photonic chips in 1D schematics, 2D SVG, 3D web scenes, TikZ, and GDS-aware workflows"
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [
+    { name = "Prosper Dellah Allo" }
+]
+keywords = ["optics", "photonics", "electro-optics", "optomechanics", "diagram", "3D", "visualization", "teaching", "publication"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "numpy>=1.24",
+    "drawsvg>=2.0",
+    "shapely>=2.0",
+]
+
+[project.optional-dependencies]
+three = ["jinja2>=3.0"]
+manim = ["manim>=0.18"]
+mcp = ["mcp[cli]>=1.0"]
+notebook = ["ipython>=8.0", "ipywidgets>=8.0"]
+# trimesh needs two companions to turn a GDS layout into a mesh, and defers
+# both until the moment it fails: mapbox-earcut to triangulate the polygons
+# ("No available triangulation engine"), scipy for the mesh operations that
+# follow. Neither is a trimesh dependency, so the extra names them.
+# gdsfactory 9 needs Python 3.12+. 3.11 still gets 8.x. 3.10 skips gdsfactory
+# (that line never shipped wheels for 3.10) and keeps shapely/trimesh/gdstk.
+gds = [
+    "gdsfactory>=8.0,<9; python_version >= '3.11' and python_version < '3.12'",
+    "gdsfactory>=9.0; python_version >= '3.12'",
+    "gdstk>=0.9",
+    "mapbox-earcut>=1.0",
+    "matplotlib>=3.8",
+    "pyyaml>=6.0",
+    "scipy>=1.10",
+    "shapely>=2.0",
+    "trimesh>=4.0",
+]
+gif = ["pillow>=10.0", "cairosvg>=2.7"]
+figure = ["shapely>=2.0", "matplotlib>=3.8", "pillow>=10.0", "cairosvg>=2.7"]
+optiland = ["optiland>=0.5"]
+sax = ["sax>=0.18"]
+gui = ["fastapi>=0.110", "uvicorn[standard]>=0.27"]
+desktop = ["optodraw[gui]", "pywebview>=5.0"]
+all = ["optodraw[three,manim,mcp,notebook,gds,gif,figure,optiland,gui,desktop]"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.15,<0.16",
+    "mypy>=1.13",
+    "httpx2>=0.1",
+    "build>=1.2",
+    "twine>=5.0",
+    "shapely>=2.0",
+    "tomli>=2.0; python_version < '3.11'",
+]
+
+[project.urls]
+Homepage = "https://github.com/ACCELUMA/optodraw"
+Repository = "https://github.com/ACCELUMA/optodraw"
+Issues = "https://github.com/ACCELUMA/optodraw/issues"
+
+[project.scripts]
+optodraw-mcp = "optodraw.mcp_server:main"
+optodraw-render-blender = "optodraw.blender:main"
+optodraw-xsection = "optodraw.gds.xsection.export:main"
+optodraw-gui = "optodraw.app.launcher:main"
+optodraw-skills = "optodraw.skills:main"
+
+# optodraw is pure Python. The Rust crate in src/ builds a faster Vec3 and
+# Transform3D, but no Python code imports them and a profile of a real render
+# puts all of optodraw.core.transform at under 2% of the time — so building it
+# bought nobody a thing and cost everybody a Rust toolchain to install from
+# source. The crate stays for whoever profiles their way to needing it:
+#   pip install maturin && maturin develop
+[tool.hatch.build.targets.wheel]
+packages = ["optodraw"]
+# Data the package reads at runtime: the editor front end and the layer stacks.
+artifacts = [
+    "optodraw/app/static/**/*",
+    "optodraw/gds/stacks/**/*",
+    "optodraw/symbols/tikz/*.tex",
+    "optodraw/symbols/svg/*.svg",
+    "optodraw/symbols/symbols.json",
+    "optodraw/symbols/variants.toml",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "optodraw",
+    "tests",
+    "docs",
+    "examples/quickplot_helpers.py",
+    "src",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE",
+    "CITATION.cff",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+"optodraw/**/__init__.py" = ["F401"]
+"optodraw/__init__.py" = ["F401"]
+"tests/**" = ["E741", "F841"]
+"docs/examples/**" = ["F821"]   # notebook cells use names from the cells before them
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "xsection_pdk: optional open-PDK cross-section integration (requires OPTODRAW_OPEN_PDK_STACK)",
+    "slow: takes minutes; skipped unless OPTODRAW_SLOW=1",
+]
+
+[tool.coverage.run]
+source = ["optodraw"]
+
+[tool.coverage.report]
+# The suite sits around 85%; the floor is a ratchet against silent erosion,
+# not an aspiration. Move it up as coverage grows, never down.
+fail_under = 80
+
+# First ratchet: the names a user imports. follow_imports=silent reports only
+# those files, so a new untyped component does not fail CI. Widen later.
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+follow_imports = "silent"
+pretty = true
+show_error_codes = true
+files = [
+    "optodraw/__init__.py",
+    "optodraw/_compat.py",
+]

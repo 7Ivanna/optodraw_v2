@@ -1,0 +1,85 @@
+{
+ "schema_version": 2,
+ "optodraw_version": "0.9.0",
+ "units": {
+  "length": "um",
+  "angle": "deg",
+  "wavelength": "nm"
+ },
+ "title": "Acceptance chip route",
+ "width": 220,
+ "height": 120,
+ "platform": "on_chip",
+ "components": [
+  {
+   "type": "Waveguide",
+   "id": "waveguide",
+   "center": [
+    -40,
+    0
+   ],
+   "angle": 0,
+   "length": 20.0,
+   "width": 0.5,
+   "pdk": "generic",
+   "cross_section": "strip",
+   "visual_style": "publication",
+   "visual_scale": 1.0,
+   "label": "",
+   "physical_spec": {
+    "device_family": "waveguide",
+    "values": {
+     "length": 20.0,
+     "width": 0.5,
+     "bend_radius": 10.0,
+     "thickness": 0.22
+    }
+   }
+  },
+  {
+   "type": "Waveguide",
+   "id": "waveguide_1",
+   "center": [
+    40,
+    0
+   ],
+   "angle": 0,
+   "length": 20.0,
+   "width": 0.5,
+   "pdk": "generic",
+   "cross_section": "strip",
+   "visual_style": "publication",
+   "visual_scale": 1.0,
+   "label": "",
+   "physical_spec": {
+    "device_family": "waveguide",
+    "values": {
+     "length": 20.0,
+     "width": 0.5,
+     "bend_radius": 10.0,
+     "thickness": 0.22
+    }
+   }
+  }
+ ],
+ "routes": [
+  {
+   "from": [
+    "waveguide",
+    "o2"
+   ],
+   "to": [
+    "waveguide_1",
+    "o1"
+   ],
+   "kind": "waveguide",
+   "width": 0.5,
+   "path_type": "manhattan",
+   "smooth": true,
+   "bend_radius": 10.0,
+   "backend": "gdsfactory",
+   "physical_length_um": 60.0
+  }
+ ],
+ "beams": []
+}

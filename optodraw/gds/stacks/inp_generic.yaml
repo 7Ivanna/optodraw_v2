@@ -1,0 +1,53 @@
+# literature stack: InP generic integration, the passive layer stack of the COBRA process. Not a foundry stack.
+# Sources, cited in each entry as [A] or [S] with table, section and page:
+#   [A] Augustin, L. M., Polarization handling in photonic integrated circuits, PhD thesis, TU Eindhoven (2008),
+#       doi:10.6100/IR634815. Table 2.1 "Passive layerstack" (p11), sec. 2.2 (p11), sec. 4.3.1 (p60).
+#   [S] Smit, M. et al., An introduction to InP-based generic integration technology, Semicond. Sci. Technol. 29,
+#       083001 (2014), doi:10.1088/0268-1242/29/8/083001. Sec. 2.2 (p9), sec. 2.3 (p10), sec. 4.1 (p14).
+# The films are [A] Table 2.1, bottom up. The top of the wafer is their sum: z = 2.12 um.
+# The layer numbers are optodraw's own: there is no open InP foundry layer map. The GDS draws the openings: the
+# trenches beside a guide, and the areas where the contact layer comes off.
+# model (not in the sources): the substrate depth (optodraw's 2 um drawing depth); the polyimide fill drawn flush with
+# the top of the wafer (neither source gives its thickness); vertical walls ([S] Fig. 10 says the slope in its SEM
+# photos is perspective, an inference).
+# Left out: the isolation etch ([S] sec. 2.2: down to the low-doped cladding, no depth), the metals (no thickness),
+# and the active layer stack ([A] Table 2.2).
+# For a figure GDS: shallow guides 2 um wide, deep guides 1.5 um wide ([S] sec. 4.1 p14).
+
+name: InP generic integration (literature)
+units: um
+
+# The parts draw the deep guide: the core etch takes the films over the core with it.
+waveguide: {width: 1.5, provenance: literature,
+            source: "[S] sec. 4.1 p14: deep-etched guides 1.5 um wide; shallow-etched guides 2 um wide"}
+
+substrate: {material: indium_phosphide, provenance: model,
+            source: "[A] Table 2.1 p11: N-InP substrate, 2e18 cm-3. Its depth is in no source: optodraw's 2 um"}
+films:
+  - {name: N-InP buffer, material: indium_phosphide, thickness: 0.5, provenance: literature,
+     source: "[A] Table 2.1 p11: 500 nm N-InP, 3.5e17 cm-3, under the waveguide layer"}
+  - {name: Q(1.25), role: core, material: ingaasp, thickness: 0.5, provenance: literature,
+     source: "[A] Table 2.1 p11: 500 nm i-Q(1.25), the waveguide layer; [A] sec. 4.3.1 p60; [S] sec. 4.1 p14"}
+  - {name: i-InP, material: indium_phosphide, thickness: 0.3, provenance: literature,
+     source: "[A] Table 2.1 p11: 300 nm i-InP, not doped; [A] sec. 2.1 p10"}
+  - {name: P-Q(1.25), material: ingaasp, thickness: 0.02, provenance: literature,
+     source: "[A] Table 2.1 p11: 20 nm P-Q(1.25), 3e17 cm-3"}
+  - {name: P-InP (5e17), material: indium_phosphide, thickness: 0.2, provenance: literature,
+     source: "[A] Table 2.1 p11: 200 nm P-InP, 5e17 cm-3"}
+  - {name: P-InP (1e18), material: indium_phosphide, thickness: 1.0, provenance: literature,
+     source: "[A] Table 2.1 p11: 1000 nm P-InP, 1e18 cm-3. The InP top cladding is 1500 nm: [A] sec. 4.3.1 p60"}
+  - {name: P-InGaAs, material: ingaas, thickness: 0.1, provenance: literature,
+     source: "[A] Table 2.1 p11: 100 nm P-InGaAs contact layer, over 1e19 cm-3"}
+fill: {material: polyimide, top: flush, planarized: true, provenance: model,
+       source: "[S] sec. 2.3 p10: polyimide passivation and planarization. No thickness in either source: flush"}
+
+layers:
+  "1/0": {name: Deep etch, material: air, zmin: -0.15, thickness: 2.27, provenance: literature,
+          source: "[S] sec. 4.1 p14: to over 150 nm below the waveguide layer, so the least depth z = -0.15;
+            [A] sec. 2.2 p11: through the waveguide layer. Thickness: from there to the wafer top, 2.12"}
+  "2/0": {name: Shallow etch, material: air, zmin: 0.4, thickness: 1.72, provenance: literature,
+          source: "[S] sec. 4.1 p14 and [A] sec. 2.2 p11: 100 nm into the 500 nm waveguide layer, so z = 0.4.
+            Thickness: from there to the wafer top, 2.12"}
+  "3/0": {name: Contact removal, material: air, zmin: 2.02, thickness: 0.1, provenance: literature,
+          source: "[S] sec. 2.2 p9: the shallowest etch takes the InGaAs contact layer off the passive guides;
+            [A] Table 2.1 p11: that layer is the top 100 nm"}

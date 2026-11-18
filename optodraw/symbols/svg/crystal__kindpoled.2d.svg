@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.044593 13.036563" width="30.044593pt" height="13.036563pt"><g transform="translate(72.0,72.0)">
+<g id='od-crystal__kindpoled-page1'>
+<g stroke-miterlimit='10' transform='translate(-56.977709,-65.481723)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#9a7a1f'>
+<clipPath id='od-crystal__kindpoled-pgfcp6'>
+<path d='M-12.80363-4.26773V4.26773H12.80363V-4.26773ZM12.80363 4.26773'/> </clipPath>
+<g clip-path='url(#od-crystal__kindpoled-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.5103,0,0,0.17009,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-crystal__kindpoled-pgfsh7'>
+ <stop offset='0.0' stop-color=' #ebd58a '/>
+ <stop offset='0.25' stop-color=' #ebd58a '/>
+ <stop offset='0.5' stop-color=' #f3e4b0 '/>
+ <stop offset='0.75' stop-color=' #fbf3d5 '/>
+ <stop offset='1.0' stop-color=' #fbf3d5 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-crystal__kindpoled-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-12.80363-4.26773V4.26773H12.80363V-4.26773ZM12.80363 4.26773' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#c3af79' stroke='#c3af79'>
+<path d='M-12.80363-4.26773V4.26773H-9.60262V-4.26773ZM-9.60262 4.26773' stroke='none'/>
+</g>
+<g fill='#c3af79' stroke='#c3af79'>
+<path d='M-6.4016-4.26773V4.26773H-3.20058V-4.26773ZM-3.20058 4.26773' stroke='none'/>
+</g>
+<g fill='#c3af79' stroke='#c3af79'>
+<path d='M.00043-4.26773V4.26773H3.20145V-4.26773ZM3.20145 4.26773' stroke='none'/>
+</g>
+<g fill='#c3af79' stroke='#c3af79'>
+<path d='M6.40247-4.26773V4.26773H9.60349V-4.26773ZM9.60349 4.26773' stroke='none'/>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#9a7a1f'>
+<path d='M-12.80363-4.26773V4.26773H12.80363V-4.26773ZM12.80363 4.26773' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

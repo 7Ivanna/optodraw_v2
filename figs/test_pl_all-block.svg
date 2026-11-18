@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="600" height="600.0" viewBox="-60.0 -60.0 120 120">
+<defs>
+<clipPath id="d0">
+<path d="M-0.625,2.0 L-4.375,0 L-0.625,-2.0" fill="none" stroke="black" stroke-width="0.25" />
+</clipPath>
+</defs>
+<g stroke="black" opacity="0.2" stroke-width="0.12">
+<path d="M-60.0,0 h120" id="hline" />
+<path d="M0,-60.0 v120" id="vline" />
+<use xlink:href="#vline" x="5" y="0" />
+<use xlink:href="#vline" x="-5" y="0" />
+<use xlink:href="#vline" x="10" y="0" />
+<use xlink:href="#vline" x="-10" y="0" />
+<use xlink:href="#vline" x="15" y="0" />
+<use xlink:href="#vline" x="-15" y="0" />
+<use xlink:href="#vline" x="20" y="0" />
+<use xlink:href="#vline" x="-20" y="0" />
+<use xlink:href="#vline" x="25" y="0" />
+<use xlink:href="#vline" x="-25" y="0" />
+<use xlink:href="#vline" x="30" y="0" />
+<use xlink:href="#vline" x="-30" y="0" />
+<use xlink:href="#vline" x="35" y="0" />
+<use xlink:href="#vline" x="-35" y="0" />
+<use xlink:href="#vline" x="40" y="0" />
+<use xlink:href="#vline" x="-40" y="0" />
+<use xlink:href="#vline" x="45" y="0" />
+<use xlink:href="#vline" x="-45" y="0" />
+<use xlink:href="#vline" x="50" y="0" />
+<use xlink:href="#vline" x="-50" y="0" />
+<use xlink:href="#vline" x="55" y="0" />
+<use xlink:href="#vline" x="-55" y="0" />
+<use xlink:href="#vline" x="60" y="0" />
+<use xlink:href="#vline" x="-60" y="0" />
+<use xlink:href="#vline" x="65" y="0" />
+<use xlink:href="#vline" x="-65" y="0" />
+<use xlink:href="#vline" x="70" y="0" />
+<use xlink:href="#vline" x="-70" y="0" />
+<use xlink:href="#vline" x="75" y="0" />
+<use xlink:href="#vline" x="-75" y="0" />
+<use xlink:href="#vline" x="80" y="0" />
+<use xlink:href="#vline" x="-80" y="0" />
+<use xlink:href="#vline" x="85" y="0" />
+<use xlink:href="#vline" x="-85" y="0" />
+<use xlink:href="#vline" x="90" y="0" />
+<use xlink:href="#vline" x="-90" y="0" />
+<use xlink:href="#vline" x="95" y="0" />
+<use xlink:href="#vline" x="-95" y="0" />
+<use xlink:href="#vline" x="100" y="0" />
+<use xlink:href="#vline" x="-100" y="0" />
+<use xlink:href="#vline" x="105" y="0" />
+<use xlink:href="#vline" x="-105" y="0" />
+<use xlink:href="#vline" x="110" y="0" />
+<use xlink:href="#vline" x="-110" y="0" />
+<use xlink:href="#vline" x="115" y="0" />
+<use xlink:href="#vline" x="-115" y="0" />
+<use xlink:href="#hline" x="0" y="5" />
+<use xlink:href="#hline" x="0" y="-5" />
+<use xlink:href="#hline" x="0" y="10" />
+<use xlink:href="#hline" x="0" y="-10" />
+<use xlink:href="#hline" x="0" y="15" />
+<use xlink:href="#hline" x="0" y="-15" />
+<use xlink:href="#hline" x="0" y="20" />
+<use xlink:href="#hline" x="0" y="-20" />
+<use xlink:href="#hline" x="0" y="25" />
+<use xlink:href="#hline" x="0" y="-25" />
+<use xlink:href="#hline" x="0" y="30" />
+<use xlink:href="#hline" x="0" y="-30" />
+<use xlink:href="#hline" x="0" y="35" />
+<use xlink:href="#hline" x="0" y="-35" />
+<use xlink:href="#hline" x="0" y="40" />
+<use xlink:href="#hline" x="0" y="-40" />
+<use xlink:href="#hline" x="0" y="45" />
+<use xlink:href="#hline" x="0" y="-45" />
+<use xlink:href="#hline" x="0" y="50" />
+<use xlink:href="#hline" x="0" y="-50" />
+<use xlink:href="#hline" x="0" y="55" />
+<use xlink:href="#hline" x="0" y="-55" />
+<use xlink:href="#hline" x="0" y="60" />
+<use xlink:href="#hline" x="0" y="-60" />
+<use xlink:href="#hline" x="0" y="65" />
+<use xlink:href="#hline" x="0" y="-65" />
+<use xlink:href="#hline" x="0" y="70" />
+<use xlink:href="#hline" x="0" y="-70" />
+<use xlink:href="#hline" x="0" y="75" />
+<use xlink:href="#hline" x="0" y="-75" />
+<use xlink:href="#hline" x="0" y="80" />
+<use xlink:href="#hline" x="0" y="-80" />
+<use xlink:href="#hline" x="0" y="85" />
+<use xlink:href="#hline" x="0" y="-85" />
+<use xlink:href="#hline" x="0" y="90" />
+<use xlink:href="#hline" x="0" y="-90" />
+<use xlink:href="#hline" x="0" y="95" />
+<use xlink:href="#hline" x="0" y="-95" />
+<use xlink:href="#hline" x="0" y="100" />
+<use xlink:href="#hline" x="0" y="-100" />
+<use xlink:href="#hline" x="0" y="105" />
+<use xlink:href="#hline" x="0" y="-105" />
+<use xlink:href="#hline" x="0" y="110" />
+<use xlink:href="#hline" x="0" y="-110" />
+<use xlink:href="#hline" x="0" y="115" />
+<use xlink:href="#hline" x="0" y="-115" />
+</g>
+<path d="M-10.0,-15.0 L-10.0,-0.0 L10.0,-0.0 L10.0,-20.0 L30.0,-20.0 L30.0,-10.0" stroke="#edbd2d" fill="none" stroke-width="3" />
+<path d="M30.0,-10.0 L30.0,-20.0 L10.0,-20.0 L10.0,-0.0 L-10.0,-0.0 L-10.0,-10.0 L-5.0,-10.0" stroke="#edbd2d" fill="none" stroke-width="3" />
+<path d="M-30.0,-10.0 L-30.0,-0.0 L10.0,-0.0 L10.0,-20.0 L30.0,-20.0 L30.0,-10.0" stroke="#2af" fill="none" stroke-width="2" />
+<path d="M-30.0,-20.0 L-30.0,-30.0 L-20.0,-30.0" stroke="#2af" fill="none" stroke-width="2" />
+<path d="M30.0,22.0 L30.0,22.0 L32.5,8.75 L27.5,8.75" fill="#2af" opacity="0.8" />
+<path d="M-20.0,25.0 L-20.0,-0.0 L10.0,-0.0 L10.0,-20.0 L30.0,-20.0 L30.0,-10.0" stroke="#f00" fill="none" stroke-width="0.8" />
+<path d="M-20.0,25.0 L-20.0,-0.0 L-10.0,-0.0" stroke="#f00" fill="none" stroke-width="0.8" />
+<path d="M30.0,22.0 L30.0,22.0 L30.625,8.75 L29.375,8.75" fill="#f00" opacity="1" />
+<path d="M30.0,-10.0 L30.0,-20.0 L10.0,-20.0 L10.0,-0.0 L-10.0,-0.0 L-10.0,-10.0 L-5.0,-10.0" stroke="#f00" fill="none" stroke-width="0.8" />
+<g transform="translate(-20,25),rotate(-90,0,0)">
+<g transform="translate(0,0),rotate(0,0,0)">
+<rect x="-5" y="-2.5" width="5" height="5" fill="white" stroke="black" stroke-width="0.25" />
+<path d="M-2.5,0 L-0.625,0" stroke="#f00" stroke-width="0.5" stroke-linecap="round" id="scatter" />
+<use xlink:href="#scatter" x="0" y="0" transform="rotate(0.0,-2.5, 0)" />
+<use xlink:href="#scatter" x="0" y="0" transform="rotate(51.42857142857143,-2.5, 0)" />
+<use xlink:href="#scatter" x="0" y="0" transform="rotate(102.85714285714286,-2.5, 0)" />
+<use xlink:href="#scatter" x="0" y="0" transform="rotate(154.28571428571428,-2.5, 0)" />
+<use xlink:href="#scatter" x="0" y="0" transform="rotate(205.71428571428572,-2.5, 0)" />
+<use xlink:href="#scatter" x="0" y="0" transform="rotate(257.14285714285717,-2.5, 0)" />
+<use xlink:href="#scatter" x="0" y="0" transform="rotate(308.57142857142856,-2.5, 0)" />
+</g>
+<g transform="translate(5,0),rotate(0,0,0)" fill="blue" opacity="0.5">
+<path d="M0,5.0 Q2,0,0,-5.0 Q-2,0,0,5.0 Z" />
+</g>
+<g transform="translate(15,0),rotate(0,0,0)" fill="blue" opacity="0.5">
+<path d="M0,5.0 Q2,0,0,-5.0 Q-2,0,0,5.0 Z" />
+</g>
+</g>
+<g transform="translate(-10,-15),rotate(0,0,0)">
+<g transform="translate(0,0),rotate(90,0,0)">
+<rect x="-5" y="-2.5" width="5" height="5" fill="white" stroke="black" stroke-width="0.25" />
+<path d="M-2.5,0 L-0.625,0" stroke="#edbd2d" stroke-width="0.5" stroke-linecap="round" id="lamp_scatter" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(0.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(30.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(60.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(90.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(120.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(150.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(180.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(210.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(240.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(270.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(300.0,-2.5, 0)" />
+<use xlink:href="#lamp_scatter" x="0" y="0" transform="rotate(330.0,-2.5, 0)" />
+</g>
+<g transform="translate(5,5),rotate(180,0,0)">
+<rect x="-5" y="-2.5" width="5" height="5" fill="white" stroke="black" stroke-width="0.25" />
+<path d="M-0.625,2.0 L-4.375,0 L-0.625,-2.0" fill="none" stroke="black" stroke-width="0.25" />
+<circle cx="-3.0" cy="0" r="1.5" fill="none" stroke="black" stroke-width="0.25" clip-path="url(#d0)" />
+</g>
+<g transform="translate(0,5),rotate(-135,0,0)">
+<path d="M0,-5.0 L0,5.0" stroke="#888" stroke-width="1.0" />
+</g>
+</g>
+<g transform="translate(-10,0),rotate(-45,0,0)">
+<path d="M0,-5.0 L0,5.0" stroke="#888" stroke-width="1.0" />
+</g>
+<g transform="translate(10,0),rotate(0,0,0)">
+<g transform="translate(0,0),rotate(-135,0,0)">
+<rect x="-2.5" y="-5.0" width="2.5" height="10" fill="#444" />
+<path d="M0,-5.0 L0,5.0" stroke="#aaa" stroke-width="1.0" opacity="0.7" />
+</g>
+<g transform="translate(0,-20),rotate(45,0,0)">
+<rect x="-2.5" y="-5.0" width="2.5" height="10" fill="#444" />
+<path d="M0,-5.0 L0,5.0" stroke="#aaa" stroke-width="1.0" opacity="0.7" />
+</g>
+<g transform="translate(20,-20),rotate(135,0,0)">
+<rect x="-2.5" y="-5.0" width="2.5" height="10" fill="#444" />
+<path d="M0,-5.0 L0,5.0" stroke="#aaa" stroke-width="1.0" opacity="0.7" />
+</g>
+<g transform="translate(20,-10),rotate(90,0,0)">
+<path d="M0,5.0 h15 l3.75,-2.5 v-5.0 l-3.75,-2.5 h-15 Z" fill="#333" />
+<path d="M7.5,5.5 L7.5,-6.0" stroke-width="7.5" stroke="#aaa" stroke-dasharray="1.0,1.0" />
+</g>
+</g>
+<g transform="translate(30,22),rotate(-90,0,0)">
+<g transform="translate(-2.5,0),rotate(0,0,0)" fill="black">
+<rect x="-2.5" y="-10.0" width="5.0" height="20" center="[-2.5, 0]" fill="black" />
+</g>
+<g transform="translate(-0.6666666666666666,0),rotate(0,0,0)" fill="rgb(60%,60%,100%)">
+<rect x="-0.25" y="-10.0" width="0.5" height="20" center="[-0.6666666666666666, 0]" fill="rgb(60%,60%,100%)" />
+</g>
+<path d="M2.5,5.0 V15.0 h-10.0 V-15.0 h10.0 L2.5,-5.0" fill="none" stroke="#666" stroke-width="2" />
+<g transform="translate(2.5,0),rotate(0,0,0)" fill="#33d" opacity="0.4">
+<rect x="-0.75" y="-5.0" width="1.5" height="10" center="[2.5, 0]" fill="#33d" opacity="0.4" />
+</g>
+</g>
+<g transform="translate(-20,0),rotate(45,0,0)">
+<path d="M0,-5.0 L0,5.0" stroke="#888" stroke-width="1.0" />
+</g>
+<g transform="translate(-30,0),rotate(-45,0,0)">
+<rect x="-2.5" y="-5.0" width="2.5" height="10" fill="#444" />
+<path d="M0,-5.0 L0,5.0" stroke="#aaa" stroke-width="1.0" opacity="0.7" />
+</g>
+<g transform="translate(-30,-10),rotate(90,0,0)">
+<path d="M0.0,-1.0 L0.0,1.0 L-5.0,-0.0 L-5.0,-0.0" fill="#2af" />
+<g transform="translate(0,0),rotate(0,0,0)" fill="blue" opacity="0.5">
+<path d="M0,5.0 Q2,0,0,-5.0 Q-2,0,0,5.0 Z" />
+</g>
+<g transform="translate(-10,0),rotate(0,0,0)" fill="blue" opacity="0.5">
+<path d="M0,5.0 Q2,0,0,-5.0 Q-2,0,0,5.0 Z" />
+</g>
+</g>
+<g transform="translate(-30.0,-30.0),rotate(45,0,0)">
+<rect x="-2.5" y="-5.0" width="2.5" height="10" fill="#444" />
+<path d="M0,-5.0 L0,5.0" stroke="#aaa" stroke-width="1.0" opacity="0.7" />
+</g>
+<g transform="translate(-20.0,-30.0),rotate(180,0,0)">
+<g transform="translate(-5,0),rotate(0,0,0)">
+<g transform="translate(-5.0,3),rotate(0,0,0)" fill="white" stroke="black" stroke-width="0.25">
+<rect x="-5.0" y="-5.0" width="10" height="10" center="[-5.0, -3]" fill="white" stroke="black" stroke-width="0.25" />
+</g>
+<g transform="translate(0,0),rotate(0,0,0)" fill="#fff">
+<rect x="-0.125" y="-0.5" width="0.25" height="1" fill="#fff" />
+</g>
+<g transform="translate(-8,1),rotate(22.5,0,0)">
+<rect x="-1.25" y="-2.5" width="1.25" height="5.0" fill="#444" />
+<path d="M0,-2.5 L0,2.5" stroke="#aaa" stroke-width="0.5" opacity="0.7" stroke-dasharray="0.3,0.3" />
+</g>
+<path d="M0.0,-0.0 L0.0,-0.0 L-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217" fill="#2af" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-2.5,5.5 L-2.5,5.5" fill="rgb(19.999999999999996%, 100.0%, 0.0%)" opacity="1.0" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-2.5,5.5 L-2.5,5.5" fill="rgb(19.999999999999996%, 100.0%, 0.0%)" opacity="1.0" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-2.2011844635310913,5.201184463531091 L-2.2011844635310913,5.201184463531091" fill="rgb(50.00000000000002%, 100.0%, 0.0%)" opacity="0.8833333333333333" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-2.7988155364689087,5.798815536468909 L-2.7988155364689087,5.798815536468909" fill="rgb(0.0%, 100.0%, 10.000000000000032%)" opacity="0.8833333333333333" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-1.9023689270621826,4.902368927062183 L-1.9023689270621826,4.902368927062183" fill="rgb(79.99999999999999%, 100.0%, 0.0%)" opacity="0.7666666666666667" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-3.0976310729378174,6.097631072937817 L-3.0976310729378174,6.097631072937817" fill="rgb(0.0%, 100.0%, 39.99999999999999%)" opacity="0.7666666666666667" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-1.603553390593274,4.603553390593273 L-1.603553390593274,4.603553390593273" fill="rgb(100.0%, 89.99999999999999%, 0.0%)" opacity="0.65" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-3.396446609406726,6.396446609406727 L-3.396446609406726,6.396446609406727" fill="rgb(0.0%, 100.0%, 69.99999999999999%)" opacity="0.65" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-1.304737854124365,4.304737854124365 L-1.304737854124365,4.304737854124365" fill="rgb(100.0%, 60.00000000000001%, 0.0%)" opacity="0.5333333333333334" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-3.6952621458756347,6.695262145875635 L-3.6952621458756347,6.695262145875635" fill="rgb(0.0%, 100.0%, 99.99999999999997%)" opacity="0.5333333333333334" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-1.0059223176554564,4.005922317655456 L-1.0059223176554564,4.005922317655456" fill="rgb(100.0%, 30.000000000000014%, 0.0%)" opacity="0.41666666666666674" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-3.9940776823445434,6.994077682344544 L-3.9940776823445434,6.994077682344544" fill="rgb(0.0%, 70.00000000000001%, 100.0%)" opacity="0.41666666666666674" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-0.7071067811865477,3.707106781186547 L-0.7071067811865477,3.707106781186547" fill="rgb(100.0%, 0.0%, 0.0%)" opacity="0.30000000000000004" />
+<path d="M-7.043291419087275,-1.309698831278217 L-8.956708580912725,3.309698831278217 L-4.292893218813452,7.292893218813453 L-4.292893218813452,7.292893218813453" fill="rgb(0.0%, 39.99999999999999%, 100.0%)" opacity="0.30000000000000004" />
+<g transform="translate(-2.5,5.5),rotate(-135,0,0)">
+<path d="M0,-2.5355339059327378 L0,2.5355339059327378" stroke="#888" stroke-width="0.5071067811865475" />
+</g>
+</g>
+<g transform="translate(0,0),rotate(0,0,0)" fill="blue" opacity="0.5">
+<path d="M0,5.0 Q2,0,0,-5.0 Q-2,0,0,5.0 Z" />
+</g>
+</g>
+<path d="M22.0,-28.75 h16 V14 h-16 V-12 h-19 V-28.75 Z" stroke-width="0.5" stroke="black" fill="none" stroke-dasharray="1,1" />
+</svg>

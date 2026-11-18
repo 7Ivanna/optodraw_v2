@@ -1,0 +1,23 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<section class="workflows" aria-label="Choose your workflow">
+  <a href={base + '/figures/'}><span class="dimension">1D</span><h2>Explain the system.</h2><p>Compact symbols and clear connections for papers and slides.</p><span class="link">Make a figure →</span></a>
+  <a href={base + '/free-space/'}><span class="dimension">2D</span><h2>Arrange the optics.</h2><p>Place components, connect their ports, and trace the beam path.</p><span class="link">Build a layout →</span></a>
+  <a href={base + '/3d/'}><span class="dimension">3D</span><h2>See the setup.</h2><p>Explore mounts, beam heights and chip geometry from different angles.</p><span class="link">Explore 3D →</span></a>
+</section>
+<div class="editor-note"><p>Prefer to draw without code?</p><a href={base + '/guides/editor/'}>Meet the visual editor →</a></div>
+<style>
+.landing-demo{border:1px solid var(--sl-color-gray-5);margin:0 0 3rem;overflow:hidden;border-radius:12px;background:white}
+.figure{padding:clamp(1rem,3vw,3rem);background-image:radial-gradient(#dfe3e7 .7px,transparent .7px);background-size:16px 16px}
+.figure img{display:block;width:100%;max-height:440px;object-fit:contain}
+.caption{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1rem 1.4rem;background:var(--sl-color-gray-6);font-size:.85rem;color:var(--sl-color-gray-2)}
+a{color:inherit;text-decoration:none}.caption a,.link,.editor-note a{color:var(--sl-color-accent-high)}
+.workflows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;margin:3rem 0}
+.workflows>a{border-top:2px solid var(--sl-color-gray-5);padding-top:1.2rem}.workflows>a:hover{border-color:var(--sl-color-accent)}
+.dimension{font-family:var(--sl-font-mono);font-size:.85rem;color:var(--sl-color-accent-high)}
+.workflows h2{font-size:1.35rem;margin:.75rem 0}.workflows p{font-size:1rem;color:var(--sl-color-gray-2);line-height:1.6}.link{display:block;font-size:.9rem;margin-top:1rem}
+.editor-note{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:center;border-block:1px solid var(--sl-color-gray-5);padding:1rem 0;margin-bottom:3rem}.editor-note p{margin:0}
+a:focus-visible{outline:2px solid var(--sl-color-accent);outline-offset:5px}
+@media(max-width:42rem){.workflows{grid-template-columns:1fr;gap:1.5rem}.figure{padding:.7rem}.caption{font-size:.8rem}}
+</style>

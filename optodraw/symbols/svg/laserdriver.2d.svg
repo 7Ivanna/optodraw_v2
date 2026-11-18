@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.236144 34.470735" width="50.236144pt" height="34.470735pt"><g transform="translate(72.0,72.0)">
+<g id='od-laserdriver-page1'>
+<g stroke-miterlimit='10' transform='translate(-46.881932,-56.80336)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-22.76227-9.67383V9.67383C-22.76227 11.40239-21.36102 12.80363-19.63246 12.80363H19.63246C21.36102 12.80363 22.76227 11.40239 22.76227 9.67383V-9.67383C22.76227-11.40239 21.36102-12.80363 19.63246-12.80363H-19.63246C-21.36102-12.80363-22.76227-11.40239-22.76227-9.67383ZM22.76227 12.80363' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-22.76227-9.67383V9.67383C-22.76227 11.40239-21.36102 12.80363-19.63246 12.80363H19.63246C21.36102 12.80363 22.76227 11.40239 22.76227 9.67383V-9.67383C22.76227-11.40239 21.36102-12.80363 19.63246-12.80363H-19.63246C-21.36102-12.80363-22.76227-11.40239-22.76227-9.67383ZM22.76227 12.80363' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-22.76227-9.67383V9.67383C-22.76227 11.40239-21.36102 12.80363-19.63246 12.80363H19.63246C21.36102 12.80363 22.76227 11.40239 22.76227 9.67383V-9.67383C22.76227-11.40239 21.36102-12.80363 19.63246-12.80363H-19.63246C-21.36102-12.80363-22.76227-11.40239-22.76227-9.67383ZM22.76227 12.80363' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-22.76227-9.67383V9.67383C-22.76227 11.40239-21.36102 12.80363-19.63246 12.80363H19.63246C21.36102 12.80363 22.76227 11.40239 22.76227 9.67383V-9.67383C22.76227-11.40239 21.36102-12.80363 19.63246-12.80363H-19.63246C-21.36102-12.80363-22.76227-11.40239-22.76227-9.67383ZM22.76227 12.80363' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-laserdriver-pgfcp6'>
+<path d='M-22.76227-9.67383V9.67383C-22.76227 11.40239-21.36102 12.80363-19.63246 12.80363H19.63246C21.36102 12.80363 22.76227 11.40239 22.76227 9.67383V-9.67383C22.76227-11.40239 21.36102-12.80363 19.63246-12.80363H-19.63246C-21.36102-12.80363-22.76227-11.40239-22.76227-9.67383ZM22.76227 12.80363'/> </clipPath>
+<g clip-path='url(#od-laserdriver-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.90721,0,0,0.5103,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-laserdriver-pgfsh7'>
+ <stop offset='0.0' stop-color=' #e2e8f0 '/>
+ <stop offset='0.25' stop-color=' #e2e8f0 '/>
+ <stop offset='0.5' stop-color=' #f1f4f8 '/>
+ <stop offset='0.75' stop-color=' #fff '/>
+ <stop offset='1.0' stop-color=' #fff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-laserdriver-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-22.76227-9.67383V9.67383C-22.76227 11.40239-21.36102 12.80363-19.63246 12.80363H19.63246C21.36102 12.80363 22.76227 11.40239 22.76227 9.67383V-9.67383C22.76227-11.40239 21.36102-12.80363 19.63246-12.80363H-19.63246C-21.36102-12.80363-22.76227-11.40239-22.76227-9.67383ZM22.76227 12.80363' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g fill='#fff'>
+<path d='M-14.79555-3.41418H-6.82881L-10.81218 3.41418Z'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-14.79555 3.41418H-6.82881M-10.81218 3.41418V7.96672M-10.81218-3.41418V-7.96672' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-5.69046 3.41418L-2.55489 6.5498' fill='none'/>
+<g fill='#475569'>
+<g transform='matrix(0.7071,0.70708,-0.70708,0.7071,-3.40065,5.70409)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.66864 0L.61469 .8414L1.29608 0L.61469-.8414Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-3.98335 .56917L-.84784 3.70439' fill='none'/>
+<g fill='#475569'>
+<g transform='matrix(0.70712,0.70706,-0.70706,0.70712,-1.69362,2.85869)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.66864 0L.61469 .8414L1.29608 0L.61469-.8414Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g fill='#fff'>
+<path d='M17.64055 .56917C17.64055 3.71196 15.09288 6.25963 11.95009 6.25963S6.25963 3.71196 6.25963 .56917S8.8073-5.12129 11.95009-5.12129S17.64055-2.57362 17.64055 .56917ZM11.95009 .56917'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M11.95009 .56917L14.56108 4.29811' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-laserdriver-pgfcp8'>
+<path d='M-12.0925-14.93752C-12.0925-13.759-13.04785-12.80365-14.22636-12.80365C-15.40488-12.80365-16.36023-13.759-16.36023-14.93752C-16.36023-16.11603-15.40488-17.07138-14.22636-17.07138C-13.04785-17.07138-12.0925-16.11603-12.0925-14.93752ZM-14.22636-14.93752'/> </clipPath>
+<g clip-path='url(#od-laserdriver-pgfcp8)'>
+<g transform='matrix(1,0,0,1,-14.22636,-14.93752)'>
+<g transform='matrix(0.08504,0,0,0.08504,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-laserdriver-pgfsh9'>
+ <stop offset='0.0' stop-color=' #94a3b8 '/>
+ <stop offset='0.25' stop-color=' #94a3b8 '/>
+ <stop offset='0.5' stop-color=' #c3ccd9 '/>
+ <stop offset='0.75' stop-color=' #f1f5f9 '/>
+ <stop offset='1.0' stop-color=' #f1f5f9 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-laserdriver-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-12.0925-14.93752C-12.0925-13.759-13.04785-12.80365-14.22636-12.80365C-15.40488-12.80365-16.36023-13.759-16.36023-14.93752C-16.36023-16.11603-15.40488-17.07138-14.22636-17.07138C-13.04785-17.07138-12.0925-16.11603-12.0925-14.93752ZM-14.22636-14.93752' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-13.54344-14.93752C-13.54344-14.56035-13.8492-14.2546-14.22636-14.2546C-14.60353-14.2546-14.90929-14.56035-14.90929-14.93752C-14.90929-15.31468-14.60353-15.62044-14.22636-15.62044C-13.8492-15.62044-13.54344-15.31468-13.54344-14.93752ZM-14.22636-14.93752' stroke='none'/>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-laserdriver-pgfcp10'>
+<path d='M2.13387-14.93752C2.13387-13.759 1.17851-12.80365 0-12.80365S-2.13387-13.759-2.13387-14.93752C-2.13387-16.11603-1.17851-17.07138 0-17.07138S2.13387-16.11603 2.13387-14.93752ZM0-14.93752'/> </clipPath>
+<g clip-path='url(#od-laserdriver-pgfcp10)'>
+<g transform='matrix(1,0,0,1,0.0,-14.93752)'>
+<g transform='matrix(0.08504,0,0,0.08504,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-laserdriver-pgfsh9'>
+ <stop offset='0.0' stop-color=' #94a3b8 '/>
+ <stop offset='0.25' stop-color=' #94a3b8 '/>
+ <stop offset='0.5' stop-color=' #c3ccd9 '/>
+ <stop offset='0.75' stop-color=' #f1f5f9 '/>
+ <stop offset='1.0' stop-color=' #f1f5f9 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-laserdriver-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M2.13387-14.93752C2.13387-13.759 1.17851-12.80365 0-12.80365S-2.13387-13.759-2.13387-14.93752C-2.13387-16.11603-1.17851-17.07138 0-17.07138S2.13387-16.11603 2.13387-14.93752ZM0-14.93752' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M.68292-14.93752C.68292-14.56035 .37717-14.2546 0-14.2546S-.68292-14.56035-.68292-14.93752C-.68292-15.31468-.37717-15.62044 0-15.62044S.68292-15.31468 .68292-14.93752ZM0-14.93752' stroke='none'/>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-laserdriver-pgfcp11'>
+<path d='M14.08395-14.93752C14.08395-13.759 13.1286-12.80365 11.95009-12.80365S9.81622-13.759 9.81622-14.93752C9.81622-16.11603 10.77158-17.07138 11.95009-17.07138S14.08395-16.11603 14.08395-14.93752ZM11.95009-14.93752'/> </clipPath>
+<g clip-path='url(#od-laserdriver-pgfcp11)'>
+<g transform='matrix(1,0,0,1,11.95009,-14.93752)'>
+<g transform='matrix(0.08504,0,0,0.08504,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-laserdriver-pgfsh9'>
+ <stop offset='0.0' stop-color=' #94a3b8 '/>
+ <stop offset='0.25' stop-color=' #94a3b8 '/>
+ <stop offset='0.5' stop-color=' #c3ccd9 '/>
+ <stop offset='0.75' stop-color=' #f1f5f9 '/>
+ <stop offset='1.0' stop-color=' #f1f5f9 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-laserdriver-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M14.08395-14.93752C14.08395-13.759 13.1286-12.80365 11.95009-12.80365S9.81622-13.759 9.81622-14.93752C9.81622-16.11603 10.77158-17.07138 11.95009-17.07138S14.08395-16.11603 14.08395-14.93752ZM11.95009-14.93752' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M12.63301-14.93752C12.63301-14.56035 12.32726-14.2546 11.95009-14.2546S11.26717-14.56035 11.26717-14.93752C11.26717-15.31468 11.57292-15.62044 11.95009-15.62044S12.63301-15.31468 12.63301-14.93752ZM11.95009-14.93752' stroke='none'/>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

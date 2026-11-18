@@ -1,0 +1,69 @@
+{
+ "schema_version": 2,
+ "optodraw_version": "0.9.0",
+ "units": {
+  "length": "um",
+  "angle": "deg",
+  "wavelength": "nm"
+ },
+ "title": "Acceptance rotated optics",
+ "width": 160,
+ "height": 80,
+ "platform": "free_space",
+ "components": [
+  {
+   "type": "Laser",
+   "id": "Pump",
+   "center": [
+    -50,
+    0
+   ],
+   "angle": 0,
+   "wavelength": 532.0,
+   "beam_width": 1.6,
+   "rays": 13,
+   "ray_width": 0.45,
+   "divergence_deg": 0.0,
+   "label": "Pump"
+  },
+  {
+   "type": "Mirror",
+   "id": "M1",
+   "center": [
+    0,
+    0
+   ],
+   "angle": 45,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "M1"
+  },
+  {
+   "type": "Lens",
+   "id": "L1",
+   "center": [
+    40,
+    0
+   ],
+   "angle": 0,
+   "radius": 2.0,
+   "aperture": 10.0,
+   "focal_length": 30.0,
+   "label": "L1"
+  }
+ ],
+ "routes": [],
+ "beams": [
+  {
+   "path": [
+    "Pump",
+    "M1",
+    "L1"
+   ],
+   "wavelength": 633.0,
+   "width": 0.8
+  }
+ ]
+}

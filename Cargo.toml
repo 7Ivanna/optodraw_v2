@@ -1,0 +1,13 @@
+[package]
+name = "optodraw-core"
+version = "2.0.0-alpha.1"
+edition = "2021"
+description = "High-performance geometry backend for optodraw"
+
+[lib]
+name = "_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+nalgebra = "0.33"

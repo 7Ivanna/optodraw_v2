@@ -1,0 +1,170 @@
+name: Release
+
+# Tag a version (`git tag v0.10.0 && git push --tags`) and this builds everything
+# a release needs: the wheel and sdist for pip, and a desktop app per operating
+# system for people who would rather not touch a terminal at all.
+#
+# workflow_dispatch runs the same jobs without tagging, so the packaging can be
+# proved before a version number is spent on it.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  python:
+    name: Wheel and sdist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Build
+        run: |
+          pip install build twine
+          python -m build
+
+      - name: Check the metadata PyPI will read
+        run: twine check dist/*
+
+      - name: Prove the wheel installs and runs on its own
+        run: |
+          python -m venv /tmp/probe
+          /tmp/probe/bin/pip install "$(ls dist/*.whl)[gui]"
+          cd /tmp && /tmp/probe/bin/python -c "
+          from optodraw import Scene, Lens
+          scene = Scene(width=80, height=60)
+          scene.add(Lens(center=(0, 0)))
+          assert scene.render_svg().as_svg().startswith('<?xml')
+          import optodraw; print('wheel runs:', optodraw.__version__)
+          "
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-dist
+          path: dist/*
+
+  desktop:
+    name: Desktop app · ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install the app and PyInstaller
+        run: pip install ".[desktop]" pyinstaller
+
+      - name: Freeze it
+        working-directory: packaging
+        run: pyinstaller optodraw.spec
+
+      - name: Check the bundle carries what the app reads at runtime
+        shell: bash
+        run: |
+          cd packaging/dist
+          root=$([ -d optodraw.app ] && echo optodraw.app || echo optodraw)
+          for needed in "app/static/index.html" \
+                        "renderers/js/light_player.js" \
+                        "gds/stacks/cornerstone_si500.yaml"; do
+            found=$(find "$root" -path "*optodraw/$needed" | head -1)
+            [ -n "$found" ] || { echo "the frozen app is missing $needed"; exit 1; }
+            echo "carries $needed"
+          done
+
+      - name: Start the frozen app and talk to it
+        # "It built" and "it runs" are different claims, and the second one is
+        # the one a download makes to whoever clicks it.
+        shell: bash
+        run: |
+          cd packaging/dist
+          bin="optodraw/optodraw"
+          [ -f "$bin.exe" ] && bin="$bin.exe"
+          "./$bin" --no-browser --port 8765 &
+          for _ in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8765/api/health >/dev/null && break
+            sleep 2
+          done
+          curl -sf http://127.0.0.1:8765/api/health | grep -q '"status":"ok"'
+          curl -sf http://127.0.0.1:8765/api/stacks | grep -q cornerstone_si500
+          curl -sf -X POST http://127.0.0.1:8765/api/scene/preset \
+               -H 'Content-Type: application/json' -d '{"name":"confocal_pl"}' >/dev/null
+          echo "the frozen app serves the editor, its layer stacks and its presets"
+          kill %1 || true
+
+      - name: Name the bundle after its platform
+        shell: bash
+        run: |
+          cd packaging/dist
+          case "${{ runner.os }}" in
+            macOS)   name=optodraw-macos ;;
+            Windows) name=optodraw-windows ;;
+            *)       name=optodraw-linux ;;
+          esac
+          # onedir output, plus the .app bundle macOS also produces
+          if [ -d optodraw.app ]; then
+            tar -czf "../../$name.tar.gz" optodraw.app
+          else
+            tar -czf "../../$name.tar.gz" optodraw
+          fi
+          ls -la "../../$name.tar.gz"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}
+          path: optodraw-*.tar.gz
+
+  release:
+    name: Attach everything to the release
+    needs: [python, desktop]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check tag against package version
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          match = re.search(r'^version = "([^"]+)"', Path('pyproject.toml').read_text(), re.M)
+          if match is None:
+              raise SystemExit('pyproject.toml has no package version')
+          version = match.group(1)
+          tag = os.environ['GITHUB_REF_NAME'].removeprefix('v')
+          if tag != version:
+              raise SystemExit(f'release tag {tag!r} does not match package version {version!r}')
+          PY
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true
+          body: |
+            Install with pip:
+
+                pip install "optodraw[gui]"
+                optodraw-gui
+
+            Or download the desktop app for your machine below — it is not
+            signed, so macOS wants Control-click → Open the first time, and
+            Windows wants "More info" → "Run anyway".

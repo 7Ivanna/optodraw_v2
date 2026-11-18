@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.729983 11.186411" width="32.729983pt" height="11.186411pt"><g transform="translate(72.0,72.0)">
+<g id='od-heaterpad-page1'>
+<g stroke-miterlimit='10' transform='translate(-55.635012,-66.406797)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke='#333'>
+<g stroke-width='0.4'>
+<g stroke-linejoin='round'>
+<g fill='#f0e442'>
+<path d='M-9.95863-1.9919V1.9919H9.95863V-1.9919ZM9.95863 1.9919'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#a8841f'>
+<clipPath id='od-heaterpad-pgfcp6'>
+<path d='M-14.22636-3.41418V3.41418H-9.95863V-3.41418ZM-9.95863 3.41418'/> </clipPath>
+<g clip-path='url(#od-heaterpad-pgfcp6)'>
+<g transform='matrix(1,0,0,1,-12.09248,0.0)'>
+<g transform='matrix(0.08504,0,0,0.13606,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-heaterpad-pgfsh7'>
+ <stop offset='0.0' stop-color=' #d4af37 '/>
+ <stop offset='0.25' stop-color=' #d4af37 '/>
+ <stop offset='0.5' stop-color=' #e8cb6c '/>
+ <stop offset='0.75' stop-color=' #fbe7a1 '/>
+ <stop offset='1.0' stop-color=' #fbe7a1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-heaterpad-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-14.22636-3.41418V3.41418H-9.95863V-3.41418ZM-9.95863 3.41418' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#a8841f'>
+<clipPath id='od-heaterpad-pgfcp8'>
+<path d='M9.95863-3.41418V3.41418H14.22636V-3.41418ZM14.22636 3.41418'/> </clipPath>
+<g clip-path='url(#od-heaterpad-pgfcp8)'>
+<g transform='matrix(1,0,0,1,12.09248,0.0)'>
+<g transform='matrix(0.08504,0,0,0.13606,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-heaterpad-pgfsh7'>
+ <stop offset='0.0' stop-color=' #d4af37 '/>
+ <stop offset='0.25' stop-color=' #d4af37 '/>
+ <stop offset='0.5' stop-color=' #e8cb6c '/>
+ <stop offset='0.75' stop-color=' #fbe7a1 '/>
+ <stop offset='1.0' stop-color=' #fbe7a1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-heaterpad-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M9.95863-3.41418V3.41418H14.22636V-3.41418ZM14.22636 3.41418' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

@@ -1,0 +1,27 @@
+{
+ "total": 6000,
+ "exclude": [],
+ "pages": {
+  "index": 250,
+  "get-started": 300,
+  "examples": 350,
+  "free-space": 400,
+  "ray-tracing": 400,
+  "chips": 400,
+  "gds": 400,
+  "electronics": 400,
+  "figures": 480,
+  "3d": 400,
+  "animation": 300,
+  "models": 375,
+  "guides/editor": 400,
+  "guides/your-own-parts": 400,
+  "guides/cross-sections": 440,
+  "guides/ai": 250,
+  "reference/api": 400,
+  "reference/parts": 150,
+  "reference/compatibility": 300,
+  "project": 300
+ },
+ "todo": []
+}

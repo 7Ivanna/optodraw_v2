@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.541021 21.541021" width="21.541021pt" height="21.541021pt"><g transform="translate(72.0,72.0)">
+<g>
+<g stroke-miterlimit='10' transform='translate(-61.229496,-61.229496)scale(0.996264,-0.996264)'>
+<g fill='#000' stroke='#000'>
+<g stroke-width='0.4'>
+<g stroke-width='0.55'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g fill='#d9ecf7'>
+<path d='M-8.5359-8.5359V8.5359H8.5359V-8.5359ZM8.5359 8.5359'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-8.5359 8.5359L8.5359-8.5359' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.35'>
+<g stroke-linecap='round'>
+<path d='M-4.6945-2.47542V-4.78017' fill='none'/>
+<g transform='matrix(0.0,1.0,-1.0,0.0,-4.6945,-3.45355)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.15088 0L.52519 .69405L1.06563 0L.52519-.69405Z'/>
+ </g>
+ </g>
+</g>
+<g transform='matrix(0.0,-1.0,1.0,0.0,-4.6945,-3.80203)'>
+<g stroke-dasharray='none' stroke-dashoffset='0.0'>
+ <g stroke-linejoin='miter'>
+ <path d='M2.15088 0L.52519 .69405L1.06563 0L.52519-.69405Z'/>
+ </g>
+ </g>
+</g>
+</g>
+</g>
+<g stroke-width='0.35'>
+<g stroke-linecap='round'>
+<path d='M5.88972 3.84096C5.88972 4.50107 5.35461 5.03618 4.6945 5.03618C4.0344 5.03618 3.49928 4.50107 3.49928 3.84096S4.0344 2.64574 4.6945 2.64574C5.35461 2.64574 5.88972 3.18085 5.88972 3.84096ZM4.6945 3.84096' fill='none'/>
+</g>
+</g>
+<path d='M5.03574 3.84096C5.03574 4.0294 4.88295 4.18219 4.6945 4.18219C4.50606 4.18219 4.35327 4.0294 4.35327 3.84096C4.35327 3.65251 4.50606 3.49973 4.6945 3.49973C4.88295 3.49973 5.03574 3.65251 5.03574 3.84096ZM4.6945 3.84096' stroke='none'/>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

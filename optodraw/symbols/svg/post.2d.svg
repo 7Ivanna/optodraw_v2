@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.272827 29.194252" width="19.272827pt" height="29.194252pt"><g transform="translate(72.0,72.0)">
+<g id='od-post-page1'>
+<g stroke-miterlimit='10' transform='translate(-62.363594,-58.395108)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-post-pgfcp6'>
+<path d='M-1.28032-2.84544V11.38092H1.28032V-2.84544ZM1.28032 11.38092'/> </clipPath>
+<g clip-path='url(#od-post-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,4.26775)'>
+<g transform='matrix(0.05103,0,0,0.2835,0.0,0.0)'>
+<linearGradient id='od-post-pgfsh3'>
+ <stop offset='0.0' stop-color=' #94a3b8 '/>
+ <stop offset='0.25' stop-color=' #94a3b8 '/>
+ <stop offset='0.37999' stop-color=' #e2e8f0 '/>
+ <stop offset='0.45999' stop-color=' #f8fafc '/>
+ <stop offset='0.57999' stop-color=' #e2e8f0 '/>
+ <stop offset='0.75' stop-color=' #64748b '/>
+ <stop offset='1.0' stop-color=' #64748b '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-post-pgfsh3); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-1.28032-2.84544V11.38092H1.28032V-2.84544ZM1.28032 11.38092' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-post-pgfcp7'>
+<path d='M-2.84544-11.38092V-.56917H2.84544V-11.38092ZM2.84544-.56917'/> </clipPath>
+<g clip-path='url(#od-post-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.0,-5.97504)'>
+<g transform='matrix(0.1134,0,0,0.21545,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-post-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-post-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-2.84544-11.38092V-.56917H2.84544V-11.38092ZM2.84544-.56917' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M2.84544-3.98335H5.97527M5.97527-5.69046V-2.27626' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-post-pgfcp8'>
+<path d='M-7.39755-13.37282V-11.38092H7.39755V-13.37282ZM7.39755-11.38092'/> </clipPath>
+<g clip-path='url(#od-post-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,-12.37686)'>
+<g transform='matrix(0.29483,0,0,0.03969,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-post-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-post-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-7.39755-13.37282V-11.38092H7.39755V-13.37282ZM7.39755-11.38092' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

@@ -1,0 +1,869 @@
+% od-freespace.tex : free-space and fibre parts. Load od-core.tex first.
+
+% ---------------------------------------------------------------- polarization controller
+% A fibre paddle controller, as the three-paddle controllers sold for fibre:
+% a long base, round paddles that stand on it, and the fibre wound in loops
+% inside each paddle. A paddle turns about the fibre axis, so a turned paddle
+% looks shorter (it leans toward or away from the viewer); each stands at
+% its own angle, as in use.
+\tikzset{
+  od fibre/.style={od paint={od wg}{line width=0.55pt*\odls, draw=odfibre, line cap=round}},
+  od loop/.style={od paint={od el}{line width=0.45pt*\odls, draw=odfibre}},       % the fibre wound in a paddle
+  od paddle/.style={od paint={od el, fill=white}{od hair, draw=ods800, top color=ods500, bottom color=ods700, od shadow, od shine}},  % dark heads: the loops show
+}
+\definecolor{odfibre}{HTML}{F59E0B}                    % a fibre jacket, in 2D
+\tikzset{pics/od polcontroller/.default={}, pics/od polcontroller/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathtruncatemacro\odn{\odget{count}}
+  \pgfmathsetmacro\odL{\odn*0.2+0.25}
+  \draw[od paint={od el, fill=white}{od hair, draw=odanoE, top color=odanoA, bottom color=odanoB, od shadow, od shine},
+        rounded corners=0.03cm] ({-\odL+0.04},-0.14) rectangle ({\odL-0.04},-0.05);
+  \foreach \ods in {-1,1} {\draw[od alusmall] ({\ods*(\odL-0.1)-0.04},-0.05) rectangle ({\ods*(\odL-0.1)+0.04},0.04);}
+  \draw[od fibre] (-\odL,0) -- (\odL,0);
+  \foreach \odi in {1,...,\odn} {
+    \pgfmathsetmacro\odx{-(\odn-1)*0.2+(\odi-1)*0.4}
+    \pgfmathtruncatemacro\odj{mod(\odi-1,3)}
+    \pgfmathsetmacro\odk{cos(ifthenelse(\odj==0,10,ifthenelse(\odj==1,55,30)))}
+    \begin{scope}[shift={(\odx,0)}, yscale=\odk]
+      \draw[od paddle] (-0.045,0) rectangle (0.045,0.14);
+      \draw[od paddle] (0,0.28) circle [radius=0.15];
+      \draw[od loop] (0,0) -- (0,0.15);
+      \draw[od loop] (0,0.28) circle [radius=0.1] (0,0.28) circle [radius=0.075];
+    \end{scope}
+    \draw[od alusmall] (\odx,0) circle [radius=0.03];
+  }
+  \odport[fiber]{in}{-\odL,0}\odport[fiber]{out}{\odL,0}
+}}}
+
+% ---------------------------------------------------------------- fibre parts
+% Each sits on the fibre (y = 0) with fibre ports. 2D: light bodies, amber fibre.
+\tikzset{od fibrebody/.style={od paint={od wg, fill=white}{od hair, draw=ods400, top color=white, bottom color=ods200, od shadow, od shine}}}
+% A doped-fibre amplifier (EDFA): the amplifier triangle on the fibre, the coil of doped fibre in it.
+\tikzset{pics/od fiberamp/.default={}, pics/od fiberamp/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od fibre] (-0.7,0) -- (-0.3,0) (0.35,0) -- (0.7,0);
+  \draw[od fibrebody, line join=round] (-0.3,-0.3) -- (-0.3,0.3) -- (0.35,0) -- cycle;
+  \foreach \odx in {-0.19,-0.11,-0.03} {\draw[od loop] (\odx,0) circle [radius=0.065];}
+  \odport[fiber]{in}{-0.7,0}\odport[fiber]{out}{0.7,0}
+}}}
+% A circulator: light goes round from port 1 (left) to port 2 (right) to port 3 (below).
+\tikzset{pics/od circulator/.default={}, pics/od circulator/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od fibre] (-0.6,0) -- (-0.3,0) (0.3,0) -- (0.6,0) (0,-0.3) -- (0,-0.6);
+  \draw[od fibrebody] (0,0) circle [radius=0.3];
+  \draw[od el, od paint={}{draw=ods600}, -{Stealth[length=3pt,width=2.6pt]}] (165:0.17) arc [start angle=165, end angle=-75, radius=0.17];
+  \odport[fiber]{p1}{-0.6,0}\odport[fiber]{p2}{0.6,0}\odport[fiber]{p3}{0,-0.6}
+}}}
+% A fused 2x2 coupler: two fibres meet in a glass sleeve and part again.
+\tikzset{pics/od fibercoupler/.default={}, pics/od fibercoupler/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od paint={od el, fill=white}{od hair, draw=odglassE, top color=odglassA, bottom color=odglassB, od shadow},
+        rounded corners=0.05cm] (-0.35,-0.12) rectangle (0.35,0.12);
+  \foreach \ods in {1,-1} {
+    \draw[od fibre] (-0.8,\ods*0.2) .. controls (-0.55,\ods*0.2) and (-0.45,\ods*0.04) .. (-0.25,\ods*0.04)
+      -- (0.25,\ods*0.04) .. controls (0.45,\ods*0.04) and (0.55,\ods*0.2) .. (0.8,\ods*0.2);}
+  \odport[fiber]{in1}{-0.8,0.2}\odport[fiber]{in2}{-0.8,-0.2}\odport[fiber]{out1}{0.8,0.2}\odport[fiber]{out2}{0.8,-0.2}
+}}}
+% A spool seen from above: the flange, the windings of fibre, the hub.
+\tikzset{pics/od spool/.default={}, pics/od spool/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od paint={od wg, fill=white}{od hair, draw=odaluE, top color=odaluA, bottom color=odaluB, od shadow, od shine}] (0,0) circle [radius=0.333];
+  \foreach \odr in {0.29,0.25,0.21,0.17} {\draw[od loop] (0,0) circle [radius=\odr];}
+  \draw[od paint={od el, fill=white}{od hair, draw=ods500, top color=ods300, bottom color=ods500}] (0,0) circle [radius=0.1];
+  \draw[od fibre] (-0.6,0) -- (-0.29,0) (0.29,0) -- (0.6,0);
+  \odport[fiber]{in}{-0.6,0}\odport[fiber]{out}{0.6,0}
+}}}
+% A variable attenuator: a housing on the fibre, the filter that darkens, the arrow of "variable".
+\tikzset{pics/od voa/.default={}, pics/od voa/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od fibre] (-0.6,0) -- (-0.18,0) (0.18,0) -- (0.6,0);
+  \draw[od fibrebody, rounded corners=0.03cm] (-0.18,-0.2) rectangle (0.18,0.2);
+  \fill[od paint={black!15}{left color=ods100, right color=ods500}] (-0.1,-0.12) rectangle (0.1,0.12);
+  \draw[od el, od paint={}{draw=ods700}, -{Stealth[length=3pt,width=2.6pt]}] (-0.26,-0.28) -- (0.26,0.28);
+  \odport[fiber]{in}{-0.6,0}\odport[fiber]{out}{0.6,0}
+}}}
+
+% ================================================================ free-space optics
+% The beam runs left to right on the line y = 0. Glass is a pale blue, a
+% reflecting face is a heavy line, a mount or a housing is white or grey.
+\definecolor{odglass}{HTML}{D9ECF7}                    % glass
+\tikzset{
+  od glass/.style={od paint={od el, fill=odglass}{od hair, draw=odglassE, top color=odglassA, bottom color=odglassB}},
+  od face/.style={od paint={line width=1.5pt*\odls}{line width=0.8pt*\odls, draw=ods500}, line cap=butt, line join=round},   % a reflecting face
+  od metal/.style={od paint={od el, fill=black!22}{od hair, draw=odaluE, top color=odaluA, bottom color=odaluB}},
+  od chrome/.style={od paint={od wg, fill=white}{od hair, draw=odaluE, top color=ods300, bottom color=ods300, middle color=white, od shadow}},
+  od mark/.style={od el, od paint={}{draw=ods700}},              % a mark on a dark housing: white in 2D
+  od rayb/.style={od ray, od paint={}{draw=odbeam}},                      % a ray of light inside a part
+  od turnb/.style={od turn, od paint={}{draw=odbeam}},
+  od axis/.style={od wg, od paint={}{draw=odbeam}},  % the beam inside a part: as heavy as a link, so it never looks broken
+                                         % (inside glass it is a thin ray with an arrow: a ray, not a cut)
+  od plane/.style={od ray, dash pattern=on 1.2pt off 1.2pt},           % a plane (not a beam): the Fourier plane
+  od turn/.style={od ray, -{Stealth[length=2.6pt,width=2.2pt]}},
+  od both/.style={od ray, {Stealth[length=2.6pt,width=2.2pt]}-{Stealth[length=2.6pt,width=2.2pt]}},
+}
+% A biconvex lens on the axis: #1 = x, #2 = half height, #3 = half thickness at the centre.
+\newcommand\odcvx[3]{\draw[od glass] (#1,-#2) .. controls ({#1-#3*1.333},{-#2*0.42}) and ({#1-#3*1.333},{#2*0.42}) .. (#1,#2)
+  .. controls ({#1+#3*1.333},{#2*0.42}) and ({#1+#3*1.333},{-#2*0.42}) .. cycle;
+  \ifx\odlook\odlooktwod\draw[white, line width=0.45pt*\odls, line cap=round] ({#1-#3*0.42},{#2*0.62}) .. controls ({#1-#3*0.62},{#2*0.3}) and ({#1-#3*0.62},{#2*0.1}) .. ({#1-#3*0.55},{-#2*0.08});\fi}
+% A biconcave lens: #1 = x, #2 = half height, #3 = half thickness at the edge.
+\newcommand\odccv[3]{\draw[od glass] ({#1-#3},-#2) -- ({#1+#3},-#2)
+  .. controls ({#1+#3*0.2},{-#2*0.42}) and ({#1+#3*0.2},{#2*0.42}) .. ({#1+#3},#2)
+  -- ({#1-#3},#2) .. controls ({#1-#3*0.2},{#2*0.42}) and ({#1-#3*0.2},{-#2*0.42}) .. cycle;}
+% A thin plate across the beam: #1 = half thickness, #2 = half height, #3 = style.
+\newcommand\odplate[3]{\draw[#3] (-#1,-#2) rectangle (#1,#2);}
+
+% ---------------------------------------------------------------- lens
+% kind: (none) biconvex, concave, aspheric (flat back, steep front), cylindrical (a bar: the section and its depth).
+\tikzset{pics/od lens/.default={}, pics/od lens/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{concave}\ifx\odkind\odtmp
+    \odccv{0}{0.36}{0.1}
+    \odport[free_space]{in}{-0.04,0}\odport[free_space]{out}{0.04,0}
+  \else\def\odtmp{aspheric}\ifx\odkind\odtmp
+    \draw[od glass] (-0.06,-0.36) -- (-0.06,0.36) .. controls (0.08,0.3) and (0.18,0.15) .. (0.18,0)
+      .. controls (0.18,-0.15) and (0.08,-0.3) .. cycle;
+    \odport[free_space]{in}{-0.06,0}\odport[free_space]{out}{0.18,0}
+  \else\def\odtmp{cylindrical}\ifx\odkind\odtmp
+    \draw[od paint={od el, fill=odglass!70!black!30!odglass}{od hair, draw=odglassE, top color=odglassB, bottom color=odglassB!70!ods500}] (-0.06,0.3) -- (0.07,0.39)
+      arc [start angle=90, end angle=-74.5, x radius=0.12, y radius=0.3] -- (-0.028,-0.289)
+      arc [start angle=-74.5, end angle=90, x radius=0.12, y radius=0.3] -- cycle;
+    \foreach \oda in {50,15,-25} {
+      \draw[od ray] ({-0.06+0.12*cos(\oda)},{0.3*sin(\oda)}) -- ++(0.13,0.09);}
+    \draw[od glass] (-0.06,0.3) arc [start angle=90, end angle=-90, x radius=0.12, y radius=0.3] -- cycle;
+    \odport[free_space]{in}{-0.06,0}\odport[free_space]{out}{0.19,0}
+  \else
+    \odcvx{0}{0.36}{0.0975}
+    \odport[free_space]{in}{-0.0975,0}\odport[free_space]{out}{0.0975,0}
+  \fi\fi\fi
+}}}
+
+% ---------------------------------------------------------------- objective, lens tube
+% An objective: a barrel that narrows to its front lens.
+\tikzset{pics/od objective/.default={}, pics/od objective/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \ifx\odlook\odlooktwod   % 2D: brass thread, knurled grip, chrome barrel, gold band, the magnification ring, dark nose, blue front lens
+    \draw[od hair, draw=odgoldE, top color=odgoldA, bottom color=odgoldB] (-0.44,-0.15) rectangle (-0.3,0.15);
+    \foreach \odx in {-0.425,-0.4,...,-0.31} {\draw[line width=0.25pt*\odls, draw=odgoldE] (\odx,-0.15) -- (\odx,0.15);}
+    \draw[od hair, draw=ods400, top color=ods300, bottom color=ods300, middle color=white, od shadow] (-0.3,-0.21) rectangle (-0.12,0.21);
+    \foreach \odx in {-0.285,-0.27,...,-0.13} {\draw[line width=0.25pt*\odls, draw=ods400] (\odx,-0.2) -- (\odx,0.2);}
+    \draw[od hair, draw=ods400, top color=ods200, bottom color=ods300, middle color=ods50, od shadow] (-0.12,-0.22) rectangle (0.19,0.22);
+    \path[fill=white, fill opacity=0.5] (-0.12,0.03) rectangle (0.19,0.09);
+    \draw[od hair, draw=odgoldE, top color=odgoldB, bottom color=odgoldB, middle color=odgoldA] (-0.11,-0.215) rectangle (-0.01,0.215);
+    \draw[od hair, draw=ods700, fill=yellow!70!orange] (0.185,-0.21) rectangle (0.235,0.21);
+    \draw[od hair, draw=ods800, top color=ods700, bottom color=ods700, middle color=ods500] (0.235,-0.16) -- (0.34,-0.13) -- (0.34,0.13) -- (0.235,0.16) -- cycle;
+    \draw[od hair, draw=ods500, top color=ods200, bottom color=ods200, middle color=white] (0.34,-0.14) rectangle (0.355,0.14);
+    \draw[od hair, draw=ods900, top color=ods800, bottom color=ods800, middle color=ods600] (0.355,-0.105) rectangle (0.43,0.105);
+    \draw[od hair, draw=odglassE!80!blue, fill=odglassE!60!blue!70] (0.43,-0.07) .. controls (0.452,-0.03) and (0.452,0.03) .. (0.43,0.07) -- cycle;
+    \fill[white, fill opacity=0.6] (0.437,0.03) circle [radius=0.008];
+  \else
+  \draw[od alusmall] (-0.44,-0.13) rectangle (-0.36,0.13);
+  \foreach \odx in {-0.42,-0.4,-0.38} {\draw[od ray] (\odx,-0.13) -- (\odx,0.13);}
+  \draw[od chrome, rounded corners=0.03cm] (-0.36,-0.22) rectangle (0.04,0.22);
+  \foreach \odx in {-0.3,-0.27,...,-0.12} {\draw[od ray] (\odx,-0.22) -- (\odx,0.22);}
+  \fill[black!70] (-0.04,-0.22) rectangle (0.0,0.22);
+  \draw[od chrome] (0.04,-0.2) -- (0.16,-0.13) -- (0.3,-0.13) -- (0.4,-0.07) -- (0.4,0.07)
+    -- (0.3,0.13) -- (0.16,0.13) -- (0.04,0.2) -- cycle;
+  \draw[od glass] (0.4,-0.06) .. controls (0.463,-0.025) and (0.463,0.025) .. (0.4,0.06) -- cycle;
+  \fi
+  \odport[free_space]{in}{-0.44,0}\odport[free_space]{out}{0.447,0}
+}}}
+% A lens tube: a threaded tube with a lens in it.
+\tikzset{pics/od lenstube/.default={}, pics/od lenstube/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od tube] (-0.4,-0.2) rectangle (0.4,0.2);
+  \foreach \odx in {-0.34,-0.29,0.29,0.34} {\draw[od ray] (\odx,-0.2) -- (\odx,0.2);}
+  \draw[od axis] (-0.24,0) -- (0.24,0);
+  \odcvx{0}{0.17}{0.055}
+  \odport[free_space]{in}{-0.4,0}\odport[free_space]{out}{0.4,0}
+}}}
+
+% ---------------------------------------------------------------- telescope, beam expander, 4f system
+% Two lenses and the rays between them. kind: (none) keplerian, galilean (a concave lens first).
+\tikzset{pics/od telescope/.default={}, pics/od telescope/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{galilean}\ifx\odkind\odtmp
+    \foreach \ods in {1,-1} {\draw[od rayb] (-0.4,\ods*0.1) -- (0.4,\ods*0.26);}
+    \odccv{-0.4}{0.2}{0.07}\odcvx{0.4}{0.36}{0.0975}
+    \odport[free_space]{in}{-0.428,0}\odport[free_space]{out}{0.4975,0}
+  \else
+    \foreach \ods in {1,-1} {\draw[od rayb] (-0.42,\ods*0.12) -- (-0.14,0) -- (0.42,-\ods*0.24);}
+    \odcvx{-0.42}{0.2}{0.06}\odcvx{0.42}{0.36}{0.0975}
+    \odport[free_space]{in}{-0.48,0}\odport[free_space]{out}{0.5175,0}
+  \fi
+}}}
+% A beam expander: one housing that widens from the small lens to the large lens.
+\tikzset{pics/od beamexpander/.default={}, pics/od beamexpander/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing] (-0.45,-0.14) -- (-0.14,-0.14) -- (0.06,-0.32) -- (0.45,-0.32) -- (0.45,0.32)
+    -- (0.06,0.32) -- (-0.14,0.14) -- (-0.45,0.14) -- cycle;
+  \foreach \ods in {1,-1} {\draw[od rayb] (-0.35,\ods*0.05) -- (0.33,\ods*0.23);}
+  \odccv{-0.35}{0.1}{0.045}\odcvx{0.33}{0.27}{0.075}
+  \odport[free_space]{in}{-0.45,0}\odport[free_space]{out}{0.45,0}
+}}}
+% A 4f system: object plane, lens, Fourier plane, lens, image plane. split = f1 / (f1 + f2): the Fourier plane
+% sits one f1 behind the first lens, so it is at the middle only when f1 = f2.
+\pgfkeys{/od/.cd, split/.initial=0.5}
+\tikzset{pics/od fourf/.default={}, pics/od fourf/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \pgfmathsetmacro\odfa{0.64*\odget{split}}
+  \pgfmathsetmacro\odla{-0.64+\odfa}\pgfmathsetmacro\odfp{-0.64+2*\odfa}\pgfmathsetmacro\odlb{\odfa}
+  \foreach \ods in {1,-1} {\draw[od rayb] (-0.64,0) -- (\odla,\ods*0.2) -- (\odlb,\ods*0.2) -- (0.64,0);}
+  \draw[od plane] (\odfp,-0.34) -- (\odfp,0.34);
+  \odcvx{\odla}{0.3}{0.08}\odcvx{\odlb}{0.3}{0.08}
+  \odport[free_space]{object}{-0.64,0}\odport[free_space]{image}{0.64,0}\odport[free_space]{fourier}{\odfp,0.34}
+}}}
+
+% ---------------------------------------------------------------- fibre collimator, fibre port
+% A collimator: the fibre enters a barrel, the light spreads to a lens and leaves as a beam.
+\tikzset{pics/od collimator/.default={}, pics/od collimator/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.6,0) -- (-0.3,0);
+  \draw[od tube] (-0.3,-0.15) rectangle (0.28,0.15);
+  \draw[od rayb] (-0.3,0) -- (0.18,0.1) (-0.3,0) -- (0.18,-0.1);
+  \odcvx{0.18}{0.12}{0.045}
+  \odport[fiber]{in}{-0.6,0}\odport[free_space]{out}{0.28,0}
+}}}
+% A fibre port: a flange plate, a lens that focuses the beam, and the fibre on its connector.
+\tikzset{pics/od fiberport/.default={}, pics/od fiberport/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing] (-0.3,-0.3) rectangle (-0.2,0.3);
+  \draw[od tube] (-0.2,-0.15) rectangle (0.24,0.15);
+  \draw[od rayb] (-0.1,0.1) -- (0.24,0) (-0.1,-0.1) -- (0.24,0);
+  \odcvx{-0.1}{0.12}{0.045}
+  \draw[od alusmall] (0.24,-0.06) rectangle (0.36,0.06);
+  \draw[od wg] (0.36,0) -- (0.6,0);
+  \odport[free_space]{in}{-0.3,0}\odport[fiber]{out}{0.6,0}
+}}}
+
+% ---------------------------------------------------------------- mirror
+% The beam arrives from the left and meets the light, reflecting face. The dark
+% part is the back of the mirror. kind: (none) flat, concave, convex, biconcave, biconvex.
+% pzt: (none); stack (a piezo stack behind the mirror moves it along its normal, as in a cavity lock); 3axis (three
+% short stacks under a plate tip, tilt and push it). The drive enters at the back, port pzt, 0.13 behind the mirror's
+% back: Mirror.PIEZO_REACH holds the same numbers.
+\pgfkeys{/od/.cd, pzt/.initial=}
+\tikzset{
+  od coat/.style={od paint={od el, fill=black!5}{od hair, draw=ods400, shading=odsilver}},     % a reflecting face: silver
+  od back/.style={od paint={od el, fill=black!70}{od hair, draw=ods900, shading=odblack}},     % its mount: dark
+  od piezo/.style={od paint={od el, fill=white}{od hair, draw=ods500, top color=ods50, bottom color=ods300}},  % ceramic
+}
+% #1: the x of the mirror's back. Draws the piezo of the key pzt, when it is set, and its port.
+\newcommand\odpzt[1]{\edef\odpz{\odget{pzt}}\ifx\odpz\empty\else
+  \def\odtmp{3axis}\ifx\odpz\odtmp
+    \foreach \ody in {-0.24,0,0.24} {\draw[od piezo] (#1,{\ody-0.055}) rectangle ({#1+0.07},{\ody+0.055});}
+    \draw[od back] ({#1+0.07},-0.34) rectangle ({#1+0.13},0.34);
+  \else
+    \draw[od piezo] (#1,-0.2) rectangle ({#1+0.13},0.2);
+    \foreach \odx in {0.0325,0.065,0.0975} {\draw[od ray] ({#1+\odx},-0.2) -- ({#1+\odx},0.2);}
+  \fi
+  \odport[electrical]{pzt}{{#1+0.13},0}\fi}
+\tikzset{pics/od mirror/.default={}, pics/od mirror/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{concave}\ifx\odkind\odtmp
+    \draw[od back] (0.05,-0.34) .. controls (0.14,-0.15) and (0.14,0.15) .. (0.05,0.34) -- (0.19,0.34) -- (0.19,-0.34) -- cycle;
+    \draw[od coat] (0,-0.34) .. controls (0.09,-0.15) and (0.09,0.15) .. (0,0.34) -- (0.05,0.34)
+      .. controls (0.14,0.15) and (0.14,-0.15) .. (0.05,-0.34) -- cycle;
+    \odport[free_space]{io}{0.0675,0}\odpzt{0.19}
+  \else\def\odtmp{convex}\ifx\odkind\odtmp
+    \draw[od back] (0.12,-0.34) .. controls (0.03,-0.15) and (0.03,0.15) .. (0.12,0.34) -- (0.2,0.34) -- (0.2,-0.34) -- cycle;
+    \draw[od coat] (0.07,-0.34) .. controls (-0.02,-0.15) and (-0.02,0.15) .. (0.07,0.34) -- (0.12,0.34)
+      .. controls (0.03,0.15) and (0.03,-0.15) .. (0.12,-0.34) -- cycle;
+    \odport[free_space]{io}{0.0025,0}\odpzt{0.2}
+  \else\def\odtmp{biconcave}\ifx\odkind\odtmp
+    \draw[od back] (0.05,-0.34) .. controls (0.14,-0.15) and (0.14,0.15) .. (0.05,0.34) -- (0.27,0.34)
+      .. controls (0.18,0.15) and (0.18,-0.15) .. (0.27,-0.34) -- cycle;
+    \draw[od coat] (0,-0.34) .. controls (0.09,-0.15) and (0.09,0.15) .. (0,0.34) -- (0.05,0.34)
+      .. controls (0.14,0.15) and (0.14,-0.15) .. (0.05,-0.34) -- cycle;
+    \odport[free_space]{io}{0.0675,0}\odpzt{0.27}
+  \else\def\odtmp{biconvex}\ifx\odkind\odtmp
+    \draw[od back] (0.12,-0.34) .. controls (0.03,-0.15) and (0.03,0.15) .. (0.12,0.34) -- (0.17,0.34)
+      .. controls (0.26,0.15) and (0.26,-0.15) .. (0.17,-0.34) -- cycle;
+    \draw[od coat] (0.07,-0.34) .. controls (-0.02,-0.15) and (-0.02,0.15) .. (0.07,0.34) -- (0.12,0.34)
+      .. controls (0.03,0.15) and (0.03,-0.15) .. (0.12,-0.34) -- cycle;
+    \odport[free_space]{io}{0.0025,0}\odpzt{0.2375}
+  \else
+    \draw[od back] (0.05,-0.34) rectangle (0.13,0.34);
+    \draw[od coat] (0,-0.34) rectangle (0.05,0.34);
+    \odport[free_space]{io}{0,0}\odpzt{0.13}
+  \fi\fi\fi\fi
+}}}
+% A flip mirror: a flat mirror, and the outline of the place it flips to. The top view leaves the outline out:
+% the part draws it there at its own out_offset. pass is where the light runs straight on when the mirror is down.
+\tikzset{pics/od flipmirror/.default={}, pics/od flipmirror/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od back] (0.05,-0.34) rectangle (0.13,0.34);
+  \draw[od coat] (0,-0.34) rectangle (0.05,0.34);
+  \draw[od alusmall] (0.09,-0.29) circle [radius=0.028];
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp\else
+    \draw[od el, dash pattern=on 1pt off 1pt] (0,0.42) rectangle (0.13,1.1);
+  \fi
+  \odport[free_space]{io}{0,0}\odport[free_space]{pass}{0.13,0}
+}}}
+% A dichroic mirror: a tilted plate. One color goes through, the other leaves to the side.
+\tikzset{pics/od dichroic/.default={}, pics/od dichroic/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od light, draw=odw3] (-0.04,-0.06) -- (-0.04,-0.36);
+  \draw[od glass, rotate=45] (-0.035,-0.36) rectangle (0.035,0.36);
+  \draw[od face, line width=1.1pt*\odls, draw=odw3, rotate=45] (-0.035,-0.36) -- (-0.035,0.36);
+  \odport[free_space]{in}{-0.05,0}\odport[free_space]{out}{0.05,0}
+}}}
+% A galvo mirror: a small mirror on a pivot, and the arc it sweeps.
+\tikzset{pics/od galvo/.default={}, pics/od galvo/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od back, rotate=20] (0.015,-0.3) rectangle (0.065,0.3);
+  \draw[od coat, rotate=20] (-0.03,-0.3) rectangle (0.015,0.3);
+  \draw[od alusmall] (0.01,0) circle [radius=0.045];
+  \draw[od both] (62:0.42) arc [start angle=62, end angle=118, radius=0.42];
+  \odport[free_space]{in}{-0.06,0}\odport[free_space]{out}{0.06,0}
+}}}
+% Compact schematic scanner; its 2D art keeps the existing galvo drawing.
+\tikzset{pics/od galvocompact/.default={}, pics/od galvocompact/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od back, rotate=20] (0.012,-0.2) rectangle (0.042,0.2);
+  \draw[od coat, rotate=20] (-0.02,-0.2) rectangle (0.012,0.2);
+  \draw[od alusmall] (0,0) circle [radius=0.025];
+  \draw[od both] (72:0.27) arc [start angle=72, end angle=108, radius=0.27];
+  \odport[free_space]{in}{-0.07,0}\odport[free_space]{out}{0.07,0}
+}}}
+% A retroreflector: two faces at a right angle send the beam back the way it came.
+\tikzset{pics/od retro/.default={}, pics/od retro/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od glass] (-0.2,-0.32) -- (-0.2,0.32) -- (0.12,0) -- cycle;
+  \draw[od face] (-0.2,0.32) -- (0.12,0) -- (-0.2,-0.32);
+  \draw[od rayb] (-0.2,0.13) -- (-0.01,0.13) -- (-0.01,-0.13) -- (-0.2,-0.13);
+  \odport[free_space]{io}{-0.2,0}
+}}}
+% A periscope: two mirrors on a post lift the beam.
+% view=top: from above the two mirrors lie over each other on the post; the beam goes in and comes out on one line.
+\tikzset{pics/od periscope/.default={}, pics/od periscope/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od axis] (-0.42,0) -- (0.42,0);
+    \draw[od alu] (0,0) circle [radius=0.13];
+    \begin{scope}[rotate=45]
+      \draw[od back] (0,-0.26) rectangle (0.05,0.26);\draw[od coat] (-0.035,-0.26) rectangle (0,0.26);
+    \end{scope}
+    \odport[free_space]{in}{-0.42,0}\odport[free_space]{out}{0.42,0}\odport[free_space]{mount}{0,0}
+  \else
+  \draw[od alu] (0.19,-0.5) rectangle (0.27,0.46);
+  \draw[od wg] (0.07,-0.5) -- (0.39,-0.5);
+  \draw[od axis] (0,-0.3) -- (0,0.3);
+  \begin{scope}[rotate around={-45:(0,-0.3)}]
+    \draw[od coat] (-0.035,-0.45) rectangle (0,-0.15);\draw[od back] (0,-0.45) rectangle (0.05,-0.15);
+  \end{scope}
+  \begin{scope}[rotate around={-45:(0,0.3)}]
+    \draw[od coat] (0,0.15) rectangle (0.035,0.45);\draw[od back] (-0.05,0.15) rectangle (0,0.45);
+  \end{scope}
+  \odport[free_space]{in}{0,-0.3}\odport[free_space]{out}{0,0.3}\odport[free_space]{mount}{0.23,-0.5}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- beamsplitters
+% A plate beamsplitter: in from the left, through to the right, reflected down;
+% the fourth port is on top. The reflecting face is the lower left one. A view
+% draws the beam from each port that the scene uses to the middle of the plate.
+% kind: (none); dichroic (the coating that reflects one color is drawn in that color).
+\tikzset{pics/od platesplitter/.default={}, pics/od platesplitter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \draw[od glass, rotate=45] (-0.03,-0.36) rectangle (0.03,0.36);
+  \def\odtmp{dichroic}\ifx\odkind\odtmp
+    \draw[od face, line width=1.1pt*\odls, draw=odw3, rotate=45] (-0.03,-0.36) -- (-0.03,0.36);
+  \else
+    \draw[od face, line width=0.9pt*\odls, rotate=45] (-0.03,-0.36) -- (-0.03,0.36);
+  \fi
+  \odport[free_space]{in}{-0.3,0}\odport[free_space]{trans}{0.3,0}
+  \odport[free_space]{refl}{0,-0.3}\odport[free_space]{tap}{0,0.3}\odport[hub]{hub}{0,0}
+  % at normal incidence (a partial reflector): the coated face and the back, along the plate's normal
+  \odport[free_space]{front}{-0.15,-0.15}\odport[free_space]{back}{0.15,0.15}
+}}}
+% A partial mirror: the coated plate across its beam (an output coupler, a cavity input or recycling mirror).
+% The coating is the front (left) face; the light it passes leaves from the back. The plate's 45-degree ports
+% stay at its corners, where they sit on the part.
+\tikzset{pics/od partialmirror/.default={}, pics/od partialmirror/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od glass] (-0.035,-0.34) rectangle (0.035,0.34);
+  \draw[od face, line width=0.9pt*\odls] (-0.035,-0.34) -- (-0.035,0.34);
+  \odport[free_space]{front}{-0.035,0}\odport[free_space]{back}{0.035,0}
+  \odport[free_space]{in}{-0.035,0.035}\odport[free_space]{trans}{0.035,-0.035}
+  \odport[free_space]{refl}{-0.035,-0.035}\odport[free_space]{tap}{0.035,0.035}
+}}}
+% A cube beamsplitter. kind: (none) polarizing, with the two polarizations marked; plain.
+\tikzset{pics/od cubesplitter/.default={}, pics/od cubesplitter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \draw[od glass] (-0.26,-0.26) rectangle (0.26,0.26);
+  \draw[od el] (-0.26,-0.26) -- (0.26,0.26);
+  \def\odtmp{plain}\ifx\odkind\odtmp\else
+    \draw[od both] (0.14,-0.11) -- (0.14,0.11);
+    \draw[od ray] (-0.02,0.15) circle [radius=0.045];
+    \fill (-0.02,0.15) circle [radius=0.014];
+  \fi
+  \odport[free_space]{in}{-0.26,0}\odport[free_space]{trans}{0.26,0}\odport[free_space]{refl}{0,0.26}\odport[free_space]{tap}{0,-0.26}\odport[hub]{hub}{0,0}
+}}}
+
+% A Glan-Laser polarizer: two prisms with an air gap; p passes straight, s leaves through the window below.
+\tikzset{pics/od glanlaser/.default={}, pics/od glanlaser/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od tube] (-0.6,-0.3) rectangle (0.6,0.3);
+  \draw[od glass] (-0.48,-0.21) rectangle (0.48,0.21);
+  \draw[od el] (-0.09,0.21) -- (0.09,-0.21);
+  \draw[od both] (0.3,-0.12) -- (0.3,0.12);
+  \draw[od glass] (0.0,-0.3) rectangle (0.2,-0.21);
+  \odport[free_space]{in}{-0.6,0}\odport[free_space]{out}{0.6,0}\odport[free_space]{reject}{0.1,-0.3}
+}}}
+
+% A Wollaston prism: two wedges cemented on the diagonal, the optic axis in the page in the first (an arrow) and
+% out of it in the second (a dot); the two polarizations leave the back face apart, o above and e below. The plan
+% of WollastonPrism.geometry_2d: a square, the axis marks at 0.55 of the half length, o and e at 20 degrees apart.
+\tikzset{pics/od wollaston/.default={}, pics/od wollaston/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od glass] (-0.3,-0.3) rectangle (0.3,0.3);
+  \draw[od el] (-0.3,0.3) -- (0.3,-0.3);
+  \draw[od both] (-0.165,-0.03) -- (-0.165,-0.225);
+  \draw[od ray] (0.165,0.135) circle [radius=0.042];
+  \fill (0.165,0.135) circle [radius=0.012];
+  \odport[free_space]{in}{-0.3,0}\odport[free_space]{o}{0.3,0.053}\odport[free_space]{e}{0.3,-0.053}
+}}}
+
+% A nonlinear crystal: a block on the beam, its optic axis corner to corner (BBO, LBO, a white-light plate).
+% kind=poled: a periodically poled chip (PPKTP, PPLN), long and thin, its domains every other one dark. The plan
+% of NonlinearCrystal.geometry_2d: a bulk crystal 5 long and 4 high, a poled chip 12 long and 4 high, 8 domains.
+\definecolor{odcrystal}{HTML}{F6E9B8}\definecolor{odcrystalA}{HTML}{FBF3D5}\definecolor{odcrystalB}{HTML}{EBD58A}\definecolor{odcrystalE}{HTML}{9A7A1F}
+\tikzset{pics/od crystal/.default={}, pics/od crystal/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{poled}\ifx\odkind\odtmp
+    \draw[od paint={od el, fill=odcrystal}{od hair, draw=odcrystalE, top color=odcrystalA, bottom color=odcrystalB}] (-0.45,-0.15) rectangle (0.45,0.15);
+    \foreach \odi in {0,2,4,6} {\fill[od paint={black!45}{odcrystalE!60}] ({-0.45+\odi*0.1125},-0.15) rectangle ({-0.3375+\odi*0.1125},0.15);}
+    \draw[od paint={od el}{od hair, draw=odcrystalE}] (-0.45,-0.15) rectangle (0.45,0.15);
+    \odport[free_space]{in}{-0.45,0}\odport[free_space]{out}{0.45,0}
+  \else
+    \draw[od paint={od el, fill=odcrystal}{od hair, draw=odcrystalE, top color=odcrystalA, bottom color=odcrystalB}] (-0.3,-0.24) rectangle (0.3,0.24);
+    \draw[od ray, od paint={}{draw=odcrystalE}] (-0.3,-0.24) -- (0.3,0.24);
+    \odport[free_space]{in}{-0.3,0}\odport[free_space]{out}{0.3,0}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- polarization optics
+% A polarizer: a plate, and the direction it passes drawn on the beam. kind: (none); analyzer (the direction is turned).
+\tikzset{pics/od polarizer/.default={}, pics/od polarizer/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \odplate{0.035}{0.29}{od paint={od el, fill=odglass}{od hair, draw=ods500, top color=ods200, bottom color=ods400}}
+  \foreach \ody in {-0.22,-0.11,0,0.11,0.22} {\draw[od ray] (-0.035,\ody) -- (0.035,\ody);}
+  \foreach \ods in {1,-1} {\draw[od absorber] (-0.075,\ods*0.29) rectangle (0.075,\ods*0.36);}
+  \draw[od beam] (0.035,0) -- (0.32,0);
+  \def\odtmp{analyzer}\ifx\odkind\odtmp
+    \draw[od both] (0.08,-0.11) -- (0.28,0.11);
+  \else
+    \draw[od both] (0.18,-0.15) -- (0.18,0.15);
+  \fi
+  \odport[free_space]{in}{-0.035,0}\odport[free_space]{out}{0.32,0}
+}}}
+% A wave plate: a plate with its fast axis. kind: (none); half (a half turn); quarter (a quarter turn).
+\tikzset{pics/od waveplate/.default={}, pics/od waveplate/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \odplate{0.035}{0.29}{od glass}
+  \draw[od el] (-0.035,-0.27) -- (0.035,-0.14) (-0.035,0.14) -- (0.035,0.27);
+  \foreach \ods in {1,-1} {\draw[od absorber] (-0.075,\ods*0.29) rectangle (0.075,\ods*0.36);}
+  \draw[od beam] (0.035,0) -- (0.32,0);
+  \def\odtmp{half}\ifx\odkind\odtmp
+    \draw[od turn] (0.12,-0.15) arc [start angle=-90, end angle=90, radius=0.15];
+  \else\def\odtmp{quarter}\ifx\odkind\odtmp
+    \draw[od turn] (0.27,0) arc [start angle=0, end angle=90, radius=0.15];
+  \fi\fi
+  \odport[free_space]{in}{-0.035,0}\odport[free_space]{out}{0.32,0}
+}}}
+% An isolator: light goes one way. Two polarizers and the rotator between them.
+\tikzset{pics/od isolator/.default={}, pics/od isolator/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing] (-0.42,-0.18) rectangle (0.42,0.18);
+  \draw[od glass] (-0.34,-0.18) rectangle (-0.28,0.18) (0.28,-0.18) rectangle (0.34,0.18);
+  \draw[od mark, -{Stealth[length=5pt,width=4.4pt]}] (-0.2,0) -- (0.22,0);
+  \odport[free_space]{in}{-0.42,0}\odport[free_space]{out}{0.42,0}
+}}}
+% A Brewster window: a plate that leans far over. A wedge: one face is tilted. A cryostat window: a plate in its flange.
+\tikzset{pics/od brewster/.default={}, pics/od brewster/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od glass, rotate=-56] (-0.035,-0.4) rectangle (0.035,0.4);
+  \odport[free_space]{in}{-0.063,0}\odport[free_space]{out}{0.063,0}
+}}}
+\tikzset{pics/od wedge/.default={}, pics/od wedge/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od glass] (-0.04,-0.34) -- (-0.04,0.34) -- (0.03,0.34) -- (0.13,-0.34) -- cycle;
+  \odport[free_space]{in}{-0.04,0}\odport[free_space]{out}{0.08,0}
+}}}
+\tikzset{pics/od window/.default={}, pics/od window/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od metal] (-0.11,0.2) rectangle (0.11,0.36) (-0.11,-0.36) rectangle (0.11,-0.2);
+  \odplate{0.035}{0.2}{od glass}
+  \odport[free_space]{in}{-0.035,0}\odport[free_space]{out}{0.035,0}
+}}}
+% A filter: a plate that passes one color.
+\tikzset{pics/od filter/.default={}, pics/od filter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \odplate{0.05}{0.3}{od paint={od el, fill=odw2!60}{od hair, draw=odw2!75!black, top color=odw2!20, bottom color=odw2!70}}
+  \foreach \ods in {1,-1} {\draw[od absorber] (-0.095,\ods*0.3) rectangle (0.095,\ods*0.37);}
+  \odport[free_space]{in}{-0.05,0}\odport[free_space]{out}{0.05,0}
+}}}
+
+% A neutral density filter: a grey plate that dims every color the same.
+\tikzset{pics/od ndfilter/.default={}, pics/od ndfilter/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \odplate{0.05}{0.3}{od paint={od el, fill=gray!55}{od hair, draw=gray!75!black, top color=gray!25, bottom color=gray!75}}
+  \foreach \ods in {1,-1} {\draw[od absorber] (-0.095,\ods*0.3) rectangle (0.095,\ods*0.37);}
+  \odport[free_space]{in}{-0.05,0}\odport[free_space]{out}{0.05,0}
+}}}
+
+% ---------------------------------------------------------------- modulators
+% An acousto-optic modulator: a crystal, the transducer under it, the sound wave, and the diffracted beam.
+\tikzset{pics/od aom/.default={}, pics/od aom/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od glass] (-0.32,-0.2) rectangle (0.32,0.26);
+  \foreach \ody in {-0.12,-0.04,0.1,0.18} {\draw[od ray] (-0.26,\ody) -- (0.26,\ody);}
+  \draw[od signal] (-0.26,-0.3) rectangle (0.26,-0.2);
+  \draw[od light] (0.32,0.03) -- (0.54,0.15);
+  \odport[free_space]{in}{-0.32,0}\odport[free_space]{out}{0.32,0}
+}}}
+% An electro-optic modulator: a crystal between two electrodes.
+\tikzset{pics/od eom/.default={}, pics/od eom/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od glass] (-0.36,-0.1) rectangle (0.36,0.1);
+  \draw[od signal] (-0.3,0.1) rectangle (0.3,0.19);
+  \draw[od ground] (-0.3,-0.19) rectangle (0.3,-0.1);
+  \draw[od el] (0,0.19) -- (0,0.32);                         % one lead, the RF port: a lead below read as a second one
+  \odport[free_space]{in}{-0.36,0}\odport[free_space]{out}{0.36,0}\odport[electrical]{rf}{0,0.32}
+}}}
+% A spatial light modulator: a panel of pixels, each with its own level.
+\tikzset{pics/od slm/.default={}, pics/od slm/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od paint={od el}{od hair, draw=odgoldE, fill=odgoldA}] (0.09,-0.3) -- (0.26,-0.3) -- (0.26,-0.42) -- (0.3,-0.42) -- (0.3,-0.26) -- (0.09,-0.26) -- cycle;
+  \draw[od absorber] (-0.07,-0.4) rectangle (0.09,0.4);
+  \foreach \odi/\odg in {0/10,1/45,2/0,3/30,4/65,5/15} {
+    \draw[od ray, fill=black!\odg] (-0.05,{-0.36+\odi*0.12}) rectangle (0.05,{-0.24+\odi*0.12});}
+  \draw[od glass, fill opacity=0.5] (-0.07,-0.36) rectangle (-0.05,0.36);
+  \odport[free_space]{in}{-0.05,0}\odport[free_space]{out}{0.09,0}
+}}}
+% A micromirror device: a row of small mirrors, each tilted, on a chip. The beam reflects off the row.
+\tikzset{pics/od dmd/.default={}, pics/od dmd/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od axis] (-0.42,0.22) -- (0,-0.12) -- (0.42,0.22);
+  \draw[od metal] (-0.4,-0.32) rectangle (0.4,-0.22);
+  \foreach \odx in {-0.3,-0.18,-0.06,0.06,0.18,0.3} {
+    \draw[od ray] (\odx,-0.22) -- (\odx,-0.14);
+    \draw[od face, line width=1pt*\odls] (\odx-0.047,-0.165) -- (\odx+0.047,-0.115);}
+  \odport[free_space]{in}{-0.42,0.22}\odport[free_space]{out}{0.42,0.22}
+}}}
+% An optical chopper: a wheel of blades. The beam passes between the blades.
+\tikzset{pics/od chopper/.default={}, pics/od chopper/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \foreach \oda in {15,75,...,315} {
+    \path[od paint={fill=black!75}{fill=ods700}] (0,-0.16) -- ++(\oda:0.34) arc [start angle=\oda, end angle=\oda+30, radius=0.34] -- cycle;}
+  \draw[od el] (0,-0.16) circle [radius=0.34];
+  \draw[od alusmall] (0,-0.16) circle [radius=0.07];
+  \odport[free_space]{in}{-0.3,0}\odport[free_space]{out}{0.3,0}
+}}}
+
+% ---------------------------------------------------------------- apertures
+% kind: (none) iris, two blades in a ring with its lever; stop, two solid plates; pinhole, a foil at a focus; slit, two sharp jaws.
+\tikzset{pics/od iris/.default={}, pics/od iris/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{stop}\ifx\odkind\odtmp
+    \path[od absorber] (-0.035,0.13) rectangle (0.035,0.36) (-0.035,-0.36) rectangle (0.035,-0.13);
+    \odport[free_space]{in}{-0.035,0}\odport[free_space]{out}{0.035,0}
+  \else\def\odtmp{pinhole}\ifx\odkind\odtmp
+    \ifx\odlook\odlooktwod                    % 2D: the foil the pinhole is cut in
+      \draw[od absorber] (-0.02,0.035) rectangle (0.02,0.34) (-0.02,-0.34) rectangle (0.02,-0.035);
+    \else
+      \draw[od wg] (0,0.035) -- (0,0.34) (0,-0.035) -- (0,-0.34);
+    \fi
+    \odport[free_space]{in}{-0.02,0}\odport[free_space]{out}{0.02,0}
+  \else\def\odtmp{slit}\ifx\odkind\odtmp
+    \foreach \ods in {1,-1} {
+      \draw[od metal] (-0.09,\ods*0.36) -- (0.09,\ods*0.36) -- (0.09,\ods*0.2) -- (0,\ods*0.04) -- (-0.09,\ods*0.2) -- cycle;}
+    \odport[free_space]{in}{-0.09,0}\odport[free_space]{out}{0.09,0}
+  \else
+    \foreach \ods in {1,-1} {
+      \draw[od absorber] (-0.02,\ods*0.07) rectangle (0.02,\ods*0.29);
+      \draw[od housing] (-0.07,\ods*0.29) rectangle (0.07,\ods*0.36);}
+    \draw[od el] (0,0.36) -- (0,0.45);
+    \draw[od alusmall] (0,0.48) circle [radius=0.035];
+    \odport[free_space]{in}{-0.07,0}\odport[free_space]{out}{0.07,0}
+  \fi\fi\fi
+}}}
+
+% ---------------------------------------------------------------- prisms
+% kind: (none) a dispersing prism; rightangle (the beam turns up at the long face); penta (two reflections, a right angle).
+\tikzset{pics/od prism/.default={}, pics/od prism/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{rightangle}\ifx\odkind\odtmp
+    \draw[od glass] (-0.28,-0.28) -- (-0.28,0.28) -- (0.28,0.28) -- cycle;
+    \draw[od rayb] (-0.28,0) -- (0,0) -- (0,0.28);
+    \draw[od turnb] (-0.28,0) -- (-0.12,0);\draw[od turnb] (0,0) -- (0,0.17);
+    \odport[free_space]{in}{-0.28,0}\odport[free_space]{out}{0,0.28}
+  \else\def\odtmp{penta}\ifx\odkind\odtmp
+    \draw[od glass] (-0.3,-0.3) -- (-0.3,0.3) -- (0.12,0.47) -- (0.47,0.12) -- (0.3,-0.3) -- cycle;
+    \draw[od face, line width=1.1pt*\odls] (-0.3,0.3) -- (0.12,0.47) (0.47,0.12) -- (0.3,-0.3);
+    \draw[od rayb] (-0.3,0) -- (0.421,0) -- (-0.011,0.417) -- (-0.035,-0.3);
+    \draw[od turnb] (-0.3,0) -- (0.25,0);\draw[od turnb] (-0.028,-0.1) -- (-0.032,-0.2);
+    \odport[free_space]{in}{-0.3,0}\odport[free_space]{out}{-0.035,-0.3}
+  \else
+    \draw[od glass] (-0.36,-0.26) -- (0.36,-0.26) -- (0,0.36) -- cycle;
+    \draw[od rayb] (-0.209,0) -- (0.209,0);\draw[od turnb] (-0.209,0) -- (0.03,0);
+    \odport[free_space]{in}{-0.209,0}\odport[free_space]{out}{0.209,0}
+  \fi\fi
+}}}
+% A diffraction grating: a ruled plate. The colors leave at different angles.
+\tikzset{pics/od ruledgrating/.default={}, pics/od ruledgrating/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od metal] (0.06,-0.34) -- (0,-0.34)
+    \foreach \odi in {1,...,8} { -- ++(-0.05,0.0425) -- ++(0.05,0.0425)} -- (0.06,0.34) -- cycle;
+  \draw[od el, draw=odw1] (0.06,0) -- ++(26:0.3);
+  \draw[od el, draw=odw3] (0.06,0) -- ++(-26:0.3);
+  \draw[od el, draw=odw2] (0.06,0) -- (0.34,0);
+  \odport[free_space]{in}{-0.025,0}\odport[free_space]{out}{0.34,0}
+}}}
+% A monochromator: an entrance slit, a grating that turns, and an exit slit that passes one color.
+\tikzset{pics/od monochromator/.default={}, pics/od monochromator/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od body] (-0.75,-0.45) rectangle (0.75,0.45);
+  \draw[od el, line width=1.1pt*\odls] (-0.75,0.05) -- (-0.75,0.2) (-0.75,-0.05) -- (-0.75,-0.2);
+  \draw[od beam] (-0.75,0) -- (-0.2,0);
+  \foreach \ody/\odc in {0.2/odw1, 0/odw2, -0.2/odw3} {\draw[od el, draw=\odc] (-0.14,0) -- (0.75,\ody);}
+  \draw[od metal, rotate around={18:(-0.2,0)}] (-0.26,-0.2) rectangle (-0.14,0.2);
+  \draw[od both] (-0.2,0)+(62:0.34) arc [start angle=62, end angle=118, radius=0.34];
+  \draw[od el, line width=1.1pt*\odls] (0.75,-0.15) -- (0.75,-0.04) (0.75,-0.25) -- (0.75,-0.36);
+  \odport[free_space]{in}{-0.75,0}\odport[free_space]{out}{0.75,-0.2}
+}}}
+
+% ---------------------------------------------------------------- image sensors, power meter
+% kind: (none) a bare sensor on its carrier; cmos, a camera body; emccd, a cooled body with a gain stage; spad, single-photon diodes.
+\tikzset{pics/od sensor/.default={}, pics/od sensor/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{cmos}\ifx\odkind\odtmp
+    \draw[od housing, rounded corners=0.08cm] (-0.36,-0.34) rectangle (0.36,0.34);
+    \draw[od glass] (-0.4,-0.17) rectangle (-0.32,0.17);
+    \foreach \odx in {-0.15,-0.03,0.09,0.21} {\foreach \ody in {-0.18,-0.06,0.06,0.18} {
+      \draw[od pixel] (\odx-0.05,\ody-0.05) rectangle (\odx+0.05,\ody+0.05);}}
+    \odport[free_space]{in}{-0.4,0}\odport[electrical]{sync}{0.36,0}
+  \else\def\odtmp{emccd}\ifx\odkind\odtmp
+    \foreach \odx in {-0.2,-0.1,0,0.1,0.2,0.3} {\draw[od el] (\odx,0.3) -- (\odx,0.44);}
+    \draw[od housing, rounded corners=0.08cm] (-0.36,-0.3) rectangle (0.46,0.3);
+    \draw[od glass] (-0.4,-0.17) rectangle (-0.32,0.17);
+    \foreach \odx in {-0.17,-0.05,0.07} {\foreach \ody in {-0.12,0,0.12} {
+      \draw[od pixel] (\odx-0.05,\ody-0.05) rectangle (\odx+0.05,\ody+0.05);}}
+    \draw[od el, fill=white] (0.2,-0.11) -- (0.2,0.11) -- (0.38,0) -- cycle;
+    \odport[free_space]{in}{-0.4,0}\odport[electrical]{sync}{0.46,0}
+  \else\def\odtmp{spad}\ifx\odkind\odtmp
+    \draw[od housing, rounded corners=0.08cm] (-0.34,-0.34) rectangle (0.34,0.34);
+    \foreach \odx in {-0.17,0,0.17} {\foreach \ody in {-0.17,0,0.17} {
+      \draw[od ray, od paint={}{od hair, draw=ods500, fill=ods600}] (\odx,\ody) circle [radius=0.06];
+      \fill[od paint={}{fill=odglassA}] (\odx,\ody) circle [radius=0.02];}}
+    \odport[free_space]{in}{-0.34,0}\odport[electrical]{sync}{0.34,0}
+  \else
+    \draw[od metal] (0.06,-0.34) rectangle (0.16,0.34);
+    \foreach \odi in {0,...,5} {\draw[od pixel] (-0.04,{-0.3+\odi*0.1}) rectangle (0.06,{-0.2+\odi*0.1});}
+    \draw[od el] (0.16,0) -- (0.3,0);
+    \odport[free_space]{in}{-0.04,0}\odport[electrical]{sync}{0.3,0}
+  \fi\fi\fi
+}}}
+% A power meter head: a black absorber in a head on a post, and the dial that shows the power.
+\tikzset{pics/od powerhead/.default={}, pics/od powerhead/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (-0.2,-0.3) -- (-0.2,-0.46);
+  \draw[od housing] (-0.34,-0.3) rectangle (-0.06,0.3);
+  \draw[od absorber] (-0.34,-0.2) rectangle (-0.27,0.2);
+  \draw[od el] (-0.06,0) -- (0.1,0);
+  \draw[od paint={od el, fill=white}{od hair, draw=ods400, fill=white, od shadow}] (0.28,0) circle [radius=0.18];
+  \draw[od ray] (0.28,-0.05)+(150:0.17) arc [start angle=150, end angle=30, radius=0.17];
+  \draw[od el] (0.28,-0.07) -- ++(58:0.19);
+  \odport[free_space]{in}{-0.34,0}\odport[free_space]{out}{0.46,0}
+}}}
+
+% ---------------------------------------------------------------- tables and mounts
+% kind: (none) an optical table, from the side; breadboard, a plate of tapped holes; baseplate, a plate with slots.
+\tikzset{pics/od table/.default={}, pics/od table/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odkind{\odget{kind}}
+  \def\odtmp{breadboard}\ifx\odkind\odtmp
+    \draw[od wg, fill=white] (-0.5,-0.3) rectangle (0.5,0.3);
+    \foreach \odx in {-0.36,-0.18,0,0.18,0.36} {\foreach \ody in {-0.17,0,0.17} {\fill (\odx,\ody) circle [radius=0.022];}}
+    \odport[free_space]{in}{-0.5,0}\odport[free_space]{out}{0.5,0}
+  \else\def\odtmp{baseplate}\ifx\odkind\odtmp
+    \draw[od wg, fill=white, rounded corners=0.08cm] (-0.5,-0.26) rectangle (0.5,0.26);
+    \foreach \odx in {-0.3,0.3} {\draw[od el, rounded corners=0.035cm] (\odx-0.1,-0.04) rectangle (\odx+0.1,0.04);}
+    \foreach \ody in {-0.13,0.13} {\draw[od el] (0,\ody) circle [radius=0.04];}
+    \odport[free_space]{in}{-0.5,0}\odport[free_space]{out}{0.5,0}
+  \else
+    \foreach \odx in {-0.6,0.6} {\draw[od wg, fill=white] (\odx-0.08,-0.36) rectangle (\odx+0.08,0.02);
+      \draw[od wg] (\odx-0.14,-0.36) -- (\odx+0.14,-0.36);}
+    \draw[od wg, fill=white] (-0.8,0.02) rectangle (0.8,0.22);
+    \foreach \odx in {-0.6,-0.4,-0.2,0,0.2,0.4,0.6} {\draw[od ray] (\odx,0.02) -- (\odx,0.22);}
+    \odport[free_space]{in}{-0.8,0.12}\odport[free_space]{out}{0.8,0.12}
+  \fi\fi
+}}}
+% A kinematic mount: the plate that holds the optic, the fixed plate, and the two adjusters.
+\tikzset{pics/od kinematic/.default={}, pics/od kinematic/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing] (-0.13,-0.34) rectangle (-0.03,0.34) (0.07,-0.34) rectangle (0.17,0.34);
+  \draw[od glass] (-0.13,-0.14) rectangle (-0.03,0.14);
+  \foreach \ody in {0.24,-0.24} {
+    \draw[od el] (-0.03,\ody) -- (0.3,\ody);
+    \draw[od absorber] (0.3,\ody-0.075) rectangle (0.4,\ody+0.075);}
+  \draw[od el] (-0.03,0) -- (-0.01,0.03) -- (0.01,-0.03) -- (0.03,0.03) -- (0.05,-0.03) -- (0.07,0);
+  \odport[free_space]{in}{-0.13,0}\odport[free_space]{out}{0.17,0}
+}}}
+% A post in its holder, on a base.
+% view=top: the base, the holder and the post seen from above, with the thumbscrew.
+\tikzset{pics/od post/.default={}, pics/od post/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od alu, rounded corners=0.04cm] (-0.26,-0.26) rectangle (0.26,0.26);
+    \draw[od absorber] (0,0) circle [radius=0.13];
+    \draw[od paint={od el, fill=black!22}{od hair, draw=odanoE, fill=ods200}] (0,0) circle [radius=0.065];
+    \draw[od el] (0.13,0) -- (0.24,0) (0.24,-0.05) -- (0.24,0.05);
+    \odport[free_space]{mount}{0,0}
+  \else
+    \draw[od rod] (-0.045,-0.1) rectangle (0.045,0.4);
+    \draw[od absorber] (-0.1,-0.4) rectangle (0.1,-0.02);
+    \draw[od el] (0.1,-0.14) -- (0.21,-0.14) (0.21,-0.2) -- (0.21,-0.08);
+    \draw[od absorber] (-0.26,-0.47) rectangle (0.26,-0.4);
+    \odport[free_space]{mount}{0,0.4}
+  \fi
+}}}
+% A platform on a post.
+% view=top: the plate seen from above, the post under it, and two clamp slots.
+\tikzset{pics/od platform/.default={}, pics/od platform/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \edef\odview{\odget{view}}\def\odtmp{top}\ifx\odview\odtmp
+    \draw[od alu] (-0.38,-0.38) rectangle (0.38,0.38);
+    \draw[od el, dash pattern=on 1pt off 1pt] (0,0) circle [radius=0.08];
+    \foreach \odx in {-0.24,0.24} {\draw[od el, rounded corners=0.03cm] (\odx-0.04,-0.16) rectangle (\odx+0.04,0.16);}
+  \else
+    \draw[od rod] (-0.05,-0.4) rectangle (0.05,0.2);
+    \draw[od alu] (-0.38,0.2) rectangle (0.38,0.28);
+    \draw[od alu] (-0.22,-0.47) rectangle (0.22,-0.4);
+    \draw[od el] (-0.2,0.2) -- (-0.05,0.05) (0.2,0.2) -- (0.05,0.05);
+  \fi
+}}}
+% A rotation stage, from above: the scale ring, the turning plate, and the direction it turns.
+\tikzset{pics/od rotation/.default={}, pics/od rotation/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od alu] (0,0) circle [radius=0.36];
+  \foreach \oda in {0,30,...,330} {\draw[od ray] (\oda:0.3) -- (\oda:0.36);}
+  \draw[od paint={od el, fill=white}{od hair, draw=odanoE, top color=odanoA, bottom color=odanoB}] (0,0) circle [radius=0.1];
+  \draw[od turn] (200:0.2) arc [start angle=200, end angle=-20, radius=0.2];
+  \odport[free_space]{in}{-0.36,0}\odport[free_space]{out}{0.36,0}
+}}}
+% A translation stage, from above: the base plate with its mounting slots, the
+% carriage with its tapped holes, and the micrometer on the side (sleeve with
+% its scale, thimble, ratchet), so the beam axis over the carriage stays clear.
+\tikzset{pics/od translation/.default={}, pics/od translation/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od alu, rounded corners=0.04cm] (-0.42,-0.36) rectangle (0.42,0.36);
+  \foreach \ods in {-1,1} {\draw[od el, rounded corners=0.02cm] ({\ods*0.38-0.025},-0.2) rectangle ({\ods*0.38+0.025},0.2);}
+  \draw[od paint={od wg, fill=white}{od hair, draw=odaluE, top color=white, bottom color=ods200, od shadow, od shine},
+        rounded corners=0.03cm] (-0.32,-0.3) rectangle (0.32,0.3);
+  \foreach \odx in {-0.2,0.2} {\foreach \ody in {-0.18,0.18} {\draw[od el, od paint={}{fill=ods400}] (\odx,\ody) circle [radius=0.025];}}
+  \draw[od el, od paint={}{fill=ods400}] (0,0) circle [radius=0.03];
+  \draw[od alusmall] (-0.035,-0.36) rectangle (0.035,-0.52);
+  \foreach \ody in {-0.39,-0.43,-0.47} {\draw[od ray] (-0.035,\ody) -- (0,\ody);}
+  \draw[od paint={od el, fill=white}{od hair, draw=odaluE, left color=ods300, right color=ods300, middle color=white}]
+    (-0.065,-0.52) rectangle (0.065,-0.66);
+  \foreach \odx in {-0.04,-0.013,0.013,0.04} {\draw[od ray] (\odx,-0.53) -- (\odx,-0.65);}
+  \draw[od alusmall] (-0.035,-0.66) rectangle (0.035,-0.72);
+  \draw[od alusmall] (-0.42,0.25) -- (-0.5,0.25) -- (-0.5,0.31) -- (-0.42,0.31);
+  \odport[free_space]{in}{-0.42,0}\odport[free_space]{out}{0.42,0}
+}}}
+% A vacuum chamber: a double wall, a window on each side, and the pump flange on top.
+\tikzset{pics/od chamber/.default={}, pics/od chamber/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od alu] (-0.12,0.4) rectangle (0.12,0.5);
+  \draw[od wg] (-0.2,0.5) -- (0.2,0.5);
+  \draw[od alu, rounded corners=0.14cm] (-0.7,-0.4) rectangle (0.7,0.4);
+  \draw[od el, rounded corners=0.1cm] (-0.63,-0.33) rectangle (0.63,0.33);
+  \draw[od axis] (-0.6,0) -- (0.6,0);
+  \draw[od glass] (-0.74,-0.13) rectangle (-0.6,0.13) (0.6,-0.13) rectangle (0.74,0.13);
+  \odport[free_space]{in}{-0.74,0}\odport[free_space]{out}{0.74,0}
+}}}
+% A beam dump, in section, with the numbers of the part (BeamDump.geometry_3d, in units of its aperture): a body of
+% radius 0.42 from -0.35 to 0.45, bored with a cone from the mouth (radius 0.34) to its apex at 0.33, ring fins of radius
+% 0.58 round the back half, a ring at the mouth. Each ray is a true path in that cone: it meets a wall at a glancing angle
+% and loses power at each bounce, and the third bounce turns it back toward the mouth, spent.
+\tikzset{pics/od beamdump/.default={}, pics/od beamdump/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \begin{scope}[x=0.52cm, y=0.52cm]
+  \foreach \odx in {0.08,0.18,0.28,0.38} {\draw[od absorber] (\odx-0.0225,-0.58) rectangle (\odx+0.0225,0.58);}
+  \draw[od absorber, od paint={}{od shadow}] (-0.35,-0.42) rectangle (0.45,0.42);
+  \path[od paint={fill=white}{left color=ods800, right color=black}] (-0.35,-0.34) -- (0.33,0) -- (-0.35,0.34) -- cycle;
+  \draw[od paint={od el}{od hair, draw=ods500}] (-0.35,-0.34) -- (0.33,0) -- (-0.35,0.34);
+  \foreach \ods in {1,-1} {\foreach \oda/\odb/\odc/\odd/\odo in
+    {-0.35/0.11/0.11/0.11/1, 0.11/0.11/0.23/-0.05/0.7, 0.23/-0.05/0.196/0.067/0.45, 0.196/0.067/-0.038/-0.021/0.2} {
+      \draw[od rayb, draw opacity=\odo] (\oda,\ods*\odb) -- (\odc,\ods*\odd);}}
+  \foreach \ods in {1,-1} {\draw[od alusmall] (-0.35,\ods*0.34) rectangle (-0.31,\ods*0.45);}
+  \odport[free_space]{in}{-0.35,0}
+  \end{scope}
+}}}
+
+% ---------------------------------------------------------------- Faraday rotator
+% A Faraday rotator: a crystal rod in the bore of a ring magnet, and the turn it gives the polarization, drawn round
+% the axis. The plan of FaradayRotator, in units of its length (0.72 here): the magnet 0.56 high, the rod 0.18.
+\tikzset{pics/od faraday/.default={}, pics/od faraday/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing] (-0.36,-0.2016) rectangle (0.36,0.2016);
+  \draw[od glass] (-0.36,-0.0648) rectangle (0.36,0.0648);
+  \draw[od mark, -{Stealth[length=2.6pt,width=2.2pt]}] (110:0.07 and 0.15) arc [start angle=110, end angle=400, x radius=0.07, y radius=0.15];
+  \odport[free_space]{in}{-0.36,0}\odport[free_space]{out}{0.36,0}
+}}}
+
+% ---------------------------------------------------------------- mode cleaner
+% A triangular ring mode cleaner seen from above: a spacer, two flat couplers on the beam line (glass, the coating on
+% the ring's side) and a concave mirror at the apex. The light passes M1, runs the base to M2 and leaves on the input
+% line; the ring closes over M3; refl leaves M1 along the leg from M3, continued. pzt=stack: a piezo on M3's back.
+% The plan of ModeCleaner, in units of its size (1.2 here): M1 (-0.3, 0), M2 (0.3, 0), M3 (0, 0.6), mirrors 0.16 across;
+% the mirrors' normals halve the angles of the ring (31.72, 148.28 and -90 degrees).
+\tikzset{pics/od modecleaner/.default={}, pics/od modecleaner/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od paint={od el, fill=white}{od hair, draw=odaluE, top color=odaluA, bottom color=odaluB, od shadow}]
+    (-0.6,-0.18) -- (0.6,-0.18) -- (0.6,0.12) -- (0.144,0.78) -- (-0.144,0.78) -- (-0.6,0.12) -- cycle;
+  \draw[od rayb] (0.36,0) -- (0,0.72) -- (-0.36,0);
+  \draw[od axis] (-0.6,0) -- (0.6,0) (-0.36,0) -- (-0.45,-0.18);
+  \foreach \odx/\oda in {-0.36/31.72, 0.36/148.28} {
+    \begin{scope}[shift={(\odx,0)}, rotate=\oda]
+      \draw[od glass] (-0.05,-0.096) rectangle (0,0.096);
+      \draw[od face] (0,-0.096) -- (0,0.096);
+    \end{scope}}
+  \begin{scope}[shift={(0,0.7009)}, rotate=90, scale=0.2824]
+    \draw[od back] (0.05,-0.34) .. controls (0.14,-0.15) and (0.14,0.15) .. (0.05,0.34) -- (0.19,0.34) -- (0.19,-0.34) -- cycle;
+    \draw[od coat] (0,-0.34) .. controls (0.09,-0.15) and (0.09,0.15) .. (0,0.34) -- (0.05,0.34)
+      .. controls (0.14,0.15) and (0.14,-0.15) .. (0.05,-0.34) -- cycle;
+  \end{scope}
+  \odport[free_space]{in}{-0.6,0}\odport[free_space]{out}{0.6,0}\odport[free_space]{refl}{-0.45,-0.18}
+  \edef\odpz{\odget{pzt}}\ifx\odpz\empty\else
+    \draw[od piezo] (-0.07,0.7546) rectangle (0.07,0.82);
+    \foreach \ody in {0.771,0.788,0.804} {\draw[od ray] (-0.07,\ody) -- (0.07,\ody);}
+    \odport[electrical]{pzt}{0,0.82}
+  \fi
+}}}
+
+% ---------------------------------------------------------------- roof mirror (delay line)
+% A hollow roof mirror from above: two mirrors at 90 degrees in a black block with a V cut. The light enters above the
+% axis, meets one face, crosses to the other and leaves below the axis, parallel to the way it came. The plan of
+% RoofMirror, in units of its aperture (0.68 here): the opening at -0.25, the roof at 0.25, the beams 0.25 off the
+% axis, the plates 0.05 thick, the block's back at 0.42.
+\tikzset{pics/od roof/.default={}, pics/od roof/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od back] (-0.146,0.364) -- (0.2856,0.364) -- (0.2856,-0.364) -- (-0.146,-0.364) -- (0.218,0) -- cycle;
+  \draw[od coat] (-0.17,0.34) -- (0.17,0) -- (0.194,0.024) -- (-0.146,0.364) -- cycle;
+  \draw[od coat] (-0.17,-0.34) -- (0.17,0) -- (0.194,-0.024) -- (-0.146,-0.364) -- cycle;
+  \draw[od rayb] (-0.17,0.17) -- (0,0.17) -- (0,-0.17) -- (-0.17,-0.17);
+  \odport[free_space]{in}{-0.17,0.17}\odport[free_space]{out}{-0.17,-0.17}
+}}}

@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.447542 25.169106" width="17.447542pt" height="25.169106pt"><g transform="translate(72.0,72.0)">
+<g id='od-roof-page1'>
+<g stroke-miterlimit='10' transform='translate(-64.914666,-59.415452)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#0f172a'>
+<clipPath id='od-roof-pgfcp6'>
+<path d='M-4.15398 10.35675H8.12607V-10.35675H-4.15398L6.20276 0Z'/> </clipPath>
+<g clip-path='url(#od-roof-pgfcp6)'>
+<g transform='matrix(1,0,0,1,1.98605,0.0)'>
+<g transform='matrix(0.2447,0,0,0.41277,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-roof-pgfsh5'>
+ <stop offset='0.0' stop-color=' #0f172a '/>
+ <stop offset='0.25' stop-color=' #0f172a '/>
+ <stop offset='0.59999' stop-color=' #1e293b '/>
+ <stop offset='0.70999' stop-color=' #334155 '/>
+ <stop offset='0.75' stop-color=' #475569 '/>
+ <stop offset='1.0' stop-color=' #475569 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-roof-pgfsh5); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-4.15398 10.35675H8.12607V-10.35675H-4.15398L6.20276 0Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-roof-pgfcp7'>
+<path d='M-4.83691 9.67383L4.83691 0L5.51984 .68292L-4.15398 10.35675Z'/> </clipPath>
+<g clip-path='url(#od-roof-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.34146,5.17838)'>
+<g transform='matrix(0.20638,0,0,0.20638,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-roof-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-roof-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-4.83691 9.67383L4.83691 0L5.51984 .68292L-4.15398 10.35675Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-roof-pgfcp8'>
+<path d='M-4.83691-9.67383L4.83691 0L5.51984-.68292L-4.15398-10.35675Z'/> </clipPath>
+<g clip-path='url(#od-roof-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.34146,-5.17838)'>
+<g transform='matrix(0.20638,0,0,0.20638,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-roof-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-roof-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-4.83691-9.67383L4.83691 0L5.51984-.68292L-4.15398-10.35675Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-4.83691 4.83691H0V-4.83691H-4.83691' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

@@ -1,0 +1,45 @@
+{% set version = "0.10.0" %}
+
+# Starter conda recipe for optodraw. The package is pure Python, so there is no
+# compiler in the build environment and the result is noarch.
+# For durable distribution, submit to conda-forge with this as a base.
+
+package:
+  name: optodraw
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps
+  entry_points:
+    - optodraw-gui = optodraw.app.launcher:main
+    - optodraw-mcp = optodraw.mcp_server:main
+
+requirements:
+  host:
+    - python >=3.10
+    - pip
+    - hatchling >=1.27
+  run:
+    - python >=3.10
+    - numpy >=1.24
+    - drawsvg >=2.0
+    # GUI editor (optional at runtime, listed for the app build):
+    - fastapi >=0.110
+    - uvicorn >=0.27
+
+test:
+  imports:
+    - optodraw
+  commands:
+    - optodraw-gui --help
+
+about:
+  home: https://github.com/Acceluma/optodraw
+  license: BSD-3-Clause
+  license_file: ../LICENSE
+  summary: Optical setups and photonic chips in 2D SVG, 3D web scenes, TikZ, and a visual editor.

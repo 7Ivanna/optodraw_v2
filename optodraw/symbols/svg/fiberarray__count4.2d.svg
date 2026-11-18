@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.132453 24.941599" width="59.132453pt" height="24.941599pt"><g transform="translate(72.0,72.0)">
+<g id='od-fiberarray__count4-page1'>
+<g stroke-miterlimit='10' transform='translate(-35.543515,-59.529207)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g stroke-width='0.55'>
+<g stroke='#f59e0b'>
+<g stroke-linecap='round'>
+<path d='M-34.1432-5.12128H-20.48601' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#f59e0b'>
+<g stroke-linecap='round'>
+<path d='M-34.1432-1.70709H-20.48601' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#f59e0b'>
+<g stroke-linecap='round'>
+<path d='M-34.1432 1.70709H-20.48601' fill='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#f59e0b'>
+<g stroke-linecap='round'>
+<path d='M-34.1432 5.12128H-20.48601' fill='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-20.48601-10.24257V10.24257H20.48601V-10.24257ZM20.48601 10.24257' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-20.48601-10.24257V10.24257H20.48601V-10.24257ZM20.48601 10.24257' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-20.48601-10.24257V10.24257H20.48601V-10.24257ZM20.48601 10.24257' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-20.48601-10.24257V10.24257H20.48601V-10.24257ZM20.48601 10.24257' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#6b7a8f'>
+<clipPath id='od-fiberarray__count4-pgfcp6'>
+<path d='M-20.48601-10.24257V10.24257H20.48601V-10.24257ZM20.48601 10.24257'/> </clipPath>
+<g clip-path='url(#od-fiberarray__count4-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.81648,0,0,0.40822,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fiberarray__count4-pgfsh7'>
+ <stop offset='0.0' stop-color=' #9aa9bd '/>
+ <stop offset='0.25' stop-color=' #9aa9bd '/>
+ <stop offset='0.5' stop-color=' #b8c3d2 '/>
+ <stop offset='0.75' stop-color=' #d5dce6 '/>
+ <stop offset='1.0' stop-color=' #d5dce6 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fiberarray__count4-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-20.48601-10.24257V10.24257H20.48601V-10.24257ZM20.48601 10.24257' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-fiberarray__count4-pgfcp8'>
+<path d='M-6.14589-8.53546V8.53546H20.48601V-8.53546ZM20.48601 8.53546'/> </clipPath>
+<g clip-path='url(#od-fiberarray__count4-pgfcp8)'>
+<g transform='matrix(1,0,0,1,7.17006,0.0)'>
+<g transform='matrix(0.53072,0,0,0.34018,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-fiberarray__count4-pgfsh9'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-fiberarray__count4-pgfsh9); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-6.14589-8.53546V8.53546H20.48601V-8.53546ZM20.48601 8.53546' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

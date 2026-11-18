@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46.486017 30.393305" width="46.486017pt" height="30.393305pt"><g transform="translate(72.0,72.0)">
+<g id='od-chamber-page1'>
+<g stroke-miterlimit='10' transform='translate(-48.756996,-55.385946)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-3.41418 11.38092V14.22636H3.41418V11.38092ZM3.41418 14.22636' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-3.41418 11.38092V14.22636H3.41418V11.38092ZM3.41418 14.22636' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-3.41418 11.38092V14.22636H3.41418V11.38092ZM3.41418 14.22636' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-3.41418 11.38092V14.22636H3.41418V11.38092ZM3.41418 14.22636' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-chamber-pgfcp6'>
+<path d='M-3.41418 11.38092V14.22636H3.41418V11.38092ZM3.41418 14.22636'/> </clipPath>
+<g clip-path='url(#od-chamber-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,12.80363)'>
+<g transform='matrix(0.13606,0,0,0.0567,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-chamber-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-chamber-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-3.41418 11.38092V14.22636H3.41418V11.38092ZM3.41418 14.22636' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-5.69046 14.22636H5.69046' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-19.91682-7.39755V7.39755C-19.91682 9.59753-18.13344 11.38092-15.93346 11.38092H15.93346C18.13344 11.38092 19.91682 9.59753 19.91682 7.39755V-7.39755C19.91682-9.59753 18.13344-11.38092 15.93346-11.38092H-15.93346C-18.13344-11.38092-19.91682-9.59753-19.91682-7.39755ZM19.91682 11.38092' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-19.91682-7.39755V7.39755C-19.91682 9.59753-18.13344 11.38092-15.93346 11.38092H15.93346C18.13344 11.38092 19.91682 9.59753 19.91682 7.39755V-7.39755C19.91682-9.59753 18.13344-11.38092 15.93346-11.38092H-15.93346C-18.13344-11.38092-19.91682-9.59753-19.91682-7.39755ZM19.91682 11.38092' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-19.91682-7.39755V7.39755C-19.91682 9.59753-18.13344 11.38092-15.93346 11.38092H15.93346C18.13344 11.38092 19.91682 9.59753 19.91682 7.39755V-7.39755C19.91682-9.59753 18.13344-11.38092 15.93346-11.38092H-15.93346C-18.13344-11.38092-19.91682-9.59753-19.91682-7.39755ZM19.91682 11.38092' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-19.91682-7.39755V7.39755C-19.91682 9.59753-18.13344 11.38092-15.93346 11.38092H15.93346C18.13344 11.38092 19.91682 9.59753 19.91682 7.39755V-7.39755C19.91682-9.59753 18.13344-11.38092 15.93346-11.38092H-15.93346C-18.13344-11.38092-19.91682-9.59753-19.91682-7.39755ZM19.91682 11.38092' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-chamber-pgfcp8'>
+<path d='M-19.91682-7.39755V7.39755C-19.91682 9.59753-18.13344 11.38092-15.93346 11.38092H15.93346C18.13344 11.38092 19.91682 9.59753 19.91682 7.39755V-7.39755C19.91682-9.59753 18.13344-11.38092 15.93346-11.38092H-15.93346C-18.13344-11.38092-19.91682-9.59753-19.91682-7.39755ZM19.91682 11.38092'/> </clipPath>
+<g clip-path='url(#od-chamber-pgfcp8)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.7938,0,0,0.45358,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-chamber-pgfsh7'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.5' stop-color=' #e2e8ef '/>
+ <stop offset='0.75' stop-color=' #f8fafc '/>
+ <stop offset='1.0' stop-color=' #f8fafc '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-chamber-pgfsh7); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-19.91682-7.39755V7.39755C-19.91682 9.59753-18.13344 11.38092-15.93346 11.38092H15.93346C18.13344 11.38092 19.91682 9.59753 19.91682 7.39755V-7.39755C19.91682-9.59753 18.13344-11.38092 15.93346-11.38092H-15.93346C-18.13344-11.38092-19.91682-9.59753-19.91682-7.39755ZM19.91682 11.38092' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.4'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<path d='M-17.92535-6.544V6.544C-17.92535 8.11551-16.65141 9.38945-15.07991 9.38945H15.07991C16.65141 9.38945 17.92535 8.11551 17.92535 6.544V-6.544C17.92535-8.11551 16.65141-9.38945 15.07991-9.38945H-15.07991C-16.65141-9.38945-17.92535-8.11551-17.92535-6.544ZM17.92535 9.38945' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.55'>
+<g stroke='#475569'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#ef4444'>
+<path d='M-17.07181 0H17.07181' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#7fb2cf'>
+<clipPath id='od-chamber-pgfcp9'>
+<path d='M-21.05518-3.69899V3.69899H-17.07181V-3.69899ZM17.07181-3.69899V3.69899H21.05518V-3.69899ZM21.05518 3.69899'/> </clipPath>
+<g clip-path='url(#od-chamber-pgfcp9)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.83917,0,0,0.14742,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-chamber-pgfsh10'>
+ <stop offset='0.0' stop-color=' #cde7f4 '/>
+ <stop offset='0.25' stop-color=' #cde7f4 '/>
+ <stop offset='0.5' stop-color=' #e1f1fa '/>
+ <stop offset='0.75' stop-color=' #f4fbff '/>
+ <stop offset='1.0' stop-color=' #f4fbff '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-chamber-pgfsh10); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-21.05518-3.69899V3.69899H-17.07181V-3.69899ZM17.07181-3.69899V3.69899H21.05518V-3.69899ZM21.05518 3.69899' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>
