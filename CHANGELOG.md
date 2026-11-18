@@ -2,7 +2,7 @@
 
 All notable changes to Optodraw are documented here.
 
-## [0.10.1] (unreleased)
+## [0.10.1] (2026-11-18)
 
 ### Added
 
@@ -28,11 +28,18 @@ All notable changes to Optodraw are documented here.
 - The 2D SVG names its font (Helvetica, Arial, sans-serif), as the 1D view does. A browser drew its labels serif.
 - CI runs the tests on every core, the slow tests (6 % of the tests, 90 % of the time) on one leg only, installs a
   plain `pip install` on Linux, macOS and Windows, and no longer runs twice for a release tag.
+- The README on PyPI links its images and files at the release tag, so the page shows that release.
 
 ### Fixed
 
 - The editor loads on Windows. The 3D image module imported a Unix-only module as it loaded.
 - Edge in `C:\Program Files` is found on 64-bit Windows.
+- On Windows the editor starts on a free port. Its port probe could take a port that another server held.
+- A Windows checkout no longer marks the symbol library as out of date: its hash reads Windows line ends as LF.
+- Cross-section labels sit in the same place on every shapely release. Shapely 2.2 moved the label of a long flat
+  layer to one end.
+- The README images show the current part drawings. The quick start showed a gap in the beam at the small lens;
+  the code draws none.
 - The docs site build installs what its examples use.
 - `check_figure` no longer counts a `SignalArrow`'s own ends as unwired ports: an arrow is a mark.
 - The homodyne example wires its TIA output to a pad, where it ended in nothing.
