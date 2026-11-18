@@ -159,6 +159,7 @@ var odStudio = (function () {
   function stage(text) {                    // the last stage, for a timeout message
     const el = document.getElementById('od-stage');
     if (el) el.value = text;
+    console.debug('od-stage: ' + text);      // reaches the driver even while a long tile blocks the page
   }
 
   // A finished tile into the image: radiance, the denoiser's guide, emitted light averaged to half size.

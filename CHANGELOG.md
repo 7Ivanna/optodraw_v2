@@ -34,6 +34,8 @@ All notable changes to Optodraw are documented here.
 
 - The editor loads on Windows. The 3D image module imported a Unix-only module as it loaded.
 - Edge in `C:\Program Files` is found on 64-bit Windows.
+- A 3D image that runs out of time names its last stage also when a long tile keeps the page busy: the page sends
+  each stage to the console, which the driver reads as it comes.
 - On Windows the editor starts on a free port. Its port probe could take a port that another server held.
 - A Windows checkout no longer marks the symbol library as out of date: its hash reads Windows line ends as LF.
 - A cross-section is the same SVG on every machine and every shapely release. Each region is snapped to a 1e-9 um

@@ -85,6 +85,7 @@ class _Pipe:
         os.close(to_chrome_r)
         os.close(from_chrome_w)
         self._buffer, self._next = b"", 0
+        self.stage = ""                            # the last 'od-stage: ...' console message (needs Runtime.enable)
 
     def call(self, method: str, params: dict[str, Any] | None = None, session: str | None = None,
              timeout: float = 60.0) -> dict[str, Any]:
@@ -98,6 +99,10 @@ class _Pipe:
             while b"\0" in self._buffer:
                 raw, self._buffer = self._buffer.split(b"\0", 1)
                 reply = json.loads(raw)
+                if reply.get("method") == "Runtime.consoleAPICalled":
+                    text = str((reply["params"].get("args") or [{}])[0].get("value", ""))
+                    if text.startswith("od-stage: "):
+                        self.stage = text[len("od-stage: "):]
                 if reply.get("id") == self._next:
                     if "error" in reply:
                         raise RuntimeError(f"{method}: {reply['error'].get('message')}")
@@ -143,6 +148,8 @@ def run_page(html: str, *, width: int = 800, height: int = 600, timeout: float =
         try:
             target = pipe.call("Target.createTarget", {"url": "about:blank"})["targetId"]
             session = pipe.call("Target.attachToTarget", {"targetId": target, "flatten": True})["sessionId"]
+            if stage:
+                pipe.call("Runtime.enable", {}, session)                   # the page's console messages carry its stage
             pipe.call("Page.navigate", {"url": page.as_uri()}, session)
             deadline, value = time.monotonic() + timeout, ""
             while time.monotonic() < deadline:                 # the page is busy while it builds and renders
@@ -154,7 +161,9 @@ def run_page(html: str, *, width: int = 800, height: int = 600, timeout: float =
                 if value:
                     break
                 time.sleep(0.5)
-            if not value and stage:
+            if not value and stage and pipe.stage:
+                value = f"error: timed out (last stage: {pipe.stage})"
+            elif not value and stage:
                 probe = f"(function(){{var e=document.getElementById({json.dumps(stage)});return e?e.value:'';}})()"
                 try:
                     last = pipe.call("Runtime.evaluate", {"expression": probe, "returnByValue": True}, session,

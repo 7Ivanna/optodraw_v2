@@ -73,6 +73,7 @@ class Editor:
         return f"document.querySelector('.light-row[data-key=\"{key}\"]')"
 
     def knob(self, key: str) -> dict:
+        self.wait(f"!!{self.row(key)}")            # an undo rebuilds the rows a moment after the button changes
         return self.js(f"(() => {{ const e = {self.row(key)}.querySelector('input'); const r = e.getBoundingClientRect();"
                        "return {value: Number(e.value), min: Number(e.min), max: Number(e.max), left: r.left, width: r.width,"
                        f"y: r.top + r.height / 2, text: {self.row(key)}.querySelector('.light-val').textContent}}; }})()")
