@@ -1,6 +1,6 @@
 # optodraw over MCP
 
-`pip install "optodraw[mcp]"`, then run `optodraw-mcp` as a stdio MCP server.
+`pip install optodraw`, then run `optodraw-mcp` as a stdio MCP server.
 Its tools take a scene spec: `title`, `components` as
 `{type, center, angle, ...}`, and `beams` as `{path, wavelength}`.
 

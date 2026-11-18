@@ -153,10 +153,10 @@ def ink(body):
     """The grey pixels of an SVG body that is 100 units wide, one pixel to a tenth of a unit."""
 
     numpy = pytest.importorskip("numpy")
-    cairosvg = pytest.importorskip("cairosvg")
+    from optodraw.raster import svg_to_png
     image = pytest.importorskip("PIL.Image")
     svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="100mm" height="20mm" viewBox="0 0 100 20">{body}</svg>'
-    drawn = cairosvg.svg2png(bytestring=svg.encode(), output_width=1000, background_color="white")
+    drawn = svg_to_png(svg, width=1000, background="white")
     return numpy.asarray(image.open(io.BytesIO(drawn)).convert("L"))
 
 

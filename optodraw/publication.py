@@ -267,15 +267,14 @@ def _write_figure(svg: str, path: str | Path, wanted: tuple[str, ...], *, width_
     svg_path.write_text(svg, encoding="utf-8")
     written = {"svg": svg_path} if "svg" in wanted else {}
     if "pdf" in wanted or "png" in wanted:
-        import cairosvg
+        from optodraw.raster import svg_to_pdf, svg_to_png
 
         if "pdf" in wanted:
-            written["pdf"] = stem.parent / f"{stem.name}.pdf"
-            cairosvg.svg2pdf(url=str(svg_path), write_to=str(written["pdf"]))
+            written["pdf"] = svg_to_pdf(svg, stem.parent / f"{stem.name}.pdf")
         if "png" in wanted:
             written["png"] = stem.parent / f"{stem.name}.png"
-            cairosvg.svg2png(url=str(svg_path), write_to=str(written["png"]), background_color="white",
-                             output_width=round(float(width_mm) / 25.4 * float(dpi)))
+            written["png"].write_bytes(svg_to_png(svg, width=round(float(width_mm) / 25.4 * float(dpi)),
+                                                  background="white"))
     if "svg" not in wanted:
         svg_path.unlink()
     return written

@@ -32,11 +32,11 @@ Each figure redraws a published one. The [example cells](https://github.com/Acce
 ## Install
 
 ```bash
-pip install "optodraw[gui,gds]"   # with the editor and GDS
-optodraw-gui                      # open the editor
+pip install optodraw   # the editor, GDS files, 3D and every export
+optodraw-gui           # open the editor
 ```
 
-Without extras you get the Python package alone. `[all]` adds every extra.
+It runs on Windows, macOS and Linux. `[all]` adds video, a native window and SAX.
 
 ## Quick start
 
@@ -72,7 +72,7 @@ optodraw-skills install             # into ~/.claude/skills and ~/.agents/skills
 optodraw-skills install --project   # into ./.claude/skills and ./.agents/skills
 ```
 
-Agents that speak MCP can use the `optodraw-mcp` server (`pip install "optodraw[mcp]"`).
+Agents that speak MCP can use the `optodraw-mcp` server.
 
 ## Learn more
 

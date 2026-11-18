@@ -19,7 +19,7 @@ tools like GitLab / Sentry / PostHog (open core, private "cloud" layer):
 
 | Open-source (`optodraw`, pip/conda) | Private (hosted-deployment repo) |
 | --- | --- |
-| Core library: scene graph, components, renderers, schema, registry, GDS, Optiland bridge | Accounts / auth / SSO |
+| Core library: scene graph, components, renderers, schema, registry, GDS | Accounts / auth / SSO |
 | The editor: frontend + local single-tenant FastAPI app (`optodraw/app`) | User project storage (database), cloud save/load |
 | `optodraw-gui` launcher and desktop bundling | Billing, quotas, rate limiting, multi-tenant sessions |
 | Downloadable desktop app archives (built from this code) | Collaboration/sharing, marketing site, deploy infra |
@@ -104,6 +104,5 @@ Notes:
 - AGPL-3.0 on the app (to force hosted forks to publish changes) is an option but
   usually overkill here and can deter corporate users; prefer BSD + a private
   hosted layer.
-- Optional integrations stay isolated and respect upstream licenses: Optiland
-  (MIT) via `optodraw[optiland]`; gdsfactory ecosystem via `optodraw[gds]`;
-  BlenderGDS (GPL) is interoperated with, never vendored.
+- Integrations respect upstream licenses: the gdsfactory ecosystem comes with a
+  plain install; BlenderGDS (GPL) is interoperated with, never vendored.

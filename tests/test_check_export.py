@@ -235,19 +235,17 @@ def band(fill="#2f6fd0", y=16, height=6):
 
 
 def test_text_across_the_edge_of_a_band_is_named(tmp_path):
-    pytest.importorskip("cairosvg")
     assert "Laser" in one_fault(check_export(page(tmp_path, band(y=19.2) + text("Laser", 10, 20))), "over the drawing")
 
 
 def test_text_inside_a_flat_band_can_be_read(tmp_path):
-    pytest.importorskip("cairosvg")
     assert check_export(page(tmp_path, band(y=10, height=20) + text("Laser", 10, 20))) == []
 
 
-def test_the_check_says_when_it_cannot_look_at_the_drawing(tmp_path, monkeypatch):
-    monkeypatch.setitem(sys.modules, "cairosvg", None)
+def test_the_check_looks_at_the_drawing_without_the_cairo_library(tmp_path, monkeypatch):
+    monkeypatch.setitem(sys.modules, "cairosvg", None)                       # as on Windows
     found = check_export(page(tmp_path, band(y=19.2) + text("Laser", 10, 20)))
-    assert "optodraw[gif]" in one_fault(found, "not checked")
+    assert "Laser" in one_fault(found, "over the drawing")
 
 
 def bench():
@@ -268,7 +266,6 @@ def test_a_real_export_reads_at_the_size_it_was_asked_for(tmp_path):
 
 
 def test_a_real_note_on_the_edge_of_a_beam_is_found(tmp_path):
-    pytest.importorskip("cairosvg")
     scene, beam = bench()
     clear = export_figure(scene, tmp_path / "clear", width_mm=120, formats=("svg",))["svg"]
     assert not [f for f in check_export(clear) if "over the drawing" in f]

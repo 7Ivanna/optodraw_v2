@@ -61,7 +61,7 @@ def test_a_focusing_beam_opacity_reaches_the_tikz():
 
 
 def test_a_png_shows_both_colours_on_one_path():
-    cairosvg = pytest.importorskip("cairosvg")
+    from optodraw.raster import svg_to_png
     image = pytest.importorskip("PIL.Image")
     import io
 
@@ -69,7 +69,7 @@ def test_a_png_shows_both_colours_on_one_path():
         scene = Scene(title="one path", width=40, height=10, platform="free_space")
         for nm in wavelengths:
             scene.add(Beam((-20, 0), (20, 0), wavelength=nm, width=4.0))
-        png = cairosvg.svg2png(bytestring=scene.render_svg().as_svg().encode(), output_width=400)
+        png = svg_to_png(scene.render_svg().as_svg(), width=400)
         return image.open(io.BytesIO(png)).convert("RGB").getpixel((200, 50))
 
     both, upper_alone = pixel(635, 450), pixel(450)     # the wider red draws first, so the blue lies on top

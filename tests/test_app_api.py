@@ -895,7 +895,7 @@ def test_generate_unknown_404(client: TestClient):
     assert client.post("/api/generate", json={"name": "nope", "params": {}}).status_code == 404
 
 
-def test_animation_recipes_and_gif(client: TestClient, rasteriser):
+def test_animation_recipes_and_gif(client: TestClient):
     rid = client.post("/api/component", json={"name": "MicroringResonator", "params": {"center": [0, 0]}}).json()["id"]
     recipes = client.get(f"/api/animation/{rid}/recipes").json()["recipes"]
     assert any(r["name"] == "resonance_scan" for r in recipes)
@@ -910,7 +910,7 @@ def test_animation_bad_recipe_400(client: TestClient):
     assert client.post(f"/api/animation/{rid}/gif", json={"recipe": "nope"}).status_code == 400
 
 
-def test_animation_flow_gif_shows_motion(client: TestClient, rasteriser):
+def test_animation_flow_gif_shows_motion(client: TestClient):
     client.post("/api/scene/preset", json={"name": "ring_resonator_chip"})
     res = client.post("/api/animation/flow", json={"params": {"steps": 6, "fps": 8}})
     assert res.status_code == 200

@@ -35,10 +35,10 @@ def painted(look="2d"):
     """The symbol as red, green, blue, alpha, with a function that takes a point of the plan to a pixel."""
 
     numpy = pytest.importorskip("numpy")
-    cairosvg = pytest.importorskip("cairosvg")
+    from optodraw.raster import svg_to_png
     image = pytest.importorskip("PIL.Image")
     symbol = lookup(Spectrometer())
-    drawn = cairosvg.svg2png(bytestring=(symbol.svg2d if look == "2d" else symbol.svg).encode(), scale=10)
+    drawn = svg_to_png(symbol.svg2d if look == "2d" else symbol.svg, zoom=10)
     rgba = numpy.asarray(image.open(io.BytesIO(drawn)).convert("RGBA")).astype(float)
     port = symbol.ports["in"]
     per_point = rgba.shape[1] / symbol.width

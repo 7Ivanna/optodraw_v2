@@ -158,7 +158,6 @@ def test_a_chip_figure_is_pure_vector(spike, tmp_path):
     tools = {name: shutil.which(name) for name in ("pdfimages", "pdffonts", "pdftotext")}
     if None in tools.values():
         pytest.skip("needs poppler: pdfimages, pdffonts and pdftotext")
-    pytest.importorskip("cairosvg")
     files = _spike_page(*spike).export(tmp_path / "figure", formats=("svg", "pdf"))
 
     def run(*args: str) -> str:

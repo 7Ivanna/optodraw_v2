@@ -306,12 +306,14 @@ chip.render_svg("marks.svg")
 | 3D as vector | `scene.render_3d_svg("f.svg")` | SVG, no Chrome |
 
 ```python
-import cairosvg
+from pathlib import Path
+
+from optodraw.raster import svg_to_pdf, svg_to_png
 
 scene.render_svg("mzi_1d.svg", view="1d")
 scene.render_tikz("mzi.tex")
 for name in ("mzi", "mzi_1d"):                       # look at every view as a picture
-    cairosvg.svg2png(url=f"{name}.svg", write_to=f"{name}.png", output_width=1200)
+    Path(f"{name}.png").write_bytes(svg_to_png(Path(f"{name}.svg").read_text(), width=1200))
 ```
 
 The 1D view places its symbols itself. Look at it on its own: every beam that
@@ -441,7 +443,7 @@ from optodraw.publication import build_publication_bundle, list_paper_figure_pre
 
 print(list_paper_figure_presets())
 paths = scene.export_paper_figures("paper", preset="single_column", formats=("svg",))
-cairosvg.svg2pdf(url=str(paths["svg"]), write_to="paper/mzi.pdf")           # vector PDF, live text
+svg_to_pdf(Path(paths["svg"]).read_text(), "paper/mzi.pdf")                # vector PDF, live text
 bundle = build_publication_bundle(scene, "bundle", template="single_figure", formats=("svg",),
                                   caption="Mach-Zehnder interferometer with the sample in the lower arm.")
 print(bundle.caption_path)

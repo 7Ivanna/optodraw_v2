@@ -99,7 +99,9 @@ class SvgRenderer:
         self._inset_count = 0                                  # the insets are numbered per render
         self.beam_widths = drawn_widths([n for n in s.walk() if isinstance(n, Beam)])
         cx, cy = getattr(s, "frame_center", (0.0, 0.0))       # SVG y runs down: the frame's top is at -cy - h/2
-        d = draw.Drawing(s.width, s.height, origin=(cx - s.width / 2.0, -cy - s.height / 2.0))
+        # the 1D view's family: without one, a browser draws the labels serif and a PNG sans
+        d = draw.Drawing(s.width, s.height, origin=(cx - s.width / 2.0, -cy - s.height / 2.0),
+                         font_family="Helvetica,Arial,sans-serif")
         self._render_node(d, s.root)
         if self.show_dimension_overlay and self.dimension_markers:
             append_dimension_overlay(d, self.dimension_markers)

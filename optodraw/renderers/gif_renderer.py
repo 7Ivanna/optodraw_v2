@@ -89,23 +89,9 @@ class GifRenderer:
 
     def _render_frames(self, frames: list[dict]) -> list:
         """Rasterize each frame state to a PIL Image."""
-        try:
-            import cairosvg
-            from PIL import Image
-        except ImportError as error:
-            raise ImportError(
-                "Pillow and cairosvg are required for GIF output.\n"
-                "Install with: pip install optodraw[gif]"
-            ) from error
-        except OSError as error:
-            # cairosvg installs from a wheel but binds the SYSTEM cairo library,
-            # which macOS does not ship. "install optodraw[gif]" is useless
-            # advice to somebody who just did exactly that.
-            raise ImportError(
-                f"cairosvg could not load the native cairo library ({error}).\n"
-                "macOS: brew install cairo · Debian/Ubuntu: apt install libcairo2\n"
-                "Windows: install GTK runtime, or use SVG output instead."
-            ) from error
+        from PIL import Image
+
+        from optodraw.raster import svg_to_png
 
         from optodraw.renderers.svg_renderer import SvgRenderer
 
@@ -123,9 +109,7 @@ class GifRenderer:
             )
             svg_drawing = renderer.render()
             svg_str = svg_drawing.as_svg()
-            png_bytes = cairosvg.svg2png(
-                bytestring=svg_str.encode(), output_width=self.width
-            )
+            png_bytes = svg_to_png(svg_str, width=self.width)
             img = Image.open(io.BytesIO(png_bytes)).convert("RGBA")
             # The SVG background is transparent and a GIF palette frame drops alpha: put it on white.
             images.append(Image.alpha_composite(Image.new("RGBA", img.size, "white"), img).convert("RGB"))

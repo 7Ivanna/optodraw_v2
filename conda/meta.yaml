@@ -1,4 +1,4 @@
-{% set version = "0.10.0" %}
+{% set version = "0.10.1" %}
 
 # Starter conda recipe for optodraw. The package is pure Python, so there is no
 # compiler in the build environment and the result is noarch.

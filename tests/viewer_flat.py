@@ -140,13 +140,12 @@ def frame_for(solids: SolidSet, projection: str) -> Frame:
 def own_pictures(solids: SolidSet, frames: list[Frame]) -> list[bytes]:
     """The renderer's id pictures, one PNG per frame. Runs in a worker process."""
 
-    import cairosvg
+    from optodraw.raster import svg_to_png
 
     # crisp edges: the viewer's id pass runs with antialias off, so both sides sample the pixel centre
-    return [cairosvg.svg2png(bytestring=draw_ids(solids, f.camera, f.width_mm, f.height_mm, COLORS.__getitem__,
-                                                 min_opacity=MIN_OPACITY).replace(
-                                 "<svg ", '<svg shape-rendering="crispEdges" ', 1).encode(),
-                             output_width=f.pixels[0], output_height=f.pixels[1], background_color="white")
+    return [svg_to_png(draw_ids(solids, f.camera, f.width_mm, f.height_mm, COLORS.__getitem__,
+                                min_opacity=MIN_OPACITY).replace("<svg ", '<svg shape-rendering="crispEdges" ', 1),
+                       width=f.pixels[0], height=f.pixels[1], background="white")
             for f in frames]
 
 

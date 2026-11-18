@@ -14,7 +14,7 @@ thick; a datatype that differs by one makes a layer fall back. Optodraw warns
 about an undeclared layer; the other faults stay silent. **Run `check_stack`
 before every render, and fix every finding.**
 
-Install the GDS tools with `pip install "optodraw[gds]"`. Every python block
+The GDS tools come with `pip install optodraw`. Every python block
 in this file runs in order, as one script, in the optodraw test suite.
 
 ## 1. Choose a layer stack

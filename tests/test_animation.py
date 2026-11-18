@@ -356,24 +356,11 @@ class TestSceneAnimationHooks:
         scene = _simple_scene()
         assert callable(scene.timeline)
 
-    def test_render_gif_raises_import_error_without_extras(self, tmp_path):
-        """render_gif should raise ImportError (not AttributeError) when gif extras absent."""
-        scene = _simple_scene()
-        try:
-            import cairosvg  # noqa: F401
-            import PIL        # noqa: F401
-            pytest.skip("gif extra is installed; skipping ImportError test")
-        except (ImportError, OSError):
-            pass
-        with pytest.raises(ImportError, match="pillow|cairosvg|optodraw\\[gif\\]"):
-            scene.render_gif(str(tmp_path / "out.gif"))
-
 
 def test_gif_frames_sit_on_white_not_black(tmp_path):
     """The SVG background is transparent; a palette frame drops alpha, so every frame must be put on
     white first, or the GIF shows dark labels on black."""
 
-    pytest.importorskip("cairosvg")
     from PIL import Image
 
     path = tmp_path / "scene.gif"

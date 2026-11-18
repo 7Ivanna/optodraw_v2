@@ -147,7 +147,7 @@ SCENES = {"bench": _bench, "mounts": _mounts, "cables": _cables, "chip": _chip, 
 
 
 @pytest.fixture(scope="module")
-def viewer(rasteriser):
+def viewer():
     with viewer_flat.Viewer() as session:
         yield session
 

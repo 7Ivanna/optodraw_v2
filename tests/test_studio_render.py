@@ -140,3 +140,14 @@ def test_a_page_error_ends_a_capture_at_once_with_its_message(tmp_path, monkeypa
         capture3d.render_3d_image(_bench(), tmp_path / "x.png", engine="viewer", width=120, height=80, scale=1.0,
                                   timeout=60.0)
     assert time.monotonic() - start < 45.0
+
+
+def test_the_editor_loads_where_python_has_no_fcntl():
+    """Windows has no fcntl: the module that drives Chrome for 3D images imports it only when it runs."""
+
+    import subprocess
+    import sys
+
+    code = "import sys; sys.modules['fcntl'] = None; import optodraw.app.server, optodraw.renderers.capture3d"
+    run = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+    assert run.returncode == 0, run.stderr[-600:]

@@ -4,7 +4,7 @@ app. A scene made in the editor is the same scene the Python package makes: you 
 ## Start it
 
 ```bash
-pip install "optodraw[gui]"
+pip install optodraw
 optodraw-gui                 # opens your browser
 optodraw-gui --desktop       # its own window (needs the "desktop" extra)
 optodraw-gui --port 9000     # another port

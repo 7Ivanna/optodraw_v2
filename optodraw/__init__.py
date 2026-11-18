@@ -20,7 +20,7 @@ Usage::
     scene.render_video("setup.mp4")
 """
 
-__version__ = "0.10.0"
+__version__ = "0.10.1"
 
 # New physics solvers, renderer internals, and compilers stay in their modules.
 # Promote a name to this package root only with a changelog entry. See
@@ -336,15 +336,6 @@ from optodraw.gds import (
 )
 from optodraw.blender import export_blender_script, render_blender_script
 
-# Optional Optiland physics backend (lazy: importing these does not import optiland)
-from optodraw.optiland_bridge import (
-    LensPrescription,
-    OpticalSurface,
-    build_optic,
-    optic_to_beams,
-    optiland_available,
-    trace_lens_beams,
-)
 
 # Animation
 from optodraw.animation import AnimationTimeline, animate_polarization
@@ -774,13 +765,6 @@ __all__ = [
     "load_process_definition",
     "export_blender_script",
     "render_blender_script",
-    # Optiland physics backend (optional)
-    "LensPrescription",
-    "OpticalSurface",
-    "build_optic",
-    "optic_to_beams",
-    "optiland_available",
-    "trace_lens_beams",
     # Animation
     "AnimationTimeline",
     "animate_polarization",

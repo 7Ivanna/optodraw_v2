@@ -1,18 +1,15 @@
-optodraw needs Python 3.10 or newer. The core needs only NumPy and drawsvg; everything else is an extra.
+optodraw needs Python 3.10 or newer, on Windows, macOS or Linux. `pip install optodraw` brings the editor, GDS
+import with 3D and cross-sections, PNG, GIF and PDF export, interactive 3D, the AI assistant server and the
+notebook widgets. PNG and GIF need no system library. PDF uses the Cairo library where it is installed, else
+Chrome or Edge. gdsfactory needs Python 3.11 or newer.
 
 ## Extras
 
 | Extra | Adds |
 |---|---|
-| `gui` | The editor |
 | `desktop` | The editor in its own window |
-| `three` | Interactive 3D in notebooks |
-| `gds` | GDS import, 3D export and cross-sections |
-| `gif` | Animated GIFs (needs the Cairo library) |
-| `manim` | MP4 video |
-| `mcp` | The AI assistant server |
-| `notebook` | Notebook widgets |
-| `optiland` | Optiland as a ray tracing engine |
+| `manim` | MP4 video (needs Cairo, Pango and FFmpeg) |
+| `sax` | Circuit models for SAX (brings JAX) |
 | `all` | Everything above |
 
 ## What stays stable
@@ -27,6 +24,5 @@ arguments: removing a name or an argument fails the test; adding one does not.
 
 ## Other tools
 
-- **Optiland** can trace the rays; optodraw draws them. Install the `optiland` extra.
 - **gdsfactory** parts and PDKs import as GDS.
 - **Blender**: export a GLB and a render script from the 3D view.

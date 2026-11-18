@@ -312,7 +312,7 @@ viewer.save("viewer.html")
 
 ## Before you call a layout finished
 
-1. **Render it and look.** Convert the SVG to a PNG (`cairosvg.svg2png`) and
+1. **Render it and look.** Convert the SVG to a PNG (`optodraw.raster.svg_to_png`) and
    open it; then crop the input stage, the output stage and every junction.
 2. **`check_figure` is empty**, or you told the user why each finding stays.
 3. **Check both axes.** Parts on parallel arms overlap vertically when the

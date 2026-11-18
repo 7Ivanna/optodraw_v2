@@ -2,6 +2,31 @@
 
 All notable changes to Optodraw are documented here.
 
+## [0.10.1] (unreleased)
+
+### Changed
+
+- `pip install optodraw` brings the editor, GDS files, 3D, every export, the MCP server and the notebook widgets.
+  The old extra names still install. Only `desktop`, `manim` and `sax` stay optional: each needs system libraries
+  or brings a large stack.
+- PNG and GIF go through resvg, a wheel with no system library, so they work on Windows and on a Mac without
+  cairo. PDF uses cairosvg where the cairo library loads, else Chrome or Edge, with the text kept as text.
+  `optodraw.raster` has `svg_to_png` and `svg_to_pdf`.
+- The 2D SVG names its font (Helvetica, Arial, sans-serif), as the 1D view does. A browser drew its labels serif.
+- CI runs the slow tests (3 % of the tests, 85 % of the time) on one leg, installs a plain `pip install` on Linux,
+  macOS and Windows, and no longer runs twice for a release tag.
+
+### Fixed
+
+- The editor loads on Windows. The 3D image module imported a Unix-only module as it loaded.
+- Edge in `C:\Program Files` is found on 64-bit Windows.
+- The docs site build installs what its examples use.
+
+### Removed
+
+- The Optiland bridge (`LensPrescription`, `OpticalSurface`, `build_optic`, `optic_to_beams`,
+  `optiland_available`, `trace_lens_beams`) and the `optiland` extra. No example or figure used it.
+
 ## [0.10.0] (2026-11-18, the first public release)
 
 - A `Page` is a scene in mm that prints at its exact size. It letters the panels a, b, c in reading order.

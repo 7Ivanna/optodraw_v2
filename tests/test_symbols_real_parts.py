@@ -19,10 +19,10 @@ def art(part, look="2d"):
     """The drawing of a part as red, green, blue, alpha, at ten pixels to the point."""
 
     numpy = pytest.importorskip("numpy")
-    cairosvg = pytest.importorskip("cairosvg")
+    from optodraw.raster import svg_to_png
     image = pytest.importorskip("PIL.Image")
     symbol = lookup(part)
-    drawn = cairosvg.svg2png(bytestring=(symbol.svg2d if look == "2d" else symbol.svg).encode(), scale=10)
+    drawn = svg_to_png(symbol.svg2d if look == "2d" else symbol.svg, zoom=10)
     return numpy.asarray(image.open(io.BytesIO(drawn)).convert("RGBA")).astype(float), symbol
 
 
@@ -231,10 +231,10 @@ def top_art(part):
     """The drawing a part shows in 2D, which may be another view than its 1D symbol."""
 
     numpy = pytest.importorskip("numpy")
-    cairosvg = pytest.importorskip("cairosvg")
+    from optodraw.raster import svg_to_png
     image = pytest.importorskip("PIL.Image")
     symbol = symbol_for_2d(part)
-    drawn = cairosvg.svg2png(bytestring=symbol.svg2d.encode(), scale=10)
+    drawn = svg_to_png(symbol.svg2d, zoom=10)
     return numpy.asarray(image.open(io.BytesIO(drawn)).convert("RGBA")).astype(float), symbol
 
 
@@ -327,7 +327,7 @@ def test_no_drawing_in_the_library_is_cut_by_its_box():
     """A 2D drawing shares the box of its 1D symbol, so a 2D part that reaches past that box loses its edge."""
 
     numpy = pytest.importorskip("numpy")
-    cairosvg = pytest.importorskip("cairosvg")
+    from optodraw.raster import svg_to_png
     image = pytest.importorskip("PIL.Image")
     from optodraw.symbols import _index, _symbol
 
@@ -337,7 +337,7 @@ def test_no_drawing_in_the_library_is_cut_by_its_box():
         for look, svg in (("1d", symbol.svg), ("2d", symbol.svg2d)):
             if not svg:
                 continue
-            rgba = numpy.asarray(image.open(io.BytesIO(cairosvg.svg2png(bytestring=svg.encode(), scale=4))).convert("RGBA"))
+            rgba = numpy.asarray(image.open(io.BytesIO(svg_to_png(svg, zoom=4))).convert("RGBA"))
             alpha = rgba[..., 3] > 200
             if alpha[:, :2].any() or alpha[:, -2:].any() or alpha[:2, :].any() or alpha[-2:, :].any():
                 cut.append(f"{name} {look}")

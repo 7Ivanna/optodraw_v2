@@ -12,7 +12,7 @@ authors:
     family-names: Allo
     affiliation: "ACCELUMA"
     orcid: "https://orcid.org/0009-0005-2027-5794"
-version: 0.10.0
+version: 0.10.1
 license: BSD-3-Clause
 keywords:
   - optics

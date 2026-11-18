@@ -175,10 +175,11 @@ def reds(svg_text, size=200):
 
     import io
 
-    import cairosvg
     from PIL import Image
 
-    png = cairosvg.svg2png(bytestring=svg_text.encode(), output_width=size)
+    from optodraw.raster import svg_to_png
+
+    png = svg_to_png(svg_text, width=size)
     data = Image.open(io.BytesIO(png)).convert("RGB").tobytes()
     pixels = zip(data[0::3], data[1::3], data[2::3])
     return sum(1 for r, g, b in pixels if r > 200 and g < 60 and b < 60)

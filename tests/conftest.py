@@ -20,22 +20,6 @@ if _OWN_WORKSPACE:
 os.environ.setdefault("OPTODRAW_SYMBOL_COMPILE", "0")
 
 
-@pytest.fixture(scope="session")
-def rasteriser() -> None:
-    """Skip a test that needs cairosvg when the native cairo library is absent.
-
-    cairosvg installs from a wheel but binds the SYSTEM cairo, which macOS does
-    not ship — so "the gif extra is installed" and "GIFs can be rendered" are
-    two different facts, and a test that conflates them fails on a clean Mac.
-    """
-
-    try:
-        import cairosvg  # noqa: F401
-        from PIL import Image  # noqa: F401
-    except (ImportError, OSError) as error:
-        pytest.skip(f"no SVG rasteriser available: {error}")
-
-
 @pytest.fixture
 def assert_1d_symbol():
     """A part's 1D symbol is a drawing that carries the part's ports: its own symbol or the labeled block."""

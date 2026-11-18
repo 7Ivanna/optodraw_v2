@@ -247,7 +247,7 @@ def test_light_that_passes_twice_is_drawn_once():
     import io
     import re
 
-    cairosvg = pytest.importorskip("cairosvg")
+    from optodraw.raster import svg_to_png
     image = pytest.importorskip("PIL.Image")
     from optodraw import PBS, Beam, Laser, Mirror, Photodiode, QuarterWavePlate, Scene
 
@@ -260,7 +260,7 @@ def test_light_that_passes_twice_is_drawn_once():
     scene.add(Beam.through(laser, (pbs, "in"), (pbs, "trans"), qwp, mirror, qwp, (pbs, "trans"), (pbs, "tap"), pd))
     svg = scene.render_svg().as_svg()
     x0, y0, w, h = (float(v) for v in re.search(r'viewBox="([-\d.]+) ([-\d.]+) ([-\d.]+) ([-\d.]+)"', svg).groups())
-    png = image.open(io.BytesIO(cairosvg.svg2png(bytestring=svg.encode(), output_width=800, background_color="white")))
+    png = image.open(io.BytesIO(svg_to_png(svg, width=800, background="white")))
     scale = png.width / w
 
     def colour(x, y):                                        # world x, y (y up) to the pixel there

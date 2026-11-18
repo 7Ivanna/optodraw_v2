@@ -279,7 +279,7 @@ def test_a_huge_picture_warns(tmp_path, monkeypatch):
         Image(path)
 
 
-def test_a_picture_exports_as_png(tmp_path, rasteriser):
+def test_a_picture_exports_as_png(tmp_path):
     path = _picture(tmp_path, ".png")
     page, _ = _page(Image(path))
     out = page.export(tmp_path / "fig", formats=("png",), dpi=100)

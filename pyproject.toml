@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "optodraw"
-version = "0.10.0"
+version = "0.10.1"
 description = "Optical setups and photonic chips in 1D schematics, 2D SVG, 3D web scenes, TikZ, and GDS-aware workflows"
 readme = "README.md"
 license = "BSD-3-Clause"
@@ -34,20 +34,12 @@ dependencies = [
     # lift the cap when a 2.5 release imports on 3.10 to 3.13
     "drawsvg>=2.0,<2.5",
     "shapely>=2.0",
-]
-
-[project.optional-dependencies]
-three = ["jinja2>=3.0"]
-manim = ["manim>=0.18"]
-mcp = ["mcp[cli]>=1.0"]
-notebook = ["ipython>=8.0", "ipywidgets>=8.0"]
-# trimesh needs two companions to turn a GDS layout into a mesh, and defers
-# both until the moment it fails: mapbox-earcut to triangulate the polygons
-# ("No available triangulation engine"), scipy for the mesh operations that
-# follow. Neither is a trimesh dependency, so the extra names them.
-# gdsfactory 9 needs Python 3.12+. 3.11 still gets 8.x. 3.10 skips gdsfactory
-# (that line never shipped wheels for 3.10) and keeps shapely/trimesh/gdstk.
-gds = [
+    # the editor, and its 3D pages
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "jinja2>=3.0",
+    # GDS files. trimesh needs mapbox-earcut to triangulate polygons and scipy for the mesh operations, and names
+    # neither. gdsfactory 9 needs Python 3.12+, 3.11 gets 8.x, and 3.10 has no gdsfactory wheel
     "gdsfactory>=8.0,<9; python_version >= '3.11' and python_version < '3.12'",
     "gdsfactory>=9.0; python_version >= '3.12'",
     "gdstk>=0.9",
@@ -55,16 +47,32 @@ gds = [
     "matplotlib>=3.8",
     "pyyaml>=6.0",
     "scipy>=1.10",
-    "shapely>=2.0",
     "trimesh>=4.0",
+    # PNG and GIF through resvg, a wheel with no system library; PDF through cairosvg where the cairo library loads,
+    # else headless Chrome or Edge (optodraw.raster)
+    "pillow>=10.0",
+    "resvg_py>=0.5",
+    "cairosvg>=2.7",
+    # agents and notebooks
+    "mcp[cli]>=1.0",
+    "ipython>=8.0",
+    "ipywidgets>=8.0",
 ]
-gif = ["pillow>=10.0", "cairosvg>=2.7"]
-figure = ["shapely>=2.0", "matplotlib>=3.8", "pillow>=10.0", "cairosvg>=2.7"]
-optiland = ["optiland>=0.5"]
-sax = ["sax>=0.18"]
-gui = ["fastapi>=0.110", "uvicorn[standard]>=0.27"]
-desktop = ["optodraw[gui]", "pywebview>=5.0"]
-all = ["optodraw[three,manim,mcp,notebook,gds,gif,figure,optiland,gui,desktop]"]
+
+[project.optional-dependencies]
+# A plain install brings these already; the names stay so that older install lines still work.
+three = []
+gds = []
+gif = []
+figure = []
+gui = []
+mcp = []
+notebook = []
+# Not part of a plain install: each needs system libraries or brings a large stack.
+manim = ["manim>=0.18"]                 # cairo, pango and ffmpeg
+desktop = ["pywebview>=5.0"]            # the system's web view, for a native window
+sax = ["sax>=0.18"]                     # JAX
+all = ["optodraw[manim,desktop,sax]"]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",

@@ -18,12 +18,12 @@ def _bench():
 
 
 def test_one_call_writes_three_files_at_the_page_size(tmp_path):
-    pytest.importorskip("cairosvg")
     image = pytest.importorskip("PIL.Image")
     paths = _bench().export_figure(tmp_path / "fig", width_mm=89.0, dpi=800)
     assert sorted(paths) == ["pdf", "png", "svg"]
     assert all(path.stat().st_size > 0 for path in paths.values())
     assert 'width="89mm"' in paths["svg"].read_text()
+    assert 'font-family="Helvetica' in _bench().render_svg().as_svg().split(">", 2)[1]   # as the 1D view
     assert image.open(paths["png"]).width == round(89.0 / 25.4 * 800)
     assert paths["pdf"].read_bytes().startswith(b"%PDF")
 
@@ -59,3 +59,26 @@ def test_a_sample_at_the_focus_stands_on_it():
     objective = scene.add(Objective(center=(10, 20), angle=-90, working_distance=14, label="Obj"))
     sample = scene.add(Sample(center=objective.focus_point(), angle=-90, label="Chip"))
     assert (float(sample.world_position.x), float(sample.world_position.y)) == pytest.approx(objective.focus_point())
+
+
+def test_without_the_cairo_library_a_browser_prints_the_pdf_at_its_page_size(tmp_path, monkeypatch):
+    from optodraw.raster import svg_to_pdf
+    from optodraw.renderers.capture3d import find_chrome
+
+    if find_chrome(required=False) is None:
+        pytest.skip("no Chrome or Edge here")
+    monkeypatch.setitem(__import__("sys").modules, "cairosvg", None)          # as on Windows: no cairo
+    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="89mm" height="30mm" viewBox="0 0 89 30">' \
+          '<text x="5" y="15" font-size="6">Laser</text></svg>'
+    pdf = svg_to_pdf(svg, tmp_path / "fig.pdf").read_bytes()
+    box = [float(v) for v in re.search(rb"/MediaBox\s*\[\s*0 0 ([\d.]+) ([\d.]+)", pdf).groups()]
+    assert box == pytest.approx([89 / 25.4 * 72, 30 / 25.4 * 72], abs=1.0)
+
+
+def test_with_neither_cairo_nor_a_browser_the_pdf_error_names_both(tmp_path, monkeypatch):
+    from optodraw.raster import svg_to_pdf
+
+    monkeypatch.setitem(__import__("sys").modules, "cairosvg", None)
+    monkeypatch.setenv("OPTODRAW_CHROME", str(tmp_path / "no-browser"))
+    with pytest.raises(RuntimeError, match="Chrome or Edge, or the cairo library"):
+        svg_to_pdf('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>', tmp_path / "x.pdf")

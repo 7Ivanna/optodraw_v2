@@ -987,19 +987,18 @@ def _quoted(texts: list[str], most: int = 8) -> str:
 def _over_the_drawing(root: ET.Element, page: _Page) -> list[str]:
     """Text that crosses an edge of the art: the file with its text taken out, sampled under each text box."""
 
-    try:
-        import cairosvg
-        import numpy as np
-        from PIL import Image
-    except ImportError:
-        return ["text over the drawing was not checked: pip install optodraw[gif]"]
+    import numpy as np
+    from PIL import Image
+
+    from optodraw.raster import svg_to_png
+
     bare = copy.deepcopy(root)
     for parent in bare.iter():
         for child in list(parent):
             if _tag(child) == "text":
                 parent.remove(child)
-    drawn = cairosvg.svg2png(bytestring=ET.tostring(bare), output_width=round(page.width_pt * PIXELS_PER_PT),
-                             output_height=round(page.height_pt * PIXELS_PER_PT), background_color="white")
+    drawn = svg_to_png(ET.tostring(bare, encoding="unicode"), width=round(page.width_pt * PIXELS_PER_PT),
+                       height=round(page.height_pt * PIXELS_PER_PT), background="white")
     pixels = np.asarray(Image.open(io.BytesIO(drawn)).convert("RGB"), dtype=float)
     busy = []
     for text in page.texts:

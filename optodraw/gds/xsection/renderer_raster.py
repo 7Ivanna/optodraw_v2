@@ -14,26 +14,14 @@ def _checked_dpi(dpi: int) -> float:
 
 
 def rasterize_svg_to_png(svg_path: Path, png_path: Path, *, dpi: int = 300) -> Path:
-    dpi = _checked_dpi(dpi)
-    try:
-        import cairosvg
-    except ImportError as exc:
-        raise ImportError("cairosvg is required for PNG rasterization") from exc
-
-    png_path = Path(png_path)
-    png_path.parent.mkdir(parents=True, exist_ok=True)
-    cairosvg.svg2png(url=str(svg_path), write_to=str(png_path), dpi=dpi)
-    return png_path
+    return rasterize_svg_text_to_png(Path(svg_path).read_text(encoding="utf-8"), png_path, dpi=dpi)
 
 
 def rasterize_svg_text_to_png(svg_text: str, png_path: Path, *, dpi: int = 300) -> Path:
-    dpi = _checked_dpi(dpi)
-    try:
-        import cairosvg
-    except ImportError as exc:
-        raise ImportError("cairosvg is required for PNG rasterization") from exc
+    from optodraw.raster import svg_to_png
 
+    dpi = _checked_dpi(dpi)
     png_path = Path(png_path)
     png_path.parent.mkdir(parents=True, exist_ok=True)
-    cairosvg.svg2png(bytestring=svg_text.encode("utf-8"), write_to=str(png_path), dpi=dpi)
+    png_path.write_bytes(svg_to_png(svg_text, dpi=dpi))
     return png_path

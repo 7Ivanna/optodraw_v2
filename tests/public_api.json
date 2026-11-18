@@ -25,7 +25,9 @@
     "visual_scale",
     "color",
     "opacity",
-    "label"
+    "label",
+    "sample_rate_hz",
+    "full_scale_v"
   ],
   "AOM": [
     "center",
@@ -79,7 +81,11 @@
   ],
   "AmplifiedPhotodetector": [
     "center",
-    "angle"
+    "angle",
+    "responsivity_a_per_w",
+    "dark_current_a",
+    "bandwidth_hz",
+    "gain_ohm"
   ],
   "Amplifier": [
     "center",
@@ -88,7 +94,9 @@
     "value",
     "label",
     "color",
-    "opacity"
+    "opacity",
+    "gain",
+    "bandwidth_hz"
   ],
   "Analyzer": [
     "center",
@@ -426,7 +434,9 @@
     "visual_scale",
     "color",
     "opacity",
-    "label"
+    "label",
+    "sample_rate_hz",
+    "full_scale_v"
   ],
   "DACDriver": [
     "center",
@@ -1038,11 +1048,16 @@
     "beam_color",
     "divergence_deg",
     "show_envelope",
-    "sync"
+    "sync",
+    "power_mw",
+    "threshold_a",
+    "slope_w_per_a"
   ],
   "LaserDriver": [
     "center",
-    "angle"
+    "angle",
+    "bias_a",
+    "gain_a_per_v"
   ],
   "LayoutCut": [
     "y_min",
@@ -1061,14 +1076,6 @@
     "center_thickness",
     "edge_thickness"
   ],
-  "LensPrescription": [
-    "surfaces",
-    "aperture_epd",
-    "wavelengths_um",
-    "field_angles_deg",
-    "object_distance",
-    "label"
-  ],
   "LensTube": [
     "center",
     "angle",
@@ -1077,7 +1084,8 @@
   ],
   "LockInAmplifier": [
     "center",
-    "angle"
+    "angle",
+    "reading"
   ],
   "MEMSActuator": [
     "center",
@@ -1204,7 +1212,8 @@
     "heater_width",
     "heater_gap",
     "heater_length",
-    "heater_pad_size"
+    "heater_pad_size",
+    "heater_resistance_ohm"
   ],
   "MicroringWeightBank": [
     "center",
@@ -1297,7 +1306,8 @@
   ],
   "OSA": [
     "center",
-    "angle"
+    "angle",
+    "trace"
   ],
   "Objective": [
     "center",
@@ -1322,7 +1332,10 @@
     "waveguide_width",
     "pad_length",
     "pad_width",
-    "wavelength_nm"
+    "wavelength_nm",
+    "power_mw",
+    "threshold_a",
+    "slope_w_per_a"
   ],
   "OnChipPhotodetector": [
     "center",
@@ -1334,7 +1347,10 @@
     "pad_length",
     "waveguide_width",
     "contact_finger_count",
-    "contact_finger_width"
+    "contact_finger_width",
+    "responsivity_a_per_w",
+    "dark_current_a",
+    "bandwidth_hz"
   ],
   "OpAmp": [
     "center",
@@ -1378,15 +1394,8 @@
   ],
   "OpticalPowerMeter": [
     "center",
-    "angle"
-  ],
-  "OpticalSurface": [
-    "radius",
-    "thickness",
-    "material",
-    "conic",
-    "is_stop",
-    "semi_diameter"
+    "angle",
+    "reading"
   ],
   "OpticalTable": [
     "center",
@@ -1398,7 +1407,8 @@
   ],
   "Oscilloscope": [
     "center",
-    "angle"
+    "angle",
+    "traces"
   ],
   "OutputStack": [
     "process_name",
@@ -1543,7 +1553,10 @@
   ],
   "Photodiode": [
     "center",
-    "angle"
+    "angle",
+    "responsivity_a_per_w",
+    "dark_current_a",
+    "bandwidth_hz"
   ],
   "PhotonCounter": [
     "center",
@@ -1981,6 +1994,14 @@
     "color",
     "opacity"
   ],
+  "Source": [
+    "kind",
+    "ref",
+    "note"
+  ],
+  "Sourced": [
+    "args"
+  ],
   "SpatialLightModulator": [
     "center",
     "angle",
@@ -2070,7 +2091,9 @@
     "visual_scale",
     "color",
     "opacity",
-    "label"
+    "label",
+    "gain_ohm",
+    "bandwidth_hz"
   ],
   "TapCoupler": [
     "center",
@@ -2546,9 +2569,6 @@
     "include_io",
     "cell_kwargs"
   ],
-  "build_optic": [
-    "prescription"
-  ],
   "build_preset": [
     "name"
   ],
@@ -2779,21 +2799,6 @@
     "port"
   ],
   "material_catalog": [],
-  "optic_to_beams": [
-    "optic",
-    "origin",
-    "direction_deg",
-    "field_angles_deg",
-    "wavelengths_um",
-    "num_rays",
-    "distribution",
-    "axial_scale",
-    "transverse_scale",
-    "axial_offset",
-    "width",
-    "scene"
-  ],
-  "optiland_available": [],
   "optimize_layout": [
     "components",
     "strategy"
@@ -2996,18 +3001,6 @@
     "jones_in",
     "wavelength_nm",
     "unpolarized"
-  ],
-  "trace_lens_beams": [
-    "prescription",
-    "origin",
-    "direction_deg",
-    "num_rays",
-    "distribution",
-    "axial_scale",
-    "transverse_scale",
-    "axial_offset",
-    "width",
-    "scene"
   ],
   "trace_mzi_power": [
     "mzi",
