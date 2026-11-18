@@ -35,7 +35,8 @@ jobs:
           cache-dependency-path: docs/package-lock.json
       - uses: astral-sh/setup-uv@v5          # the site serves its own wheel for the runnable cells
       - name: Install optodraw
-        run: pip install -e .
+        # the examples read GDS stacks (yaml), draw plots (matplotlib) and a 3D page (jinja2)
+        run: pip install -e ".[gds,figure,three]"
       - name: Build site
         working-directory: docs
         env:
