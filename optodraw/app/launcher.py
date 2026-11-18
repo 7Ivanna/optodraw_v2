@@ -7,6 +7,7 @@ native window via PyWebView instead. Public hosting is not available yet.
 from __future__ import annotations
 
 import argparse
+import os
 import socket
 import sys
 import threading
@@ -50,7 +51,10 @@ def _port_is_free(host: str, port: int) -> bool:
     """
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
-        probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if os.name == "nt":            # Windows lets SO_REUSEADDR bind a port another socket holds
+            probe.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        else:
+            probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         try:
             probe.bind((host, port))
         except OSError:

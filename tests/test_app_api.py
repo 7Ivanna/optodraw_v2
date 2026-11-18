@@ -199,6 +199,7 @@ def test_gds_layers_and_visibility_override(client: TestClient):
 
 
 def test_gds_cross_section_renders(client: TestClient):
+    pytest.importorskip("gdsfactory")             # its generic stack gives the layer heights
     import pathlib
 
     gds = pathlib.Path("examples/assets/demo_mask.gds")
@@ -238,6 +239,7 @@ def _demo_gds(client: TestClient) -> str:
 
 
 def test_gds_cross_section_slab_look_is_an_interactive_page(client: TestClient):
+    pytest.importorskip("gdsfactory")             # its generic stack gives the layer heights
     gid = _demo_gds(client)
     body = client.post(f"/api/gds/{gid}/cross_section", json={"look": "slab"}).json()
     assert body["look"] == "slab" and body["format"] == "html"
@@ -246,6 +248,7 @@ def test_gds_cross_section_slab_look_is_an_interactive_page(client: TestClient):
 
 
 def test_gds_cross_section_sem_look_only_when_the_model_draws_it(client: TestClient):
+    pytest.importorskip("gdsfactory")             # its generic stack gives the layer heights
     from optodraw.gds.xsection.model import CrossSection
 
     gid = _demo_gds(client)
@@ -346,6 +349,7 @@ def test_gds_attach_technology_rejects_empty(client: TestClient):
 
 
 def test_export_glb_is_valid_binary_gltf(client: TestClient):
+    pytest.importorskip("gdsfactory")             # its generic stack gives the layer heights
     import pathlib
 
     gds = pathlib.Path("examples/assets/demo_mask.gds")

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import shapely
 from shapely.geometry import LineString, Point, box
-from shapely.ops import polylabel, unary_union
+from shapely.ops import unary_union
 
 from optodraw.core.markup import plain
 from optodraw.gds.palette import canonical, doping_label
@@ -56,6 +56,27 @@ def text_box(x: float, y: float, text: str, font: float, anchor: str = "middle")
     return (left, y - font * 0.8, left + width, y + font * 0.2)
 
 
+def _pole(piece) -> Point:
+    """The point deepest inside ``piece``, and of the points about as deep, the one nearest its middle. It samples a
+    grid with shapely's exact contains and distance: polylabel approximates, and its answer moved from one shapely
+    release to the next (a long flat slab has a whole line of deepest points, and its label jumped to an end)."""
+
+    import numpy as np
+
+    x0, y0, x1, y1 = piece.bounds
+    xs, ys = np.meshgrid(np.linspace(x0, x1, 121), np.linspace(y0, y1, 61))
+    xs, ys = xs.ravel(), ys.ravel()
+    inside = shapely.contains_xy(piece, xs, ys)
+    if not inside.any():                         # a sliver thinner than the grid
+        return piece.representative_point()
+    depth = np.where(inside, shapely.distance(piece.boundary, shapely.points(xs, ys)), -1.0)
+    deep = depth >= depth.max() * 0.97
+    middle = piece.centroid
+    far = np.where(deep, np.hypot(xs - middle.x, ys - middle.y), np.inf)
+    best = int(np.argmin(far))
+    return Point(float(xs[best]), float(ys[best]))
+
+
 def _free(box_mm, placed, across: float = 1.5, up: float = 0.6) -> bool:
     """True when the page box keeps ``across`` mm sideways or ``up`` mm up and down from every placed box,
     so two texts never read as one."""
@@ -90,7 +111,7 @@ def _anchor(piece) -> Point:
     hit = piece.intersection(LineString([(x, y0 - 1.0), (x, y1 + 1.0)]))
     runs = [part for part in shapely.get_parts(hit) if part.length > 0]
     if not runs:
-        return polylabel(piece, tolerance=0.05)
+        return _pole(piece)
     longest = max(runs, key=lambda part: part.length)
     return longest.interpolate(0.5, normalized=True)
 
@@ -162,7 +183,7 @@ def place_labels(xs, frame, clip, font: float, family: str, width: float,
         if room:
             continue
         biggest = max(pieces, key=lambda p: p.area)
-        spot = polylabel(biggest, tolerance=0.05)
+        spot = _pole(biggest)
         if _clear(text_box(spot.x, spot.y + font / 3, text, font), [biggest], placed, leaders):
             put(text, spot.x, spot.y + font / 3)
         else:
@@ -203,7 +224,7 @@ def _roomy_spot(piece, text: str, font: float, placed, leaders) -> tuple[float, 
     the clear point nearest to it. It keeps two letters' height sideways from other text, so "BOX" and a
     nearby "Si" never read as one name."""
 
-    pole = polylabel(piece, tolerance=0.05)
+    pole = _pole(piece)
     x0, y0, x1, y1 = piece.bounds
     step, rise = font * 0.5, font * 0.2          # finer up and down: a band between two metals is barely a line high
     points = [(pole.x, pole.y)] + sorted(

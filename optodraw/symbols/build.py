@@ -72,7 +72,7 @@ def source_hash(files: list[Path], table_text: str = "") -> str:
     digest = hashlib.sha256()
     for path in files:
         digest.update(path.name.encode())
-        digest.update(path.read_bytes())
+        digest.update(path.read_bytes().replace(b"\r\n", b"\n"))      # a Windows checkout has CRLF
     digest.update(table_text.encode())
     return digest.hexdigest()
 

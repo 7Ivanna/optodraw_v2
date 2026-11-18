@@ -11,6 +11,8 @@ import pytest
 
 from gds_layout_fixtures import docs_device_gds
 
+pytest.importorskip("gdsfactory")           # the stack's layer heights come from its generic PDK
+
 NO_HEIGHT = ["20/0", "21/0", "24/0", "25/0", "46/0"]
 
 

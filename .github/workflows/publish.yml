@@ -15,6 +15,13 @@ jobs:
           python-version: "3.12"
       # Pure-Python Hatchling build only. The Rust crate in src/ is an opt-in
       # local experiment (maturin develop), never a release artifact.
+      - name: Pin the README's links to this release
+        # A PyPI page never changes, but main does: point its images and file links at the release tag instead.
+        if: github.event_name == 'release'
+        run: |
+          tag="${{ github.event.release.tag_name }}"
+          sed -i "s#/Acceluma/optodraw/main/#/Acceluma/optodraw/$tag/#g; s#/Acceluma/optodraw/blob/main/#/Acceluma/optodraw/blob/$tag/#g" README.md
+          grep -c "/Acceluma/optodraw/$tag/" README.md
       - name: Build distributions
         run: |
           python -m pip install --upgrade pip

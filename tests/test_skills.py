@@ -121,6 +121,7 @@ def test_install_keeps_an_edited_copy_unless_forced(tmp_path):
 
 def test_named_targets_resolve_to_the_agent_skill_folders(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))          # Windows reads the home folder from here
     monkeypatch.chdir(tmp_path)
     assert skills.target_dir("claude") == tmp_path / ".claude" / "skills"
     assert skills.target_dir("agents") == tmp_path / ".agents" / "skills"
