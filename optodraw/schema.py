@@ -349,6 +349,8 @@ def component_to_spec(
         spec["base_mount"] = str(mount)
     if getattr(component, "label_side", "top") not in (None, "", "top"):
         spec["label_side"] = str(component.label_side)
+    if getattr(component, "left_open", ()):                          # ports the figure leaves open on purpose
+        spec["left_open"] = list(component.left_open)
 
     _emit_chip_extras(component, spec)
     _emit_gds_layer_stack(component, spec)
@@ -648,7 +650,7 @@ def component_from_spec(spec: dict[str, Any], *, refs: dict[str, Component] | No
         key: _anchor_from_spec(value, refs)
         for key, value in spec.items()
         if key not in {"type", "id", "physical_spec", "base_mount", "anim_params", "beam_height", "label_side",
-                       "center_offset", "sources"}
+                       "center_offset", "sources", "left_open"}
     }
     stored = None
     if component_type == "Inset" and "source" in spec:          # the record and the last fragment: no file read
@@ -681,6 +683,10 @@ def component_from_spec(spec: dict[str, Any], *, refs: dict[str, Component] | No
         component.anim_params = dict(spec["anim_params"])
     if spec.get("label_side"):
         component.label_side = str(spec["label_side"])
+    if spec.get("left_open"):
+        if not (isinstance(spec["left_open"], list) and all(isinstance(p, str) for p in spec["left_open"])):
+            raise ValueError(f"left_open is a list of port names, got {spec['left_open']!r}")
+        component.left_open = tuple(spec["left_open"])
     if spec.get("beam_height") is not None:
         component.beam_height = float(spec["beam_height"])
         if hasattr(component, "_scene_beam"):

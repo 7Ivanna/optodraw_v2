@@ -156,3 +156,44 @@ def test_a_1d_route_that_crosses_more_than_its_2d_route_is_a_finding(monkeypatch
     monkeypatch.setattr(router, "route_links", lambda schematic, guides=None: real(schematic, {}))  # no guides
     findings = check_figure(sync_bench(), view="1d")
     assert any("sync->in1" in finding and "cross" in finding for finding in findings), findings
+
+
+def _coupler_alone():
+    from optodraw import EdgeCoupler
+
+    chip = Scene(title="chip", width=200, height=80, platform="on_chip")
+    return chip, chip.add(EdgeCoupler(center=(0, 0), label="EC"))     # o1 at (24, 0), facing +x
+
+
+def _loose(scene):
+    return [f for f in check_figure(scene, view="2d") if "not connected" in f]
+
+
+def test_an_arrow_at_a_port_shows_the_light_and_closes_it():
+    from optodraw import SignalArrow
+
+    chip, _ = _coupler_alone()
+    assert _loose(chip)
+    chip.add(SignalArrow((0, 0), (12, 0), center=(27, 1), label="Out"))   # its tail 3 past o1, pointing away
+    assert _loose(chip) == []
+
+
+def test_an_arrow_across_a_port_does_not():
+    from optodraw import SignalArrow
+
+    chip, _ = _coupler_alone()
+    chip.add(SignalArrow((0, -10), (0, 0), center=(24, 2)))                # its head 2 from o1, but across the axis
+    assert _loose(chip)
+
+
+def test_a_port_the_figure_leaves_open_stays_open_after_a_save():
+    import pytest
+
+    from optodraw.schema import scene_from_spec
+
+    chip, coupler = _coupler_alone()
+    chip.leave_open(coupler, "o1")
+    assert _loose(chip) == []
+    assert _loose(scene_from_spec(chip.to_spec())) == []
+    with pytest.raises(KeyError, match="no port o9"):
+        chip.leave_open(coupler, "o9")

@@ -78,6 +78,7 @@ class SignalArrow(Component):
     """
 
     component_type = "SignalArrow"
+    open_ports = ("in", "out")      # a mark: a route may meet its ends, and none has to
 
     def __init__(
         self,

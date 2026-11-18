@@ -13,11 +13,16 @@ A Mach-Zehnder modulator with G-S-G electrodes, after Wolf et al. (2018), Fig. 1
 
 <!-- cell: chips/02-soh-mzm -->
 
+Nine modes through 36 MZIs, after Clements et al. (2016), Fig. 1b.
+
+<!-- cell: chips/03-clements-mesh -->
+
 ## Options
 
 - `scene.route((a, "o2"), (b, "o1"), kind="waveguide", path_type="smooth")`: a waveguide with real bends.
 - `steps=[{"x": ...}, {"y": ...}]`: the corners a route must pass, for a fold or a lane.
 - `kind="electrical"` or `kind="fiber"`: wires and fibres between electrical or fibre ports.
+- `scene.leave_open(part, "e1")`: a port the paper leaves open. A `SignalArrow` at a port marks the light.
 - `render_physical=True`: draw a part at its true size instead of its schematic size.
 
 ## What it supports

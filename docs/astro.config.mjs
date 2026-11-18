@@ -14,6 +14,7 @@ export default defineConfig({
   integrations: [starlight({
     title: 'optodraw',
     logo: { light: './assets/branding/optodraw-mark.svg', dark: './assets/branding/optodraw-mark-white.svg', replacesTitle: false },
+    head: [{ tag: 'link', attrs: { rel: 'apple-touch-icon', href: `${base}/apple-touch-icon.png` } }],
     description: 'Draw optical, photonic and chip setups as schematics, layouts and 3D scenes, in Python or in an editor.',
     customCss: ['./src/styles/docs.css'],
     components: { Hero: './src/components/Hero.astro', ThemeSelect: './src/components/ThemeToggle.astro' },

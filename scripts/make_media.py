@@ -44,7 +44,7 @@ GIF = (720, 480, 12, 3.0)            # the light GIF: width, height, frames per 
 GALLERY = {
     "ligo-2d": ("get-started/01-ligo", "2d"),
     "homodyne-1d": ("electronics/01-homodyne", "1d"),
-    "rings-3d": ("3d/01-rings", "3d"),
+    "mesh-3d": ("chips/03-clements-mesh", "3d"),
     "rings-light": ("3d/01-rings", "light"),
     "xsection": ("cross-sections/01-schematic", "xs"),
     "xsection-sem": ("cross-sections/02-sem", "sem"),

@@ -267,7 +267,9 @@ for issue in run_checks(chip):
 route connects (a photodetector's two pads count; a fibre port faces off the
 chip and does not), every pair of routes that cross, and the label faults of
 the figure. End an unused optical port on a `Terminator`, unless the source
-figure draws a free end (the input leads of a theory mesh): then say so. With
+figure draws a free end (the input leads of a theory mesh, a heater with no
+wires): then name it with `scene.leave_open(part, "e1")`, which the scene saves.
+A `SignalArrow` at a port marks the light going in or out there. With
 `preset=`, a chip's labels are checked at the size the `fit="width"` export
 prints them. It also reports a route drawn across a part it does not join (a
 pad row on top of a waveguide), and, in 1D, a route that crosses more links

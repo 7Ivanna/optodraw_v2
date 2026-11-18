@@ -4,8 +4,21 @@ All notable changes to Optodraw are documented here.
 
 ## [0.10.1] (unreleased)
 
+### Added
+
+- `scene.leave_open(part, "e1", "e2")` names the ports a figure leaves open as its paper does: a heater with no
+  wires, the far end of a bus. The scene saves the list, and `check_figure` passes those ports.
+- A `SignalArrow` at a chip port marks the light going in or out there, so `check_figure` counts the port as used.
+- A docs example: the universal nine-mode interferometer of Clements et al. (2016), Fig. 1b, 36 MZIs in the
+  rectangular mesh. Its 3D image is in the README.
+- The site has its favicon (the app icon) and an Apple touch icon.
+
 ### Changed
 
+- The test suite is cut from 8,243 tests to about 1,800. A coverage run with one context per test chose the
+  smallest set that still runs every line the whole suite ran; the per-part families are one sweep each.
+- The open-port message names the end for each kind of port: a coupler or a Terminator for light, a pad for a
+  contact.
 - `pip install optodraw` brings the editor, GDS files, 3D, every export, the MCP server and the notebook widgets.
   The old extra names still install. Only `desktop`, `manim` and `sax` stay optional: each needs system libraries
   or brings a large stack.
@@ -21,6 +34,8 @@ All notable changes to Optodraw are documented here.
 - The editor loads on Windows. The 3D image module imported a Unix-only module as it loaded.
 - Edge in `C:\Program Files` is found on 64-bit Windows.
 - The docs site build installs what its examples use.
+- `check_figure` no longer counts a `SignalArrow`'s own ends as unwired ports: an arrow is a mark.
+- The homodyne example wires its TIA output to a pad, where it ended in nothing.
 
 ### Removed
 

@@ -6,6 +6,10 @@ ring1 = scene.add(MicroringResonator(center=(-26, 0), add_drop=True, with_heater
 ring2 = scene.add(MicroringResonator(center=(26, 0), add_drop=True, with_heater=True, label="2"))
 scene.route((ring1, "o2"), (ring2, "o1"), kind="waveguide", color="#2b6cb0")   # In bus
 scene.route((ring1, "o4"), (ring2, "o3"), kind="waveguide", color="#2b6cb0")   # Drop bus
+# the paper draws the heaters with no contacts and leaves the far ends of both buses open
+for ring in (ring1, ring2):
+    scene.leave_open(ring, "e1", "e2")
+scene.leave_open(ring2, "o2", "o4")
 # light in at the lower left, out of the drop port at the upper left, in the paper's colours: each arrow ends on
 # its bus (the ring's o1 and o3 ports), stacked 3 um apart round the bus line
 arrows = [("o1", "#e0302a", "Pump", True, 1.5), ("o1", "#2a5de0", "Idler", True, -1.5),

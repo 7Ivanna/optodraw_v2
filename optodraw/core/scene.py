@@ -119,6 +119,18 @@ class Scene:
 
         return [self.add(piece) for piece in lens_beam(*stops, **kwargs)]
 
+    def leave_open(self, part, *ports: str):
+        """Name the ports of ``part`` that this figure leaves open on purpose, as the figure it redraws does: a heater
+        with no wires, the far end of a bus. ``check_figure`` passes them, and the scene saves the list. Returns
+        ``part``."""
+
+        known = part.ports()
+        unknown = [name for name in ports if name not in known]
+        if unknown:
+            raise KeyError(f"{part.component_type} has no port {', '.join(unknown)}; it has {', '.join(known)}")
+        part.left_open = tuple(sorted(set(getattr(part, "left_open", ())) | set(ports)))
+        return part
+
     def route(self, port1, port2, **kwargs):
         """Create, add, and return a port-routed interconnect."""
         from optodraw.core.routing import route_ports

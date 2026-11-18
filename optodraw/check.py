@@ -332,6 +332,38 @@ def _nearest_port(part: Any, came_from: Any) -> str:
     return min(ports, key=lambda n: (ports[n].center.x - origin.x) ** 2 + (ports[n].center.y - origin.y) ** 2)
 
 
+ARROW_REACH = 5.0          # how near a port an arrow's tip or tail stands to show the light going in or out there
+ARROW_ALIGN = 0.866        # cos 30 degrees: the arrow runs along the port's axis
+
+
+def _marked_by_an_arrow(parts: list[Any]) -> set[tuple[int, str]]:
+    """Optical ports where a SignalArrow shows the light: its head stands at the port pointing in, or its tail
+    starts there pointing out. A figure draws its light in and out this way, as a paper does."""
+
+    marked: set[tuple[int, str]] = set()
+    arrows = [p for p in parts if p.component_type == "SignalArrow"]
+    for arrow in arrows:
+        ends = arrow.world_ports()
+        tail, head = ends["in"].center, ends["out"].center
+        length = math.hypot(float(head.x - tail.x), float(head.y - tail.y))
+        if length < 1e-9:
+            continue
+        ax, ay = float(head.x - tail.x) / length, float(head.y - tail.y) / length
+        for node in parts:
+            if node is arrow:
+                continue
+            for name, port in node.world_ports().items():
+                if port.kind != "optical":
+                    continue
+                ux, uy = math.cos(math.radians(port.orientation_deg)), math.sin(math.radians(port.orientation_deg))
+                x, y = float(port.center.x), float(port.center.y)
+                light_in = math.hypot(float(head.x) - x, float(head.y) - y) <= ARROW_REACH and -(ax * ux + ay * uy) >= ARROW_ALIGN
+                light_out = math.hypot(float(tail.x) - x, float(tail.y) - y) <= ARROW_REACH and ax * ux + ay * uy >= ARROW_ALIGN
+                if light_in or light_out:
+                    marked.add((id(node), name))
+    return marked
+
+
 def _own_pads(node: Any) -> list[tuple[float, float, float, float]]:
     """The probe pads a part draws itself (rects on the ``pad`` chip layer), as (cx, cy, w, h) in its frame."""
 
@@ -684,20 +716,25 @@ def check_figure(scene: Any, *, preset: str | None = None, view: str = "both") -
         segments = [[((float(a[0]), float(a[1])), (float(b[0]), float(b[1])))
                      for a, b in zip(r.resolve_points(), r.resolve_points()[1:])] for r in routes]
         if getattr(scene, "platform", "") == "on_chip":
-            used = set()
+            used = _marked_by_an_arrow(parts)
             for route in routes:
                 used.add((id(route.start_component), route.start_port))
                 used.add((id(route.end_component), route.end_port))
             for node in parts:
                 pads = _own_pads(node)
-                spare = set(getattr(node, "open_ports", ()))       # ports the part says may stay open
+                # ports the part says may stay open, and ports the figure leaves open on purpose (scene.leave_open)
+                spare = set(getattr(node, "open_ports", ())) | set(getattr(node, "left_open", ()))
                 loose = [port_name for port_name, port in node.ports().items()
                          if port.kind in ("optical", "electrical") and (id(node), port_name) not in used
                          and port_name not in spare and not (port.kind == "electrical" and _on_a_pad(port, pads))]
                 if loose:
                     name = getattr(node, "label", "") or node.component_type
+                    kinds = {node.ports()[p].kind for p in loose}
+                    ends = [end for kind, end in (("optical", "an optical port on a coupler or a Terminator"),
+                                                  ("electrical", "a contact on a pad")) if kind in kinds]
                     findings.append(f"{name}: {', '.join(f'{name}:{p}' for p in loose)} not connected: route each, "
-                                    "or end an optical port on a Terminator")
+                                    f"or end {' and '.join(ends)}; a figure that leaves them open as its source "
+                                    "does says so with scene.leave_open")
             findings += _spread(parts, routes)
             for i in range(len(routes)):
                 for j in range(i + 1, len(routes)):
