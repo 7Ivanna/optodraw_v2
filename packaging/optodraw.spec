@@ -16,6 +16,7 @@ block_cipher = None
 hiddenimports = (
     collect_submodules("uvicorn")
     + collect_submodules("optodraw.app")
+    + collect_submodules("optodraw.literature")      # the presets import their paper module by name
     + ["optodraw", "fastapi", "anyio", "click", "webview"]
 )
 
