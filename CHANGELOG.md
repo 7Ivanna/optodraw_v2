@@ -2,7 +2,7 @@
 
 All notable changes to Optodraw are documented here.
 
-## [0.10.0] (unreleased)
+## [0.10.0] (2026-11-18, the first public release)
 
 - A `Page` is a scene in mm that prints at its exact size. It letters the panels a, b, c in reading order.
   `page.row(items, top=None)` sets items side by side, and a row with `top=None` stacks under the last row.
@@ -1157,7 +1157,7 @@ All notable changes to Optodraw are documented here.
   the common free-space initializer, so they honor `base_mount` and
   `mount_height` like the rest of the optics family. No signature changes.
 
-## [0.9.0] — 2026-08-10
+## [0.9.0] — 2026-08-10 (internal, never published)
 
 First public release. The version resets to 0.9.0: the 3.x numbering described an
 internal API generation that was never published, and a first public release

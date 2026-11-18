@@ -32,8 +32,8 @@ Each figure redraws a published one. The [example cells](https://github.com/Acce
 ## Install
 
 ```bash
-pip install "optodraw[gui,gds] @ git+https://github.com/Acceluma/optodraw"   # with the editor and GDS
-optodraw-gui                                                                 # open the editor
+pip install "optodraw[gui,gds]"   # with the editor and GDS
+optodraw-gui                      # open the editor
 ```
 
 Without extras you get the Python package alone. `[all]` adds every extra.
