@@ -6,7 +6,7 @@ import re
 
 import pytest
 
-from optodraw import Beam, Laser, Note, Objective, Photodiode, Sample, Scene, check_figure
+from optodraw import Beam, Laser, Note, Objective, Photodiode, Sample, Scene
 
 
 def _bench():

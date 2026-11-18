@@ -4,7 +4,6 @@ lock-in, on the 2D screen. With none of it, each part draws and saves as before.
 from __future__ import annotations
 
 import json
-import re
 
 import numpy as np
 import pytest

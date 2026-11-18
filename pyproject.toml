@@ -128,6 +128,8 @@ line-length = 100
 "optodraw/**/__init__.py" = ["F401"]
 "optodraw/__init__.py" = ["F401"]
 "tests/**" = ["E741", "F841"]
+# these import the module-scoped `editor` fixture from test_editor_layout_view; ruff reads each use as a redefinition
+"tests/{test_editor_beam_style,test_editor_layout_cut,test_editor_technology_folder,test_layout_view_smoothness}.py" = ["F811"]
 "docs/examples/**" = ["F821"]   # notebook cells use names from the cells before them
 
 [tool.pytest.ini_options]
