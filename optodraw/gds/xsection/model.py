@@ -8,12 +8,14 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import shapely
 from shapely.geometry import MultiPolygon, box
 
 from optodraw.gds.layout import GDSLayout, load_gds_layout
 from optodraw.gds.xsection.cut import cut_layout, layer_key
 from optodraw.gds.xsection.engine import XSectionEngine
 from optodraw.gds.xsection.masks import IntervalSet, LayoutCut
+from optodraw.gds.xsection.regions import repair
 from optodraw.gds.palette import is_known, material_fill, material_label
 
 MAX_WINDOW = 40.0                              # um: wider than this, a figure of a cut stops being readable
@@ -259,7 +261,10 @@ def cross_section(gds: Any, stack: Any, cut: tuple[tuple[float, float], tuple[fl
     if not windowed.layer_intervals:
         findings.append("the cut crosses no drawn layer: only the substrate and the cladding show")
     result = XSectionEngine(process).run(windowed)
-    regions = dict(result.internal_regions)
+    # GEOS gives the last bits and the vertex order differently on x86 and ARM: snap and normalize, so a section
+    # is the same SVG on every machine
+    regions = {name: shapely.normalize(repair(shapely.set_precision(geometry, 1e-9)))
+               for name, geometry in result.internal_regions.items()}
     own = spec.materials if spec is not None else {}
     films = stack_wafer(spec).films if spec is not None else ()
     box_name = films[0].name if films and films[0].role != "core" else "BOX"     # the film on the substrate

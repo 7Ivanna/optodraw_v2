@@ -5,6 +5,9 @@ Run it once on the base commit, before any change to the section engine, from th
     PYTHONPATH=. python tests/fixtures/xsection/record_old_sections.py tests/fixtures/xsection/old_sections.json
 
 The test imports this file, so the sections and their fingerprints come from the same code at both ends.
+
+Rebuilt on 2026-11-18, when the engine began to snap and normalize each region so that x86 and ARM give the same
+bytes: every region kept its shape within 1e-9 um; a label with two mirror spots of equal rank may change side.
 """
 
 from __future__ import annotations

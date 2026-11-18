@@ -210,7 +210,7 @@ class Viewer:
                 raise TimeoutError(f"the viewer page did not render in {timeout:g} s")
             time.sleep(0.25)
             try:
-                value = self._evaluate(probe, timeout=10.0)
+                value = self._evaluate(probe, timeout=max(deadline - time.monotonic(), 1.0))   # a busy page answers late
             except RuntimeError:                 # the old page went away under the call
                 value = ""
         if value.startswith("error"):

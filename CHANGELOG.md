@@ -36,8 +36,9 @@ All notable changes to Optodraw are documented here.
 - Edge in `C:\Program Files` is found on 64-bit Windows.
 - On Windows the editor starts on a free port. Its port probe could take a port that another server held.
 - A Windows checkout no longer marks the symbol library as out of date: its hash reads Windows line ends as LF.
-- Cross-section labels sit in the same place on every shapely release. Shapely 2.2 moved the label of a long flat
-  layer to one end.
+- A cross-section is the same SVG on every machine and every shapely release. Each region is snapped to a 1e-9 um
+  grid and written in a set order: x86 and ARM gave different last bits, and a label with two equal spots could
+  change side. Shapely 2.2 also moved the label of a long flat layer to one end.
 - The README images show the current part drawings. The quick start showed a gap in the beam at the small lens;
   the code draws none.
 - The docs site build installs what its examples use.

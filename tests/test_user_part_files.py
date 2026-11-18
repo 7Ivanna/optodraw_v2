@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os
 import stat
 import zipfile
 
@@ -20,7 +21,8 @@ def factory():
         library=PartLibrary())
 
 
-@pytest.mark.parametrize("name", ["../evil.svg", "/evil.svg", "C:/evil.svg", "assets\\evil.svg"])
+@pytest.mark.parametrize("name", ["../evil.svg", "/evil.svg", "C:/evil.svg", pytest.param(
+    "assets\\evil.svg", marks=pytest.mark.skipif(os.name == "nt", reason="zipfile on Windows stores a backslash as /"))])
 def test_archive_rejects_unsafe_paths(tmp_path, name):
     path = tmp_path / "unsafe.odpart"
     with zipfile.ZipFile(path, "w") as archive:

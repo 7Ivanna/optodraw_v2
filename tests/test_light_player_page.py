@@ -49,7 +49,8 @@ def page_with_probe(preset: str | Scene, probe: str, **options) -> str:
 
 
 def _probe(preset: str | Scene, probe: str, **options):
-    report = run_page(page_with_probe(preset, probe, **options), timeout=120)        # room for a loaded machine
+    # 13 to 25 s with a GPU; 40 to 66 s in software WebGL (SwiftShader, as on a CI runner), more on a loaded one
+    report = run_page(page_with_probe(preset, probe, **options), timeout=300)
     assert report and not report.startswith("error"), report
     return json.loads(report)
 
@@ -216,7 +217,7 @@ def _glow_along(page_scene, probe_times, strips, camera=None, **options):
              " return [out, px]; })()")
     page = page_with_probe(page_scene, probe, camera_preset="top", **options).replace(
         "function odRenderFrame() {", "window.__odCamera = () => ({ THREE, camera });\nfunction odRenderFrame() {", 1)
-    report = run_page(page, width=1600, height=1000, timeout=180)
+    report = run_page(page, width=1600, height=1000, timeout=300)
     assert report and not report.startswith("error"), report
     shots, pixels = json.loads(report)
     result = []
