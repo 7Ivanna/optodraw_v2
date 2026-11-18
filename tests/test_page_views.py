@@ -139,11 +139,13 @@ def test_the_2d_light_never_shows_the_click_area_of_a_beam(editor):
 
 @needs_chrome
 def test_the_editor_1d_view_turns_wires_sharp_and_bends_waveguides(editor):
-    from optodraw import presets
+    import runpy
 
-    editor.open(json.loads(json.dumps(presets.wdm_delay_weight_bank_chip().to_spec())))
+    # the homodyne receiver: wires to pads and waveguides, and a 1D view that builds at once on a loaded machine
+    scene = runpy.run_path(str(Path(__file__).resolve().parents[1] / "docs/examples/electronics/01-homodyne.py"))["scene"]
+    editor.open(json.loads(json.dumps(scene.to_spec())))
     editor.js("document.getElementById('btn-view-1d').click()")
-    editor.wait("document.querySelectorAll('#view1d path.od1-wire').length > 10")
+    editor.wait("document.querySelectorAll('#view1d path.od1-wire').length > 5")
     paths = editor.js("[...document.querySelectorAll('#view1d path.od1-wire')]"
                       ".map(p => [p.classList.contains('electrical'), p.getAttribute('d')])")
     wires = [d for electrical, d in paths if electrical]

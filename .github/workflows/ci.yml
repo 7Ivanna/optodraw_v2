@@ -21,8 +21,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Every leg installs what a plain `pip install optodraw` brings, plus dev. The slow tests (3 % of the
-          # tests, 85 % of the time) run on the coverage leg only; the other legs run the rest.
+          # Every leg installs what a plain `pip install optodraw` brings, plus dev. The slow tests (6 % of the
+          # tests, 90 % of the time) run on the coverage leg only; the other legs run the rest.
           # Floor until 3.10 EOL (31 Oct 2026): no gdsfactory wheel, so its tests skip.
           - { os: ubuntu-latest, python: "3.10", full: false, coverage: false }
           - { os: ubuntu-latest, python: "3.11", full: false, coverage: false }
@@ -66,7 +66,7 @@ jobs:
         env:
           OPTODRAW_FULL: ${{ matrix.full && '1' || '0' }}
         run: >
-          python -m pytest tests -q -rs
+          python -m pytest tests -q -rs -n auto
           ${{ matrix.coverage && '--cov=optodraw --cov-report=term-missing' || '' }}
 
   types:

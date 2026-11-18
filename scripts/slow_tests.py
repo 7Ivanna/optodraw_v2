@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 LIMIT = 1.0                                   # seconds
-LINE = re.compile(r"^([0-9.]+)s (?:setup|call|teardown) +(\S+)$")
+LINE = re.compile(r"^([0-9.]+)s (?:setup|call|teardown) +(.+?)$")          # an id may hold spaces
 OUT = Path(__file__).resolve().parents[1] / "tests" / "slow_tests.txt"
 
 

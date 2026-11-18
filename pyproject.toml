@@ -76,6 +76,7 @@ all = ["optodraw[manim,desktop,sax]"]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
+    "pytest-xdist>=3.6",
     "ruff>=0.15,<0.16",
     "mypy>=1.13",
     "httpx2>=0.1",

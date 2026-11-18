@@ -46,7 +46,7 @@ SLOW_LIST = Path(__file__).with_name("slow_tests.txt")
 
 def pytest_collection_modifyitems(config, items):
     """Three runs. The default run leaves out the tests that took 1 s or more (``slow_tests.txt``, written by
-    ``scripts/slow_tests.py`` from a timed run): about 3 % of the tests and 85 % of the time. ``OPTODRAW_FULL=1``,
+    ``scripts/slow_tests.py`` from a timed run): about 6 % of the tests and 90 % of the time. ``OPTODRAW_FULL=1``,
     the run before a merge, keeps them. ``OPTODRAW_SLOW=1`` also runs the tests marked ``slow``, which take minutes."""
 
     everything = os.environ.get("OPTODRAW_SLOW") == "1"

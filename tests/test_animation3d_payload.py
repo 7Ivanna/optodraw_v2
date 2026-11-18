@@ -14,6 +14,17 @@ from optodraw.presets import build_preset
 from optodraw.registry import build_component
 
 
+
+def _close(got, want, tol=1e-6):
+    """Equal names and numbers within ``tol``, at any depth: pytest.approx compares one level only."""
+    if isinstance(want, dict):
+        return isinstance(got, dict) and got.keys() == want.keys() and all(_close(got[k], want[k], tol) for k in want)
+    if isinstance(want, (list, tuple)):
+        return isinstance(got, (list, tuple)) and len(got) == len(want) and all(_close(g, w, tol) for g, w in zip(got, want))
+    if isinstance(want, (int, float)) and not isinstance(want, bool):
+        return isinstance(got, (int, float)) and abs(got - want) <= tol
+    return got == want
+
 def test_the_default_input_on_a_bench_takes_the_wavelength_of_the_beam_at_its_port():
     """The bench preset's beam is 1090 nm: the light enters at that wavelength. One infrared line is white (Ruling 8),
     so its one colour is the colour the spec gives 1090 nm, not that of 1550 nm by chance."""
@@ -694,7 +705,7 @@ def test_an_mzm_drive_table_follows_the_engine_at_every_sample():
         display_numbers(table, payload["cw"]["lambda_scale"])
         want_cw = [(r["from"], r["to"], r["wavelength_nm"], r["amp"], r["phase"])
                    for r in table["edges"].get("route:route2", {"cw": []})["cw"]]
-        assert _sample_cw(payload, entry, k, "route:route2") == pytest.approx(want_cw, abs=1e-6), k
+        assert _close(_sample_cw(payload, entry, k, "route:route2"), want_cw), k
     assert entry["pulse"][23]["route:route2"]["power"] == [] and entry["cw"][23]["route:route2"] == []   # v_pi: dark
 
 
@@ -872,7 +883,7 @@ def test_a_drive_table_carries_each_samples_changed_profiles():
         display_numbers(table, payload["cw"]["lambda_scale"])
         want = overlap_profiles(table, payload["hidden"])
         got = {eid: v for eid, v in {**payload["cw"]["profiles"], **entry["profiles"][k]}.items() if v}
-        assert got.keys() == want.keys() and all(got[e] == pytest.approx(want[e], abs=1e-6) for e in want), k
+        assert got.keys() == want.keys() and all(_close(got[e], want[e]) for e in want), k
     assert entry["profiles"][0] == {} and entry["profiles"][23]
 
 

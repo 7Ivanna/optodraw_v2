@@ -26,8 +26,8 @@ All notable changes to Optodraw are documented here.
   cairo. PDF uses cairosvg where the cairo library loads, else Chrome or Edge, with the text kept as text.
   `optodraw.raster` has `svg_to_png` and `svg_to_pdf`.
 - The 2D SVG names its font (Helvetica, Arial, sans-serif), as the 1D view does. A browser drew its labels serif.
-- CI runs the slow tests (3 % of the tests, 85 % of the time) on one leg, installs a plain `pip install` on Linux,
-  macOS and Windows, and no longer runs twice for a release tag.
+- CI runs the tests on every core, the slow tests (6 % of the tests, 90 % of the time) on one leg only, installs a
+  plain `pip install` on Linux, macOS and Windows, and no longer runs twice for a release tag.
 
 ### Fixed
 

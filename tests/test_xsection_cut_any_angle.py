@@ -32,7 +32,7 @@ def test_a_polygon_with_a_hole_gives_two_intervals():
     keyhole = [*ring, ring[0], hole[0], *reversed(hole), hole[0]]
     cut = cut_layout(_layout({(1, 0): [keyhole]}), (0, -3), (0, 3))
     spans = [(item.y0, item.y1) for item in cut.layer_intervals["L1_0"].intervals]
-    assert spans == pytest.approx([(1.0, 2.0), (4.0, 5.0)])
+    assert [v for span in spans for v in span] == pytest.approx([1.0, 2.0, 4.0, 5.0])
 
 
 def test_a_cut_needs_two_different_points():

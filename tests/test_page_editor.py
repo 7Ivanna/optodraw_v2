@@ -88,7 +88,8 @@ def _after_delete(session, before, tmp_path):
     spec = session.spec
     assert not any(c["type"] == "ZoomLink" for c in spec["components"])
     assert '"point"' not in json.dumps(spec)                                       # every anchor is a plain point
-    assert _places(session) == pytest.approx(before)
+    places = _places(session)
+    assert places.keys() == before.keys() and all(places[k] == pytest.approx(v) for k, v in before.items())
     assert "over" not in _entry(session, label="key")
     from optodraw.app.workspaces import WorkspaceStore
     from optodraw.schema import scene_from_spec
