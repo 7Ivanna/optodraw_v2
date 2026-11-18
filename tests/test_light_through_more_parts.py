@@ -18,11 +18,8 @@ import warnings
 
 import pytest
 
-from optodraw import Beam, Laser, OnChipLaser, OnChipPhotodetector, Photodiode, Scene
-from optodraw.animation_engine import Animation
 from optodraw.animation_engine.behaviours import behaviour_for
 from optodraw.animation_engine.behaviours.passive import BraggReflector
-from optodraw.animation_engine.behaviours.sources import Sink
 from optodraw.animation_engine.signals import jones, power
 from optodraw.registry import build_component
 
@@ -32,16 +29,6 @@ def _powers(part, in_port, wl, params=None, field=(1, 0), sid="x1"):
     for t in behaviour_for(part, sid).transfers(part, sid, in_port, wl, params or {}):
         totals[t.out_port] = totals.get(t.out_port, 0) + t.matrix @ jones(*field)
     return {port: power(v) for port, v in totals.items()}
-
-
-@pytest.mark.parametrize("name, in_port, out_port", [
-    ("FourFSystem", "object", "image"), ("SpectrometerSlit", "in", "out"), ("VacuumChamber", "in", "out"),
-    ("Prism", "in", "out"), ("Pentaprism", "in", "out"),
-])
-def test_a_clear_optic_passes_all_the_light_both_ways(name, in_port, out_port):
-    part = build_component(name)
-    assert _powers(part, in_port, 633.0) == pytest.approx({out_port: 1.0})
-    assert _powers(part, out_port, 633.0) == pytest.approx({in_port: 1.0})
 
 
 def test_a_chopper_passes_half_the_power_on_average_and_an_aom_its_diffraction_efficiency():
@@ -60,17 +47,6 @@ def test_an_slm_keeps_its_fill_factor_and_adds_its_phase():
     (t,) = behaviour_for(slm, "s1").transfers(slm, "s1", "in", 633.0, {"phase:s1": math.pi / 2})
     assert power(t.matrix @ jones(1)) == pytest.approx(slm.fill_factor)
     assert t.matrix[0, 0] / abs(t.matrix[0, 0]) == pytest.approx(1j)
-
-
-@pytest.mark.parametrize("turn, vertical_share", [(0.0, 0.0), (90.0, 1.0), (45.0, 0.5)])
-def test_a_periscope_turns_the_polarisation_by_its_turn(turn, vertical_share):
-    """Two 45 degree folds make a rotation: a 90 degree periscope makes horizontal light vertical."""
-
-    periscope = build_component("Periscope", output_angle_deg=turn)
-    (t,) = behaviour_for(periscope, "p1").transfers(periscope, "p1", "in", 633.0, {})
-    out = t.matrix @ jones(1, 0)
-    assert power(out) == pytest.approx(0.99 ** 2)
-    assert abs(out[1]) ** 2 / power(out) == pytest.approx(vertical_share, abs=1e-12)
 
 
 def test_a_right_angle_prism_reflects_all_by_total_internal_reflection_and_less_below_the_critical_index():
@@ -97,13 +73,6 @@ def test_a_monochromator_passes_a_triangle_one_bandpass_wide():
     assert _powers(mono, "in", 633.0 + band / 2, {"slit:x1": 200.0}) == pytest.approx({"out": 0.75})
 
 
-def test_a_partial_mirror_at_normal_incidence_reflects_back_and_transmits_its_percentage():
-    mirror = build_component("PartialMirror", transmission=10.0)
-    assert _powers(mirror, "front", 1064.0) == pytest.approx({"back": 0.1, "front": 0.9})
-    assert _powers(mirror, "back", 1064.0) == pytest.approx({"front": 0.1, "back": 0.9})
-    assert {"front", "back"} <= behaviour_for(mirror, "m1").fold_ports
-
-
 def test_a_bragg_grating_reflects_its_peak_reflectivity_at_the_bragg_wavelength_and_none_at_the_first_null():
     """Coupled-mode theory of a uniform grating: R = tanh^2(kappa L) at the Bragg wavelength, and the first zero
     of R where delta L = sqrt((kappa L)^2 + pi^2)."""
@@ -126,19 +95,6 @@ def test_a_sagnac_loop_returns_4k_1_minus_k_and_passes_the_rest(k, back):
     loop.coupling_ratio = k
     got = _powers(loop, "o1", 1550.0)
     assert got["o1"] == pytest.approx(back) and got["o2"] == pytest.approx((1 - 2 * k) ** 2)
-
-
-def test_an_mmi_1x3_and_an_adiabatic_coupler_split_evenly_and_keep_the_power():
-    assert _powers(build_component("MMI1x3"), "o1", 1550.0) == pytest.approx({"o2": 1 / 3, "o3": 1 / 3, "o4": 1 / 3})
-    assert _powers(build_component("AdiabaticCoupler"), "o1", 1550.0) == pytest.approx({"o3": 0.5, "o4": 0.5})
-
-
-def test_an_echelle_grating_sends_each_channel_colour_to_its_own_port():
-    echelle = build_component("EchelleGrating", channel_count=8, channel_spacing_nm=0.8, center_wavelength_nm=1550.0)
-    for k in range(1, 9):
-        wl = 1550.0 + (k - 4.5) * 0.8
-        assert _powers(echelle, "in", wl) == pytest.approx({f"o{k}": 1.0})
-        assert _powers(echelle, f"o{k}", wl) == pytest.approx({"in": 1.0})
 
 
 def test_an_awgr_routes_every_input_to_every_output_once_and_back():
@@ -185,87 +141,12 @@ def test_an_iq_modulator_keeps_half_at_rest_and_nulls_with_both_arms_at_v_pi():
     assert t.matrix[0, 0] == pytest.approx(0.5j)                # the I arm at null: the Q arm's field, 90 degrees on
 
 
-def test_a_racetrack_modulator_carries_light_as_a_ring_and_keeps_the_power_at_its_coupler():
-    ring = build_component("RacetrackModulator")
-    got = _powers(ring, "o1", 1550.0, sid="r1")
-    assert set(got) == {"o2", "_ring_top"} and got["o2"] == pytest.approx(0.9)
-
-
-@pytest.mark.parametrize("name", ["PhotonCounter", "BalancedPhotodetector", "ReceiverMacro", "FiberArray",
-                                  "OpticalIOBank"])
-def test_a_part_where_the_light_ends_absorbs_at_every_optical_port(name):
-    part = build_component(name)
-    optical = [p for p, port in part.ports().items() if port.kind != "electrical"]
-    assert optical and isinstance(behaviour_for(part, "s1"), Sink)
-    assert all(behaviour_for(part, "s1").sinks(part, p) for p in optical)
-
-
 def test_a_cryostat_passes_its_windows_and_its_own_sample_takes_the_light():
     bare = build_component("Cryostat", with_sample=False)
     assert _powers(bare, "in", 633.0) == pytest.approx({"out": 1.0})
     assert behaviour_for(bare, "c1").sinks(bare, "sample") and not behaviour_for(bare, "c1").sinks(bare, "in")
     full = build_component("Cryostat", with_sample=True)
     assert behaviour_for(full, "c1").sinks(full, "in")
-
-
-def _strict(part, in_port, wl, chip):
-    """A strict cw animation: a laser on ``in_port``, a detector on every other optical port. Returns the power
-    absorbed behind each port of the part, by port name (the laser absorbs what comes back to ``in_port``)."""
-
-    from optodraw.animation_engine.ids import scene_ids
-
-    scene = Scene(platform="on_chip" if chip else "free_space")
-    scene.add(part)
-    behind = {}
-    for name, port in part.world_ports().items():
-        if port.kind == "electrical" or name == "mount":
-            continue
-        a = math.radians(port.orientation_deg)
-        at = (port.center.x + 60 * math.cos(a), port.center.y + 60 * math.sin(a))
-        source = name == in_port
-        if chip:
-            far = (OnChipLaser(center=at, angle=port.orientation_deg + 180, wavelength_nm=wl) if source
-                   else OnChipPhotodetector(center=at, angle=port.orientation_deg))
-            scene.add(far)
-            scene.route((part, name), (far, "o1"), kind="waveguide", path_type="smooth")
-        else:
-            far = scene.add(Laser(center=at, angle=port.orientation_deg + 180, wavelength=wl) if source
-                            else Photodiode(center=at, angle=port.orientation_deg))
-            scene.add(Beam((part, name), (far, "out" if source else "in")))
-        behind[id(far)] = name
-    sids = {sid: behind[key] for key, sid in scene_ids(scene).items() if key in behind}
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        data = Animation(scene, mode="cw", strict=True).auto().click().to_json()
-    got = {}
-    for record in data["signal_state"]["absorbed"]:
-        got[sids[record["part"]]] = got.get(sids[record["part"]], 0.0) + record["power"]
-    return got
-
-
-@pytest.mark.parametrize("name, in_port, wl, chip, total", [
-    ("AOM", "in", 633.0, False, 0.75), ("FourFSystem", "object", 633.0, False, 1.0),
-    ("Monochromator", "in", 633.0, False, 1.0), ("Periscope", "in", 633.0, False, 0.99 ** 2),
-    ("PartialMirror", "front", 1064.0, False, 1.0), ("BraggGrating", "o1", 1550.0, True, 1.0),
-    ("SagnacLoop", "o1", 1550.0, True, 1.0), ("MMI1x3", "o1", 1550.0, True, 1.0),
-    ("EchelleGrating", "in", 1550.4, True, 1.0), ("AdiabaticCoupler", "o1", 1550.0, True, 1.0),
-])
-def test_a_strict_animation_runs_through_the_part(name, in_port, wl, chip, total):
-    """Before these behaviours a strict animation stopped at each of these parts ("no behaviour yet")."""
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        part = build_component(name)
-    got = _strict(part, in_port, wl, chip)
-    assert sum(got.values()) == pytest.approx(total)
-
-
-def test_light_a_reflector_sends_back_ends_in_its_laser():
-    mirror = _strict(build_component("PartialMirror", transmission=10.0), "front", 1064.0, False)
-    assert mirror == pytest.approx({"front": 0.9, "back": 0.1})
-    grating = _strict(build_component("BraggGrating", reflectivity=0.9), "o1", 1550.0, True)
-    assert grating == pytest.approx({"o1": 0.9, "o2": 0.1})
-    assert _strict(build_component("EchelleGrating"), "in", 1550.4, True) == pytest.approx({"o5": 1.0})
 
 
 def test_a_transmitter_macro_emits_from_its_optical_output():

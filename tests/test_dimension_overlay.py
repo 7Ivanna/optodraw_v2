@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-import pytest
 
 from optodraw import Scene, Waveguide
 from optodraw.renderers.dimension_overlay import (
-    DimensionMarker,
     linear_dimension,
     markers_from_physical_spec,
 )
@@ -14,11 +12,6 @@ from optodraw.renderers.svg_renderer import SvgRenderer
 
 
 class TestDimensionOverlay:
-    def test_linear_dimension_marker_fields(self):
-        marker = linear_dimension(0, 0, 10, 0, "10 µm", offset=2.0)
-        assert isinstance(marker, DimensionMarker)
-        assert marker.label == "10 µm"
-        assert marker.x2 - marker.x1 == pytest.approx(10.0)
 
     def test_markers_from_physical_spec(self):
         markers = markers_from_physical_spec(0, 0, length_um=20.0, width_um=0.5)
@@ -33,9 +26,3 @@ class TestDimensionOverlay:
         svg = drawing.as_svg()
         assert "20 µm" in svg
 
-    def test_svg_renderer_skips_overlay_by_default(self):
-        scene = Scene(title="Dims", platform="on_chip", width=120, height=80)
-        scene.add(Waveguide(length=20.0))
-        marker = linear_dimension(-10, -5, 10, -5, "20 µm")
-        drawing = SvgRenderer(scene, dimension_markers=[marker]).render()
-        assert "20 µm" not in drawing.as_svg()

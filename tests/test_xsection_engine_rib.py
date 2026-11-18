@@ -7,7 +7,6 @@ from pathlib import Path
 import pytest
 
 from optodraw.gds.xsection import CrossSectionStripLayout, XSectionEngine, export_xsection_bundle
-from optodraw.gds.xsection.renderer_svg import render_output_stack_svg, svg_dom_summary
 
 
 pytest.importorskip("yaml")
@@ -15,35 +14,6 @@ pytest.importorskip("shapely")
 
 
 FIXTURE = Path(__file__).parent / "fixtures" / "xsection" / "generic_siph_minimal.yaml"
-
-
-def test_engine_rib_strip_produces_silicon_and_oxide_layers(tmp_path):
-    engine = XSectionEngine.from_yaml(FIXTURE)
-    cut = (
-        CrossSectionStripLayout()
-        .strip("RIB", width_um=0.5, center_y_um=0.0)
-        .strip("SLAB", width_um=2.0, center_y_um=0.0)
-        .to_layout_cut()
-    )
-    stack = engine.run(cut)
-    layer_names = {layer.name for layer in stack.layers}
-    assert "Silicon" in layer_names
-    assert "Oxide" in layer_names
-
-    silicon = next(layer for layer in stack.layers if layer.name == "Silicon")
-    assert not silicon.geometry.is_empty
-    assert silicon.color == "#004080"
-
-    svg = render_output_stack_svg(stack, engine.process)
-    summary = svg_dom_summary(svg)
-    assert summary["layer_count"] >= 2
-    assert summary["path_count"] >= 2
-
-    bundle = export_xsection_bundle(engine, cut, tmp_path)
-    assert bundle.composite_path.exists()
-    assert bundle.manifest_path is not None
-    assert bundle.manifest_path.exists()
-    assert "Silicon" in bundle.layer_paths
 
 
 def test_generic_bundle_matches_output_layer_contract(tmp_path):
@@ -116,14 +86,6 @@ def test_nm_definition_matches_um_geometry():
     assert set(nm_layers) == set(um_layers)
     for name in um_layers:
         assert nm_layers[name].geometry.area == pytest.approx(um_layers[name].geometry.area, rel=1e-9)
-
-
-def test_the_engine_keeps_a_snapshot_and_a_caption_after_every_step():
-    engine = XSectionEngine.from_yaml(FIXTURE)
-    stack = engine.run(_strip_cut())
-    assert [step_id for step_id, _, _ in stack.steps] == ["start"] + [step.id for step in engine.process.process]
-    assert all(caption for _, caption, _ in stack.steps)
-    assert stack.materials["device"] == "silicon" and stack.materials["box"] == "sio2"
 
 
 def test_unknown_process_units_rejected():

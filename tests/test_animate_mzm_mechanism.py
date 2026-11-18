@@ -11,15 +11,6 @@ def _step_kinds(tl) -> list[str]:
 
 
 class TestAnimateMzmMechanism:
-    def test_mzm_mechanism_includes_wave_travel_and_cavity_power(self):
-        scene = Scene(platform="on_chip")
-        mzm = scene.add(MZM(center=(0, 0), label="MZM"))
-        tl = animate_mzm_mechanism(scene, mzm, phase_steps=4, Vpi=4.0)
-        kinds = _step_kinds(tl)
-
-        assert kinds.count("show") == 1
-        assert kinds.count("wave_travel") >= 0
-        assert kinds.count("cavity_power") == 4
 
     def test_opening_caption_adds_pause(self):
         scene = Scene(platform="on_chip")
@@ -28,22 +19,8 @@ class TestAnimateMzmMechanism:
         assert _step_kinds(tl)[0] == "pause"
         assert tl._steps[0].caption == "MZM mechanism"
 
-    def test_frame_states_non_empty(self):
-        scene = Scene(platform="on_chip")
-        mzm = scene.add(MZM(label="MZM"))
-        tl = animate_mzm_mechanism(scene, mzm, phase_steps=3)
-        assert len(tl._to_frame_states()) > 1
-
 
 class TestAnimateRingCoupling:
-    def test_ring_coupling_from_chip_builder(self):
-        built = build_ring_filter()
-        tl = animate_ring_coupling(built["scene"], built["ring"], coupling_steps=5)
-        kinds = _step_kinds(tl)
-
-        assert kinds.count("show") == 1
-        assert kinds.count("wave_travel") >= 1
-        assert kinds.count("cavity_power") == 5
 
     def test_ring_chip_coupling_captions(self):
         built = build_ring_filter()

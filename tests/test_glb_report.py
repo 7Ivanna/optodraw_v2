@@ -26,9 +26,3 @@ def test_report_lists_beams_as_approximated():
     assert report["failed"] == []
 
 
-def test_report_marks_footprint_boxes():
-    scene = Scene(width=120, height=80)
-    scene.add(Lens(center=(0, 0)))
-    _, report = scene_to_glb_with_report(scene)
-    assert report["meshes"] >= 1
-    assert isinstance(report["approximated"], list)

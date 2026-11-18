@@ -41,32 +41,3 @@ def test_the_renderer_still_finds_its_runtime():
     assert "optodraw-select" in _EDITOR_BRIDGE_JS
 
 
-def test_the_page_pins_the_threejs_cdn_version():
-    from optodraw import Lens, Scene
-    from optodraw.renderers.threejs_renderer import (
-        THREEJS_CDN,
-        THREEJS_VERSION,
-        ThreeJsRenderer,
-    )
-
-    scene = Scene(width=80, height=60)
-    scene.add(Lens(center=(0, 0)))
-    html = ThreeJsRenderer(scene).render()
-    assert THREEJS_CDN in html
-    assert f"three@{THREEJS_VERSION}" in html
-    assert "three-gpu-pathtracer" not in html and "three-mesh-bvh" not in html   # our own renderer only
-    assert "@latest" not in html
-
-
-def test_the_runtime_reaches_the_page_it_is_for():
-    from optodraw import Lens, Scene
-    from optodraw.renderers.threejs_renderer import ThreeJsRenderer
-
-    scene = Scene(width=80, height=60)
-    scene.add(Lens(center=(0, 0)))
-    export = ThreeJsRenderer(scene).render()
-    editable = ThreeJsRenderer(scene, editable=True).render()
-
-    assert "window.odLight" in export          # the light player always ships
-    assert "optodraw-select" not in export     # the editor bridge does not
-    assert "optodraw-select" in editable

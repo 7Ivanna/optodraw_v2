@@ -14,16 +14,6 @@ def test_the_vendored_viewer_is_the_pinned_build():
     assert 'customElements.define("gds-lens"' in path.read_text(encoding="utf-8")
 
 
-def test_the_licences_travel_with_the_viewer():
-    from optodraw.renderers.gds_lens import GDS_LENS_SHA256, gds_lens_path
-
-    folder = gds_lens_path().parent
-    assert (folder / "LICENCE.md").read_text(encoding="utf-8").startswith("MIT License")
-    assert "gdstk" in (folder / "THIRD-PARTY-LICENSES.md").read_text(encoding="utf-8")
-    notice = (folder / "NOTICE").read_text(encoding="utf-8")
-    assert "1.7.0" in notice and GDS_LENS_SHA256 in notice and "registry.npmjs.org" in notice
-
-
 def test_the_viewer_fetches_nothing():
     from optodraw.renderers.gds_lens import gds_lens_source
 

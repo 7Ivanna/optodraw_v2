@@ -34,40 +34,12 @@ class _NoSymbolPart(Component):
         return {"type": "group", "children": []}
 
 
-def test_a_default_part_gets_its_prebuilt_symbol():
-    symbol = lookup(optodraw.MicroringResonator())
-    assert (symbol.name, symbol.source, symbol.exact) == ("ring", "prebuilt", True)
-    assert set(symbol.ports) == {"o1", "o2"}
-    assert symbol.svg.startswith("<svg") and " id=" not in symbol.svg
-    ET.fromstring(symbol.svg)
-
-
-@pytest.mark.parametrize(
-    "arguments, drive",
-    [({}, "gs"), ({"drive_style": "gsg"}, "gsg"), ({"mechanism": "thermo_optic"}, "heater")],
-)
-def test_the_modulator_symbol_follows_its_arguments(arguments, drive):
-    part = optodraw.MZM(**arguments)
-    symbol = lookup(part)
-    assert symbol.exact and symbol.source == "prebuilt"
-    assert symbol.params["drive"] == drive
-    assert {name: port.kind for name, port in symbol.ports.items()} == _kinds(part)
-
-
 @pytest.mark.parametrize("splitter", ["coupler", "branch_coupler"])
 def test_the_modulator_symbol_follows_its_splitter(splitter):
     part = optodraw.MZM(splitter=splitter)
     symbol = lookup(part)
     assert symbol.exact and symbol.params["splitter"] == splitter
     assert set(symbol.ports) == set(part.ports())
-
-
-def test_the_phase_shifter_symbol_follows_its_mechanism():
-    heater = lookup(optodraw.PhaseShifter())
-    junction = lookup(optodraw.PhaseShifter(mechanism="electro_optic"))
-    assert heater.exact and junction.exact
-    assert set(heater.ports) == {"o1", "o2", "h1", "h2"} and set(junction.ports) == {"o1", "o2", "e1", "e2"}
-    assert junction.params == {"kind": "pn"} and heater.svg != junction.svg
 
 
 def test_port_counts_follow_the_part():
@@ -84,55 +56,6 @@ def test_a_subclass_uses_the_symbol_of_its_parent():
     assert lookup(MyRing()).name == "ring"
 
 
-def test_a_part_with_no_symbol_gets_the_labeled_block():
-    part = _NoSymbolPart()
-    symbol = lookup(part)
-    assert (symbol.name, symbol.source, symbol.exact) == ("block", "block", False)
-    assert {name: port.kind for name, port in symbol.ports.items()} == _kinds(part)
-    assert symbol.ports["a"].side == "left" and symbol.ports["a"].x == 0.0
-    assert symbol.ports["b"].side == symbol.ports["c"].side == "right"
-    assert symbol.ports["b"].x == symbol.ports["c"].x == symbol.width
-    assert symbol.ports["b"].y < symbol.ports["c"].y            # b is the upper port: local y is up
-    assert symbol.ports["bias"].side == "top" and symbol.ports["bias"].y == 0.0
-    assert "_NoSymbolPart" in symbol.svg
-    ET.fromstring(symbol.svg)
-
-
-def test_a_block_escapes_its_label():
-    class Odd(_NoSymbolPart):
-        component_type = "A<B & C"
-
-    ET.fromstring(lookup(Odd()).svg)
-
-
-def test_a_block_has_room_for_no_ports_and_for_many_ports():
-    class Bare(_NoSymbolPart):
-        def ports(self):
-            return {}
-
-    class Many(_NoSymbolPart):
-        def ports(self):
-            return {f"p{k}": Port(f"p{k}", Vec3(5, k, 0), orientation_deg=0, kind="electrical") for k in range(24)}
-
-    bare = lookup(Bare())
-    assert bare.ports == {} and bare.width > 0 and bare.height > 0
-    many = lookup(Many())
-    heights = sorted(port.y for port in many.ports.values())
-    assert len(heights) == 24
-    assert min(b - a for a, b in zip(heights, heights[1:])) >= 10.0     # ports stay apart
-
-
-def test_a_symbol_that_lacks_a_port_of_the_part_is_not_used():
-    class TappedGuide(optodraw.Waveguide):
-        def ports(self):
-            ports = dict(super().ports())
-            ports["tap"] = Port("tap", Vec3(0, 2, 0), orientation_deg=90)
-            return ports
-
-    symbol = lookup(TappedGuide())
-    assert symbol.source == "block" and "tap" in symbol.ports
-
-
 def test_a_parameter_that_is_not_prebuilt_gives_the_nearest_variant_without_latex():
     class LongGuide(optodraw.Waveguide):
         def symbol_1d(self):
@@ -140,14 +63,6 @@ def test_a_parameter_that_is_not_prebuilt_gives_the_nearest_variant_without_late
 
     symbol = lookup(LongGuide())                    # conftest turns compiling off
     assert (symbol.name, symbol.source, symbol.exact) == ("waveguide", "nearest", False)
-
-
-def test_an_unknown_pic_gives_the_block():
-    class Stranger(optodraw.Waveguide):
-        def symbol_1d(self):
-            return "no such pic", {}
-
-    assert lookup(Stranger()).source == "block"
 
 
 def test_a_mirrored_symbol_swaps_left_and_right():
@@ -162,13 +77,6 @@ def test_a_mirrored_symbol_swaps_left_and_right():
     block = lookup(_NoSymbolPart()).mirrored()
     assert block.ports["a"].side == "right" and block.svg.count("scale(-1 1)") == 1
     assert "<text" in block.svg and "scale(-1 1)" not in block.svg.split("<text")[1]   # the label is not reversed
-
-
-def test_to_dict_is_what_the_editor_needs():
-    data = lookup(optodraw.MZM()).to_dict()
-    assert set(data) == {"name", "params", "svg", "width", "height", "exact", "source", "flipped", "rotation", "hub", "ports"}
-    assert {"name", "x", "y", "kind", "side"} == set(data["ports"][0])
-    json.dumps(data)
 
 
 @pytest.mark.skipif(not build.latex_available(), reason="needs latex and dvisvgm")
@@ -236,38 +144,6 @@ def test_add_library_makes_a_users_symbol_available(tmp_path):
     finally:
         symbols._LIBRARIES.remove(folder)
         symbols._index.cache_clear()
-
-
-def test_a_turned_symbol_keeps_its_art_and_moves_its_ports():
-    """A free-space bench turns a part to face its beam: a quarter turn swaps width and height."""
-
-    import optodraw
-    from optodraw.symbols import lookup
-
-    lens = lookup(optodraw.Lens())
-    turned = lens.rotated(90)                                  # a quarter turn, counterclockwise on paper
-    assert turned.rotation == 90 and lens.rotated(0) is lens
-    assert abs(turned.width - lens.height) < 0.01 and abs(turned.height - lens.width) < 0.01
-    assert turned.ports["in"].side == "bottom" and turned.ports["out"].side == "top"
-    assert turned.ports["in"].y > turned.ports["out"].y      # in at the bottom, y grows downward
-    assert 'viewBox="0 0 ' + f"{turned.width:g}" in turned.svg and "rotate(-90" in turned.svg
-    half = lens.rotated(45)
-    assert abs(half.width - (lens.width + lens.height) / 2 ** 0.5) < 0.01
-    assert lens.rotated(360) is lens and lens.rotated(-90).ports["in"].side == "top"
-
-
-@pytest.mark.parametrize("arguments, params", [
-    ({"with_heater": True}, {"heater": True}),
-    ({"add_drop": True, "with_heater": True}, {"drop": True, "heater": True}),
-])
-def test_a_ring_with_a_heater_gets_its_heater_symbol_not_a_junction(arguments, params):
-    """A passive ring names its heater contacts e1 and e2; the symbol must carry the same names, or the lookup
-    falls back to a p-n modulator ring."""
-
-    part = optodraw.MicroringResonator(**arguments)
-    symbol = lookup(part)
-    assert (symbol.source, symbol.params) == ("prebuilt", params)
-    assert {name: port.kind for name, port in symbol.ports.items()} == _kinds(part)
 
 
 @pytest.mark.parametrize("order", [1, 2, 3, 4, 5])

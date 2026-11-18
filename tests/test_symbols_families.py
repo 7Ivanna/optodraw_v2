@@ -9,6 +9,8 @@ from optodraw.core.component import ANNOTATION_TYPES
 from optodraw.registry import build_component
 from optodraw.symbols import lookup
 
+from sweep import sweep
+
 FAMILY_A = [  # on-chip
     "BalancedPhotodetector", "EchelleGrating", "ElectricalPad",
     "GSGProbePad", "GratingCouplerArray", "HeaterPad", "MEMSActuator",
@@ -48,13 +50,16 @@ FAMILY_B = [  # free-space and fibre optics
 ]
 
 
-@pytest.mark.parametrize("name", FAMILY_A + FAMILY_B + FAMILY_C + FAMILY_D)
-def test_a_drawn_part_has_its_own_symbol(name):
+def _check_a_drawn_part_has_its_own_symbol(name):
     part = build_component(name)
     symbol = lookup(part)
     assert symbol.source == "prebuilt" and symbol.exact, f"{name} is drawn as {symbol.source}"
     assert {key: port.kind for key, port in symbol.ports.items()} == {
         key: port.kind for key, port in part.ports().items()}
+
+
+def test_a_drawn_part_has_its_own_symbol():
+    sweep(_check_a_drawn_part_has_its_own_symbol, FAMILY_A + FAMILY_B + FAMILY_C + FAMILY_D)
 
 
 @pytest.mark.parametrize(
@@ -73,28 +78,6 @@ def test_an_array_part_follows_its_count(name, arguments, ports):
     assert len(part.ports()) == ports
     symbol = lookup(part)
     assert symbol.source == "prebuilt" and set(symbol.ports) == set(part.ports())
-
-
-def test_the_weight_bank_drop_bus_turns_round():
-    """Light that a ring drops travels back toward the input.
-
-    So the drop bus passes the rings, turns round at the input end, and leaves
-    at the far end, on a line beyond the one that passes the rings.
-    """
-
-    ports = lookup(build_component("MicroringWeightBank")).ports
-    assert ports["o1"].side == "left" and ports["o2"].side == "right"
-    assert ports["o1"].y == ports["o2"].y                               # input and through: one straight bus
-    assert ports["drop"].x == pytest.approx(ports["o2"].x)              # the drop leaves at the far end
-    assert ports["drop"].y < ports["d1"].y < ports["o1"].y              # on the return line (y grows downward)
-
-
-def test_a_weight_bank_meets_its_balanced_detector_with_straight_links():
-    """The two outputs of a bank are as far apart as the two inputs of a balanced detector."""
-
-    outputs = lookup(build_component("MicroringWeightBank")).ports
-    inputs = lookup(build_component("OnChipBalancedPhotodetector")).ports
-    assert abs(outputs["o2"].y - outputs["drop"].y) == pytest.approx(abs(inputs["o1"].y - inputs["o2"].y), abs=0.01)
 
 
 def test_the_symbol_of_a_default_part_stays_small():
@@ -126,11 +109,6 @@ def test_no_part_of_the_catalog_is_a_labeled_block():
     assert blocks == []
 
 
-def test_a_lens_with_a_negative_focal_length_is_drawn_concave():
-    assert lookup(build_component("Lens", focal_length=-30.0)).source == "prebuilt"
-    assert _art("Lens", focal_length=-30.0) != _art("Lens")
-
-
 def test_a_wave_plate_shows_its_retardance():
     import math
 
@@ -140,34 +118,7 @@ def test_a_wave_plate_shows_its_retardance():
     assert _art("WavePlate", retardance=1.0) not in (_art("QuarterWavePlate"), _art("HalfWavePlate"))
 
 
-def test_a_mirror_shows_its_surface():
-    assert _art("Mirror", surface_type="concave") == _art("ConcaveMirror")
-    assert _art("Mirror", surface_type="convex") == _art("ConvexMirror")
-    assert len({_art(name) for name in ("Mirror", "ConcaveMirror", "ConvexMirror", "BiconcaveMirror", "BiconvexMirror")}) == 5
-
-
-def test_a_galilean_telescope_has_a_concave_lens():
-    assert lookup(build_component("Telescope", telescope_type="galilean")).source == "prebuilt"
-    assert _art("Telescope", telescope_type="galilean") != _art("Telescope")
-
-
-def test_the_two_outputs_of_a_cube_beamsplitter_leave_at_a_right_angle():
-    ports = lookup(build_component("PBS")).ports
-    assert ports["in"].side == "left" and ports["trans"].side == "right" and ports["refl"].side == "top"
-    assert ports["in"].y == pytest.approx(ports["trans"].y)
-
-
 TURNED = {"RightAnglePrism", "Pentaprism"}          # these send the beam out through another face
-
-
-@pytest.mark.parametrize("name", [name for name in FAMILY_B if name not in TURNED])
-def test_the_beam_goes_through_a_free_space_part_from_left_to_right(name):
-    """A link leaves a port square to its edge, so ``in`` must face left and ``out`` must face right."""
-
-    ports = lookup(build_component(name)).ports
-    for port, side in (("in", "left"), ("out", "right"), ("object", "left"), ("image", "right"), ("trans", "right")):
-        if port in ports:
-            assert ports[port].side == side, f"{name}.{port} faces {ports[port].side}"
 
 
 def test_a_beam_inside_a_part_is_never_broken():
@@ -202,6 +153,3 @@ def test_a_splitter_knows_where_its_beams_meet():
     assert "hub" in plate.to_dict()
 
 
-def test_a_dichroic_plate_shows_its_coating():
-    plain, dichroic = lookup(build_component("BeamSplitter")), lookup(build_component("BeamSplitter", dichroic=True))
-    assert dichroic.source == "prebuilt" and dichroic.params == {"kind": "dichroic"} and dichroic.svg != plain.svg

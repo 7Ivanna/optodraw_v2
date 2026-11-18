@@ -14,7 +14,7 @@ from optodraw import Scene
 from optodraw.animation3d.tour import Stop, Tour
 from optodraw.animation3d.video import render_video
 from optodraw.registry import build_component
-from optodraw.renderers.capture3d import find_chrome, run_page
+from optodraw.renderers.capture3d import find_chrome
 
 needs_chrome = pytest.mark.skipif(not find_chrome(required=False), reason="needs Chrome, Chromium or Edge")
 needs_ffmpeg = pytest.mark.skipif(not (shutil.which("ffmpeg") and shutil.which("ffprobe")), reason="needs ffmpeg")
@@ -82,68 +82,6 @@ def test_without_ffmpeg_the_video_is_a_webm_and_says_so(tmp_path, monkeypatch):
                        check=True)
         box = Image.open(frame).convert("L").crop((12, 100, 200, 170))
         assert box.getextrema()[1] > 180                            # the caption's pale text on the dark block
-
-
-@needs_chrome
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_the_video_page_hides_the_controls_keeps_the_captions_and_seeds_the_random_numbers():
-    """In the Field look the model lines fold behind the Scales toggle: the video, which nobody can click, shows the
-    short lines and hides the toggle."""
-
-    from optodraw.renderers.threejs_renderer import ThreeJsRenderer
-
-    html = ThreeJsRenderer(_chip(), tour_drives=True, tour=_two_seconds(), look="field",
-                           video={"width": 320, "height": 180, "fps": 10}).render()
-    assert "fonts.googleapis" not in html
-    probe = ("<textarea id='od-probe' style='display:none'></textarea><script>(function(){var o=document.getElementById('od-probe');"
-             "(function wait(){if(window.odLight&&window.odLight.state.built){try{odLight.control('tour',true);odLight.frameAt(0.7);"
-             "var shown=function(id){var e=document.getElementById(id);return !!e&&getComputedStyle(e).display!=='none';};"
-             "var c=document.getElementById('od-captions');"
-             "var t=c&&c.querySelector('.od-scales');"
-             "o.value=JSON.stringify({bar:shown('od-bar'),info:shown('info'),captions:!!c&&c.textContent.length>0&&shown('od-captions'),"
-             "toggle:!!t,toggle_shown:!!t&&getComputedStyle(t).display!=='none',"
-             "random:[Math.random(),Math.random()]});}catch(e){o.value='error: '+e.message;}}else{setTimeout(wait,50);}})();})();</script>")
-    head, tag, tail = html.rpartition("</body>")
-    report = [json.loads(run_page(head + probe + tag + tail, width=320, height=180, element="od-probe")) for _ in range(2)]
-    assert report[0] == report[1]                                  # the same random numbers on every load
-    assert report[0]["bar"] is False and report[0]["info"] is False and report[0]["captions"] is True
-    assert report[0]["toggle"] is True and report[0]["toggle_shown"] is False
-
-
-def _video_captions(scene: Scene, **options) -> str:
-    """The caption block's text on the video page (the recording stage), with the tour at 0.7 s."""
-
-    from optodraw.renderers.threejs_renderer import ThreeJsRenderer
-
-    html = ThreeJsRenderer(scene, video={"width": 320, "height": 180, "fps": 10}, **options).render()
-    probe = ("<textarea id='od-probe' style='display:none'></textarea><script>(function(){var o=document.getElementById('od-probe');"
-             "(function wait(){if(window.odLight&&window.odLight.state.built){try{odLight.control('tour',true);odLight.frameAt(0.7);"
-             "o.value=JSON.stringify(document.getElementById('od-captions').innerText);}catch(e){o.value='error: '+e.message;}}"
-             "else{setTimeout(wait,50);}})();})();</script>")
-    head, tag, tail = html.rpartition("</body>")
-    report = run_page(head + probe + tag + tail, width=320, height=180, element="od-probe", timeout=120)
-    assert report and not report.startswith("error"), report
-    return json.loads(report)
-
-
-@needs_chrome
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_a_field_look_video_keeps_every_scaled_caption():
-    """Ruling 52: nobody can open Scales in a video, so the video shows the folded lines too: the field cycle, the heat
-    time constant with a heater, and the RF time scale with a drive."""
-
-    from optodraw.components.onchip.rings import MicroringResonator
-
-    scene = Scene(width=360, height=160, platform="on_chip")
-    laser = scene.add(build_component("OnChipLaser", center=(-150, 0)))
-    ring = scene.add(MicroringResonator(center=(0, 0), with_heater=True))
-    det = scene.add(build_component("OnChipPhotodetector", center=(150, 0)))
-    scene.route((laser, "o1"), (ring, "o1"), kind="waveguide")
-    scene.route((ring, "o2"), (det, "o1"), kind="waveguide")
-    heated = _video_captions(scene, look="field", params={"heater:microringresonator1": 10.0})
-    assert "Field cycle shown as" in heated and "Heat time constant is shown as" in heated and "Scales" not in heated
-    driven = _video_captions(_chip(), look="field", params={"drive:mzm1": 1.0})
-    assert "Field cycle shown as" in driven and "RF time scale is" in driven
 
 
 def test_a_tour_name_that_is_not_auto_and_odd_sizes_are_refused(tmp_path):

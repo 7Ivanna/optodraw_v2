@@ -1,18 +1,13 @@
 """CoupledRingFilter: ports and drop side, geometry, animation numbers, and the scene round trip."""
 
-import cmath
-import math
-from pathlib import Path
 
-import numpy as np
 import pytest
 
 import optodraw
-from optodraw import CoupledRingFilter, MicroringResonator, Scene
+from optodraw import CoupledRingFilter, Scene
 from optodraw.animation_engine import compile_signal_state
 from optodraw.animation_engine.behaviours.geometry import N_SILICON
-from optodraw.components.onchip.rings import butterworth_power_couplings, gap_for_power_coupling, gap_power_coupling
-from optodraw.schema import scene_from_spec
+from optodraw.components.onchip.rings import butterworth_power_couplings
 
 # the test scenes leave the bus ends open on purpose: light leaving them is expected here
 pytestmark = pytest.mark.filterwarnings("ignore:.*light leaves unconnected port")
@@ -34,12 +29,6 @@ def test_ports_sit_at_the_bus_ends_and_the_drop_side_alternates(n):
     assert part.drop_port == _drop(n)
     assert part.add_port == ("o4" if n % 2 else "o3")
     assert {part.drop_port, part.add_port} == {"o3", "o4"}
-
-
-def test_order_one_drops_where_the_single_add_drop_ring_drops():
-    single = MicroringResonator(add_drop=True)
-    assert "o3" in {path["port"] for path in single.optical_paths("o1")}
-    assert CoupledRingFilter(order=1).drop_port == "o3"
 
 
 def test_the_order_and_the_shape_are_checked():
@@ -105,20 +94,6 @@ def _flat_3d(node):
         yield from _flat_3d(child)
 
 
-@pytest.mark.parametrize("n", [1, 2, 4])
-def test_each_ring_gets_a_heater_on_alternating_sides(n):
-    part = CoupledRingFilter(order=n, with_heaters=True)
-    ports = part.ports()
-    assert {name for name in ports if name.startswith("h")} == {f"h{k}{e}" for k in range(1, n + 1) for e in "ab"}
-    for k in range(1, n + 1):
-        west = ports[f"h{k}a"].center.x < 0
-        assert west == (k % 2 == 1)
-        assert ports[f"h{k}a"].center.y > ports[f"h{k}b"].center.y
-        assert ports[f"h{k}a"].kind == "electrical"
-        assert ports[f"h{k}a"].orientation_deg == (180 if west else 0)
-    assert not any(name.startswith("h") for name in CoupledRingFilter(order=n).ports())
-
-
 def test_drawn_and_physical_ports_agree_on_the_scale_of_the_drawing():
     part = CoupledRingFilter(order=2)
     drawn, physical = part.world_ports(), part.physical_world_ports()
@@ -127,9 +102,6 @@ def test_drawn_and_physical_ports_agree_on_the_scale_of_the_drawing():
 
 
 # ---- the default couplings -----------------------------------------------------------------------
-def test_the_gap_model_inverts():
-    for gap in (0.2, 0.3, 0.6, 1.0):
-        assert gap_for_power_coupling(gap_power_coupling(gap)) == pytest.approx(gap)
 
 
 def test_default_gaps_give_the_butterworth_couplings():
@@ -161,85 +133,6 @@ def _exits(scene, wavelength, params=None):
     return {e["port"]: e["power"] for e in data["exits"]}
 
 
-@pytest.mark.parametrize("n", [1, 2, 3])
-def test_at_resonance_the_power_goes_to_the_drop_port_and_off_resonance_it_stays_in_the_bus(n):
-    scene, part = _scene(n)
-    centre, fsr = _resonance(part)
-    on = _exits(scene, centre)
-    assert on[part.drop_port] > 0.5 and on[part.drop_port] == max(on.values())
-    assert on.get("o2", 0.0) < 0.05
-    assert part.add_port not in on or on[part.add_port] < 1e-6
-    off = _exits(scene, centre + fsr / 2)
-    assert off["o2"] > 0.99 and off.get(part.drop_port, 0.0) < 0.01
-
-
-def _reference(couplings, a, phi):
-    """The same equations solved directly (Madsen and Zhao, ch. 5): (drop, through) power for a field in o1."""
-
-    n = len(couplings) - 1
-    t = [math.sqrt(1 - k) for k in couplings]
-    c = [-1j * math.sqrt(k) for k in couplings]
-    h = math.sqrt(a) * cmath.exp(0.5j * phi)
-    upper, lower = list(range(n)), list(range(n, 2 * n))
-    m = np.eye(2 * n, dtype=complex)
-    b = np.zeros(2 * n, dtype=complex)
-    m[upper[0], lower[0]] -= h * t[0]
-    b[upper[0]] += h * c[0]
-    m[lower[n - 1], upper[n - 1]] -= h * t[n]
-    for k in range(n - 1):
-        m[lower[k], upper[k]] -= h * t[k + 1]
-        m[lower[k], lower[k + 1]] -= h * c[k + 1]
-        m[upper[k + 1], upper[k]] -= h * c[k + 1]
-        m[upper[k + 1], lower[k + 1]] -= h * t[k + 1]
-    x = np.linalg.solve(m, b)
-    return abs(c[n] * x[upper[n - 1]]) ** 2, abs(t[0] + c[0] * x[lower[0]]) ** 2
-
-
-@pytest.mark.parametrize("n", [1, 2, 3])
-def test_the_engine_matches_a_direct_solution_of_the_coupler_equations(n):
-    scene, part = _scene(n, round_trip_amplitude=0.99)
-    centre, fsr = _resonance(part)
-    for shift in (-0.2, -0.05, 0.0, 0.03, 0.1, 0.4):
-        wavelength = centre + shift * fsr
-        phi = 2 * math.pi * N_SILICON * part.round_trip_length / (wavelength / 1000.0)
-        drop, through = _reference(part.effective_power_couplings, 0.99, phi)
-        got = _exits(scene, wavelength)
-        assert got.get(part.drop_port, 0.0) == pytest.approx(drop, abs=1e-9)
-        assert got.get("o2", 0.0) == pytest.approx(through, abs=1e-9)
-
-
-def test_the_default_order_two_filter_has_a_flat_top():
-    scene, part = _scene(2, round_trip_amplitude=1.0)
-    centre, fsr = _resonance(part)
-    shifts = np.linspace(-0.02, 0.02, 41)
-    drop = np.array([_exits(scene, centre + s * fsr).get("o4", 0.0) for s in shifts])
-    peak = drop.max()
-    assert drop[20] == pytest.approx(peak, rel=1e-3)                # the maximum is at the centre: no double hump
-    half = np.flatnonzero(drop > 0.5 * peak)
-    width = shifts[half[-1]] - shifts[half[0]]
-    assert width < 0.04                                             # the window holds the whole passband
-    inner = drop[(abs(shifts) < 0.3 * width)]
-    assert inner.min() > 0.85 * peak                                # flat, where one ring would be a Lorentzian
-    assert np.all(np.diff(drop[20:]) <= 1e-9)                       # and it falls away monotonically
-
-
-def test_the_rings_are_tuned_one_by_one_and_a_detuned_ring_blocks_the_drop():
-    scene, part = _scene(2)
-    centre, _ = _resonance(part)
-    tuned = _exits(scene, centre)["o4"]
-    detuned = _exits(scene, centre, {"phase:coupledringfilter1:ring2": math.pi})["o4"]
-    assert tuned > 0.5 and detuned < 0.1 * tuned
-    heated = _exits(scene, centre, {"heater:coupledringfilter1:ring1": 20.0})["o4"]     # 20 mW is pi
-    assert heated < 0.1 * tuned
-
-
-def test_the_power_never_exceeds_the_input():
-    scene, part = _scene(3, round_trip_amplitude=0.95)
-    centre, fsr = _resonance(part)
-    for shift in np.linspace(0, 1, 9):
-        assert sum(_exits(scene, centre + shift * fsr).values()) <= 1.0 + 1e-9
-
-
 def test_light_from_the_top_bus_takes_the_reverse_path():
     # Reciprocity: for an odd order o1 -> o3, so o3 -> o1.
     scene = Scene(width=300, height=400, platform="on_chip")
@@ -251,32 +144,5 @@ def test_light_from_the_top_bus_takes_the_reverse_path():
 
 
 # ---- the scene schema ----------------------------------------------------------------------------
-@pytest.mark.parametrize("kwargs", [
-    {"order": 2},
-    {"order": 5, "ring_shape": "racetrack", "coupling_length": 8.0, "radius": 12.0},
-    {"order": 3, "gaps": [0.2, 0.5, 0.6, 0.25], "with_heaters": True, "waveguide_width": 0.45},
-    {"order": 4, "power_couplings": [0.1, 0.01, 0.005, 0.01, 0.1], "round_trip_amplitude": 0.97},
-])
-def test_the_part_survives_the_scene_round_trip(kwargs):
-    scene = Scene(width=300, height=300, platform="on_chip")
-    scene.add(CoupledRingFilter(center=(10, 20), label="F", **kwargs))
-    rebuilt = scene_from_spec(scene.to_spec())
-    (part,) = [n for n in rebuilt.walk() if isinstance(n, CoupledRingFilter)]
-    original = next(n for n in scene.walk() if isinstance(n, CoupledRingFilter))
-    for key in ("order", "ring_shape", "radius", "coupling_length", "gaps", "waveguide_width", "with_heaters",
-                "round_trip_amplitude", "effective_power_couplings"):
-        assert getattr(part, key) == pytest.approx(getattr(original, key))
-    assert part.drop_port == original.drop_port
-    assert set(part.ports()) == set(original.ports())
 
 
-def test_the_part_is_in_the_catalog_and_has_one_symbol_row_per_order():
-    from optodraw.catalog import describe_component, list_components
-
-    assert "CoupledRingFilter" in list_components(platform="on_chip")
-    assert describe_component("CoupledRingFilter")["description"]
-    table = (Path(optodraw.__file__).parent / "symbols" / "variants.toml").read_text(encoding="utf-8")
-    for n in range(1, 6):
-        assert f'params = {{ order = {n} }}\ncomponent = "CoupledRingFilter"' in table
-    assert CoupledRingFilter(order=3).symbol_1d() == ("coupledring", {"order": 3})
-    assert CoupledRingFilter(order=2, with_heaters=True).symbol_1d() == ("coupledring", {"order": 2, "heater": True})

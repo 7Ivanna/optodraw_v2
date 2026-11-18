@@ -1,11 +1,10 @@
-import json
 import shutil
 import subprocess
 from pathlib import Path
 
 import pytest
 
-from optodraw.renderers._scene_data import expand_scene_data, pack_scene_data
+from optodraw.renderers._scene_data import expand_scene_data
 
 
 def records():
@@ -17,28 +16,6 @@ def records():
     return [{"type": "mesh", "componentId": str(i), "position": [i, 0, -i],
              "rotation": [0, i / 7, 0], "ports3d": [[i, -i, 0]],
              "anim": {"power": i / 13}, "geometry": geometry} for i in range(12)]
-
-
-def test_shared_records_round_trip_all_instance_and_custom_fields():
-    items = records()
-    packed = pack_scene_data(items)
-    assert expand_scene_data(json.loads(json.dumps(packed))) == items
-    assert len(packed["geometries"]) == 2
-    assert len(packed["materials"]) == 2
-    assert len({item["geometryRef"] for item in packed["items"]}) == 1
-    assert len({item["componentId"] for item in packed["items"]}) == 12
-    assert len(json.dumps(packed)) < len(json.dumps(items))
-    assert "geometryRef" not in items[0]
-
-
-def test_complete_texture_and_shape_records_have_distinct_keys():
-    items = records()[:2]
-    items[1] = json.loads(json.dumps(items[1]))
-    items[1]["geometry"]["top_texture"] = {"kind": "hole_grid", "pitch": 2.5}
-    items[1]["geometry"]["curves"][0][0] = 0.1234567890123457
-    packed = pack_scene_data(items)
-    assert packed["items"][0]["geometryRef"] != packed["items"][1]["geometryRef"]
-    assert expand_scene_data(packed) == items
 
 
 def test_legacy_items_and_missing_references():

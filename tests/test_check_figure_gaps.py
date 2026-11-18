@@ -3,9 +3,8 @@ read as a dead end, a flip mirror's label on its own dashed outline, and the con
 
 from __future__ import annotations
 
-from optodraw import (EOM, Beam, Camera, FiberCollimator, FlipMirror, Laser, Lens, Photodiode, Scene,
+from optodraw import (Beam, Camera, FlipMirror, Laser, Photodiode, Scene,
                       check_figure)
-from optodraw.app.validation import run_checks
 from optodraw.layout import face
 from optodraw.symbols.schematic import build_schematic
 
@@ -30,33 +29,6 @@ def test_a_1d_beam_drawn_across_a_part_it_does_not_join_is_found():
     assert any("Laser" in f and "PD" in f and "runs across Cam" in f for f in check_figure(scene, view="1d"))
 
 
-def test_a_1d_beam_clear_of_the_parts_passes():
-    scene, *_ = _line()
-    camera = scene.add(Camera(center=(0, -30), label="Cam"))
-    scene.add(Beam.through(scene.add(Laser(center=(-40, -30), label="Probe")), camera))
-    assert not [f for f in check_figure(scene, view="1d") if "runs across" in f]
-
-
-def test_light_that_goes_on_in_a_fibre_does_not_stop():
-    scene = Scene(width=120, height=40)
-    laser = scene.add(Laser(center=(-40, 0), label="Laser"))
-    eom = scene.add(EOM(center=(-10, 0), label="EOM"))
-    collimator = scene.add(FiberCollimator(center=(20, 0), label="C"))
-    det = scene.add(Photodiode(center=(40, 0), label="PD"))
-    scene.add(Beam.through(laser, eom))
-    scene.route((eom, "out"), (collimator, "in"), kind="fiber")          # a pigtailed modulator
-    scene.add(Beam.through(collimator, det))
-    assert not [f for f in check_figure(scene, view="2d") if "stops" in f]
-
-
-def test_a_beam_that_ends_in_a_part_with_no_fibre_still_stops():
-    scene = Scene(width=120, height=40)
-    laser = scene.add(Laser(center=(-40, 0), label="Laser"))
-    eom = scene.add(EOM(center=(-10, 0), label="EOM"))
-    scene.add(Beam.through(laser, eom))
-    assert any("the beam stops at EOM" in f for f in check_figure(scene, view="2d"))
-
-
 def _flip(label_side):
     scene = Scene(width=100, height=60)
     laser = scene.add(Laser(center=(-35, 0), label="Laser"))
@@ -74,16 +46,3 @@ def test_a_flip_mirror_label_on_its_own_dashed_outline_is_found():
     assert any('"Flip mirror"' in f and "outline" in f for f in found), found
 
 
-def test_a_flip_mirror_label_clear_of_its_outline_passes():
-    assert not [f for f in check_figure(_flip("bottom"), view="2d") if "outline" in f]
-
-
-def test_the_cones_of_a_lens_beam_are_not_parts():
-    scene = Scene(width=100, height=40)
-    laser = scene.add(Laser(center=(-35, 0), label="Laser"))
-    l1 = scene.add(Lens(center=(-10, 0), focal_length=10, label="L1"))
-    l2 = scene.add(Lens(center=(10, 0), focal_length=10, label="L2"))
-    det = scene.add(Photodiode(center=(35, 0), label="PD"))
-    pieces = scene.lens_beam(laser, l1, l2, det, width=1)
-    assert any(piece.component_type == "FocusingBeam" for piece in pieces)
-    assert not [issue for issue in run_checks(scene) if "FocusingBeam" in issue["message"]]

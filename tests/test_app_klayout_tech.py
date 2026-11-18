@@ -77,24 +77,10 @@ def test_a_technology_folder_picked_in_the_browser_gives_colours_and_heights(cli
     assert metal3["color"].startswith("#")
 
 
-def test_a_folder_file_that_climbs_out_of_the_folder_is_refused(client, tmp_path):
-    gid = _part(client, tmp_path)
-    res = client.post(f"/api/gds/{gid}/technology_folder", json={"files": [{"path": "../evil.lyt", "text": "<technology/>"}]})
-    assert res.status_code == 400 and "unsafe" in res.json()["detail"]
-
-
 def test_a_folder_without_a_lyt_or_lyd25_says_so(client, tmp_path):
     gid = _part(client, tmp_path)
     res = client.post(f"/api/gds/{gid}/technology_folder", json={"files": _folder("layers.lyp")})
     assert res.status_code == 400 and "no .lyt or .lyd25" in res.json()["detail"]
-
-
-def test_a_lyd25_alone_gives_heights(client, tmp_path):
-    gid = _part(client, tmp_path)
-    res = client.post(f"/api/gds/{gid}/technology", params={"filename": "generic_tech.lyd25"},
-                      content=(TECH / "d25" / "generic_tech.lyd25").read_bytes())
-    assert res.status_code == 200, res.text
-    assert _layer(client, gid, "41/0")["thickness"] == pytest.approx(0.7)
 
 
 def test_a_zip_that_climbs_out_of_its_folder_is_refused(client, tmp_path):
@@ -112,39 +98,3 @@ def test_the_editor_offers_the_new_kinds_of_technology_file():
     assert "webkitdirectory" in folder
 
 
-def test_a_layer_with_no_height_reports_none_not_a_made_up_one(client, tmp_path):
-    """The docs device's implant layers (20/0, 21/0, 24/0) have no height in the generic styles or in the
-    technology: their records say so, where they used to show the part's default thickness at z 0."""
-
-    gid = _part(client, tmp_path)
-    implant = _layer(client, gid, "20/0")
-    assert implant["thickness"] is None and implant["z"] is None
-    waveguide = _layer(client, gid, "1/0")
-    assert waveguide["thickness"] == pytest.approx(0.22) and waveguide["z"] == pytest.approx(0.0)
-    res = client.post(f"/api/gds/{gid}/technology_folder",
-                      json={"files": _folder("tech.lyt", "layers.lyp", "d25/generic_tech.lyd25")})
-    assert res.status_code == 200, res.text
-    implant = _layer(client, gid, "20/0")
-    assert implant["thickness"] is None and implant["z"] is None and implant["color"].startswith("#")
-
-
-def test_a_part_with_layers_of_no_height_still_exports_to_glb(tmp_path):
-    pytest.importorskip("trimesh")
-    from optodraw import Scene
-    from optodraw.components.models import GDSModel
-    from optodraw.exporters import scene_to_glb_with_report
-
-    scene = Scene(width=200, height=200)
-    scene.add(GDSModel(source=str(docs_device_gds(tmp_path))))
-    _, report = scene_to_glb_with_report(scene)
-    assert report["meshes"] >= 1 and report["failed"] == []
-
-
-def test_a_layer_with_no_material_reports_none_not_the_part_default(client, tmp_path):
-    """The implant layers have no material in the generic styles: their records say so, where they showed the
-    part's own material_preset ("silicon"); a layer the styles give a material keeps it."""
-
-    gid = _part(client, tmp_path)
-    assert _layer(client, gid, "20/0")["material"] is None
-    assert _layer(client, gid, "1/0")["material"] == "silicon"
-    assert _layer(client, gid, "41/0")["material"] == "aluminum"

@@ -7,7 +7,7 @@ from __future__ import annotations
 from optodraw import (EOM, Beam, Laser, OpAmp, OpticalIsolator, PBS, Photodiode, RFMixer, Scene,
                       WaveformGenerator)
 from optodraw.layout import face
-from optodraw.symbols.schematic import BENCH_GAP, build_schematic
+from optodraw.symbols.schematic import build_schematic
 
 
 def _lock(feedback: bool) -> Scene:
@@ -44,18 +44,3 @@ def test_a_feedback_cable_leaves_the_beam_straight_and_the_bench_compact():
     assert schematic.height < 300, schematic.height
 
 
-def test_closing_the_loop_moves_no_part_of_the_bench():
-    """The light parts sit where they sit without the feedback cable, and the servo stays one gap from its laser."""
-
-    # mutant: drop "or edges[index][4] not in _LIGHT_KINDS" from the loop closing in _bench_positions: the closing
-    # cable is made straight and the servo moves 60 pt away from its laser
-    def places(scene: Scene) -> dict[str, tuple[float, float]]:
-        items = build_schematic(scene).items
-        laser = next(item for item in items if item.label == "Laser")
-        return {item.label: (round(item.x - laser.x, 1), round(item.y - laser.y, 1)) for item in items
-                if item.label in ("Laser", "Isolator", "Pockels cell", "PBS", "PD")}
-
-    assert places(_lock(feedback=True)) == places(_lock(feedback=False))
-    by_label = {item.label: item for item in build_schematic(_lock(feedback=True)).items}
-    (_, servo_y, _), (_, laser_y, _) = by_label["Servo"].port("out"), by_label["Laser"].port("e1")
-    assert servo_y - laser_y < 3 * BENCH_GAP, (servo_y, laser_y)

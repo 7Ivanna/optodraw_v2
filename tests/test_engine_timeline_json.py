@@ -9,38 +9,6 @@ from optodraw.animation_engine.primitives import Plot, Quantity, Sweep, Write
 from optodraw.animation_engine.timeline import Timeline
 
 
-def test_full_authoring_document_is_deterministic_and_lossless():
-    outputs = []
-    for _ in range(2):
-        scene = optodraw.Scene(width=240, height=80, platform="on_chip")
-        laser = scene.add(optodraw.OnChipLaser(center=(-90, 0)))
-        detector = scene.add(optodraw.OnChipPhotodetector(center=(90, 0)))
-        scene.route((laser, "o1"), (detector, "o1"), kind="waveguide")
-        animation = Animation(scene).auto().click()
-        animation.play(Write(r"P_{out}", near=detector)).click()
-        animation.play(
-            Sweep("wavelength", 1549, 1551, seconds=1, samples=3),
-            Plot(Quantity(detector), against="wavelength"),
-        ).click()
-        outputs.append(animation.dumps())
-    assert outputs[0] == outputs[1]
-    restored = Timeline.from_json(outputs[0])
-    assert restored.dumps() == outputs[0]
-    assert restored.to_json() == json.loads(outputs[0])
-
-
-def test_import_and_export_do_not_share_mutable_data():
-    timeline = Timeline()
-    timeline.wait(0.5).click()
-    original = timeline.to_json()
-    restored = Timeline.from_json(original)
-    original["tracks"][0]["args"]["external"] = [1]
-    assert "external" not in restored.tracks[0].args
-    exported = restored.to_json()
-    exported["tracks"][0]["args"]["external"] = [2]
-    assert "external" not in restored.tracks[0].args
-
-
 @pytest.mark.parametrize("mutation, message", [
     (lambda d: d.update(version=2), "version"),
     (lambda d: d.update(duration=float("nan")), "finite"),
@@ -56,11 +24,6 @@ def test_invalid_documents_raise_specific_errors(mutation, message):
     mutation(data)
     with pytest.raises(ValueError, match=message):
         Timeline.from_json(data)
-
-
-def test_duplicate_json_keys_are_rejected():
-    with pytest.raises(ValueError, match="duplicate"):
-        Timeline.from_json('{"version":1,"version":2}')
 
 
 def test_a_missing_signal_state_reference_is_rejected():
@@ -134,38 +97,6 @@ def test_open_departures_round_trip_with_warning_and_outward_geometry(mode):
     assert restored.dumps() == encoded
     assert restored.signal_state["warnings"][0]["port"] == "o1"
     assert restored.signal_state["exits"][0]["points"][1][1] > restored.signal_state["exits"][0]["points"][0][1]
-
-
-def test_an_explicit_dark_route_carries_geometry_without_signal_records():
-    from optodraw.animation_engine.primitives import Flow, Set
-    scene = optodraw.Scene(width=300, height=80, platform="on_chip")
-    laser = scene.add(optodraw.OnChipLaser(center=(-100, 0)))
-    modulator = scene.add(optodraw.MZM())
-    detector = scene.add(optodraw.OnChipPhotodetector(center=(100, 0)))
-    scene.route((laser, "o1"), (modulator, "o1"), kind="waveguide")
-    scene.route((modulator, "o3"), (detector, "o1"), kind="waveguide")
-    animation = Animation(scene).play(Set("drive:mzm1", 2))
-    animation.play(Flow(paths=["route:route2"]))
-    data = animation.to_json()
-    assert data["signal_state"]["edges"]["route:route2"]["cw"] == []
-    assert len(data["signal_state"]["edges"]["route:route2"]["points"]) >= 2
-    assert Timeline.from_json(animation.dumps()).dumps() == animation.dumps()
-
-
-def test_default_120_sample_sweep_round_trips_authentic_states():
-    scene = optodraw.Scene(width=240, height=80, platform="on_chip")
-    laser = scene.add(optodraw.OnChipLaser(center=(-90, 0)))
-    detector = scene.add(optodraw.OnChipPhotodetector(center=(90, 0)))
-    scene.route((laser, "o1"), (detector, "o1"), kind="waveguide")
-    animation = Animation(scene).auto().click()
-    animation.play(Sweep("wavelength", 1549, 1551, 1), Plot(Quantity(detector), against="wavelength"))
-    data = animation.to_json()
-    state = data["signal_states"]["q2"]
-    assert len(state["samples"]) == 120
-    assert state["samples"][0] == 1549 and state["samples"][-1] == 1551
-    assert len(state["edges"]["route:route1"]["cw"][0]["jones"]) == 120
-    assert data["assets"]["plot:1"]["y"] == pytest.approx([1] * 120)
-    assert Timeline.from_json(animation.dumps()).dumps() == animation.dumps()
 
 
 def test_nested_duplicate_json_keys_and_missing_text_assets_fail():

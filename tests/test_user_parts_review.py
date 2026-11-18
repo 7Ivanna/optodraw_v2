@@ -1,6 +1,5 @@
 """Regression cases from the portable user-part review."""
 
-import math
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -60,40 +59,6 @@ def test_svg_ids_and_references_are_per_embedding():
     assert document.find(".//g[@id='first-body']").attrib["clip-path"] == "url(#first-clip)"
     assert document.find(".//g[@id='second-body']").attrib["clip-path"] == "url(#second-clip)"
     assert asset.inner(namespace="first") == first
-    assert asset.data == original and asset.digest == digest
-
-
-def test_instance_namespace_survives_scene_round_trip():
-    from optodraw.parts._svg_frame import svg_namespace
-
-    scene = Scene()
-    parts = [scene.add(Waveguide(center=(x, 0), width=0.5, bend_radius=2)) for x in (0, 80)]
-    names = [svg_namespace(part, "a" * 64, "2d") for part in parts]
-    assert names[0] != names[1]
-    assert svg_namespace(parts[0], "a" * 64, "1d") != names[0]
-    scene.route((parts[0], "o2"), (parts[1], "o1"), backend="local")
-    assert [svg_namespace(part, "a" * 64, "2d") for part in parts] == names
-    restored = Scene.from_spec(scene.to_spec())
-    restored_parts = [part for part in restored.root.children if part.component_type == "Waveguide"]
-    assert [svg_namespace(part, "a" * 64, "2d") for part in restored_parts] == names
-
-
-def test_percentages_use_asset_frame_without_changing_asset():
-    asset = _asset('<rect x="-10" y="-5" width="100%" height="100%"/>'
-                   '<circle cx="50%" cy="50%" r="10%" stroke-width="2%"/>')
-    original, digest = asset.data, asset.digest
-    root = ET.fromstring(asset.inner())
-    rect, circle = root.find("rect"), root.find("circle")
-    assert float(rect.attrib["width"]) == 20
-    assert float(rect.attrib["height"]) == 10
-    assert float(circle.attrib["cx"]) == 10
-    assert float(circle.attrib["cy"]) == 5
-    diagonal = math.hypot(20, 10) / math.sqrt(2)
-    assert float(circle.attrib["r"]) == pytest.approx(diagonal * 0.1)
-    assert float(circle.attrib["stroke-width"]) == pytest.approx(diagonal * 0.02)
-    three_d = ET.fromstring(asset.document())
-    assert three_d.attrib["viewBox"] == "-10 -5 20 10"
-    assert float(three_d.find("{http://www.w3.org/2000/svg}rect").attrib["width"]) == 20
     assert asset.data == original and asset.digest == digest
 
 

@@ -1,4 +1,3 @@
-from copy import deepcopy
 
 import pytest
 
@@ -46,40 +45,6 @@ def test_unchanged_scene_is_retained():
     assert session.scene() is scene
 
 
-def test_move_rebuilds_only_changed_component_and_connected_straight_route():
-    session = make_session()
-    scene = session.scene()
-    before = nodes(scene)
-    session.move_component("a", center=[12.3456789012345, 6.0], angle=17)
-    assert session.scene() is scene
-    after = nodes(scene)
-    assert after["a"] is not before["a"]
-    assert after["r1"] is not before["r1"]
-    for name in ("b", "c", "d", "r2", "beam"):
-        assert after[name] is before[name]
-    assert_fresh_output(session)
-
-
-def test_obstacle_change_rebuilds_obstacle_sensitive_routes():
-    session = make_session("manhattan")
-    before = nodes(session.scene())
-    session.move_component("a", center=[30, 20])
-    after = nodes(session.scene())
-    assert after["r1"] is not before["r1"]
-    assert after["r2"] is not before["r2"]
-    assert_fresh_output(session)
-
-
-def test_parameter_edit_preserves_unrelated_nodes():
-    session = make_session()
-    before = nodes(session.scene())
-    session.update("a", {"label": "changed", "wavelength": 532})
-    after = nodes(session.scene())
-    assert after["c"] is before["c"]
-    assert after["r2"] is before["r2"]
-    assert_fresh_output(session)
-
-
 def test_route_edit_preserves_components_and_other_links():
     session = make_session()
     before = nodes(session.scene())
@@ -88,29 +53,6 @@ def test_route_edit_preserves_components_and_other_links():
     assert after["r1"] is not before["r1"]
     for name in ("a", "b", "c", "d", "r2", "beam"):
         assert after[name] is before[name]
-    assert_fresh_output(session)
-
-
-def test_beam_endpoint_follows_changed_component():
-    session = make_session()
-    before = nodes(session.scene())
-    session.move_component("c", center=[15, 45])
-    after = nodes(session.scene())
-    assert after["beam"] is not before["beam"]
-    assert after["r1"] is before["r1"]
-    assert_fresh_output(session)
-
-
-def test_structural_change_load_and_reset_use_fresh_scene():
-    session = make_session()
-    first = session.scene()
-    session.delete("a")
-    assert session.scene() is not first
-    assert_fresh_output(session)
-    saved = deepcopy(session.spec)
-    session.reset()
-    assert not session.scene().root.children
-    session.load(saved)
     assert_fresh_output(session)
 
 

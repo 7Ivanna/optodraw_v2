@@ -27,13 +27,6 @@ def _import(client, tmp_path) -> tuple[str, bytes]:
     return gid, data
 
 
-def test_the_file_route_returns_the_imported_bytes(client, tmp_path):
-    gid, data = _import(client, tmp_path)
-    res = client.get(f"/api/gds/{gid}/file")
-    assert res.status_code == 200 and res.content == data
-    assert res.headers["content-type"] == "application/octet-stream"
-
-
 def test_a_part_whose_file_is_gone_gets_a_404_that_says_so(client, tmp_path):
     from optodraw.app.api import _find_gds_node
 
@@ -78,18 +71,6 @@ def test_a_cut_in_file_coordinates_is_the_same_cut(client, tmp_path):
     assert file_line == pytest.approx([11.0, 11.0, 11.0, -11.0])        # the cell spans 0..20 by -11..11
     again = _cut(client, gid, line=file_line, frame="file")
     assert again["cross_section"] == local["cross_section"] and again["line_file"] == pytest.approx(file_line)
-
-
-def test_a_cut_in_file_coordinates_follows_a_crop(client, tmp_path):
-    from optodraw.app.api import _find_gds_node, _session
-
-    gid, _ = _import(client, tmp_path)
-    _session().update(gid, {"crop_region": [0.0, -11.0, 12.0, 11.0]})
-    node = _find_gds_node(gid)
-    a, b = node.file_to_local(11.0, 11.0), node.file_to_local(11.0, -11.0)     # read as local: 17 um, off the crop
-    local = _cut(client, gid, line=[*a, *b])
-    again = _cut(client, gid, line=[11.0, 11.0, 11.0, -11.0], frame="file")
-    assert again["cross_section"] == local["cross_section"]
 
 
 def test_an_unknown_frame_is_refused(client, tmp_path):

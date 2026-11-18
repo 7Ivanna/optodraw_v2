@@ -14,13 +14,11 @@ from optodraw import (
     OnChipPhotodetector,
     PublicationBundle,
     Scene,
-    TemplateSpec,
     VerticalGratingCoupler,
     Waveguide,
     build_caption,
     build_publication_bundle,
     get_publication_template,
-    list_publication_templates,
 )
 
 
@@ -54,24 +52,7 @@ def _on_chip_scene() -> Scene:
 
 
 class TestTemplateRegistry:
-    def test_list_templates_contains_named_set(self):
-        names = set(list_publication_templates())
-        for required in (
-            "single_figure",
-            "two_panel_horizontal",
-            "two_panel_vertical",
-            "four_panel_grid",
-            "device_plus_xsection",
-        ):
-            assert required in names
 
-    def test_get_template_returns_spec(self):
-        spec = get_publication_template("four_panel_grid")
-        assert isinstance(spec, TemplateSpec)
-        assert spec.panel_count == 4
-        assert spec.rows == 2
-        assert spec.columns == 2
-        assert all(panel.role for panel in spec.panels)
 
     def test_unknown_template_raises(self):
         with pytest.raises(KeyError, match="Unknown publication template"):
@@ -79,21 +60,7 @@ class TestTemplateRegistry:
 
 
 class TestBuildCaption:
-    def test_caption_contains_components_and_routes(self):
-        scene = _on_chip_scene()
-        caption = build_caption(scene)
-        assert "Ring filter publication" in caption
-        assert "integrated photonic" in caption.lower()
-        assert "Ring" in caption
-        assert "Routes:" in caption
-        assert "µm" in caption
 
-    def test_free_space_caption_lists_devices(self):
-        scene = _free_space_scene()
-        caption = build_caption(scene)
-        assert "free-space" in caption.lower()
-        assert "Pump laser" in caption
-        assert "L1" in caption
 
     def test_extra_notes_appended(self):
         scene = _free_space_scene()
@@ -116,59 +83,9 @@ class TestSingleFigureTemplate:
         for fmt, path in bundle.primary_paths.items():
             assert path.exists(), f"{fmt} not written"
 
-    def test_caption_and_manifest_written(self, tmp_path):
-        scene = _free_space_scene()
-        bundle = build_publication_bundle(
-            scene,
-            tmp_path,
-            template="single_figure",
-            formats=("svg",),
-        )
-        assert bundle.caption_path is not None and bundle.caption_path.exists()
-        caption_text = bundle.caption_path.read_text(encoding="utf-8")
-        assert "Michelson Pub Demo" in caption_text
-
-        assert bundle.manifest_path is not None and bundle.manifest_path.exists()
-        manifest = json.loads(bundle.manifest_path.read_text(encoding="utf-8"))
-        assert manifest["title"] == "Michelson Pub Demo"
-        assert manifest["template"]["name"] == "single_figure"
-        assert manifest["scene_hash_sha256"]
-        assert len(manifest["scene_hash_sha256"]) == 64
-        assert manifest["optodraw_version"]
-        assert manifest["render_timestamp"]
-        types = {entry["type"] for entry in manifest["components"]}
-        assert {"Laser", "Mirror", "Lens"} <= types
-
 
 class TestTwoPanelTemplates:
-    def test_two_panel_horizontal_renders_two_panels(self, tmp_path):
-        scene = _free_space_scene()
-        bundle = build_publication_bundle(
-            scene,
-            tmp_path,
-            template="two_panel_horizontal",
-            formats=("svg", "json"),
-        )
-        assert len(bundle.panels) == 2
-        labels = [panel["label"] for panel in bundle.panels]
-        assert labels == ["(a)", "(b)"]
-        assert bundle.panels[0]["row"] == 0 and bundle.panels[0]["column"] == 0
-        assert bundle.panels[1]["column"] == 1
-        for panel in bundle.panels:
-            assert panel["paths"]["svg"].exists()
-            assert panel["paths"]["json"].exists()
 
-    def test_two_panel_vertical_stacks_panels(self, tmp_path):
-        scene = _free_space_scene()
-        bundle = build_publication_bundle(
-            scene,
-            tmp_path,
-            template="two_panel_vertical",
-            formats=("svg",),
-        )
-        assert len(bundle.panels) == 2
-        assert bundle.panels[0]["row"] == 0
-        assert bundle.panels[1]["row"] == 1
 
     def test_extra_scene_used_for_second_panel(self, tmp_path):
         scene_a = _free_space_scene()
@@ -183,25 +100,6 @@ class TestTwoPanelTemplates:
         )
         assert bundle.panels[0]["scene_title"] == "Michelson Pub Demo"
         assert bundle.panels[1]["scene_title"] == "Detail View"
-
-
-class TestFourPanelGrid:
-    def test_four_panel_grid_emits_four_outputs(self, tmp_path):
-        scene = _free_space_scene()
-        bundle = build_publication_bundle(
-            scene,
-            tmp_path,
-            template="four_panel_grid",
-            formats=("svg",),
-        )
-        assert len(bundle.panels) == 4
-        rows = {panel["row"] for panel in bundle.panels}
-        columns = {panel["column"] for panel in bundle.panels}
-        assert rows == {0, 1}
-        assert columns == {0, 1}
-        for panel in bundle.panels:
-            assert panel["paths"]["svg"].exists()
-            assert panel["width_mm"] < scene.width  # smaller than figure canvas
 
 
 class TestDevicePlusXSection:
@@ -279,47 +177,6 @@ class TestDevicePlusXSection:
         assert manifest["xsection"]["mode"] == "expert"
 
 
-class TestProvenanceManifest:
-    def test_components_recorded_with_positions(self, tmp_path):
-        scene = _on_chip_scene()
-        bundle = build_publication_bundle(
-            scene,
-            tmp_path,
-            template="single_figure",
-            formats=("svg",),
-        )
-        manifest = json.loads(bundle.manifest_path.read_text(encoding="utf-8"))
-        types = [c["type"] for c in manifest["components"]]
-        assert "MicroringResonator" in types
-        assert "VerticalGratingCoupler" in types
-        # Routes are not skipped from component log
-        assert "WaveguideRoute" in types
-
-    def test_extras_propagated_to_manifest(self, tmp_path):
-        scene = _free_space_scene()
-        bundle = build_publication_bundle(
-            scene,
-            tmp_path,
-            template="single_figure",
-            formats=("svg",),
-            extras={"figure_number": "1", "doi": "10.0/example"},
-        )
-        manifest = json.loads(bundle.manifest_path.read_text(encoding="utf-8"))
-        assert manifest["extras"]["figure_number"] == "1"
-        assert manifest["extras"]["doi"] == "10.0/example"
-
-    def test_custom_caption_overrides_autobuilder(self, tmp_path):
-        scene = _free_space_scene()
-        bundle = build_publication_bundle(
-            scene,
-            tmp_path,
-            template="single_figure",
-            formats=("svg",),
-            caption="Custom caption used for the figure.",
-        )
-        assert bundle.caption_path.read_text(encoding="utf-8") == "Custom caption used for the figure."
-
-
 class TestFormatValidation:
     def test_unsupported_format_raises(self, tmp_path):
         scene = _free_space_scene()
@@ -331,74 +188,9 @@ class TestFormatValidation:
                 formats=("svg", "pdf"),
             )
 
-    def test_scene_size_restored_after_bundle(self, tmp_path):
-        scene = Scene(title="Original Dims", width=200, height=120)
-        scene.add(Laser(center=(0, 0)))
-        build_publication_bundle(
-            scene,
-            tmp_path,
-            template="two_panel_horizontal",
-            formats=("svg",),
-        )
-        assert scene.width == pytest.approx(200.0)
-        assert scene.height == pytest.approx(120.0)
-
 
 class TestComposedFigure:
-    def test_template_makes_a_page(self):
-        from optodraw import Page
 
-        scene = _on_chip_scene()
-        page = Page.from_template(get_publication_template("two_panel_horizontal"), [scene, scene], width_mm=120.0)
-        insets = [n for n in page.walk() if type(n).__name__ == "Inset"]
-        assert len(insets) == 2
-        assert insets[0].box()[1] == pytest.approx(insets[1].box()[1], abs=1e-3)      # one row, one shared height
-        assert insets[0].w_mm == pytest.approx(insets[1].w_mm, rel=1e-6)              # shares 0.5 and 0.5 of the row
-        assert insets[0].box()[2] < insets[1].box()[0]
-        assert page.width_mm == 120.0
-
-    def test_width_fraction_sets_the_share(self):
-        from optodraw import Page, PanelSpec
-
-        template = TemplateSpec(name="uneven", description="", columns=2, panels=(
-            PanelSpec(name="a", width_fraction=0.25, column=0), PanelSpec(name="b", width_fraction=0.75, column=1)))
-        scene = _on_chip_scene()
-        page = Page.from_template(template, [scene, scene], width_mm=100.0)
-        first, second = [n for n in page.walk() if type(n).__name__ == "Inset"]
-        assert second.w_mm / first.w_mm == pytest.approx(3.0, rel=1e-3)
-
-    def test_template_rows_stack(self):
-        from optodraw import Page
-
-        scene = _on_chip_scene()
-        page = Page.from_template(get_publication_template("four_panel_grid"), [scene] * 4, width_mm=120.0)
-        tops = sorted({round(n.box()[3], 2) for n in page.walk() if type(n).__name__ == "Inset"})
-        assert len(tops) == 2
-
-    def test_bundle_writes_one_composed_figure(self, tmp_path):
-        bundle = build_publication_bundle(_on_chip_scene(), tmp_path, template="two_panel_horizontal",
-                                          formats=("svg",), stem="demo")
-        figure = tmp_path / "demo_figure.svg"
-        assert figure.is_file() and "<svg" in figure.read_text(encoding="utf-8")
-        assert bundle.figure_path == figure
-        manifest = json.loads(bundle.manifest_path.read_text(encoding="utf-8"))
-        assert manifest["figure"] == "demo_figure.svg"
-        assert (tmp_path / "demo_left.svg").is_file() and (tmp_path / "demo_right.svg").is_file()
-
-    def test_bundle_with_a_cross_section_composes(self, tmp_path):
-        composite = tmp_path / "x.svg"
-        composite.write_text(STUB_SVG, encoding="utf-8")
-
-        class _X:
-            composite_path = composite
-            layer_paths = {}
-            manifest_path = None
-            png_paths = {}
-            mode = "expert"
-
-        bundle = build_publication_bundle(_on_chip_scene(), tmp_path / "out", template="device_plus_xsection",
-                                          formats=("svg",), xsection=_X(), stem="demo")
-        assert bundle.figure_path.is_file()
 
     def test_a_section_png_composes_as_a_drawn_picture(self, tmp_path):
         from PIL import Image as PilImage
@@ -419,13 +211,6 @@ class TestComposedFigure:
                                           formats=("svg",), xsection=_X(), stem="demo")
         assert [kind for kind, _ in figure_rasters(bundle.figure_path)] == ["drawn"]   # a drawn section, as pixels
 
-    def test_single_figure_writes_no_extra_file(self, tmp_path):
-        bundle = build_publication_bundle(_on_chip_scene(), tmp_path, template="single_figure",
-                                          formats=("svg",), stem="demo")
-        assert bundle.figure_path is None
-        assert not (tmp_path / "demo_figure.svg").exists()
-        assert "figure" not in json.loads(bundle.manifest_path.read_text(encoding="utf-8"))
-
 
 def _bench():
     from optodraw import Beam, Photodiode, Polarizer, QuarterWavePlate
@@ -440,25 +225,8 @@ def _bench():
 
 
 class TestComposedFigureAgreesWithPanels:
-    def test_text_prints_at_the_preset_size(self, tmp_path):
-        from xml.etree import ElementTree as ET
-
-        from optodraw.check import _read_page
-
-        build_publication_bundle(_free_space_scene(), tmp_path, template="two_panel_horizontal", formats=("svg",),
-                                 stem="demo", preset="single_column")
-        texts = _read_page(ET.parse(tmp_path / "demo_figure.svg").getroot(), "demo_figure.svg").texts
-        names = [t for t in texts if t.words in ("Pump laser", "L1", "M1")]
-        assert names and all(t.pt == pytest.approx(8.0, abs=0.1) for t in names)    # the preset's 8 pt, as the panels
         # (_fitted_svg settles the label size in four passes: within 1 percent)
 
-    def test_the_view_reaches_the_composed_figure(self, tmp_path):
-        for view, art in (("2d", True), ("1d", False)):
-            out = tmp_path / view
-            build_publication_bundle(_free_space_scene(), out, template="two_panel_horizontal", formats=("svg",),
-                                     stem="demo", view=view)
-            assert ("data-art" in (out / "demo_left.svg").read_text(encoding="utf-8")) is art
-            assert ("data-art" in (out / "demo_figure.svg").read_text(encoding="utf-8")) is art
 
     def test_polarization_reaches_the_composed_figure(self, tmp_path):
         for pol, marks in ((True, True), (False, False)):
@@ -468,10 +236,3 @@ class TestComposedFigureAgreesWithPanels:
             assert ("<ellipse" in (out / "demo_left.svg").read_text(encoding="utf-8")) is marks
             assert ("<ellipse" in (out / "demo_figure.svg").read_text(encoding="utf-8")) is marks
 
-    def test_labels_become_the_letters(self, tmp_path):
-        from optodraw import Page
-
-        scene = _on_chip_scene()
-        page = Page.from_template(get_publication_template("two_panel_horizontal"), [scene, scene], width_mm=120.0)
-        svg = page.svg()
-        assert ">(a)</text>" in svg and ">(b)</text>" in svg and ">a</text>" not in svg

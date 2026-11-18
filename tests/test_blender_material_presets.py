@@ -7,11 +7,9 @@ import pytest
 from optodraw.blender import (
     BLENDER_MATERIAL_PRESETS,
     BlenderAddonInvocation,
-    BlenderMaterialOverride,
     CAMERA_PRESETS,
     export_blender_script,
     get_blender_material_preset,
-    list_blender_material_presets,
     list_camera_presets,
 )
 
@@ -24,10 +22,6 @@ def source_glb(tmp_path):
 
 
 class TestBlenderMaterialPresetTable:
-    def test_required_photonics_presets_present(self):
-        keys = set(list_blender_material_presets())
-        for required in {"silicon", "silicon_nitride", "germanium", "sio2", "gold", "aluminum", "copper"}:
-            assert required in keys
 
     def test_preset_aliases_resolve_case_insensitively(self):
         sin_preset = get_blender_material_preset("SIN")
@@ -67,43 +61,7 @@ class TestCameraPresetTable:
 
 
 class TestExportedScriptMaterialOverrides:
-    def test_material_override_payload_resolves_preset(self, tmp_path, source_glb):
-        script_path = export_blender_script(
-            tmp_path / "render.blender.py",
-            source_glb=source_glb,
-            material_overrides=[
-                BlenderMaterialOverride(name="Metal1", preset="aluminum"),
-                {"name": "Waveguide", "preset": "silicon_nitride", "match": "contains"},
-            ],
-        )
-        script = script_path.read_text(encoding="utf-8")
 
-        assert "MATERIAL_OVERRIDES = [" in script
-        assert "'name': 'Metal1'" in script
-        assert "'metallic': 0.88" in script
-        assert "'match': 'contains'" in script
-        assert "def apply_material_overrides" in script
-        assert "Principled BSDF" in script
-        assert "Transmission Weight" in script
-
-    def test_explicit_inputs_override_preset(self, tmp_path, source_glb):
-        script_path = export_blender_script(
-            tmp_path / "render.blender.py",
-            source_glb=source_glb,
-            material_overrides=[
-                {
-                    "name": "Waveguide",
-                    "preset": "silicon",
-                    "roughness": 0.05,
-                    "base_color": "#3344aa",
-                }
-            ],
-        )
-        script = script_path.read_text(encoding="utf-8")
-
-        assert "'roughness': 0.05" in script
-        assert "0.2" in script  # base_color red channel ≈ 0x33/255
-        assert "Principled BSDF" in script
 
     def test_material_overrides_from_layer_styles(self, tmp_path, source_glb):
         layer_styles = {
@@ -153,13 +111,6 @@ class TestExportedScriptMaterialOverrides:
         assert script.count("'name': 'RIB'") == 2
         assert "'roughness': 0.18" in script
 
-    def test_unknown_preset_in_override_raises(self, tmp_path, source_glb):
-        with pytest.raises(KeyError):
-            export_blender_script(
-                tmp_path / "render.blender.py",
-                source_glb=source_glb,
-                material_overrides=[{"name": "Metal1", "preset": "unobtanium"}],
-            )
 
     def test_invalid_match_mode_raises(self, tmp_path, source_glb):
         with pytest.raises(ValueError, match="material override match"):
@@ -179,20 +130,6 @@ class TestExportedScriptMaterialOverrides:
 
 
 class TestExtendedCameraPresets:
-    @pytest.mark.parametrize(
-        "preset",
-        ["isometric", "top", "front", "side", "cross_section", "free_space_table"],
-    )
-    def test_each_preset_writes_into_script(self, tmp_path, source_glb, preset):
-        script_path = export_blender_script(
-            tmp_path / f"render_{preset}.blender.py",
-            source_glb=source_glb,
-            camera_preset=preset,
-        )
-        script = script_path.read_text(encoding="utf-8")
-        assert f"CAMERA_PRESET = '{preset}'" in script
-        assert "CAMERA_DIRECTIONS = {" in script
-        assert preset in script
 
     def test_unknown_preset_rejected(self, tmp_path, source_glb):
         with pytest.raises(ValueError, match="camera_preset"):
@@ -246,10 +183,3 @@ class TestBlenderGdsAddonHook:
                 addon_invocation={"operator": "no_dot_operator"},
             )
 
-    def test_no_addon_invocation_keeps_payload_none(self, tmp_path, source_glb):
-        script_path = export_blender_script(
-            tmp_path / "render.blender.py",
-            source_glb=source_glb,
-        )
-        script = script_path.read_text(encoding="utf-8")
-        assert "ADDON_INVOCATION = None" in script

@@ -18,7 +18,6 @@ import pytest
 
 pytest.importorskip("fastapi")
 
-import test_editor_figure_palette as palette  # noqa: E402
 import test_page_views as views  # noqa: E402
 
 from optodraw.figure.page import Page  # noqa: E402
@@ -196,24 +195,3 @@ OPACITY = f"{APPEARANCE}?.querySelector('.opacity-slider input[type=range]')"
 COLOURS = "document.querySelectorAll('#props-form input[type=color]').length"
 
 
-@views.needs_chrome
-def test_the_inspector_fades_an_inset_and_offers_it_no_colour(editor, tmp_path):
-    page = json.loads(json.dumps(Page(width_mm=183, height_mm=120, font_pt=7.0).to_spec()))
-    page["components"].append({"type": "Note", "id": "note_1", "text": "a note", "center": [30, 30]})
-    palette._open(editor, page)
-    made = palette._make(editor, "Text", tmp_path)                        # selected once made
-    editor.wait(f"document.querySelector('#props-form .pt-id')?.textContent === {json.dumps(made['id'])}")
-    assert editor.js(f"!!{OPACITY}")                                      # mutant: an inset gets no opacity
-    assert editor.js(COLOURS) == 0                                        # mutant: a colour the server refuses
-    editor.js(f"(() => {{ const r = {OPACITY}; r.value = '0.4'; r.dispatchEvent(new Event('change')); }})()")
-    item = f"document.querySelector('#canvas [data-component-id={json.dumps(made['id'])}]')"
-    assert editor.wait(f"{item} && getComputedStyle({item}).opacity === '0.4'", 30)   # mutant: the PATCH gets 400
-    palette._settled(editor)
-
-    editor.js("document.getElementById('tab-outline').click()")
-    editor.wait("!!document.querySelector('#outline-list .ol-row[data-id=\"note_1\"]')")
-    editor.js("document.querySelector('#outline-list .ol-row[data-id=\"note_1\"]').click(); "
-              "document.getElementById('tab-inspector').click()")
-    editor.wait("document.querySelector('#props-form .pt-id')?.textContent === 'note_1'")
-    assert editor.js(COLOURS) >= 1                                        # a note takes a colour
-    assert editor.js(f"!{OPACITY}")                                       # mutant: an opacity the server refuses

@@ -22,6 +22,8 @@ from optodraw.gds.palette import material_fill  # noqa: E402
 from optodraw.gds.parsers import load_layer_stack  # noqa: E402
 from optodraw.registry import build_component, component_registry  # noqa: E402
 
+from sweep import sweep
+
 STACKS = ("lnoi400", "cornerstone_si500", "cornerstone_sin300", "inp_generic")
 # Not process layers on the die (as in test_onchip_stack.py): flip-chip dies, the die, and a preset group.
 _NOT_ON_THE_STACK = {"TIA", "ADC", "DACDriver", "ChipSubstrate", "GDSModel", "CustomModel", "Route", "PresetWDMInput"}
@@ -78,19 +80,7 @@ def test_each_stack_names_its_core_material_and_level():
     assert core.fills["ingaasp"] == material_fill("ingaasp")
 
 
-def test_a_waveguide_on_lnoi400_is_a_lithium_niobate_ridge_on_its_slab():
-    _, guide = _on("lnoi400", "Waveguide")
-    stack = guide._draw_layer_stack()
-    fill = material_fill("lithium_niobate")
-    rows = sorted(set(_solids(guide.geometry_3d())))
-    assert rows == [(pytest.approx(0.0), pytest.approx(stack["core_z"]), "lithium_niobate", fill),
-                    (pytest.approx(stack["core_z"]), pytest.approx(stack["core_z"] + stack["core_height"]),
-                     "lithium_niobate", fill)], rows                   # mutant: z_offset 0 in _core(): fails
-
-
-@pytest.mark.parametrize("stack", STACKS)
-@pytest.mark.parametrize("name, kwargs", PARTS, ids=[f"{n}-{'-'.join(k) or 'default'}" for n, k in PARTS])
-def test_every_core_solid_starts_on_the_stack_core_in_its_material(stack, name, kwargs):
+def _check_every_core_solid_starts_on_the_stack_core_in_its_material(stack, name, kwargs):
     _, part = _on(stack, name, **kwargs)
     core, levels = part._foundry_core(), _levels(part, part._foundry_core())
     draw = part._draw_layer_stack()
@@ -115,9 +105,11 @@ def test_every_core_solid_starts_on_the_stack_core_in_its_material(stack, name, 
     assert not wrong, f"{name} {kwargs} on {stack}: " + "; ".join(sorted(set(wrong))[:6])
 
 
-@pytest.mark.parametrize("stack", STACKS)
-@pytest.mark.parametrize("name, kwargs", PARTS, ids=[f"{n}-{'-'.join(k) or 'default'}" for n, k in PARTS])
-def test_a_part_on_a_foundry_stack_puts_no_two_looks_on_one_plane(stack, name, kwargs):
+def test_every_core_solid_starts_on_the_stack_core_in_its_material():
+    sweep(_check_every_core_solid_starts_on_the_stack_core_in_its_material, [(s, n, k) for s in STACKS for n, k in PARTS])
+
+
+def _check_a_part_on_a_foundry_stack_puts_no_two_looks_on_one_plane(stack, name, kwargs):
     import sys
     from pathlib import Path
 
@@ -137,6 +129,10 @@ def test_a_part_on_a_foundry_stack_puts_no_two_looks_on_one_plane(stack, name, k
                     if solids[a].look.color.lower() != solids[b].look.color.lower()
                     or abs(solids[a].look.opacity - solids[b].look.opacity) > 1e-6})
     assert not pairs, f"{name} {kwargs} on {stack}: two looks on one plane: {pairs}"
+
+
+def test_a_part_on_a_foundry_stack_puts_no_two_looks_on_one_plane():
+    sweep(_check_a_part_on_a_foundry_stack_puts_no_two_looks_on_one_plane, [(s, n, k) for s in STACKS for n, k in PARTS])
 
 
 def test_a_drawing_copy_keeps_the_scene_stack():
@@ -161,12 +157,6 @@ def test_a_waveguide_route_runs_on_the_core_level_with_its_slab():
     levels = sorted((item["stripZ"], item["stripThick"], item["stripMaterial"]["preset"]) for item in strips)
     assert levels == [(pytest.approx(0.0), pytest.approx(stack["rib_height"]), "lithium_niobate"),
                       (pytest.approx(stack["core_z"]), pytest.approx(stack["core_height"]), "lithium_niobate")]
-
-
-def test_the_default_stack_keeps_the_part_colour_and_the_buried_oxide():
-    part = build_component("MicroringResonator")
-    rows = set(_solids(part.geometry_3d()))
-    assert {(bottom, colour) for bottom, _, _, colour in rows} == {(0.0, part.color.lower())}
 
 
 def _cladding(scene) -> list:

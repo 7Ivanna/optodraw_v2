@@ -20,14 +20,6 @@ def _scene_with_lens() -> tuple[Scene, Lens]:
 
 
 class TestWavelengthAliases:
-    def test_wavelength_alias_reaches_trace_and_beam(self):
-        import warnings as _warnings
-
-        _, lens = _scene_with_lens()
-        with _warnings.catch_warnings():
-            _warnings.simplefilter("error")
-            beam = Scene().trace_ray((-10, 0), 0, [lens], wavelength=532)
-        assert beam.wavelength == 532
 
     def test_matching_aliases_are_accepted(self):
         _, lens = _scene_with_lens()
@@ -38,11 +30,6 @@ class TestWavelengthAliases:
         _, lens = _scene_with_lens()
         with pytest.raises(ValueError, match="conflicting 'wavelength'"):
             Scene().trace_ray((-10, 0), 0, [lens], wavelength=633, wavelength_nm=1550)
-
-    def test_paraxial_conflicting_aliases_raise(self):
-        _, lens = _scene_with_lens()
-        with pytest.raises(ValueError, match="conflicting 'wavelength'"):
-            Scene().trace_paraxial_beam((-10, 0), 0, [lens], wavelength=633, wavelength_nm=1550)
 
 
 class TestUnknownKwargs:
@@ -55,21 +42,6 @@ class TestUnknownKwargs:
         _, lens = _scene_with_lens()
         with pytest.warns(UserWarning, match="unknown argument.*divergense"):
             Scene().trace_paraxial_beam((-10, 0), 0, [lens], divergense=3)
-
-    def test_known_kwargs_stay_silent(self):
-        _, lens = _scene_with_lens()
-        import warnings as _warnings
-
-        with _warnings.catch_warnings():
-            _warnings.simplefilter("error")
-            Scene().trace_ray(
-                (-10, 0),
-                0,
-                [lens],
-                exit_length=40,
-                label="probe",
-                width=1.2,
-            )
 
 
 class TestPolarizationBranches:

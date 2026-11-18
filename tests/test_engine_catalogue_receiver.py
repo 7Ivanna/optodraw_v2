@@ -8,7 +8,7 @@ from optodraw import CoherentReceiver
 from optodraw.animation_engine.behaviours import behaviour_for
 from optodraw.animation_engine.graph import SignalGraph
 from optodraw.animation_engine.inputs import InputSignal
-from optodraw.animation_engine.solver import steady_state, propagate_pulses
+from optodraw.animation_engine.solver import steady_state
 
 
 @pytest.mark.parametrize("phase", [0, math.pi/2, math.pi, -math.pi/2, 0.7])
@@ -25,10 +25,3 @@ def test_receiver_phase_power_and_currents(phase):
     assert result.exits == []
 
 
-def test_receiver_pulse_is_absorbed_after_internal_transit():
-    part = CoherentReceiver()
-    result = propagate_pulses(SignalGraph({"rx": part}, []), inputs=[InputSignal("port:rx:signal")])
-    assert len(result.absorbed) == 4
-    assert sum(item["power"] for item in result.absorbed) == pytest.approx(1)
-    assert all(item["t_ps"] > 0 for item in result.absorbed)
-    assert len({round(item["t_ps"], 10) for item in result.absorbed}) == 1

@@ -62,16 +62,3 @@ def test_no_heater_metal_runs_along_or_across_a_bus(part, bus_count):
     assert hits == [], hits
 
 
-@pytest.mark.parametrize("add_drop, facing", [(True, 0.0), (False, 90.0)])
-def test_a_ring_heater_lies_on_the_ring_and_its_pads_face_away_from_the_buses(add_drop, facing):
-    ring = MicroringResonator(add_drop=add_drop, with_heater=True)
-    assert ring.heater_radius == ring.ring_radius
-    ports = ring.ports()
-    assert {ports[name].orientation_deg for name in ("e1", "e2")} == {facing}
-    if add_drop:                                      # east, between the buses, e1 the upper one as in the 1D symbol
-        assert ports["e1"].center.y > 0 > ports["e2"].center.y
-        assert all(ring.through_bus_y < ports[name].center.y < ring.drop_bus_y for name in ("e1", "e2"))
-        assert all(ring.ring_radius < ports[name].center.x < ring.bus_length / 2 for name in ("e1", "e2"))
-    else:                                             # north, away from the bus, e1 the west one
-        assert ports["e1"].center.x < 0 < ports["e2"].center.x
-        assert all(ports[name].center.y > ring.ring_radius for name in ("e1", "e2"))

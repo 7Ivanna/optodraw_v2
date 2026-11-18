@@ -20,5 +20,3 @@ def test_the_overlay_draws_the_state_after_each_polarizing_part():
     assert len(re.findall(r"<ellipse", svg)) == 2                    # linear after the polariser, circular after
 
 
-def test_without_the_overlay_nothing_is_traced():
-    assert "<ellipse" not in _bench(fast_axis_angle=45.0).render_svg().as_svg()

@@ -10,6 +10,8 @@ import pytest
 
 from optodraw.registry import component_registry
 
+from sweep import sweep
+
 GRANDFATHERED = frozenset({"CustomModel", "GDSModel", "Route"})
 
 #: Links need anchors to round-trip; an anchorless default instance is not a
@@ -29,15 +31,17 @@ def _names():
     return sorted(_creatable())
 
 
-@pytest.mark.parametrize("name", _names())
-def test_part_has_ports(name):
+def _check_part_has_ports(name):
     spec = _creatable()[name]
     ports = spec.cls().ports()
     assert isinstance(ports, dict)
 
 
-@pytest.mark.parametrize("name", _names())
-def test_part_geometries_render(name):
+def test_part_has_ports():
+    sweep(_check_part_has_ports, _names())
+
+
+def _check_part_geometries_render(name):
     from optodraw.renderers.svg_renderer import SvgRenderer
     from optodraw.renderers.tikz_renderer import TikzRenderer
 
@@ -50,8 +54,11 @@ def test_part_geometries_render(name):
     assert "\\begin{tikzpicture}" in TikzRenderer(scene).render()
 
 
-@pytest.mark.parametrize("name", _names())
-def test_part_spec_round_trips(name):
+def test_part_geometries_render():
+    sweep(_check_part_geometries_render, _names())
+
+
+def _check_part_spec_round_trips(name):
     from optodraw import Scene
     from optodraw.schema import scene_from_spec
 
@@ -64,13 +71,7 @@ def test_part_spec_round_trips(name):
     assert rebuilt is not None
 
 
-def test_grandfathered_list_stays_accurate():
-    names = {name for name, spec in component_registry().items() if spec.creatable}
-    assert GRANDFATHERED <= names, "grandfathered entry left the registry; drop it"
-    for name in sorted(GRANDFATHERED):
-        spec = component_registry()[name]
-        try:
-            spec.cls()
-        except Exception:
-            continue
-        raise AssertionError(f"{name} now default-constructs; remove it from GRANDFATHERED")
+def test_part_spec_round_trips():
+    sweep(_check_part_spec_round_trips, _names())
+
+

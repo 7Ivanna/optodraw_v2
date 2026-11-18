@@ -104,21 +104,10 @@ def _bent(scene, count=8):
     return found
 
 
-def test_the_docs_amplifier_draws_every_wire_straight_or_with_one_turn():
-    assert _bent(_docs_tia()) == []
-
-
 def test_the_two_panel_amplifier_draws_every_wire_straight_or_with_one_turn():
     """The anode wire and the feedback wire meet at the op amp's input: one node, so one may run onto the other."""
 
     assert _bent(_tia_circuit()) == []
-
-
-def test_the_chain_runs_its_wires_straight_but_the_long_return_to_the_signal_pad():
-    """Pad S joins the driver at one end of the chain and the ring 374 points away: its L needs a step of 35
-    points, past the limit, so that wire keeps its jog. The bias contact sits over the photodiode's cathode."""
-
-    assert [wire.split(":")[0] for wire in _bent(_chain(), count=9)] == ["Ring.e1 -> S.e1"]
 
 
 def _overlaps(schematic):

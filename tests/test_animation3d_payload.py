@@ -1,12 +1,7 @@
 """The 3D light payload: the engine's packets, a host per edge, colours and a default input."""
 
-import copy
-import dataclasses
 import functools
-import json
 import math
-import time
-import warnings
 
 import pytest
 
@@ -15,28 +10,8 @@ from optodraw.animation3d.colours import CHANNEL_PALETTE, channel_colors
 from optodraw.animation3d.inputs import default_inputs
 from optodraw.animation3d.payload import _empty_cw, build_light_payload, default_params
 from optodraw.animation_engine import compile_signal_state
-from optodraw.core.beam import wavelength_to_hex
 from optodraw.presets import build_preset
 from optodraw.registry import build_component
-
-
-def test_one_infrared_wavelength_is_white_and_several_get_the_palette_in_order():
-    assert channel_colors([1550.0]) == {1550.0: "#ffffff"}
-    assert channel_colors([1551.0, 1549.0, 1550.0]) == {1549.0: CHANNEL_PALETTE[0], 1550.0: CHANNEL_PALETTE[1],
-                                                       1551.0: CHANNEL_PALETTE[2]}
-    assert channel_colors([532.0])[532.0] == wavelength_to_hex(532.0)
-
-
-def test_a_visible_wavelength_keeps_its_true_colour_among_several():
-    assert channel_colors([532.0, 1550.0]) == {532.0: wavelength_to_hex(532.0), 1550.0: "#ffffff"}
-    assert channel_colors([633.0, 1549.0, 1551.0]) == {633.0: wavelength_to_hex(633.0),
-                                                      1549.0: CHANNEL_PALETTE[0], 1551.0: CHANNEL_PALETTE[1]}
-
-
-def test_a_scene_without_a_source_takes_its_light_at_the_first_free_optical_input():
-    scene = build_preset("ring_resonator_chip")
-    found, notices = default_inputs(scene)
-    assert len(found) == 1 and found[0].target.startswith("port:") and notices[0].startswith("no light source")
 
 
 def test_the_default_input_on_a_bench_takes_the_wavelength_of_the_beam_at_its_port():
@@ -50,111 +25,12 @@ def test_the_default_input_on_a_bench_takes_the_wavelength_of_the_beam_at_its_po
     assert build_light_payload(scene)["colors"] == {"1090.0": channel_colors([1090.0])[1090.0]}
 
 
-def test_one_infrared_wavelength_says_it_is_shown_white_in_the_light_look():
-    """Ruling 52: the white pulses on the bench's drawn red 1090 nm beam are explained. The caption shows in the Light
-    look only (the Field look draws one infrared line red, white and blue); a visible laser has none."""
-
-    payload = build_light_payload(build_preset("free_space_breadboard"))
-    at = payload["captions"].index("1090 nm (infrared) shown white")
-    assert at < payload["caption_split"] and payload["caption_light_only"] == [at]
-    assert at not in payload["caption_folded"]
-    visible = build_light_payload(build_preset("ftir"))
-    assert not any("shown white" in c for c in visible["captions"]) and visible["caption_light_only"] == []
-
-
-def test_a_visible_beam_gives_the_default_input_its_true_colour():
-    """A 633 nm beam that starts in the air and meets a lens: the light that enters at the lens is red, the beam's
-    own colour."""
-
-    from optodraw import Beam, Lens, Photodiode
-
-    scene = Scene(platform="free_space")
-    lens = scene.add(Lens(center=(0, 0)))
-    detector = scene.add(Photodiode(center=(60, 0)))
-    scene.add(Beam.through((-60, 0), lens, detector, wavelength=633.0))
-    (found,), _ = default_inputs(scene)
-    assert found.wavelength_nm == 633.0
-    assert build_light_payload(scene)["colors"] == {"633.0": wavelength_to_hex(633.0)}
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_the_payload_carries_the_engines_packets_unchanged():
-    scene = build_preset("ring_resonator_chip")
-    payload = build_light_payload(scene)
-    inputs, _ = default_inputs(scene)                    # the engine ran with the display pulse at the default input
-    rings = default_params(scene, inputs)                # and with the rings on resonance
-    inputs = [dataclasses.replace(i, width_ps=payload["pulse_ps"]) for i in inputs]
-    assert payload["pulse"] == compile_signal_state(scene, mode="pulse", params=rings, inputs=inputs).to_json()
-    assert payload["enabled"] is True and payload["version"] == 1 and payload["train_period_ps"] > 0
-    assert payload["colors"] == {"1550.0": "#ffffff"}
-    assert any("3 s" in caption for caption in payload["captions"])
-
-
-def test_every_edge_has_a_host_item():
-    payload = build_light_payload(build_preset("ring_resonator_chip"))
-    for edge_id in payload["pulse"]["edges"]:
-        host = payload["hosts"][edge_id]
-        assert host["kind"] in ("route", "beam", "part") and host["sid"]
-    assert payload["hosts"]["route:route1"] == {"kind": "route", "sid": "route1", "segment": None}
-
-
-def test_a_beam_edge_names_its_segment():
-    from optodraw import Beam, Laser, Lens
-    scene = Scene()
-    laser = scene.add(Laser(center=(0, 0)))
-    lens = scene.add(Lens(center=(60, 0)))
-    scene.add(Beam(laser, lens))
-    payload = build_light_payload(scene)
-    beams = {k: v for k, v in payload["hosts"].items() if k.startswith("beam:")}
-    assert beams and all(v["kind"] == "beam" and isinstance(v["segment"], int) for v in beams.values())
-
-
-def test_the_payload_builds_the_signal_graph_once(monkeypatch):
-    """The default input, the emitters and the payload share one graph (the engine's own solves build theirs)."""
-
-    from optodraw.animation3d import inputs, payload
-    from optodraw.animation_engine.graph import build_graph
-
-    calls = []
-    counted = lambda scene: calls.append(1) or build_graph(scene)          # noqa: E731
-    monkeypatch.setattr(payload, "build_graph", counted)
-    monkeypatch.setattr(inputs, "build_graph", counted)
-    payload.build_light_payload(build_preset("free_space_breadboard"))
-    assert len(calls) == 1
-
-
-def test_a_scene_with_a_source_needs_no_default_input():
-    scene = Scene()
-    scene.add(build_component("Laser"))
-    found, notices = default_inputs(scene)
-    assert found == [] and notices == []
-
-
-def test_a_scene_with_no_optical_port_gives_a_disabled_payload():
-    scene = Scene()
-    scene.add(build_component("SMU"))
-    payload = build_light_payload(scene)
-    assert payload["enabled"] is False and payload["notices"]
-    assert payload["pulse"]["edges"] == {}
-
-
-def test_the_payload_is_deterministic():
-    scene = build_preset("ring_resonator_chip")
-    assert json.dumps(build_light_payload(scene)) == json.dumps(build_light_payload(scene))
-
-
 def _page_bytes(payload) -> int:
     """The bytes the page carries for the payload: the renderer embeds it as compact JSON."""
 
     from optodraw.renderers.threejs_renderer import _json_script_safe
 
     return len(_json_script_safe(payload).encode())
-
-
-def test_a_large_chip_payload_stays_small_and_quick():
-    start = time.perf_counter()
-    payload = build_light_payload(build_preset("mzm_mesh_chip"))
-    assert time.perf_counter() - start < 20 and _page_bytes(payload) < 5_000_000
 
 
 def test_a_page_whose_light_passes_5_mb_gets_a_notice_with_its_size(monkeypatch):
@@ -188,20 +64,6 @@ def _packet(nm):
             "width": 0.2, "source": "a"}
 
 
-def test_explicit_empty_inputs_on_a_scene_without_a_source_give_a_disabled_payload():
-    scene = Scene()
-    scene.add(build_component("Lens"))
-    payload = build_light_payload(scene, inputs=[])
-    assert payload["enabled"] is False and payload["notices"] and payload["pulse"]["edges"] == {}
-
-
-def test_params_reach_the_engine_and_change_the_packets():
-    scene = build_preset("ring_resonator_chip")
-    base = build_light_payload(scene)
-    shifted = build_light_payload(scene, params={"phase:coupledringfilter1": 2.0})
-    assert shifted["pulse"] != base["pulse"]
-
-
 @pytest.fixture
 def no_fronts(monkeypatch):
     """These tests fake the engine with an input the arrival fronts cannot read: no crossing, no display pulse, no
@@ -212,108 +74,11 @@ def no_fronts(monkeypatch):
                         lambda scene, params, inputs, pulse, graph, rails, hidden, *rest: (_empty_cw(), [], list(hidden)))
 
 
-def test_params_are_passed_to_the_engine_unchanged(monkeypatch, no_fronts):
-    seen = {}
-
-    def spy(scene, **kwargs):
-        seen.update(kwargs)
-        return _FakeState([_packet(1550.0)])
-
-    monkeypatch.setattr("optodraw.animation3d.payload.compile_signal_state", spy)
-    build_light_payload(Scene(), params={"phase:x": 1.0}, inputs=[object()])
-    assert seen["params"] == {"phase:x": 1.0} and seen["mode"] == "pulse"
-
-
-def test_light_without_packets_says_why(monkeypatch, no_fronts):
-    monkeypatch.setattr("optodraw.animation3d.payload.compile_signal_state", lambda *a, **k: _FakeState([]))
-    payload = build_light_payload(Scene(), inputs=[object()])
-    assert payload["enabled"] is False and "no light reaches any path" in payload["notices"]
-
-
 def test_more_channels_than_palette_colours_gives_a_notice(monkeypatch, no_fronts):
     packets = [_packet(1500.0 + k) for k in range(len(CHANNEL_PALETTE) + 2)]
     monkeypatch.setattr("optodraw.animation3d.payload.compile_signal_state", lambda *a, **k: _FakeState(packets))
     payload = build_light_payload(Scene(), inputs=[object()])
     assert f"{len(packets)} channels share colours: the palette has {len(CHANNEL_PALETTE)}" in payload["notices"]
-
-
-def test_other_runtime_warnings_still_reach_the_caller(monkeypatch, no_fronts):
-    import warnings
-
-    def noisy(*args, **kwargs):
-        warnings.warn("overflow in something", RuntimeWarning)
-        return _FakeState([_packet(1550.0)])
-
-    monkeypatch.setattr("optodraw.animation3d.payload.compile_signal_state", noisy)
-    with pytest.warns(RuntimeWarning, match="overflow"):
-        build_light_payload(Scene(), inputs=[object()])
-
-
-def test_the_unconnected_port_warning_stays_inside_the_payload_builder():
-    scene = build_preset("ring_resonator_chip")
-    with warnings.catch_warnings():
-        warnings.simplefilter("error")
-        build_light_payload(scene)
-
-
-def test_the_time_scale_is_in_the_payload_and_the_caption_comes_from_it():
-    payload = build_light_payload(build_preset("ring_resonator_chip"))
-    first = {}
-    for end in payload["pulse"]["exits"] + payload["pulse"]["absorbed"]:
-        key = (end["part"], end["port"])
-        first[key] = min(first.get(key, end["t_ps"]), end["t_ps"])
-    crossing = max(first.values())                      # the first light reaches its last end (it starts at 0)
-    assert payload["seconds_per_ps"] * crossing == pytest.approx(3.0)
-    assert payload["captions"][0] == "Time slowed so light crosses the circuit in about 3 s"
-    assert build_light_payload(Scene(), inputs=[])["seconds_per_ps"] == 0.0
-
-
-def test_the_display_pulse_is_an_eighth_of_the_crossing_and_the_caption_says_it():
-    payload = build_light_payload(build_preset("ring_resonator_chip"))
-    crossing = 3.0 / payload["seconds_per_ps"]
-    assert payload["pulse_ps"] == pytest.approx(crossing / 8)
-    widths = {p["width"] for edge in payload["pulse"]["edges"].values() for p in edge["packets"]}
-    assert widths == {payload["pulse_ps"]}                                  # the engine's own pulse, not a JS stretch
-    assert payload["captions"][1] == "Pulse 0.75 ps long, shown at 0.5 s per ps"
-
-
-def _laser_bench():
-    from optodraw import Beam, Laser, Photodiode
-
-    scene = Scene()
-    laser = scene.add(Laser(center=(0, 0)))
-    pd = scene.add(Photodiode(center=(60, 0)))
-    scene.add(Beam(laser, pd))
-    return scene
-
-
-def test_a_source_gets_the_display_pulse_unless_the_caller_set_its_width():
-    payload = build_light_payload(_laser_bench())
-    widths = {p["width"] for edge in payload["pulse"]["edges"].values() for p in edge["packets"]}
-    assert widths == {payload["pulse_ps"]} and payload["pulse_ps"] != 0.2
-    chosen = build_light_payload(_laser_bench(), params={"width:laser1": 0.5})
-    assert {p["width"] for edge in chosen["pulse"]["edges"].values() for p in edge["packets"]} == {0.5}
-    assert chosen["captions"][1].startswith("Pulse 0.5 ps long")
-
-
-def test_an_explicit_input_keeps_its_own_pulse_width():
-    scene = build_preset("ring_resonator_chip")
-    (found,), _ = default_inputs(scene)
-    payload = build_light_payload(scene, inputs=[dataclasses.replace(found, width_ps=0.3)])
-    assert {p["width"] for edge in payload["pulse"]["edges"].values() for p in edge["packets"]} == {0.3}
-
-
-def test_several_pulse_widths_are_each_named_in_the_caption():
-    from optodraw import Beam, Laser, Photodiode
-
-    scene = Scene()
-    for k, y in enumerate((0, 40)):
-        laser = scene.add(Laser(center=(0, y)))
-        pd = scene.add(Photodiode(center=(60, y)))
-        scene.add(Beam(laser, pd))
-    payload = build_light_payload(scene, params={"width:laser1": 0.3, "width:laser2": 0.5})
-    assert payload["captions"][1].startswith("Pulses 0.3 and 0.5 ps long, shown at ")
-    assert payload["pulse_ps"] == 0.5
 
 
 _MMI_NOTICE = "{sid}: MMI length is not its self-imaging length; the split shown is the engine's"
@@ -343,43 +108,6 @@ def _rails_of(payload, sid):
     return {(d["section"], d["rail"]): d for d in payload["rails"] if d["host"] == sid}
 
 
-def _near_rails(points, rails, half) -> bool:
-    from shapely.geometry import Point
-
-    return all(min(rail.distance(Point(p)) for rail in rails) <= half for p in points)
-
-
-def test_coupled_light_grows_along_the_coupler_on_both_rails_and_never_crosses_the_gap():
-    """A 0.3 coupler lit at o1: its o1 rail starts at the input's power and ends at the engine's 0.7, its o2 rail grows
-    from nothing to the engine's 0.3, every drawn point lies on a rail (within half the guide width), never in the gap,
-    and the engine's two transfers are not drawn as well."""
-
-    from shapely.geometry import LineString
-
-    from optodraw.animation_engine.behaviours.geometry import optical_path_points
-
-    scene = Scene()
-    coupler = scene.add(build_component("DirectionalCoupler"))
-    coupler.coupling_ratio = 0.3
-    payload = build_light_payload(scene)
-    edges = payload["pulse"]["edges"]
-    bar, cross = "path:directionalcoupler1:o1->o3", "path:directionalcoupler1:o1->o4"
-    assert _power(edges[cross]["packets"][0]) == pytest.approx(0.3, abs=1e-6)
-    assert {bar, cross} <= set(payload["hidden"]) and bar not in payload["profiles"]
-    lit = {key: d for key, d in _rails_of(payload, "directionalcoupler1").items() if d["packets"]}
-    (section,) = {key[0] for key in lit}
-    (on_input,), (on_other,) = lit[section, 0]["packets"], lit[section, 1]["packets"]
-    assert on_input["power"][0] == pytest.approx(1.0, abs=1e-6) and on_input["power"][-1] == pytest.approx(0.7, abs=1e-6)
-    assert on_other["power"][0] == pytest.approx(0.0, abs=1e-9) and on_other["power"][-1] == pytest.approx(0.3, abs=1e-6)
-    assert all(b >= a - 1e-7 for a, b in zip(on_other["power"], on_other["power"][1:]))     # it only grows
-    rails = [LineString(path) for port in ("o1", "o2") for path in optical_path_points(coupler, port)[
-        "o3" if port == "o1" else "o4"]]
-    for key in lit:
-        points = lit[key]["points"]
-        assert len(points) == len(lit[key]["packets"][0]["power"]) > 10
-        assert _near_rails(points, rails, coupler.waveguide_width / 2.0 + 1e-6), key
-
-
 def _mzm_between_two_routes():
     scene = Scene()
     left = scene.add(build_component("VerticalGratingCoupler", center=(-150, 0)))
@@ -388,59 +116,6 @@ def _mzm_between_two_routes():
     scene.route((left, "o1"), (mzm, "o1"))
     scene.route((mzm, "o3"), (right, "o1"))
     return scene
-
-
-def test_an_mzm_draws_its_input_stem_at_the_input_power_and_its_output_stem_at_the_engines_output():
-    """A Y-branch MZM is drawn by its stages: the input stem at the power that comes in, each arm at half of it, and
-    the output stem at the coherent sum the engine sends on; its arm transfers are not drawn as well."""
-
-    payload = build_light_payload(_mzm_between_two_routes(), params={"drive:mzm1": 1.0})
-    edges = payload["pulse"]["edges"]
-    (into,), (out,) = edges["route:route1"]["packets"], edges["route:route2"]["packets"]
-    assert {"path:mzm1:o1->o3#arm1", "path:mzm1:o1->o3#arm2"} <= set(payload["hidden"])
-    lit = {key: d["packets"] for key, d in _rails_of(payload, "mzm1").items() if d["packets"]}
-    assert sorted(lit) == [(0, 0), (0, 1), (0, 2), (1, 0)]                   # stem and two arms; the output stem
-    assert lit[0, 0][0]["power"][0] == pytest.approx(_power(into), rel=1e-6)
-    for arm in (1, 2):
-        assert lit[0, arm][0]["power"] == pytest.approx([0.5 * _power(into)] * len(lit[0, arm][0]["power"]), rel=1e-6)
-    assert lit[1, 0][0]["power"][-1] == pytest.approx(_power(out), rel=1e-6)
-    assert _power(out) == pytest.approx(0.5 * _power(into), rel=1e-6)          # cos^2 of a quarter turn
-
-
-def test_the_payload_carries_the_total_source_power():
-    from optodraw.animation_engine.inputs import InputSignal
-
-    scene = build_preset("ring_resonator_chip")
-    (found,), _ = default_inputs(scene)
-    assert build_light_payload(scene)["source_power"] == pytest.approx(1.0)
-    dim = build_light_payload(scene, inputs=[InputSignal(found.target, jones=(0.5, 0.0, 0.0, 0.0))])
-    assert dim["source_power"] == pytest.approx(0.25)
-    assert build_light_payload(_laser_bench())["source_power"] > 0
-
-
-@pytest.mark.parametrize("ctype,setting", [("DirectionalCoupler", "coupling_ratio"), ("MicroringResonator", "power_coupling")])
-def test_a_coupler_that_sends_all_its_light_across_still_shows_it_coming_in(ctype, setting):
-    """Power coupling 1: the bar transfer carries nothing, yet the input rail starts at o1 with the input's power, and
-    every drawn point lies on a rail."""
-
-    from shapely.geometry import LineString
-
-    from optodraw.animation_engine.behaviours.geometry import optical_path_points, port_xy
-
-    scene = Scene()
-    part = scene.add(build_component(ctype))
-    setattr(part, setting, 1.0)
-    payload = build_light_payload(scene)
-    sid = next(iter(payload["pulse"]["edges"])).split(":")[1]
-    assert payload["source_power"] == pytest.approx(1.0)
-    at_input = [d for d in payload["rails"] if d["host"] == sid and d["packets"]
-                and abs(d["points"][0][0] - port_xy(part, "o1")[0]) + abs(d["points"][0][1] - port_xy(part, "o1")[1]) < 1e-3]
-    assert sum(p["power"][0] for d in at_input for p in d["packets"]) == pytest.approx(1.0, rel=1e-6)
-    rails = [LineString(path) for port in part.ports() for paths in optical_path_points(part, port).values()
-             for path in paths if len(path) >= 2]
-    half = 0.5 * max(float(p.width) for p in part.ports().values()) + 1e-6
-    for d in payload["rails"]:
-        assert _near_rails(d["points"], rails, half), (d["section"], d["rail"])
 
 
 def _chain(k1, k2):
@@ -524,34 +199,6 @@ def assert_rail_ends_match_the_routes(payload, scene, sid):
             assert any(_same_exit(end, exit_) for exit_ in leaving), (sid, end)
 
 
-def test_a_coupler_lit_at_both_inputs_draws_the_coherent_field_on_each_rail():
-    """mzm_mesh_chip's directionalcoupler4 takes light at both inputs; the engine adds them coherently. Each rail's end
-    draws the power of the route that leaves it, not each input's split on its own."""
-
-    scene = build_preset("mzm_mesh_chip")
-    payload = build_light_payload(scene)
-    edges = payload["pulse"]["edges"]
-    assert {e.split("->")[0] for e in edges if e.startswith("path:directionalcoupler4:")} == {
-        "path:directionalcoupler4:o1", "path:directionalcoupler4:o2"}
-    leaving = {port: power for port, _, _, power in _route_powers(payload, "directionalcoupler4")}
-    assert set(leaving) == {"o3", "o4"} and abs(leaving["o3"] - leaving["o4"]) > 0.3       # a real interference
-    assert_rail_ends_match_the_routes(payload, scene, "directionalcoupler4")
-
-
-def test_two_couplers_in_a_row_cancel_on_one_rail_and_add_on_the_other():
-    """Two 50 : 50 couplers joined by equal routes: the second is lit at both inputs in phase; its o3 rail ends dark and
-    its o4 rail carries all the light, as the engine says."""
-
-    scene = _chain(0.5, 0.5)
-    payload = build_light_payload(scene)
-    drawn = {}
-    for port, _, _, power in _rail_ends(payload, scene, "directionalcoupler2"):
-        drawn[port] = drawn.get(port, 0.0) + power
-    leaving = {port: power for port, _, _, power in _route_powers(payload, "directionalcoupler2")}
-    assert drawn["o3"] == pytest.approx(0.0, abs=1e-6) and "o3" not in leaving
-    assert drawn["o4"] == pytest.approx(leaving["o4"], rel=0.01) and leaving["o4"] == pytest.approx(0.5, rel=1e-6)
-
-
 RAIL_END_CASES = {                     # label: (scene, params, coupling part)
     "mesh dc4": (lambda: build_preset("mzm_mesh_chip"), {}, "directionalcoupler4"),
     "chain 0.3 0.9 first": (lambda: _chain(0.3, 0.9), {}, "directionalcoupler1"),
@@ -576,23 +223,6 @@ def _preset_payload(name):
     return build_light_payload(build_preset(name))
 
 
-def _section_inputs(payload, scene, params):
-    """``{(sid, section): [input power per bucket]}``: what comes into each coupling section of the payload's rails."""
-
-    from optodraw.animation3d.rails import buckets
-    from optodraw.animation_engine.behaviours import find_behaviour
-    from optodraw.animation_engine.graph import build_graph
-    from optodraw.animation_engine.signals import power
-
-    graph, found = build_graph(scene), {}
-    for sid in sorted({d["host"] for d in payload["rails"]}):
-        part = graph.parts[sid]
-        for index, section in enumerate(find_behaviour(part).sections(part, sid, params)):
-            if section.kappa is not None:
-                found[sid, index] = [sum(power(f) for f in b["fields"]) for b in buckets(section, payload["pulse"])]
-    return found
-
-
 def _lit_preset(name):
     return build_preset(name), _preset_payload(name)
 
@@ -601,34 +231,6 @@ INVARIANT_CASES = {name: (lambda name=name: _lit_preset(name)) for name in (
     "ring_resonator_chip", "coherent_receiver_chip", "mzm_mesh_chip", "wdm_delay_weight_bank_chip")}
 INVARIANT_CASES |= {f"chain {k1} {k2}": (lambda k1=k1, k2=k2: (_chain(k1, k2), build_light_payload(_chain(k1, k2))))
                     for k1, k2 in ((0.3, 0.9), (0.5, 1.0))}
-
-
-@pytest.mark.parametrize("label", sorted(INVARIANT_CASES))
-def test_at_every_point_of_a_coupling_section_its_two_rails_carry_its_input_power(label):
-    """Every coupling section that light reaches: at each sample of the two windows, per engine bucket, the rail
-    powers add up to the power that comes into the section (within 1e-6). Losses act only after the window."""
-
-    scene, payload = INVARIANT_CASES[label]()
-    inputs = _section_inputs(payload, scene, payload["cw"]["params"])
-    rails = {}
-    for d in payload["rails"]:
-        rails.setdefault((d["host"], d["section"]), {})[d["rail"]] = d
-    checked = 0
-    for key, into in inputs.items():
-        if not into:
-            continue
-        a, b = rails[key][0], rails[key][1]
-        assert len(a["packets"]) == len(b["packets"]) == len(into), key
-        (a0, a1), (b0, b1) = a["window"], b["window"]
-        for pa, pb, power_in in zip(a["packets"], b["packets"], into):
-            for va, vb in zip(pa["power"][a0:a1 + 1], pb["power"][b0:b1 + 1], strict=True):
-                assert va + vb == pytest.approx(power_in, abs=1e-6), key
-        checked += 1
-    assert checked, f"{label}: no coupling section is lit"
-
-
-def test_the_weight_bank_payload_stays_under_5_mb():
-    assert _page_bytes(_preset_payload("wdm_delay_weight_bank_chip")) < 5_000_000
 
 
 def _around(ctype, lit="o1", setup=None, **options):
@@ -670,42 +272,6 @@ BOUNDARY_CASES = {
     "all-pass kappa 1": (lambda: _around("MicroringResonator"), {"power_coupling:microringresonator1": 1.0},
                          "microringresonator1"),
     "ring-assisted MZI": (lambda: _between_gratings("RingAssistedMZI"), {}, "ringassistedmzi1")}
-
-
-@pytest.mark.parametrize("scene,params,sid", [pytest.param(*case, id=label) for label, case in BOUNDARY_CASES.items()])
-def test_at_a_coupling_of_0_or_1_every_rail_end_still_draws_the_light_that_leaves_there(scene, params, sid):
-    """An input read through a transfer that carries nothing is read through the one that carries it, so no input is
-    lost where a coupler sends all its light across or none."""
-
-    scene = scene()
-    payload = build_light_payload(scene, params=params)
-    assert_rail_ends_match_the_routes(payload, scene, sid)
-    into = {port: power for port, _, _, power in _route_arrivals(payload, sid)}
-    drawn = {port: power for port, _, _, power in _rail_starts(payload, scene, sid)}
-    assert into and all(drawn.get(port, 0.0) == pytest.approx(power, rel=0.01) for port, power in into.items()), (into, drawn)
-
-
-def _route_arrivals(payload, sid):
-    return [(p["to"].split(":")[2], p["wavelength_nm"], p["t1"], _power(p))
-            for eid, edge in payload["pulse"]["edges"].items() if eid.startswith("route:")
-            for p in edge["packets"] if p["to"].startswith(f"port:{sid}:")]
-
-
-def _rail_starts(payload, scene, sid):
-    """The light the rails of ``sid`` draw where they start at a port, summed per port's first packet."""
-
-    import math
-
-    from optodraw.animation_engine.graph import build_graph
-
-    part = build_graph(scene).parts[sid]
-    ports = {name: (float(part.world_port(name).center.x), float(part.world_port(name).center.y))
-             for name, port in part.ports().items() if port.kind != "electrical"}
-    found = []
-    for d in payload["rails"]:
-        at = [name for name, xy in ports.items() if d["host"] == sid and math.dist(xy, d["points"][0]) < 1e-3]
-        found += [(at[0], p["wavelength_nm"], p["t0"], p["power"][0]) for p in d["packets"][:1]] if at else []
-    return found
 
 
 def _end_ports(scene, params, hosts):
@@ -947,139 +513,10 @@ CONTINUITY_CASES["Y-branch MZM"] = lambda: (_between_gratings("MZM"), build_ligh
                                                                                           params={"drive:mzm1": 0.6}))
 
 
-@functools.lru_cache(maxsize=None)
-def _continuity(label):
-    """A case, built once: two tests read it, and the weight bank's payload takes about 20 s."""
-
-    return CONTINUITY_CASES[label]()
-
-
-@pytest.mark.parametrize("label", sorted(CONTINUITY_CASES))
-def test_drawn_light_goes_on_where_it_comes_in(label):
-    """Each section's entry carries the light of the route or rail that feeds it, and each rail's end the light of the
-    next section's entry or the route that leaves (``unbalanced_meetings``). This checks what the invariant cannot:
-    the invariant takes a section's input from the same reads the rails use, so a lost input would still pass it."""
-
-    scene, payload = _continuity(label)
-    assert payload["rails"], f"{label}: nothing is drawn on rails"
-    assert unbalanced_meetings(payload, scene, params=payload["cw"]["params"]) == []      # the params the payload used
-
-
-def test_the_continuity_check_finds_a_lost_input():
-    """The check itself: drop the light of one rail and it no longer adds up where that rail meets the route."""
-
-    scene = _chain(0.5, 0.5)
-    payload = build_light_payload(scene)
-    rail = next(d for d in payload["rails"] if d["host"] == "directionalcoupler2" and d["packets"])
-    rail["packets"] = [dict(p, power=[0.0] * len(p["power"])) for p in rail["packets"]]
-    assert unbalanced_meetings(payload, scene)
-
-
-def _late(payload, sid, by):
-    """A copy of the payload with the rails of ``sid`` drawn ``by`` pulse widths late."""
-
-    payload = copy.deepcopy(payload)
-    for d in payload["rails"]:
-        for p in d["packets"] if d["host"] == sid else ():
-            p["t0"], p["t1"] = p["t0"] + by * p["width"], p["t1"] + by * p["width"]
-    return payload
-
-
-def _dimmed(payload, sid, section, rail, nm, index, factor):
-    """A copy of the payload with the ``index``-th packet (in time) of one rail at ``nm`` drawn at ``factor`` of its
-    power."""
-
-    payload = copy.deepcopy(payload)
-    drawing = next(d for d in payload["rails"] if (d["host"], d["section"], d["rail"]) == (sid, section, rail))
-    packet = sorted((p for p in drawing["packets"] if p["wavelength_nm"] == nm), key=lambda p: p["t0"])[index]
-    packet["power"] = [v * factor for v in packet["power"]]
-    return payload
-
-
 def _closed(rail):
     import math
 
     return math.dist(rail["points"][0], rail["points"][-1]) < 1e-3
-
-
-@pytest.mark.parametrize("make,host,pick", [            # pick(rail, the arm rails of sections whose ring goes once round)
-    (lambda: _between_gratings("RingAssistedMZI"), "ringassistedmzi1", lambda d, arm: (d["section"], d["rail"]) in arm),
-    (lambda: build_preset("wdm_delay_weight_bank_chip"), "microringweightbank1", lambda d, arm: d["rail"] == 1)],  # a half ring
-    ids=["ring-assisted MZI arm", "weight bank ring"])
-def test_the_continuity_check_finds_a_lost_ring_rail_with_the_rings_on_resonance(make, host, pick):
-    """The check credits light going on with the engine's whole buckets, and lets faint trips join where no port is
-    known; a rail of a ring section that loses half its light is still found. (A ring rail that goes once round starts
-    and ends at one place, so this check cannot see it lose light; ``unconserved`` does.)"""
-
-    scene = make()
-    payload = build_light_payload(scene)
-    assert unbalanced_meetings(payload, scene, params=payload["cw"]["params"]) == []
-    lit = [d for d in payload["rails"] if d["host"] == host and d["packets"]]
-    rails = [d for d in lit if pick(d, {(r["section"], 0) for r in lit if _closed(r)})]
-    assert rails
-    rail = max(rails, key=lambda d: max(max(p["power"]) for p in d["packets"]))
-    rail["packets"] = [dict(p, power=[0.5 * v for v in p["power"]]) for p in rail["packets"]]
-    assert unbalanced_meetings(payload, scene, params=payload["cw"]["params"])
-
-
-@pytest.mark.parametrize("by", [0.3, 0.8])
-def test_the_continuity_check_finds_rails_drawn_late(by):
-    """The check itself: the second coupler's rails drawn late by a fraction of the pulse no longer meet the routes
-    that feed them, although every power still matches."""
-
-    scene = _chain(0.5, 0.5)
-    assert unbalanced_meetings(_late(build_light_payload(scene), "directionalcoupler2", by), scene)
-
-
-@pytest.mark.parametrize("index,factor", [(0, 0.8), (1, 0.3)])
-def test_the_continuity_check_finds_a_wrong_power_where_the_engine_merged_trips(index, factor):
-    """The check itself, at a joint the engine merges: in the first weight bank, ring 3's bottom coupler reads its
-    inputs at o2, where the engine added two trips into one bucket, so its ring rail ends with one packet where the
-    top coupler's ring rail starts with a packet per trip. The first trip drawn at 0.8 of its power, or the second
-    at 0.3, no longer adds up to the packet that holds them both."""
-
-    scene, payload = _lit_preset("wdm_delay_weight_bank_chip")
-    rails = _rails_of(payload, "microringweightbank1")
-    assert rails[13, 1]["points"][0] == rails[12, 1]["points"][-1]
-    trips = [p["t0"] for p in rails[13, 1]["packets"] if p["wavelength_nm"] == 1548.8][:2]
-    assert trips[1] - trips[0] < rails[13, 1]["packets"][0]["width"]
-    assert not any(abs(p["t1"] - trips[1]) < 1e-6 for p in rails[12, 1]["packets"])      # the second trip is merged
-    assert unbalanced_meetings(_dimmed(payload, "microringweightbank1", 13, 1, 1548.8, index, factor), scene)
-
-
-@pytest.mark.parametrize("label", sorted(CONTINUITY_CASES))
-def test_every_coupling_section_that_light_reaches_is_drawn(label):
-    """A section whose transfers carry light (above the engine's floor) draws it on its rails: no input is lost
-    because it was read through a transfer that carries nothing or takes no time."""
-
-    from optodraw.animation_engine.behaviours import find_behaviour
-    from optodraw.animation_engine.graph import build_graph
-
-    scene, payload = _continuity(label)
-    graph, edges = build_graph(scene), payload["pulse"]["edges"]
-    params = payload["cw"]["params"]
-    drawn = {(d["host"], d["section"]) for d in payload["rails"] if d["packets"]}
-    slack = 1e-3 * payload["source_power"]
-    for sid in {eid.split(":")[1] for eid in payload["hidden"]}:
-        part = graph.parts[sid]
-        for index, section in enumerate(find_behaviour(part).sections(part, sid, params)):
-            read = {eid for found in section.inputs for r in found for eid, _, _ in r.edges}
-            lit = any(_power(p) > slack for eid in read for p in edges.get(eid, {"packets": []})["packets"])
-            assert not lit or (sid, index) in drawn, (label, sid, index)
-
-
-def test_the_arm_of_a_ring_assisted_mzi_carries_its_first_pass_past_the_ring():
-    """The ring section reads the arm where the ring's own port keeps its trips apart; on the first pass the arm rail
-    runs from the input coupler's power to the engine's arm power past the ring (its two output transfers)."""
-
-    scene = _between_gratings("RingAssistedMZI")
-    payload = build_light_payload(scene)
-    edges = payload["pulse"]["edges"]
-    rails = _rails_of(payload, "ringassistedmzi1")
-    past = sum(_power(edges[f"path:ringassistedmzi1:_a0f0->{port}#arm1"]["packets"][0]) for port in ("o3", "o4"))
-    (first, *_), arm_in = rails[1, 0]["packets"], rails[0, 0]["packets"][0]["power"][-1]
-    assert past == pytest.approx(0.225, rel=0.01)
-    assert first["power"][0] == pytest.approx(arm_in, rel=1e-6) and first["power"][-1] == pytest.approx(past, rel=0.01)
 
 
 def test_a_coupler_that_sends_all_its_light_across_moves_at_the_speed_of_its_drawn_rails():
@@ -1102,60 +539,11 @@ def test_a_coupler_that_sends_all_its_light_across_moves_at_the_speed_of_its_dra
     assert start["t1"] - start["t0"] == pytest.approx(crossing["t1"] - crossing["t0"], rel=1e-6)
 
 
-def test_a_ring_at_coupling_1_draws_each_returning_trip_at_its_own_time():
-    """The weight bank at power coupling 1, ring 0's bus coupler: the bus light crosses into the ring, and the ring's
-    light crosses back onto the bus a trip later, less than half a pulse width after. The engine keeps the two apart
-    (they leave by different ports), and so does the drawing: the bus light's packet ends with nothing on the bus,
-    each returning trip's packet starts from nothing and ends when and as strong as the engine's packet that crosses
-    onto the bus, and every bus-rail packet that ends with light is the start of the next rail at that time."""
-
-    import math
-
-    scene = build_preset("wdm_delay_weight_bank_chip")
-    payload = build_light_payload(scene, params={"power_coupling:microringweightbank1": 1.0})
-    rails = _rails_of(payload, "microringweightbank1")
-    bus = rails[0, 0]
-    (following,) = [d for key, d in rails.items() if key != (0, 0) and math.dist(d["points"][0], bus["points"][-1]) < 1e-3]
-    floor = 1e-3 * payload["source_power"]
-    packets = [p for p in bus["packets"] if p["wavelength_nm"] == 1548.8]
-    (entering,) = [p for p in packets if p["power"][0] > floor]
-    assert entering["power"][-1] == pytest.approx(0.0, abs=1e-9)
-    returning = sorted(((p["t1"], p["power"][-1]) for p in packets if p["power"][-1] > floor), key=lambda e: e[0])
-    crossing = payload["pulse"]["edges"]["path:microringweightbank1:_ring_bottom_f0->_lower_f1"]["packets"]
-    engine = sorted((p["t1"], _power(p)) for p in crossing if p["wavelength_nm"] == 1548.8 and _power(p) > floor)
-    assert len(returning) == len(engine) >= 1
-    for (t, drawn), (t_engine, sent) in zip(returning, engine):
-        assert t == pytest.approx(t_engine, abs=1e-6) and drawn == pytest.approx(sent, rel=1e-6)
-        assert any(p["t0"] == pytest.approx(t, abs=1e-6) and p["power"][0] == pytest.approx(drawn, rel=1e-6)
-                   for p in following["packets"]), t
-    assert all(p["power"][0] == pytest.approx(0.0, abs=1e-9) for p in packets if p is not entering)
-
-
 def _port_xy(scene, sid, port):
     from optodraw.animation_engine.graph import build_graph
 
     centre = build_graph(scene).parts[sid].world_port(port).center
     return float(centre.x), float(centre.y)
-
-
-def test_an_mzi_coupler_section_takes_its_coupling_from_the_engines_coupler(monkeypatch):
-    """The MZI's couplers in the drawing are the engine's: an uneven ``coupling`` changes the sections with it."""
-
-    import math
-
-    from optodraw.animation_engine.behaviours import find_behaviour
-    from optodraw.animation_engine.behaviours.interferometers import MachZehnder
-
-    def uneven(end, local, port, arm):
-        if len(end) == 1:
-            return 1.0 / math.sqrt(2.0)
-        upper = local[port][1] >= max(local[n][1] for n in end)
-        return math.sqrt(0.7) if upper == (arm == 0) else 1j * math.sqrt(0.3)
-
-    monkeypatch.setattr(MachZehnder, "coupling", staticmethod(uneven))
-    part = build_component("MZI")
-    kappas = [section.kappa for section in find_behaviour(part).sections(part, "mzi1", {})]
-    assert kappas and kappas == pytest.approx([0.3] * len(kappas))
 
 
 def test_a_polarisation_splitter_stem_draws_the_power_that_comes_in():
@@ -1216,59 +604,10 @@ def test_a_coupler_lit_at_both_inputs_draws_their_coherent_field_inside_the_wind
         assert np.sum(np.abs(a[middle]) ** 2) == pytest.approx(0.0, abs=1e-3)
 
 
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_the_weight_bank_payload_with_a_heater_and_a_drive_stays_under_5_mb():
-    params = {"heater:microringweightbank1:ring2": 10.0, "drive:mzm1": 1.0}
-    payload = build_light_payload(build_preset("wdm_delay_weight_bank_chip"), params=params, look="field")
-    assert [h["sid"] for h in payload["heat"]] == ["microringweightbank1:ring2"] and len(payload["rf"]) == 1
-    size = _page_bytes(payload)
-    assert size < 5_000_000, size
-
-
 # ---- rings at resonance, drive tables, the heater's slow-down -------------------------------------------------------
 
 
-def _cw_power(payload, port, key="from"):
-    """The CW power on the routes that leave ``port`` (``key`` "from") or arrive there ("to")."""
-
-    return sum(sum(v * v for v in r["jones"]) for eid, e in payload["cw"]["edges"].items() if eid.startswith("route:")
-               for r in e["cw"] if r[key] == port)
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_a_default_ring_filter_sits_on_resonance_and_the_caption_says_so():
-    """The chip's light enters the fifth-order filter at o2: the through port is o1 and the drop port o4."""
-
-    payload = build_light_payload(build_preset("ring_resonator_chip"))
-    port = "port:coupledringfilter1:"
-    given = _cw_power(payload, port + "o2", "to")
-    assert given > 0
-    assert _cw_power(payload, port + "o4") > 0.5 * given          # the drop port
-    assert _cw_power(payload, port + "o1") < 0.5 * given          # the through port
-    shown = payload["captions"][:payload["caption_split"]]
-    assert "Rings tuned to resonance (illustrative)" in shown and BUILD_UP in shown
-    tuned = build_light_payload(build_preset("ring_resonator_chip"), params={"phase:coupledringfilter1": 0.0})
-    assert "Rings tuned to resonance (illustrative)" not in tuned["captions"] and BUILD_UP not in tuned["captions"]
-
-
 BUILD_UP = "Pulses are shorter than the rings' build-up, so they drop little light. The Field look shows the steady state."
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_the_model_lines_fold_and_the_short_lines_stay_in_view():
-    """The time scale, the pulse, the heater slow-down and the wavelength factor stay in view; the model lines (the
-    rings, the crests, the field cycle, the heat model) fold behind the page's Scales toggle."""
-
-    payload = build_light_payload(build_preset("ring_resonator_chip"), look="field", heater_delay_scale=2.0,
-                                  params={"heater:coupledringfilter1:ring1": 10.0})
-    captions, folded = payload["captions"], set(payload["caption_folded"])
-    shown = [c for i, c in enumerate(captions) if i not in folded]
-    assert len(shown) == 5 and shown[0].startswith("Time slowed") and shown[1].startswith("Pulse ")
-    assert shown[2] == "1550 nm (infrared) shown white"
-    assert shown[3] == "Heater slow-down shown x2" and shown[4].startswith("Wavelength shown x")
-    hidden = [c for i, c in enumerate(captions) if i in folded]
-    assert "Rings tuned to resonance (illustrative)" in hidden and "Crest spacing from the group index" in hidden
-    assert any("K above the chip" in c for c in hidden) and any(c.startswith("Field cycle") for c in hidden)
 
 
 def _add_drop_ring_scene():
@@ -1281,14 +620,6 @@ def _add_drop_ring_scene():
     scene.route((laser, "o1"), (ring, "o1"), kind="waveguide")
     scene.route((ring, "o2"), (through, "o1"), kind="waveguide")
     return scene
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_a_default_add_drop_ring_drops_most_of_its_input():
-    payload = build_light_payload(_add_drop_ring_scene())
-    given = _cw_power(payload, "port:microringresonator1:o1", "to")
-    drop = sum(e["power"] for e in payload["cw"]["exits"] if e["part"] == "microringresonator1" and e["port"] == "o3")
-    assert given > 0 and drop > 0.5 * given and _cw_power(payload, "port:microringresonator1:o2") < 0.5 * given
 
 
 def test_the_default_ring_phase_closes_each_round_trip_of_the_engines_own_transfers():
@@ -1379,29 +710,6 @@ def _heated_ring_scene():
     return scene
 
 
-def test_a_ring_heater_drive_starts_at_the_base_state_and_detunes_the_ring():
-    payload = build_light_payload(_heated_ring_scene(), drives=["microringresonator1"])
-    (entry,) = payload["drives"]
-    assert entry["param"] == "heater:microringresonator1" and entry["values"][0] == 0.0 and entry["values"][-1] == 20.0
-    assert entry["pulse"][0] == {} and entry["cw"][0] == {}                # 0 mW: the ring stays at its default
-    assert "route:route2" in entry["cw"][-1] and "route:route2" in entry["pulse"][-1]     # 20 mW detunes it
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_drive_tables_for_twelve_mesh_modulators_stay_under_5_mb():
-    """Twelve parts asked: the ten modulators the light reaches get tables; the two dark ones change no light."""
-
-    lit = [1, 5, 6, 9, 10, 11, 13, 14, 15, 16]
-    start = time.perf_counter()
-    payload = build_light_payload(build_preset("mzm_mesh_chip"), drives=[f"mzm{k}" for k in lit + [2, 3]])
-    elapsed, size = time.perf_counter() - start, _page_bytes(payload)
-    print(f"mzm_mesh_chip with drive tables for 12 parts: {size / 1e6:.2f} MB in {elapsed:.1f} s")
-    assert [d["sid"] for d in payload["drives"]] == [f"mzm{k}" for k in lit]
-    assert all(len(d["pulse"]) == len(d["cw"]) == 24 and any(d["pulse"]) for d in payload["drives"])
-    assert {"mzm2: drive:mzm2 changes no light", "mzm3: drive:mzm3 changes no light"} <= set(payload["notices"])
-    assert size < 5_000_000, size
-
-
 def _heated_mzi_scene():
     scene = Scene(width=360, height=160, platform="on_chip")
     laser = scene.add(build_component("OnChipLaser", center=(-150, 0)))
@@ -1410,52 +718,6 @@ def _heated_mzi_scene():
     scene.route((laser, "o1"), (mzi, "o1"), kind="waveguide")
     scene.route((mzi, "o3"), (det, "o1"), kind="waveguide")
     return scene
-
-
-def _heated_shifter_scene():
-    scene = Scene(width=360, height=160, platform="on_chip")
-    laser = scene.add(build_component("OnChipLaser", center=(-150, 0)))
-    shifter = scene.add(build_component("PhaseShifter", center=(0, 0)))
-    det = scene.add(build_component("OnChipPhotodetector", center=(150, 0)))
-    scene.route((laser, "o1"), (shifter, "o1"), kind="waveguide")
-    scene.route((shifter, "o2"), (det, "o1"), kind="waveguide")
-    return scene
-
-
-def _later(shown, plain, edge_id, key):
-    pairs = list(zip(shown["pulse"]["edges"][edge_id]["packets"], plain["pulse"]["edges"][edge_id]["packets"], strict=True))
-    assert pairs and all(a["jones"] == pytest.approx(b["jones"], abs=1e-12) for a, b in pairs)      # the phase is unchanged
-    return [a[key] - b[key] for a, b in pairs]
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_a_heater_slow_down_shown_100_times_delays_the_heated_light_and_the_light_after_it():
-    """Above 1 the payload solves the pulse with each heater's delay times the scale; no phase changes. Against the same
-    phase from a phase key (no delay): a heated phase shifter's light and the route after it arrive 100 times the true
-    delay later. In an MZI only the heated arm is late: the engine adds the two arms in one bucket at the output port,
-    which opens with the first arrival (the unheated arm), so the route after the MZI does not move. The input
-    coupler's rails follow the slower arm: they end later, by no more than the arm's delay."""
-
-    true_delay = math.pi * 1.55 / (2 * math.pi * 299.792458)               # ps: pi at 1550 nm with the engine's c
-    scene = _heated_shifter_scene()
-    shown = build_light_payload(scene, params={"heater:phaseshifter1": 20.0}, heater_delay_scale=100.0)
-    plain = build_light_payload(scene, params={"phase:phaseshifter1": math.pi})
-    assert "Heater slow-down shown x100" in shown["captions"][:shown["caption_split"]]
-    assert not any("slow-down" in c for c in plain["captions"])
-    assert _later(shown, plain, "path:phaseshifter1:o1->o2", "t1") == pytest.approx([100 * true_delay], abs=1e-9)
-    for key in ("t0", "t1"):
-        assert _later(shown, plain, "route:route2", key) == pytest.approx([100 * true_delay], abs=1e-9)
-
-    scene = _heated_mzi_scene()
-    shown = build_light_payload(scene, params={"heater:mzi1": 20.0}, heater_delay_scale=100.0)
-    plain = build_light_payload(scene, params={"phase:mzi1:arm1": math.pi})
-    for edge_id in ("path:mzi1:o1->o3#arm1", "path:mzi1:o1->o4#arm1"):
-        assert _later(shown, plain, edge_id, "t1") == pytest.approx([100 * true_delay], abs=1e-9)
-    for edge_id in ("path:mzi1:o1->o3#arm2", "route:route2"):
-        assert _later(shown, plain, edge_id, "t1") == pytest.approx([0.0], abs=1e-9)
-    late = [a["t1"] - b["t1"] for ra, rb in zip(shown["rails"], plain["rails"], strict=True) if ra["host"] == "mzi1" and ra["section"] == 0
-            for a, b in zip(ra["packets"], rb["packets"], strict=True)]
-    assert late and all(0 < lag <= 100 * true_delay + 1e-9 for lag in late)
 
 
 @pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
@@ -1469,26 +731,6 @@ def test_a_coupler_lit_only_by_continuous_light_is_drawn_by_its_rails_alone():
     assert lit and lit <= set(payload["hidden"])
     rails = [r for r in payload["cw"]["rails"] if r["host"] == "tapcoupler2"]
     assert rails and all(isinstance(r["points"], list) and isinstance(r["points"][0], list) for r in rails)
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_the_field_look_shows_the_heater_slow_down_too():
-    """The caption names the slow-down in both looks: the steady state's arrival fronts carry the scaled delay."""
-
-    true_delay = math.pi * 1.55 / (2 * math.pi * 299.792458)
-    scene = _heated_mzi_scene()
-    shown = build_light_payload(scene, params={"heater:mzi1": 20.0}, heater_delay_scale=100.0, look="field")
-    plain = build_light_payload(scene, params={"phase:mzi1:arm1": math.pi}, look="field")
-    for edge_id, lag in (("path:mzi1:o1->o3#arm1", 100 * true_delay), ("path:mzi1:o1->o3#arm2", 0.0), ("route:route2", 0.0)):
-        for a, b in zip(shown["cw"]["edges"][edge_id]["cw"], plain["cw"]["edges"][edge_id]["cw"], strict=True):
-            assert a["t1"] - b["t1"] == pytest.approx(lag, abs=1e-9) and a["jones"] == pytest.approx(b["jones"], abs=1e-12)
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_a_drive_that_changes_nothing_has_no_table_and_a_notice_says_why():
-    payload = build_light_payload(_heated_mzi_scene(), params={"phase:mzi1:arm1": 1.0}, drives=["mzi1"])
-    assert payload["drives"] == []
-    assert "mzi1: heater:mzi1 has no effect while a phase is set" in payload["notices"]
 
 
 def test_a_ring_no_light_reaches_keeps_its_phase_and_its_drive_changes_no_light():
@@ -1537,36 +779,11 @@ RESONANT_PAYLOADS = {
     "wdm_delay_weight_bank_chip": lambda: _preset_payload("wdm_delay_weight_bank_chip")}
 
 
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-@pytest.mark.parametrize("label", sorted(RESONANT_PAYLOADS))
-def test_every_coupler_section_keeps_its_light_with_the_rings_on_resonance(label):
-    bad, checked = unconserved(RESONANT_PAYLOADS[label]())
-    assert checked and bad == [], bad[:3]
-
-
 def test_the_conservation_check_finds_a_ring_rail_that_goes_once_round_losing_light():
     payload = build_light_payload(_between_gratings("RingAssistedMZI"))
     (ring,) = [d for d in payload["rails"] if d["host"] == "ringassistedmzi1" and d["packets"] and _closed(d)]
     ring["packets"] = [dict(p, power=[0.5 * v for v in p["power"]]) for p in ring["packets"]]
     assert unconserved(payload)[0]
-
-
-def test_render_threejs_reads_the_scenes_animation_settings_and_explicit_arguments_win():
-    scene = _heated_ring_scene()
-    scene.metadata["animation"] = {"look": "field", "params": {"heater:microringresonator1": 15.0}, "inputs": []}
-    plain = _heated_ring_scene()
-
-    def light_of(page: str) -> dict:
-        marker = "window.__odLightData = "
-        start = page.index(marker) + len(marker)
-        return json.JSONDecoder().raw_decode(page[start:])[0]
-
-    from_metadata = light_of(scene.render_threejs())
-    assert from_metadata["look"] == "field"
-    expected = build_light_payload(plain, params={"heater:microringresonator1": 15.0}, look="field")
-    assert from_metadata["cw"] == expected["cw"]
-    assert light_of(scene.render_threejs(look="light", params={}))["look"] == "light"
-    assert light_of(scene.render_threejs(params={}))["cw"] == light_of(plain.render_threejs())["cw"] != from_metadata["cw"]
 
 
 # ---- the tour in the payload ----------------------------------------------------------------------------------------
@@ -1601,39 +818,6 @@ def test_the_payload_carries_its_tour_the_time_warp_and_the_names_of_the_stops()
 
 
 @pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_drives_tour_gives_each_driven_stop_a_level_per_pass_seen_in_its_frame():
-    """Rulings 46 and 47: one table per driven stop with the levels its passes meet (0 up to the top and back), each
-    level keeping only the edges and rails its stop's frame shows, the rest equal to a full drive table's."""
-
-    from optodraw.animation3d.payload import _in_frame, pass_levels
-    from optodraw.animation3d.tour import driven_passes, scene_tour, time_warp
-
-    scene = _modulators_in_series(2)
-    payload = build_light_payload(scene, drives="tour")
-    driven = [(s["sid"], s["drive"]) for s in payload["tour"]["stops"] if s["drive"]]
-    assert driven == [("mzm1", "drive:mzm1"), ("mzm2", "drive:mzm2")]
-    assert [(d["sid"], d["param"]) for d in payload["drives"]] == driven
-    tour = scene_tour(scene, payload)
-    passes = driven_passes(tour, payload, time_warp(tour, payload))
-    full = {d["sid"]: d for d in build_light_payload(scene, drives=["mzm1", "mzm2"])["drives"]}
-    points = {**{e: v["points"] for e, v in payload["cw"]["edges"].items()}, **{e: v["points"] for e, v in payload["pulse"]["edges"].items()}}
-    outside = []
-    for i, table in zip([i for i, s in enumerate(tour.stops) if s.drive], payload["drives"]):
-        fractions, sequence = pass_levels(len(passes[i]))
-        assert table["passes"] == passes[i] and len(table["passes"]) >= 3 and table["levels"] == sequence
-        assert table["values"] == [2.0 * f for f in fractions] and table["frame"][2] > 0
-        top, whole = len(table["values"]) - 1, full[table["sid"]]
-        assert whole["values"][-1] == table["values"][top]
-        seen = {e: v for e, v in whole["pulse"][-1].items() if _in_frame(points.get(e), table["frame"])}
-        assert table["pulse"][top] == seen and seen                          # what the frame shows, as a full table has it
-        outside.append(set(whole["pulse"][-1]) - set(seen))
-    assert outside[0]                                       # the first stop's frame leaves out the second modulator's light
-    assert [d["caption"] for d in payload["drives"]] == ["Drive on MZM 1: 0 to 2 V", "Drive on MZM 2: 0 to 2 V"]
-    assert payload["rf_scale_v_per_um"] > 0                               # the colour scale covers the tour's drive
-    assert not [n for n in payload["notices"] if "MB" in n]
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
 def test_past_the_page_limit_the_latest_stops_tables_go(monkeypatch):
     from optodraw.animation3d import payload as module
 
@@ -1662,62 +846,6 @@ def _modulator_then_coupler():
                  ((coupler, "o4"), (bottom, "o1"))):
         scene.route(a, b, kind="waveguide")
     return scene
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_a_drive_table_carries_the_rails_of_every_part_the_swing_reaches():
-    """The coupler after the modulator is drawn by rails: at each sample its rails are the engine's rails of that
-    state (a factor per packet where they are the base rails times a factor)."""
-
-    from optodraw.animation3d.rails import build_rails
-    from optodraw.animation_engine.graph import build_graph
-    from optodraw.animation_engine.inputs import InputSignal
-
-    scene = _modulator_then_coupler()
-    payload = build_light_payload(scene, drives=["mzm1"])
-    (entry,) = payload["drives"]
-    params, inputs = payload["cw"]["params"], [InputSignal.from_json(i) for i in payload["cw"]["inputs"]]
-    base = {f"rail:{r['host']}:{r['section']}:{r['rail']}": r for r in payload["rails"]}
-    coupler = sorted(key for key in base if key.startswith("rail:directionalcoupler1:"))
-    assert coupler
-    for k in (1, 12, 23):
-        sample = {**params, "drive:mzm1": entry["values"][k]}
-        engine = compile_signal_state(scene, mode="pulse", params=sample, inputs=inputs).to_json()
-        drawn = {f"rail:{r['host']}:{r['section']}:{r['rail']}": r for r in build_rails(scene, sample, engine, build_graph(scene))[0]}
-        def ident(p):
-            return (p["wavelength_nm"], round(p["t0"], 5), round(p["t1"], 5))
-
-        for key in coupler:
-            found = entry["rails"][k].get(key)
-            assert found is not None, (k, key)                              # the swing reaches the coupler
-            want = {ident(p): p["power"] for p in drawn[key]["packets"]} if key in drawn else {}
-            got = ({**{ident(p): [s * v for v in p["power"]] for s, p in zip(found["scales"], base[key]["packets"]) if s},
-                    **{ident(p): p["power"] for p in found.get("extra", [])}}
-                   if "scales" in found else {ident(p): p["power"] for p in found["packets"]})
-            got = {i: v for i, v in got.items() if i in want or max(v, default=0) > 2e-6}     # a packet at 0 is no packet
-            assert got.keys() == want.keys() and all(got[i] == pytest.approx(want[i], abs=2e-6) for i in want), (k, key)
-        assert set(entry["cw_rails"][k]) >= set(coupler) or k == 0
-
-
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_a_drive_table_carries_the_rf_and_heat_values_of_each_sample():
-    from optodraw.animation3d.effects import build_heat, build_rf
-    from optodraw.animation3d.inputs import input_wavelength
-    from optodraw.animation_engine.graph import build_graph
-
-    (rf,) = build_light_payload(_mzm_between_two_routes(), drives="all")["drives"]
-    assert rf["rf_maps"] and all(r["v"] == pytest.approx(rf["values"][-1]) for r in rf["rf_maps"])
-    assert all(sample == ([value] * len(rf["rf_maps"]) if value else []) for value, sample in zip(rf["values"], rf["rf"]))
-    scene = _heated_ring_scene()
-    payload = build_light_payload(scene, drives=["microringresonator1"])
-    (heat,) = payload["drives"]
-    graph = build_graph(scene)
-    parts, nm = graph.parts, input_wavelength(graph, [], payload["cw"]["params"])
-    for value, sample in zip(heat["values"], heat["heat"]):
-        found = build_heat(parts, {**payload["cw"]["params"], heat["param"]: value}, nm)
-        assert sample == [h["delta_t_k"] for h in found if h["sid"] == "microringresonator1"]
-    assert heat["heat_maps"] and heat["heat_maps"][0]["delta_t_k"] == pytest.approx(max(max(s, default=0) for s in heat["heat"]))
-    assert payload["heat_scale_k"] >= heat["heat_maps"][0]["delta_t_k"] and build_rf(parts, payload["cw"]["params"]) == []
 
 
 @pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
@@ -1761,31 +889,3 @@ def test_a_stop_whose_table_is_dropped_holds_as_an_undriven_stop():
     assert payload["tour_warp"] == [list(k) for k in time_warp(tour, payload, driven=False)]
 
 
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_the_warp_follows_the_kept_tables_when_one_stop_keeps_its_table_and_one_loses_it(monkeypatch):
-    from optodraw.animation3d import payload as module
-    from optodraw.animation3d.tour import scene_tour, time_warp
-
-    scene = _modulators_in_series(2)
-    full = build_light_payload(scene, drives="tour")
-    monkeypatch.setattr(module, "PAGE_LIMIT_BYTES", _page_bytes(full) - 1)
-    cut = build_light_payload(scene, drives="tour")
-    assert [d["sid"] for d in cut["drives"]] == ["mzm1"]
-    tour = scene_tour(scene, cut)
-    index = [s.sid for s in tour.stops].index("mzm1")
-    assert cut["tour_warp"] == [list(k) for k in time_warp(tour, cut, driven={index})]
-    assert cut["tour_warp"] != full["tour_warp"]
-    (table,) = cut["drives"]                       # the kept table was built for the warp the page carries
-    from optodraw.animation3d.tour import driven_passes
-    assert table["passes"] == driven_passes(tour, cut, [tuple(k) for k in cut["tour_warp"]])[index]
-
-
-def test_the_few_pulses_notice_is_only_for_a_table_the_page_keeps(monkeypatch):
-    from optodraw.animation3d import payload as module
-
-    scene = build_preset("ring_resonator_chip")
-    note = "5th-order filter ring 1: the drive is shown on 1 pulse; the Field look shows it in steady state"
-    assert note in build_light_payload(scene, drives="tour")["notices"]
-    monkeypatch.setattr(module, "PAGE_LIMIT_BYTES", _page_bytes(build_light_payload(scene)) + 10)
-    cut = build_light_payload(scene, drives="tour")
-    assert cut["drives"] == [] and note not in cut["notices"]

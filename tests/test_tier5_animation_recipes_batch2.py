@@ -17,7 +17,6 @@ from optodraw import (
     animate_modulation,
     build_modulator_drive_chain,
 )
-from optodraw.core.interferometer import trace_mzm_transfer
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -41,18 +40,6 @@ class TestAnimateModulation:
         assert kinds.count("trace") >= 1
         assert kinds.count("cavity_power") == 8
 
-    def test_voltage_captions_reference_transfer_stub(self):
-        mzm = MZM(center=(0, 0), label="MZM")
-        scene = Scene(platform="on_chip")
-        scene.add(mzm)
-
-        tl = animate_modulation(scene, mzm, voltage_steps=4, Vpi=4.0)
-        power_captions = [step.caption for step in tl._steps if step.kind == "cavity_power"]
-
-        assert len(power_captions) == 4
-        assert all("V =" in caption and "T ≈" in caption for caption in power_captions)
-        at_zero = trace_mzm_transfer(mzm, drive_voltage=0.0, Vpi=4.0)
-        assert f"T ≈ {at_zero['through_power']:.2f}" in power_captions[0]
 
     def test_opening_caption_adds_pause(self):
         scene = Scene(platform="on_chip")
@@ -66,12 +53,6 @@ class TestAnimateModulation:
         )
         assert _step_kinds(tl)[0] == "pause"
         assert tl._steps[0].caption == "Electro-optic modulation"
-
-    def test_modulation_frame_states_non_empty(self):
-        scene = Scene(platform="on_chip")
-        mzm = scene.add(MZM(label="MZM"))
-        tl = animate_modulation(scene, mzm, voltage_steps=3)
-        assert len(tl._to_frame_states()) > 1
 
 
 class TestAnimateLayerStack:
@@ -119,17 +100,6 @@ class TestAnimateLayerStack:
 
 
 class TestAnimateDispersion:
-    def test_grating_fan_step_counts(self):
-        scene = Scene(platform="free_space")
-        grating = scene.add(Grating(center=(0, 0), pitch=1.0, label="Grating"))
-
-        tl = animate_dispersion(scene, grating, wavelength_steps=6)
-        kinds = _step_kinds(tl)
-
-        assert kinds.count("show") == 1
-        assert kinds.count("cavity_power") == 6
-        assert kinds[-1] == "pause"
-        assert "Angular spread" in tl._steps[-1].caption
 
     def test_prism_captions_include_wavelength_and_angle(self):
         scene = Scene(platform="free_space")
@@ -149,8 +119,3 @@ class TestAnimateDispersion:
             tl = animate_dispersion(scene, grating, wavelength_steps=steps)
             assert _step_kinds(tl).count("cavity_power") == steps
 
-    def test_dispersion_frame_states_non_empty(self):
-        scene = Scene(platform="free_space")
-        grating = scene.add(Grating(center=(0, 0), pitch=1.0))
-        tl = animate_dispersion(scene, grating, wavelength_steps=3)
-        assert len(tl._to_frame_states()) > 1

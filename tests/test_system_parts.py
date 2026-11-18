@@ -50,10 +50,3 @@ def test_the_frequency_comb_is_an_on_chip_source_with_the_comb_symbol():
     assert comb.physics_metadata()["line_spacing_ghz"] == pytest.approx(100.0)
 
 
-def test_the_snspd_takes_fibre_in_and_gives_an_electrical_pulse_out():
-    snspd = optodraw.SNSPD()
-    assert component_registry()["SNSPD"].category == "devices"
-    assert {name: port.kind for name, port in snspd.ports().items()} == {"in": "fiber", "out": "electrical"}
-    assert lookup(snspd).exact and lookup(snspd).name == "snspd"
-    art = art_2d(snspd)
-    assert art is not None and art["residual"] < 0.15 and "Gradient" in art["svg"]

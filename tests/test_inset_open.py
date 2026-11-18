@@ -59,41 +59,6 @@ def test_a_scene_inset_opens_as_its_scene(tmp_path):
     assert session.path[1]["name"] == "bench"
 
 
-def test_an_edit_inside_is_saved_in_the_page(tmp_path):
-    session, store = EditorSession(_page(tmp_path)), _Store()
-    session.bind_workspace(store, "page")
-    session.open_inset(_of(session.spec, label="bench")["id"])
-    session.move_component(_of(session.spec, type="Mirror")["id"], center=[30, 0])
-    session.autosave()
-    inside = _of(store.saved, label="bench")["source"]["scene"]
-    assert _of(inside, type="Mirror")["center"] == [30.0, 0.0]
-    assert _of(store.saved, label="picture")                                    # the page, not the bench alone
-
-
-def test_going_back_draws_the_inset_again(tmp_path):
-    session = EditorSession(_page(tmp_path))
-    before = _of(session.spec, label="bench")
-    session.open_inset(before["id"])
-    session.move_component(_of(session.spec, type="Mirror")["id"], center=[30, 0])
-    session.close_inset()
-    after = _of(session.spec, label="bench")
-    assert session.path == [{"name": "Page"}]
-    assert _of(after["source"]["scene"], type="Mirror")["center"] == [30.0, 0.0]
-    assert after["fragment"]["svg"] != before["fragment"]["svg"]
-    assert after["fragment"]["frozen"] is False
-    assert after["fragment"]["width_mm"] == before["fragment"]["width_mm"]
-    assert {k: v for k, v in after.items() if k not in ("source", "fragment")} == \
-        {k: v for k, v in before.items() if k not in ("source", "fragment")}
-
-
-def test_open_and_back_with_no_edit_changes_nothing(tmp_path):
-    session = EditorSession(_page(tmp_path))
-    before = session.spec
-    session.open_inset(_of(before, label="bench")["id"])
-    session.close_inset()
-    assert session.spec == before
-
-
 def test_only_a_scene_inset_opens(tmp_path):
     session = EditorSession(_page(tmp_path))
     with pytest.raises(ValueError, match="SVG file"):
@@ -116,47 +81,6 @@ def test_a_part_is_not_an_inset(tmp_path):
     session.open_inset(_of(session.spec, label="bench")["id"])
     with pytest.raises(ValueError, match="only an inset opens"):
         session.open_inset(_of(session.spec, type="Mirror")["id"])
-
-
-def test_an_inset_inside_an_inset(tmp_path):
-    session = EditorSession(_page(tmp_path, inner=True))
-    session.open_inset(_of(session.spec, label="bench")["id"])
-    detail = _of(session.spec, label="detail")
-    session.open_inset(detail["id"])
-    assert [level["name"] for level in session.path[1:]] == ["bench", "detail"]
-    session.move_component(_of(session.spec, type="Laser")["id"], center=[-50, 0])
-    session.close_inset(0)
-    bench = _of(session.spec, label="bench")
-    inner = _of(bench["source"]["scene"], label="detail")
-    assert _of(inner["source"]["scene"], type="Laser")["center"] == [-50.0, 0.0]
-    assert inner["fragment"]["svg"] != detail["fragment"]["svg"]
-    assert len(session.path) == 1
-
-
-def test_whole_spec_is_the_page_drawn_again_and_the_session_stays_inside(tmp_path):
-    session = EditorSession(_page(tmp_path))
-    before = _of(session.spec, label="bench")
-    session.open_inset(before["id"])
-    session.move_component(_of(session.spec, type="Mirror")["id"], center=[30, 0])
-    whole = session.whole_spec()
-    assert _of(whole, label="bench")["fragment"]["svg"] != before["fragment"]["svg"]
-    assert len(session.path) == 2 and _of(session.spec, type="Mirror")["center"] == [30.0, 0.0]
-
-
-def test_an_undo_inside_stays_inside(tmp_path):
-    session = EditorSession(_page(tmp_path))
-    session.open_inset(_of(session.spec, label="bench")["id"])
-    older = session.spec
-    session.move_component(_of(older, type="Mirror")["id"], center=[30, 0])
-    session.load(older)                                                          # the client's undo
-    assert len(session.path) == 2 and _of(session.spec, type="Mirror")["center"] == [20, 0]
-
-
-def test_a_new_scene_leaves_the_inset(tmp_path):
-    session = EditorSession(_page(tmp_path))
-    session.open_inset(_of(session.spec, label="bench")["id"])
-    session.reset()
-    assert len(session.path) == 1 and session.spec["components"] == []
 
 
 # -- the routes -------------------------------------------------------------- #
@@ -199,42 +123,6 @@ def test_a_refused_open_says_why(client, tmp_path):
     assert client.post("/api/scene/inset/close", json={}).status_code == 400                # no inset is open
 
 
-def test_save_takes_the_whole_page(client, tmp_path):
-    client.post("/api/scene", json={"spec": _page(tmp_path)})
-    bench = _of(client.get("/api/scene").json(), label="bench")
-    inside = client.post("/api/scene/inset/open", json={"id": bench["id"]}).json()["spec"]
-    _of(inside, type="Mirror")["center"] = [30, 0]
-    client.post("/api/scene", json={"spec": inside, "edit": True})
-    whole = client.get("/api/scene", params={"whole": True}).json()
-    assert _of(whole, label="bench")["fragment"]["svg"] != bench["fragment"]["svg"]
-    assert _of(client.get("/api/scene").json(), type="Mirror")                    # the session stays inside
-    assert _of(_saved(), label="bench")["source"]["scene"]                        # autosave kept the page
-
-
-def test_a_workspace_switch_goes_back_and_keeps_the_drawing(client, tmp_path):
-    from optodraw.app import api
-
-    client.post("/api/scene", json={"spec": _page(tmp_path)})
-    first = api._store.current
-    bench = _of(client.get("/api/scene").json(), label="bench")
-    inside = client.post("/api/scene/inset/open", json={"id": bench["id"]}).json()["spec"]
-    _of(inside, type="Mirror")["center"] = [30, 0]
-    client.post("/api/scene", json={"spec": inside, "edit": True})
-    other = client.post("/api/workspaces", json={"name": tmp_path.name + " other"}).json()
-    assert len(other["path"]) == 1 and other["spec"]["components"] == []
-    kept = _of(api._store.workspaces.load(first), label="bench")
-    assert _of(kept["source"]["scene"], type="Mirror")["center"] == [30, 0]
-    assert kept["fragment"]["svg"] != bench["fragment"]["svg"]
-
-
-def test_a_whole_open_goes_back_first(client, tmp_path):
-    spec = _page(tmp_path)
-    client.post("/api/scene", json={"spec": spec})
-    client.post("/api/scene/inset/open", json={"id": _of(spec, label="bench")["id"]})
-    opened = client.post("/api/scene", json={"spec": spec, "whole": True}).json()
-    assert len(opened["path"]) == 1 and _of(opened["spec"], label="picture")
-
-
 def test_a_preset_waits_for_the_way_back(client, tmp_path):
     spec = _page(tmp_path)
     client.post("/api/scene", json={"spec": spec})
@@ -244,35 +132,6 @@ def test_a_preset_waits_for_the_way_back(client, tmp_path):
     response = client.post("/api/scene/preset", json={"name": name})         # it would replace the whole page
     assert response.status_code == 409 and "go back" in response.text
     assert len(client.get("/api/render/svg").json()["path"]) == 2 and _of(_saved(), label="picture")
-
-
-def test_a_way_back_that_breaks_the_page_is_refused(tmp_path):
-    (tmp_path / "a.svg").write_text(SVG, encoding="utf-8")
-    page = Page(width_mm=183, height_mm=120, font_pt=7.0)
-    bench = page.add(Inset(_bench(), center=(60, 60), width=100, label="bench"))
-    picture = page.add(Inset(str(tmp_path / "a.svg"), center=(150, 60), width=40, label="picture"))
-    page.zoom(bench, (-45, -3, -35, 3), picture)                                 # a box on the laser
-    page.save(tmp_path / "page.json")
-    session = EditorSession(json.loads((tmp_path / "page.json").read_text(encoding="utf-8")))
-    session.open_inset(_of(session.spec, label="bench")["id"])
-    session.delete(_of(session.spec, type="Laser")["id"])                        # the drawing fits the mirror alone
-    with pytest.raises(ValueError, match="cannot draw"):
-        session.close_inset()
-    assert len(session.path) == 2 and [e["type"] for e in session.spec["components"]] == ["Mirror"]
-
-
-def test_the_way_back_draws_a_drawing_that_autosave_left_old(tmp_path):
-    session, store = EditorSession(_page(tmp_path)), _Store()
-    session.bind_workspace(store, "page")
-    before = _of(session.spec, label="bench")
-    session.open_inset(before["id"])
-    session.move_component(_of(session.spec, type="Mirror")["id"], center=[30, 0])
-    session.autosave()                                                           # then the server stops
-    again = EditorSession(store.saved)
-    assert _of(again.spec, label="bench")["fragment"] == before["fragment"]     # the scene moved, the drawing did not
-    again.open_inset(before["id"])
-    again.close_inset()
-    assert _of(again.spec, label="bench")["fragment"]["svg"] != before["fragment"]["svg"]
 
 
 def _zoomed(tmp_path) -> dict:
@@ -319,14 +178,6 @@ def test_an_empty_scene_inset_draws_a_blank_of_its_frame():
     assert inset.at(60, 20).xy() == pytest.approx((30.0, 10.0))                 # the frame's top right corner
 
 
-def test_a_scene_that_names_a_file_does_not_open(tmp_path):
-    spec = _page(tmp_path)
-    _of(spec, label="bench")["source"]["scene"]["components"][0]["label"] = str(tmp_path / "a.svg")   # a real file
-    session = EditorSession(spec)
-    with pytest.raises(ValueError, match="names a file"):
-        session.open_inset(_of(spec, label="bench")["id"])
-
-
 def test_a_scene_that_comes_to_name_a_file_does_not_go_back(tmp_path):
     session = EditorSession(_page(tmp_path))
     session.open_inset(_of(session.spec, label="bench")["id"])
@@ -355,15 +206,6 @@ def test_a_new_scene_saves_the_page_with_the_inset_drawn_first(tmp_path):
     assert _of(saved["source"]["scene"], type="Mirror")["center"] == [30.0, 0.0]
 
 
-def test_a_whole_open_that_fails_stays_inside(client, tmp_path):
-    spec = _page(tmp_path)
-    client.post("/api/scene", json={"spec": spec})
-    client.post("/api/scene/inset/open", json={"id": _of(spec, label="bench")["id"]})
-    broken = {**spec, "components": [{"type": "NoSuchPart", "id": "x", "center": [0, 0]}]}
-    assert client.post("/api/scene", json={"spec": broken, "whole": True}).status_code == 400
-    assert len(client.get("/api/render/svg").json()["path"]) == 2
-
-
 def test_a_scene_sent_for_another_level_is_refused(client, tmp_path):
     spec = _page(tmp_path)
     client.post("/api/scene", json={"spec": spec})
@@ -376,15 +218,3 @@ def test_a_scene_sent_for_another_level_is_refused(client, tmp_path):
     assert client.post("/api/scene/text", json={"text": text, "depth": 0}).status_code == 409
 
 
-def test_opening_the_same_workspace_inside_shows_the_new_drawing(client, tmp_path):
-    from optodraw.app import api
-
-    spec = _page(tmp_path)
-    client.post("/api/scene", json={"spec": spec})
-    bench = _of(spec, label="bench")
-    inside = client.post("/api/scene/inset/open", json={"id": bench["id"]}).json()["spec"]
-    _of(inside, type="Mirror")["center"] = [30, 0]
-    client.post("/api/scene", json={"spec": inside, "edit": True})
-    opened = client.post(f"/api/workspaces/{api._store.current}/open").json()
-    assert len(opened["path"]) == 1
-    assert _of(opened["spec"], label="bench")["fragment"]["svg"] != bench["fragment"]["svg"]

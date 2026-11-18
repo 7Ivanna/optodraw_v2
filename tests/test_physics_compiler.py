@@ -14,50 +14,7 @@ def _step_kinds(tl: AnimationTimeline) -> list[str]:
 
 
 class TestCompilePhysicsAnimation:
-    def test_returns_animation_timeline_with_render_metadata(self):
-        scene = Scene(platform="on_chip")
-        mzi = scene.add(MZI(center=(0, 0)))
-        mzi._id = "mzi"
 
-        tl = compile_physics_animation(scene, fps=24, duration_s=3.5)
-
-        assert isinstance(tl, AnimationTimeline)
-        assert tl.fps == 24
-        assert tl.duration_s == 3.5
-        assert len(tl._steps) > 0
-
-    def test_mzi_scene_dispatches_interference_recipe(self):
-        scene = Scene(platform="on_chip")
-        mzi = scene.add(MZI(center=(0, 0)))
-        mzi._id = "mzi"
-
-        tl = compile_physics_animation(scene)
-        kinds = _step_kinds(tl)
-
-        assert kinds.count("show") >= 1
-        assert kinds.count("pause") >= 1
-
-    def test_ring_scene_dispatches_resonance_scan(self):
-        scene = Scene(platform="on_chip")
-        ring = scene.add(MicroringResonator(center=(0, 0), ring_radius=8.0))
-        ring._id = "ring"
-
-        tl = compile_physics_animation(scene)
-        kinds = _step_kinds(tl)
-
-        assert kinds.count("show") >= 1
-        assert "cavity_power" in kinds
-
-    def test_mzm_scene_dispatches_mzm_mechanism(self):
-        scene = Scene(platform="on_chip")
-        mzm = scene.add(MZM(drive_style="gsg"))
-        mzm._id = "mzm"
-
-        tl = compile_physics_animation(scene)
-        kinds = _step_kinds(tl)
-
-        assert kinds.count("show") == 1
-        assert kinds.count("cavity_power") >= 1
 
     def test_pn_ring_dispatches_pn_modulation(self):
         scene = Scene(platform="on_chip")

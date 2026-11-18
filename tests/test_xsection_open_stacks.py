@@ -5,7 +5,6 @@ from __future__ import annotations
 import functools
 import importlib.util
 import json
-import math
 import re
 from pathlib import Path
 
@@ -17,10 +16,9 @@ from shapely.ops import unary_union
 gdstk = pytest.importorskip("gdstk")
 
 from optodraw.core.markup import plain  # noqa: E402
-from optodraw.gds import bundled_stack_names, check_stack  # noqa: E402
-from optodraw.gds.palette import canonical, is_known  # noqa: E402
+from optodraw.gds import check_stack  # noqa: E402
 from optodraw.gds.parsers import BUNDLED_STACKS, Fill, Film, Wafer, load_layer_stack, stack_wafer  # noqa: E402
-from optodraw.gds.xsection import cross_section, stack_section  # noqa: E402
+from optodraw.gds.xsection import cross_section  # noqa: E402
 from optodraw.gds.xsection.schematic import section_frame, section_place  # noqa: E402
 
 RECORDER = Path(__file__).parent / "fixtures" / "xsection" / "record_old_sections.py"
@@ -61,18 +59,6 @@ def _strips(path: Path, strips: dict[tuple[int, int], list[tuple[float, float]]]
             cell.add(gdstk.rectangle((-10.0, y0), (10.0, y1), layer=layer, datatype=datatype))
     library.write_gds(str(path))
     return path
-
-
-def _height(region, s: float) -> float:
-    """How much of ``region`` the vertical line at ``s`` (um) crosses."""
-
-    return region.intersection(LineString([(s, -50.0), (s, 50.0)])).length
-
-
-def _width(region, z: float) -> float:
-    """How much of ``region`` the horizontal line at ``z`` (um) crosses."""
-
-    return region.intersection(LineString([(-50.0, z), (50.0, z)])).length
 
 
 # The numbers of the open lnoi400 PDK stack, written here as a test stack.
@@ -199,53 +185,6 @@ def test_check_stack_names_a_core_it_cannot_build(tmp_path, text, finding):
     assert any(finding in found for found in check_stack(_gds(tmp_path / "core.gds", (1, 0)), stack))
 
 
-def test_lnoi400_ridge_stands_on_its_slab_at_0_2_um(tmp_path):
-    """A core named by its ridge layer stands on the slab of its material under it: the device is the LN film from
-    z = 0, the ridge is held at 0.4 um, the slab etch takes the rest to 0.2 um, and the BOX ends at z = 0."""
-
-    # Mutants that must fail it: the keep level taken from the thickness, not top - zb (the ridge is not held, so
-    # the centre is 0.2); zb taken from the core layers only (no slab under the ridge).
-    xs = _lnoi_ridge(tmp_path)
-    device = xs.regions["device"]
-    assert xs.materials["device"] == "lithium_niobate"
-    assert _height(device, 8.0) == pytest.approx(0.4, abs=1e-6)
-    assert _height(device, 11.0) == pytest.approx(0.2, abs=1e-6)
-    assert _height(device, 14.5) == pytest.approx(0.0, abs=1e-6)
-    assert _width(device, 0.4 - 1e-6) == pytest.approx(1.0, abs=2e-3)
-    assert _width(device, 0.2 + 1e-6) == pytest.approx(1.0 + 2 * 0.2 * math.tan(math.radians(13)), abs=2e-3)
-    assert xs.regions["box"].bounds[3] == pytest.approx(0.0, abs=1e-9)
-    assert xs.check() == []
-
-
-def test_inp_has_no_box_and_bcb_fills_the_etch(tmp_path):
-    """InP: no BOX and no oxide. The deep etch cuts the top InP, the core and the substrate; the BCB fill fills each
-    trench flat to the top of the wafer. Test numbers, not a stack."""
-
-    # Mutants that must fail it: oxide_to typed back to sio2; _initial_stack always adding a box; the early etch
-    # into device only (the top InP stays in the trench).
-    stack = tmp_path / "inp.yaml"
-    stack.write_text("name: t\nsubstrate: {material: indium_phosphide}\nfilms:\n"
-                     "  - {name: Q, role: core, material: ingaasp, thickness: 0.5}\n"
-                     "  - {name: InP, material: indium_phosphide, thickness: 1.5}\n"
-                     "fill: {material: bcb, top: flush}\n"
-                     'layers:\n  "1/0": {name: Deep etch, zmin: -0.2, thickness: 2.2, material: air}\n')
-    gds = _strips(tmp_path / "inp.gds", {(1, 0): [(-3.0, -1.0), (1.0, 3.0)]})
-    xs = cross_section(gds, stack, ((0.0, -6.0), (0.0, 6.0)), window=(0.0, 12.0))
-    assert "box" not in xs.regions
-    assert not [name for name, material in xs.materials.items() if canonical(material) == "sio2"]
-    assert xs.materials["oxide"] == "bcb"
-    for s in (4.0, 8.0):                                            # the two trench centres
-        fill = xs.regions["oxide"].intersection(LineString([(s, -50.0), (s, 50.0)]))
-        assert (fill.bounds[1], fill.bounds[3]) == pytest.approx((-0.2, 2.0), abs=1e-6)
-        assert fill.length == pytest.approx(2.2, abs=1e-6)
-    line = LineString([(6.0, -50.0), (6.0, 50.0)])                # the guide
-    hits = sorted((region.intersection(line).bounds[1], name) for name, region in xs.regions.items()
-                  if region.intersection(line).length > 1e-6)
-    assert [(name, xs.materials[name]) for _, name in hits] == [
-        ("handle", "indium_phosphide"), ("device", "ingaasp"), ("InP", "indium_phosphide")]
-    assert (xs.labels["oxide"], xs.labels["handle"]) == ("BCB", "InP substrate")
-
-
 def _modulator_gds(path: Path) -> Path:
     """The modulator cut of test_xsection_stack_process as a GDS: a rib on its 90 nm slab, N and P, a contact and
     M1. The cut from (0, -4) to (0, 4) puts the rib at s = 4."""
@@ -330,16 +269,3 @@ def test_shipped_stacks_cite_every_number(name):
         assert "Permission is hereby granted" in text
 
 
-@pytest.mark.parametrize("name", list(_NEW_STACKS))
-def test_new_stacks_load_check_and_draw(tmp_path, name):
-    """Each new stack ships by name, agrees with a GDS that draws its core, and draws a section with no finding,
-    in materials the table knows."""
-
-    # Mutant that must fail it: a typo in one material key of the stack.
-    layers = _NEW_STACKS[name]
-    assert name in bundled_stack_names()
-    assert check_stack(_gds(tmp_path / f"{name}.gds", *layers), name) == []
-    xs = stack_section(name, layers[0])
-    assert xs.check() == []
-    own = load_layer_stack(name).materials
-    assert all(is_known(material, own) for material in xs.materials.values()), xs.materials

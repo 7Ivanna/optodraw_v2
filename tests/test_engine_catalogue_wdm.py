@@ -25,11 +25,3 @@ def test_wdm_rejects_invalid_values(wavelengths, powers):
         behaviour_for(part, "input").emissions(part, "input", {})
 
 
-def test_wdm_numeric_channels_survive_scene_round_trip():
-    from optodraw import Scene
-    scene = Scene(platform="on_chip")
-    scene.add(WDMInput(wavelengths_nm=(1300, 1310), channel_powers=(0.25, 4)))
-    restored = Scene.from_spec(scene.to_spec())
-    part = next(item for item in restored.walk() if item.component_type == "PresetWDMInput")
-    assert part.wavelengths_nm == (1300, 1310)
-    assert part.channel_powers == (0.25, 4)

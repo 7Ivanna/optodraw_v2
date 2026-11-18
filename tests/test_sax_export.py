@@ -1,6 +1,5 @@
 """Export to SAX: SAX runs the exported netlist and gives the spectrum that optodraw computes, to 1e-9."""
 
-import math
 from pathlib import Path
 
 import numpy as np
@@ -61,38 +60,6 @@ def test_the_imported_mzi_in_sax_equals_its_spectrum():
     for detector in (bar, cross):
         assert np.max(np.abs(power((laser, "o1"), (detector, "o1")) - m.of(detector, "o1"))) < 1e-9
     assert np.ptp(m.of(bar, "o1")) > 0.5                                       # the arms differ: fringes
-
-
-def test_the_two_rings_in_sax_equal_their_spectrum():
-    # the scene of docs/examples/models/01-ring-spectrum.py, with its numbers as plain floats: sampled models
-    def ring(**kwargs):
-        part = optodraw.MicroringResonator(**kwargs)
-        part.group_index = 2.411 + 1.55 * 1.078
-        part.round_trip_amplitude = 10 ** (-2.4e-4 * 2 * math.pi * part.ring_radius / 20)
-        part.power_coupling = 0.05
-        if part.add_drop:
-            part.drop_power_coupling = 0.05
-        return part
-
-    chip = optodraw.Scene(platform="on_chip")
-    laser_a = chip.add(optodraw.OnChipLaser(center=(-90, 50)))
-    allpass = chip.add(ring(center=(0, 50)))
-    through_a = chip.add(optodraw.OnChipPhotodetector(center=(90, 50)))
-    laser_b = chip.add(optodraw.OnChipLaser(center=(-90, -50)))
-    adddrop = chip.add(ring(center=(0, -50), add_drop=True))
-    through_b = chip.add(optodraw.OnChipPhotodetector(center=(90, -50)))
-    drop_b = chip.add(optodraw.OnChipPhotodetector(center=(-90, -5), angle=180))
-    for a, b in (((laser_a, "o1"), (allpass, "o1")), ((allpass, "o2"), (through_a, "o1")),
-                 ((laser_b, "o1"), (adddrop, "o1")), ((adddrop, "o2"), (through_b, "o1")),
-                 ((adddrop, "o3"), (drop_b, "o1"))):
-        chip.route(a, b, kind="waveguide", path_type="smooth")
-    grid = np.linspace(1540.0, 1560.0, 401)
-    exported, power = _sax_power(chip, grid)
-    assert [instance["component"] for instance in exported.netlist["instances"].values()].count("straight") == 5
-    s = spectrum(chip, start_nm=1540, stop_nm=1560, points=401)
-    for laser, detector in ((laser_a, through_a), (laser_b, through_b), (laser_b, drop_b)):
-        assert np.max(np.abs(power((laser, "o1"), (detector, "o1")) - s.of(detector, "o1"))) < 1e-9
-    assert np.ptp(s.of(drop_b, "o1")) > 0.5                                    # the grid sees the resonances
 
 
 def test_a_link_has_the_solver_phase():

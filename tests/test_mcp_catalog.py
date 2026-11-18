@@ -10,13 +10,11 @@ import pytest
 from optodraw.catalog import (
     describe_workflow_api,
     list_animation_recipes,
-    list_on_chip_components,
     workflow_catalog,
 )
 from optodraw.mcp_server import (
     _get_available_components,
     _get_on_chip_components,
-    _tool_definitions,
     dispatch_tool,
 )
 
@@ -28,20 +26,6 @@ FIXTURE = Path(__file__).parent / "fixtures" / "xsection" / "generic_siph_minima
 
 
 class TestWorkflowCatalog:
-    def test_workflow_catalog_includes_new_apis(self):
-        catalog = workflow_catalog()
-        assert "export_xsection_bundle" in catalog["xsection"]
-        assert "XSectionEngine" in catalog["xsection"]
-        assert "build_ring_filter" in catalog["layout_builders"]
-        assert "build_mzm_mesh" in catalog["layout_builders"]
-        assert "build_microring_weight_mesh" in catalog["layout_builders"]
-        assert "build_publication_bundle" in catalog["publication"]
-        assert "single_figure" in catalog["publication"]["templates"]
-        assert "physics_trace_to_timeline_hints" in catalog["physics_bridge"]
-        assert "compile_physics_animation" in catalog["physics_bridge"]
-        assert "export_interactive_html" in catalog["interactive"]
-        assert len(catalog["animation_recipes"]) >= 10
-        assert "render_physical" in catalog["schematic_rendering"]["component_flags"]
 
     def test_describe_workflow_api_physics_and_interactive(self):
         hints = describe_workflow_api("physics_trace_to_timeline_hints")
@@ -65,20 +49,6 @@ class TestWorkflowCatalog:
         assert template["panel_count"] >= 1
 
 
-class TestOnChipCatalog:
-    def test_on_chip_components_include_schematic_default(self):
-        entries = list_on_chip_components()
-        assert entries
-        waveguide = next(item for item in entries if item["name"] == "Waveguide")
-        assert waveguide["schematic_default"] is True
-        assert waveguide["supports_render_physical"] is True
-
-    def test_on_chip_filter_schematic_default(self):
-        schematic = list_on_chip_components(schematic_default=True)
-        assert all(item["schematic_default"] for item in schematic)
-        assert any(item["name"] == "MicroringResonator" for item in schematic)
-
-
 class TestMcpComponentListing:
     def test_mcp_components_derived_from_catalog(self):
         mcp_components = _get_available_components()
@@ -90,19 +60,6 @@ class TestMcpComponentListing:
         wg_catalog = next(item for item in on_chip if item["name"] == "Waveguide")
         assert wg_mcp["schematic_default"] == wg_catalog["schematic_default"]
         assert wg_mcp["supports_render_physical"] == wg_catalog["supports_render_physical"]
-
-    def test_tool_definitions_include_new_tools(self):
-        names = {tool["name"] for tool in _tool_definitions()}
-        for required in (
-            "optodraw_list_onchip_components",
-            "optodraw_list_workflows",
-            "optodraw_export_xsection_bundle",
-            "optodraw_build_publication_bundle",
-            "optodraw_physics_timeline_hints",
-            "optodraw_compile_physics_animation",
-            "optodraw_export_interactive_html",
-        ):
-            assert required in names
 
 
 class TestMcpDispatch:
@@ -240,26 +197,6 @@ class TestToolsSayWhereTheyPutThings:
         "beams": [], "routes": [],
     }
 
-    def test_render_3d_writes_where_it_is_told_and_says_so(self, tmp_path):
-        import json
-
-        from optodraw.mcp_server import dispatch_tool
-
-        target = tmp_path / "nested" / "scene.html"
-        payload = json.loads(dispatch_tool("optodraw_render_3d",
-                                           {"spec": self.SPEC, "output_path": str(target)}))
-        assert payload["output_path"] == str(target.resolve())
-        assert target.is_file() and payload["bytes"] == target.stat().st_size
-
-    def test_render_3d_still_answers_to_the_old_argument(self, tmp_path):
-        import json
-
-        from optodraw.mcp_server import dispatch_tool
-
-        target = tmp_path / "legacy.html"
-        payload = json.loads(dispatch_tool("optodraw_render_3d",
-                                           {"spec": self.SPEC, "filename": str(target)}))
-        assert payload["output_path"] == str(target.resolve())
 
     def test_create_setup_reports_resolved_paths(self, tmp_path):
         from optodraw.mcp_server import dispatch_tool

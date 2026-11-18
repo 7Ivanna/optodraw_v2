@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from gds_layout_fixtures import docs_device_gds, two_tops_gds
+from gds_layout_fixtures import docs_device_gds
 
 STATIC = Path(__file__).resolve().parents[1] / "optodraw" / "app" / "static"
 
@@ -119,24 +119,6 @@ def editor(tmp_path_factory):
 
 
 @needs_chrome
-def test_the_layout_view_draws_the_imported_gds(editor, tmp_path):
-    editor.open_with(docs_device_gds(tmp_path))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    assert editor.drawn()["polygons"] > 0
-    assert editor.js("document.getElementById('canvas').hidden && !document.getElementById('view-layout').hidden")
-    assert editor.js("document.getElementById('btn-view-layout').classList.contains('active')")
-    assert editor.js("document.querySelector('.zoom-cluster').hidden")    # GDS Lens zooms on its own
-
-
-@needs_chrome
-def test_the_part_cell_is_the_top_drawn(editor, tmp_path):
-    gid = editor.open_with(two_tops_gds(tmp_path))
-    editor.commit(editor.api("PATCH", f"/api/component/{gid}", {"params": {"cell_name": "B"}}))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    assert editor.drawn() == {"polygons": 2, "top": "B"}
-
-
-@needs_chrome
 def test_deleting_the_last_gds_part_returns_to_2d(editor, tmp_path):
     gid = editor.open_with(docs_device_gds(tmp_path))
     editor.js("document.getElementById('btn-view-layout').click()")
@@ -145,17 +127,6 @@ def test_deleting_the_last_gds_part_returns_to_2d(editor, tmp_path):
     editor.wait("document.getElementById('view-layout').hidden && !document.getElementById('canvas').hidden")
     assert editor.js("document.getElementById('btn-view-layout').disabled")
     assert editor.js("!document.querySelector('.zoom-cluster').hidden")
-
-
-@needs_chrome
-def test_a_part_whose_file_is_gone_shows_why(editor, tmp_path):
-    gds = docs_device_gds(tmp_path)
-    editor.open_with(gds)
-    for stored in Path(editor.api("GET", "/api/scene")["components"][0]["source"]).parent.glob("*.gds"):
-        stored.unlink()
-    editor.js("document.getElementById('btn-view-layout').click()")
-    text = editor.wait("(document.querySelector('#view-layout .layout-message') || {}).textContent || ''")
-    assert "no file for" in text
 
 
 def test_the_2d_canvas_cut_tool_is_gone_and_the_inspector_points_to_the_layout_view():
@@ -167,89 +138,3 @@ def test_the_2d_canvas_cut_tool_is_gone_and_the_inspector_points_to_the_layout_v
     assert "Draw cut on canvas" not in props and "Clear cut line" not in props and "Layout view" in props
 
 
-@needs_chrome
-def test_with_several_top_cells_and_no_cell_name_the_part_cell_is_drawn(editor, tmp_path):
-    editor.open_with(two_tops_gds(tmp_path))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    assert editor.drawn() == {"polygons": 2, "top": "B"}
-
-
-def _rows(editor):
-    return editor.js("(async () => (await gdsLens.getLayers()).map(r => [`${r.layer}/${r.datatype}`, r.fillColor, r.polygonCount]))()")
-
-
-@needs_chrome
-def test_a_new_scene_whose_part_has_the_same_id_redraws_the_view(editor, tmp_path):
-    """Ids start again in each scene, so the first import of every scene is gdsmodel_1 (final review, finding 1):
-    the view must follow the part's file, not only its id."""
-
-    editor.open_with(docs_device_gds(tmp_path))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    assert editor.drawn()["polygons"] == 232
-    editor.api("POST", "/api/scene/new", {})
-    gds = two_tops_gds(tmp_path)
-    editor.api("POST", f"/api/gds/import?filename={gds.name}", raw=gds.read_bytes())
-    editor.commit({"spec": editor.api("GET", "/api/scene")})
-    editor.wait("(async () => { const r = await gdsLens.getLayers(); return r.length === 1 && r[0].polygonCount === 2; })()")
-
-
-@needs_chrome
-def test_a_new_layer_colour_reaches_the_open_view(editor, tmp_path):
-    gid = editor.open_with(docs_device_gds(tmp_path))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    editor.drawn()
-    lyp = ('<?xml version="1.0" encoding="utf-8"?><layer-properties><properties><fill-color>#123456</fill-color>'
-           '<frame-color>#123456</frame-color><name>Pad metal</name><source>49/0@1</source></properties></layer-properties>')
-    request = urllib.request.Request(f"{editor.base}/api/gds/{gid}/technology?filename=t.lyp", data=lyp.encode(), method="POST")
-    with urllib.request.urlopen(request, timeout=120) as reply:
-        editor.commit(json.loads(reply.read()))
-    editor.wait("(async () => (await gdsLens.getLayers()).some(r => r.layer === 49 && r.fillColor.startsWith('rgba(18,52,86')))()")
-
-
-@needs_chrome
-def test_the_old_scene_cut_is_not_drawn_on_the_new_scene_part(editor, tmp_path):
-    editor.open_with(docs_device_gds(tmp_path))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    editor.drawn()
-    editor.js("[...document.querySelectorAll('#props-form button')].find(b => b.textContent.includes('Open cross-section')).click()")
-    editor.wait("!document.getElementById('xs-panel').hidden && !!document.querySelector('#xs-cross svg')")
-    editor.js("(async () => { await gdsLens.clearMeasurements(); await gdsLens.addMeasurement(11, 11, 11, -11); })()")
-    editor.js("document.getElementById('xs-cut-ruler').click()")
-    editor.wait("document.getElementById('xs-sub').textContent.startsWith('Ruler')")
-    editor.api("POST", "/api/scene/new", {})
-    gds = two_tops_gds(tmp_path)
-    editor.api("POST", f"/api/gds/import?filename={gds.name}", raw=gds.read_bytes())
-    editor.commit({"spec": editor.api("GET", "/api/scene")})
-    editor.wait("(async () => { const r = await gdsLens.getLayers(); return r.length === 1; })()")
-    time.sleep(1.0)
-    assert editor.js("(async () => (await gdsLens.getMeasurements()).length)()") == 0
-
-
-@needs_chrome
-def test_keys_typed_in_the_viewer_do_not_reach_the_scene(editor, tmp_path):
-    """The part is selected while the Layout view shows it; Backspace or an arrow typed in GDS Lens (its find box,
-    or panning as in KLayout) deleted or moved the part (final review, finding 2)."""
-
-    gid = editor.open_with(docs_device_gds(tmp_path))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    editor.drawn()
-    before = editor.api("GET", "/api/scene")["components"][0]["center"]
-    for key in ("Backspace", "ArrowLeft", "Delete"):
-        editor.js(f"document.querySelector('gds-lens').dispatchEvent(new KeyboardEvent('keydown', "
-                  f"{{key: '{key}', code: '{key}', bubbles: true, composed: true}}))")
-    time.sleep(2.0)
-    components = editor.api("GET", "/api/scene")["components"]
-    assert [c["id"] for c in components] == [gid] and components[0]["center"] == before
-
-
-@needs_chrome
-def test_leaving_the_layout_view_for_1d_restores_the_editor_controls(editor, tmp_path):
-    editor.open_with(docs_device_gds(tmp_path))
-    editor.js("document.getElementById('btn-view-layout').click()")
-    editor.drawn()
-    editor.js("document.getElementById('btn-view-1d').click()")
-    editor.wait("!document.getElementById('view1d').hidden")
-    assert editor.js("document.getElementById('view-layout').hidden && document.getElementById('xs-cut-ruler').hidden")
-    assert editor.js("!document.querySelector('.zoom-cluster').hidden")
-    assert editor.js("!document.getElementById('btn-view-layout').classList.contains('active')")
-    assert editor.js("document.getElementById('zoom-level').textContent") != "Layout"

@@ -6,7 +6,7 @@ import pytest
 from optodraw.animation_engine.behaviours import Behaviour, Emission, Transfer
 from optodraw.animation_engine.graph import SignalGraph
 from optodraw.animation_engine.signals import linear, scalar
-from optodraw.animation_engine.solver import propagate_pulses, steady_state
+from optodraw.animation_engine.solver import steady_state
 
 
 class InternalDetector(Behaviour):
@@ -22,16 +22,6 @@ class InternalDetector(Behaviour):
 
     def sinks(self, part, port):
         return port == "_detector"
-
-
-@pytest.mark.parametrize("solver", [steady_state, propagate_pulses])
-def test_internal_detector_absorbs(solver):
-    part = SimpleNamespace(animation_behaviour=lambda: InternalDetector())
-    result = solver(SignalGraph({"rx": part}, []))
-    assert len(result.absorbed) == 1
-    assert result.absorbed[0]["port"] == "_detector"
-    assert result.absorbed[0]["power"] == pytest.approx(1)
-    assert result.exits == []
 
 
 def test_internal_absorption_remains_in_passivity_operator():

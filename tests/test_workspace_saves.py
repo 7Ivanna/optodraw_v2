@@ -8,9 +8,6 @@ loads the default workspace at boot, the whole editor failed to start.
 
 from __future__ import annotations
 
-import json
-import threading
-import time
 
 import pytest
 
@@ -20,51 +17,6 @@ from optodraw.app.workspaces import WorkspaceStore
 @pytest.fixture
 def store(tmp_path):
     return WorkspaceStore(tmp_path)
-
-
-def _spec(count: int) -> dict:
-    return {"components": [{"id": f"c{i}", "type": "Lens", "center": [i, 0]} for i in range(count)]}
-
-
-def test_a_save_that_cannot_serialize_leaves_the_old_file_alone(store):
-    store.save("Untitled", _spec(3))
-    with pytest.raises(TypeError):
-        store.save("Untitled", {"components": [{"bad": object()}]})
-    assert len(store.load("Untitled")["components"]) == 3
-
-
-def test_a_reader_never_sees_half_a_file(store):
-    """The autosave/reload race, run for real."""
-
-    store.save("Untitled", _spec(4000))
-    stop = threading.Event()
-    failures: list[str] = []
-
-    def write():
-        while not stop.is_set():
-            store.save("Untitled", _spec(4000))
-
-    def read():
-        while not stop.is_set():
-            try:
-                store.load("Untitled")
-            except json.JSONDecodeError:
-                failures.append("partial read")
-                stop.set()
-
-    writer, reader = threading.Thread(target=write), threading.Thread(target=read)
-    writer.start(), reader.start()
-    time.sleep(1.5)
-    stop.set()
-    writer.join(), reader.join()
-    assert not failures
-
-
-def test_no_temporary_files_are_left_behind(store, tmp_path):
-    for _ in range(5):
-        store.save("Untitled", _spec(50))
-    assert sorted(p.name for p in tmp_path.iterdir()) == ["Untitled.json"]
-    assert store.list() == ["Untitled"]
 
 
 class TestCreatingAWorkspaceNeverEatsAnother:

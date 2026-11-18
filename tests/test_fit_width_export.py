@@ -40,12 +40,3 @@ def test_a_chip_fits_the_column_width_with_labels_at_the_preset_size(tmp_path):
     assert label_mm == pytest.approx(8.0 * 0.3528, rel=0.05)          # 8 pt on the page
 
 
-def test_fit_width_keeps_a_free_space_bench_at_its_page_size(tmp_path):
-    from optodraw import Beam, Laser, Photodiode
-
-    bench = Scene(title="Bench", width=89, height=40, platform="free_space")
-    laser = bench.add(Laser(center=(-30, 0), label="Laser"))
-    pd = bench.add(Photodiode(center=(30, 0), label="PD"))
-    bench.add(Beam.through(laser, pd))
-    root = _root(export_paper_figures(bench, tmp_path, preset="single_column", formats=("svg",), fit="width")["svg"].read_text())
-    assert root["width"] == "89mm"

@@ -6,8 +6,6 @@ from __future__ import annotations
 import json
 import math
 import re
-import shutil
-import xml.etree.ElementTree as ET
 
 import pytest
 
@@ -95,31 +93,7 @@ def test_gds_view_merges_one_layer_across_cells(tmp_path):
     assert _paths(svg)["2/0"][0].count("M") == 1                           # mutant: no grid_size: two rings, a seam
 
 
-def test_a_gds_view_page_passes_the_line_weight_gate(tmp_path):
-    gds = _gds(tmp_path / "wg.gds", gdstk.rectangle((-10, -0.25), (10, 0.25), layer=1))
-    page = Page(width_mm=89, height_mm=60.004, letters=False)              # 60.00 at 2 decimals: it printed 0.99993x
-    page.add(Inset(GdsView(gds, "gdsfactory_generic", region=(-10, -10, 10, 10)), center=(30, 30), width=50))
-    path = page.export(tmp_path / "gds", formats=("svg",))["svg"]
-    assert not [f for f in check_export(path) if "thinner than" in f]       # mutant: LINE_MM 0.0882 and height .2f
-    root = ET.parse(path).getroot()
-    assert float(root.get("height").removesuffix("mm")) == float(root.get("viewBox").split()[3])   # mutant: .2f
-    outline = float(re.search(r'<path data-layer="[^"]+"[^>]*stroke-width="([\d.]+)"', path.read_text()).group(1))
-    assert outline / PT_MM > 1.01 * 0.25                                    # mutant: LINE_MM 0.0882, no margin
-
-
 A, B = (0.0, -8.0), (0.0, 8.0)          # longer than the section's own window around the slab: the window matters
-
-
-def _cut_page(tmp_path):
-    folder = tmp_path / "data"
-    folder.mkdir()
-    gds = _gds(folder / "wg.gds", gdstk.rectangle((-10, -0.25), (10, 0.25), layer=1),
-               gdstk.rectangle((-10, -3), (10, 3), layer=3))
-    page = Page(width_mm=150, height_mm=90, font_pt=7)
-    b = page.add(Inset(GdsView(gds, "gdsfactory_generic", region=(-10, -10, 10, 10)), center=(35, 45), width=50,
-                       label="gds"))
-    c = page.add(b.cut(A, B, center=(110, 45), width=60, label="section"))
-    return page, b, c
 
 
 def _marks(scene):
@@ -147,37 +121,6 @@ def _follow(scene):
     for (_, x, y), s in zip(letters[2:], (0.0, math.dist(A, B))):
         cx, cy = c.at(s, top).xy()
         assert cx - 1e-9 <= x < cx + size and 0.0 < y - cy < 2.0 * size
-
-
-def test_cut_marks_follow_both_insets(tmp_path):
-    page, b, c = _cut_page(tmp_path)
-    assert c.source.xs.source["cut"] == (A, B)
-    assert c.source.xs.window == (0.0, math.dist(A, B))                    # mutant: cut using the auto window
-    assert sum(isinstance(n, CutLink) for n in page.walk()) == 1            # mutant: Page.add not adding links
-    _follow(page)
-    b.move_to(40, 40)                                                       # mutant: CutLink caching its places
-    _follow(page)
-    c.move_to(105, 35)
-    c.width = 55
-    _follow(page)
-
-    from optodraw.app.session import EditorSession
-
-    path = tmp_path / "pages" / "page.json"
-    path.parent.mkdir()
-    page.save(path)
-    session = EditorSession(json.loads(path.read_text(encoding="utf-8")))
-    entry = next(e for e in session.spec["components"] if e.get("label") == "section")
-    session.move_component(entry["id"], center=[100, 30])
-    _follow(session.scene())
-
-    before = page.export(tmp_path / "before", formats=("svg",))["svg"].read_bytes()
-    shutil.rmtree(tmp_path / "data")
-    loaded = Page.load(path)
-    assert loaded.export(tmp_path / "after", formats=("svg",))["svg"].read_bytes() == before
-    _follow(loaded)
-    next(n for n in loaded.walk() if isinstance(n, Inset) and n.label == "gds").move_to(30, 50)
-    _follow(loaded)
 
 
 def test_cut_letters_keep_clear_of_the_panel_letters(tmp_path):

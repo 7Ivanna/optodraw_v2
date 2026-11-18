@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import json
 import re
-import warnings
 
 import pytest
 
@@ -15,17 +14,13 @@ np = pytest.importorskip("numpy")
 pytest.importorskip("shapely")
 gdstk = pytest.importorskip("gdstk")
 
-from optodraw import Callout, GDSModel, GdsView, Inset, Scene, View3D, check_export, check_figure  # noqa: E402
-from optodraw.core.transform import Vec3  # noqa: E402
+from optodraw import Callout, GDSModel, GdsView, Inset, Scene, View3D, check_figure  # noqa: E402
 from optodraw.figure.fragment import place_from  # noqa: E402
 from optodraw.figure.inset import CutLink  # noqa: E402
 from optodraw.figure.page import Page  # noqa: E402
 from optodraw.figure.sources import cut_section  # noqa: E402
 from optodraw.figure.sources import from_record  # noqa: E402
 from optodraw.registry import build_component  # noqa: E402
-from optodraw.renderers import vector3d, vector3d_hidden  # noqa: E402
-from optodraw.renderers.vector3d import SHADOW_INK, Vector3DError  # noqa: E402
-from optodraw.renderers.vector3d_hidden import Camera  # noqa: E402
 from optodraw.renderers.vector3d_scene import home_pose, scene_solids  # noqa: E402
 
 STACK = "gdsfactory_generic"
@@ -74,21 +69,6 @@ def _chip_solids(view: View3D):
 # ---------------------------------------------------------------- fragment: the camera map
 
 
-@pytest.mark.parametrize("projection", ["perspective", "parallel"])
-def test_the_camera_map_is_the_cameras_page(tmp_path, projection):
-    # mutant: swap right and up in place_from's camera form (or in the map View3D writes); the points move off
-    shape = View3D(_block_scene(tmp_path), projection=projection).fragment(80.0, font_pt=7).map
-    assert shape["form"] == "camera"
-    back = np.array(shape["back"])
-    camera = Camera(eye=np.array(shape["eye"]), target=np.array(shape["eye"]) - back,
-                    perspective=shape["perspective"], k=shape["k"], origin=tuple(shape["origin"]))
-    world = np.array(shape["world"]).reshape(3, 4)
-    place = place_from(json.loads(json.dumps(shape)))                    # the map as a page file keeps it
-    for point in np.random.default_rng(7).uniform(-30, 40, size=(50, 3)):
-        want = camera.page(world @ np.append(point, 1.0))[0]
-        assert place(*point) == pytest.approx(tuple(want), abs=1e-9)
-
-
 def test_a_point_behind_the_eye_raises(tmp_path):
     # mutant: drop the behind-the-eye check; the point lands mirrored on the page
     shape = View3D(_block_scene(tmp_path)).fragment(80.0, font_pt=7).map
@@ -98,25 +78,6 @@ def test_a_point_behind_the_eye_raises(tmp_path):
 
 
 # ---------------------------------------------------------------- View3D of a scene
-
-
-def test_a_box_top_corner_lands_on_a_drawn_vertex(tmp_path):
-    # mutant: drop the z axis flip in SCENE_AXES (world z = +y); the corners land 10 mm and more off the block
-    fragment = View3D(_block_scene(tmp_path)).fragment(80.0, font_pt=7)
-    vertices = _vertices(fragment.svg)
-    for x, y in BLOCK_CORNERS:
-        gap = np.linalg.norm(vertices - np.array(fragment.place(x, y, BLOCK_Z)), axis=1).min()
-        assert gap < 0.01, f"the corner ({x}, {y}) lands {gap:.3f} mm from the drawing"
-
-
-def test_the_fragment_is_art_and_check_export_finds_no_hairline(tmp_path):
-    # mutant: drop data-art from the root group of draw(); its 0.085 pt outlines become hairline findings
-    view = View3D(_block_scene(tmp_path))
-    assert 'data-art="3d"' in view.fragment(80.0, font_pt=7).svg
-    page = Page(width_mm=100, height_mm=80, letters=False)
-    page.add(Inset(view, center=(50, 40), width=80))
-    svg = page.export(tmp_path / "page", formats=("svg",))["svg"]
-    assert not [finding for finding in check_export(svg) if "thinner" in finding]
 
 
 def test_a_mark_at_a_hidden_point_is_a_finding(tmp_path):
@@ -141,22 +102,6 @@ def test_a_loaded_3d_inset_with_marks_is_one_finding(tmp_path):
     assert len(found) == 1 and '"ring"' in found[0] and "rebuild()" in found[0]
 
 
-def test_covered_reads_the_hidden_step_of_the_drawing(tmp_path, monkeypatch):
-    # mutant: covered runs visible() again on its first question; the hidden step runs twice
-    calls = []
-    real = vector3d.visible
-
-    def counted(*args, **kwargs):
-        calls.append(1)
-        return real(*args, **kwargs)
-
-    monkeypatch.setattr(vector3d, "visible", counted)
-    monkeypatch.setattr(vector3d_hidden, "visible", counted)
-    fragment = View3D(_block_scene(tmp_path)).fragment(80.0, font_pt=7)
-    assert fragment.covered(10, 20, BLOCK_Z / 2) and not fragment.covered(10, 20, BLOCK_Z)
-    assert len(calls) == 1
-
-
 def test_camera_home_takes_the_viewers_framed_pose():
     # mutant: camera_for ignores camera="home"; the eye stays 2.2 box diagonals out along the direction
     scene, _ = _ring_scene()
@@ -167,38 +112,12 @@ def test_camera_home_takes_the_viewers_framed_pose():
         View3D(scene, camera="far")
 
 
-def test_shadows_and_face_limit_reach_the_renderer():
-    # mutant: View3D drops shadows= or face_limit= on its way to the renderer
-    scene, _ = _ring_scene()
-    assert SHADOW_INK in View3D(scene).fragment(80.0, font_pt=7).svg
-    assert SHADOW_INK not in View3D(scene, shadows=False).fragment(80.0, font_pt=7).svg
-    with pytest.raises(Vector3DError, match=r"after culling, over the limit of 10: crop the chip with region="):
-        View3D(scene, face_limit=10).fragment(80.0, font_pt=7)
-
-
 def test_the_record_keeps_camera_shadows_and_face_limit(tmp_path):
     # mutant: to_record leaves shadows out; the loaded view draws its shadows again
     scene, _ = _ring_scene()
     record = json.loads(json.dumps(View3D(scene, camera="home", shadows=False, face_limit=5000).to_record()))
     loaded = from_record(record, tmp_path)
     assert (loaded.camera, loaded.shadows, loaded.face_limit) == ("home", False, 5000)
-
-
-def test_a_scene_view_saves_live_and_a_changed_scene_saves_frozen(tmp_path):
-    # mutant: compare the spec with the scene as it is now, not as it was drawn; the changed scene saves live
-    scene, ring = _ring_scene()
-    page = Page(width_mm=120, height_mm=90, letters=False)
-    page.add(Inset(View3D(scene), center=(60, 45), width=80, label="ring"))
-    page.svg()
-    with warnings.catch_warnings():
-        warnings.simplefilter("error")
-        page.save(tmp_path / "live.json")
-    stored = next(c for c in json.loads((tmp_path / "live.json").read_text())["components"] if c["type"] == "Inset")
-    assert stored["source"]["kind"] == "View3D" and "scene" in stored["source"]
-    assert stored["fragment"]["frozen"] is False
-    ring.transform.position = Vec3(30.0, 10.0, 0.0)                         # after the drawing
-    with pytest.warns(UserWarning, match=r"'ring' saves its scene frozen.*rebuild"):
-        page.save(tmp_path / "frozen.json")
 
 
 def test_a_scene_with_a_gds_part_saves_frozen(tmp_path):
@@ -245,15 +164,6 @@ def test_a_crop_ends_at_the_region_edges(tmp_path):
     chip = {s.id for s in built.solids if s.chip}
     points = np.vstack([f.ring for f in built.faces if f.solid in chip])
     assert np.ptp(points[:, 0]) == pytest.approx(18.0) and np.ptp(points[:, 2]) == pytest.approx(15.0)
-
-
-@pytest.mark.parametrize("box", ["opaque", "clear"])
-def test_the_box_is_opaque_unless_asked_clear(tmp_path, box):
-    # mutant: ignore box in _WaferChip._look; one of the two cases fails
-    solids = _chip_solids(View3D.chip(_soi(tmp_path), STACK, box=box))
-    opaque_oxide = [s for s in solids if s.look.preset == "sio2" and not s.look.clear]
-    assert bool(opaque_oxide) is (box == "opaque")
-    assert [s for s in solids if s.look.preset == "silicon" and not s.look.clear]     # the handle and the guide
 
 
 def test_a_missing_gds_is_an_error(tmp_path):

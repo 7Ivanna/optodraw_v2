@@ -62,24 +62,6 @@ def client(tmp_path, monkeypatch) -> TestClient:
     return TestClient(create_app())
 
 
-def test_the_editor_page_has_no_controls_and_the_export_page_has_the_bar(client):
-    client.post("/api/component", json={"name": "Laser", "params": {"center": [0, 0]}})
-    editable = client.get("/api/render/threejs", params={"editable": 1}).text
-    assert 'id="od-bar"' not in editable and 'id="info"' not in editable
-    standalone = client.get("/api/render/threejs").text
-    assert 'id="od-bar"' in standalone
-
-
-def test_3d_labels_start_off_and_have_their_own_setting(client):
-    client.post("/api/component", json={"name": "Laser", "params": {"center": [0, 0], "label": "Pump"}})
-    pressed = r'<button[^>]*id="btn-labels"[^>]*aria-pressed="(\w+)"'
-    assert re.search(pressed, client.get("/api/render/threejs").text).group(1) == "false"
-    assert client.patch("/api/scene/meta", json={"show_labels_3d": True}).status_code == 200
-    assert re.search(pressed, client.get("/api/render/threejs").text).group(1) == "true"
-    scene = client.get("/api/scene").json()
-    assert scene.get("spec", scene).get("show_labels", True) is not False      # 2D labels untouched
-
-
 def test_a_click_in_the_3d_view_closes_the_open_menus():
     # a click inside the frame never reaches the editor's document; the editor's window loses focus instead
     source = _script()

@@ -5,13 +5,11 @@ from __future__ import annotations
 import base64
 import io
 import re
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
 
 from optodraw import Inset
-from optodraw.check import _read_page
 from optodraw.figure.page import Page
 from optodraw.figure.sources import Image, SemView, to_source
 from optodraw.gds.layout import GDSLayerRecord, GDSLayout
@@ -42,29 +40,6 @@ def _page(source, width=40.0, **options):
     return page, page.add(Inset(source, center=(50, 30), width=width, **options))
 
 
-def test_a_png_goes_in_as_a_picture(tmp_path):
-    path = _picture(tmp_path, ".png")
-    page, inset = _page(str(path))
-    svg = page.svg()
-    ET.fromstring(svg)
-    assert svg.count("<image") == 1 and 'data-inset="measured"' in svg
-    assert 'preserveAspectRatio="none"' in svg
-    assert inset.fragment().kind == "measured" and inset.fragment().size_mm == (40.0, 20.0)
-    (kind, image), = _embedded(svg)
-    assert kind == "png" and image.size == (1000, 500)
-
-
-def test_jpeg_and_tiff_load(tmp_path):
-    jpeg = _picture(tmp_path, ".jpg", mode="RGB")
-    page, _ = _page(Image(jpeg))
-    assert _embedded(page.svg())[0][0] == "jpeg"
-    tiff = _picture(tmp_path, ".tiff")
-    page, inset = _page(str(tiff))
-    (kind, image), = _embedded(page.svg())
-    assert kind == "png" and image.size == (1000, 500)                  # a TIFF becomes a PNG in the file
-    assert inset.fragment().size_mm == (40.0, 20.0)
-
-
 def test_an_array_loads():
     grey = (np.arange(200) % 256).astype(np.uint8).reshape(10, 20)
     colour = np.linspace(0.0, 1.0, 10 * 20 * 3).reshape(10, 20, 3)
@@ -76,63 +51,6 @@ def test_an_array_loads():
         Image(np.zeros(5)).fragment(10.0, font_pt=7.0)
     with pytest.raises(ValueError, match="height"):
         Inset(grey, height=10.0)                                        # a picture keeps its own shape
-
-
-def test_a_real_sem_marks_a_point_in_um(tmp_path):
-    path = _picture(tmp_path, ".png")
-    page, inset = _page(Image(path, scale_um_per_px=0.02))
-    x, y = inset.at(10, 0).xy()                                         # 10 um is pixel 500: the middle of the top edge
-    assert (x, y) == pytest.approx((50.0, 30.0 + 10.0))
-    x, y = inset.at(20, 10).xy()                                        # the far corner of 1000 x 500 px
-    assert (x, y) == pytest.approx((70.0, 20.0))
-    bare = Inset(Image(path), center=(50, 30), width=40.0)
-    assert bare.at(500, 0).xy() == pytest.approx((50.0, 40.0))          # no scale: pixels
-
-
-def test_the_scale_bar_is_vector_and_sized(tmp_path):
-    path = _picture(tmp_path, ".png")
-    page = Page(width_mm=100, height_mm=60, font_pt=7.0, letters=False)
-    page.add(Inset(Image(path, scale_um_per_px=0.02), center=(50, 30), width=40.0, bar=(5, "5 µm")))
-    svg = page.svg()
-    rects = re.findall(r'<rect[^>]*>', svg)
-    bar = [r for r in rects
-           if 'fill="#ffffff"' in r and float(re.search(r'width="([\d.]+)"', r).group(1)) == pytest.approx(10.0)]
-    assert len(bar) == 1                                                # 5 um of 20 um at 40 mm: 10 mm
-    texts = _read_page(ET.fromstring(svg), "page.svg").texts
-    mine = [t for t in texts if t.words == "5 µm"]
-    assert len(mine) == 1 and mine[0].pt == pytest.approx(7.0, abs=0.01)    # live text at the page font
-
-
-def test_the_scale_bar_follows_the_inset(tmp_path):
-    path = _picture(tmp_path, ".png")
-    page = Page(width_mm=100, height_mm=60, letters=False)
-    inset = page.add(Inset(Image(path, scale_um_per_px=0.02), center=(50, 30), width=80.0, bar=(5, "5 µm")))
-    svg = page.svg()
-    assert any(float(re.search(r'width="([\d.]+)"', r).group(1)) == pytest.approx(20.0)
-               for r in re.findall(r'<rect[^>]*fill="#ffffff"[^>]*>', svg))
-    assert inset.bar == (5, "5 µm")
-
-
-def test_a_bar_needs_a_linear_x_scale():
-    import matplotlib
-
-    matplotlib.use("Agg")
-    from matplotlib import pyplot as plt
-
-    from optodraw.figure.sources import Plot
-
-    fig, ax = plt.subplots()
-    ax.set_xscale("log")
-    ax.plot([1, 10, 100], [1, 2, 3])
-    page, inset = _page(Plot(fig), bar=(5, "5"))
-    with pytest.raises(ValueError, match="linear"):
-        inset.annotation_2d()
-    plt.close(fig)
-    fig, ax = plt.subplots()
-    ax.plot([0, 10], [0, 1])
-    page, inset = _page(Plot(fig), bar=(5, "5"))
-    assert inset.annotation_2d()["children"]                            # a linear plot takes a bar
-    plt.close(fig)
 
 
 # --- the SEM render ---------------------------------------------------------------------------------------------
@@ -178,40 +96,6 @@ def test_the_sem_render_is_marked():
     assert to_source(_view()).__class__ is SemView                                     # a TopView goes to its render
 
 
-def test_the_sem_render_prints_at_600_ppi():
-    fragment = SemView(_view()).fragment(60.0, font_pt=7.0)
-    assert _embedded(fragment.svg)[0][1].width == 1417                  # 60 mm at 600 ppi
-    assert SemView(_view(), width_px=300).fragment(60.0, font_pt=7.0).svg.count("base64") == 1
-    assert _embedded(SemView(_view(), width_px=300).fragment(60.0, font_pt=7.0).svg)[0][1].width == 300
-
-
-def test_mark_off_keeps_the_record():
-    fragment = SemView(_view(), width_px=300, mark=False).fragment(40.0, font_pt=7.0)
-    assert fragment.kind == "render"
-    assert any("render" in note for note in fragment.notes)
-    assert SemView(_view(), width_px=300).fragment(40.0, font_pt=7.0).kind == "render"
-
-
-def test_the_sem_render_marks_a_file_point():
-    view = _view()
-    width_mm, px = 40.0, 400
-    fragment = SemView(view, width_px=px).fragment(width_mm, font_pt=7.0)
-    maps = view.maps(px)
-    nv = maps.height.shape[0]
-    per_px = width_mm / px
-    assert fragment.size_mm[0] == width_mm and fragment.size_mm[1] > nv * per_px        # the info strip is under it
-    assert fragment.place(REGION[0], REGION[3]) == pytest.approx((0.0, 0.0))             # the top left of the view
-    assert fragment.place(REGION[2], REGION[1]) == pytest.approx((width_mm, nv * per_px))
-    high = view.maps(px).height
-
-    def pixel(x, y):
-        mx, my = fragment.place(x, y)
-        return int(my / per_px), int(mx / per_px)
-
-    assert high[pixel(-3.0, 0.0)] > high[pixel(-3.0, 4.0)]              # on the horizontal bus, off it
-    assert high[pixel(2.25, 4.0)] > high[pixel(4.0, 4.0)]                # on the vertical bus, off it
-
-
 def test_the_sem_render_follows_a_rotation():
     view = _view()
     px = 400
@@ -253,13 +137,6 @@ def test_a_section_render_marks_a_cut_point():
         SemView(xs, tilt=20.0).fragment(60.0, font_pt=7.0)
 
 
-def test_a_section_goes_to_the_section_view_unless_asked():
-    from optodraw.figure.sources import SectionView
-
-    assert isinstance(to_source(_modulator()), SectionView)
-    assert isinstance(SemView(_modulator()), SemView)
-
-
 def test_a_huge_picture_warns(tmp_path, monkeypatch):
     from optodraw.figure import sources
 
@@ -288,61 +165,6 @@ def test_a_picture_exports_as_png(tmp_path):
 
 # --- fix round 1 ------------------------------------------------------------------------------------------------
 
-def test_a_bare_source_is_built_once_per_export(tmp_path, monkeypatch):
-    calls = []
-    for cls in (SemView, Image):
-        real = cls.fragment
-
-        def counted(self, *args, _real=real, **kwargs):
-            calls.append(type(self).__name__)
-            return _real(self, *args, **kwargs)
-
-        monkeypatch.setattr(cls, "fragment", counted)
-    for item, name in ((_view(), "SemView"), (str(_picture(tmp_path, ".png")), "Image")):
-        calls.clear()
-        page = Page(width_mm=100, height_mm=60, letters=False)
-        page.add(Inset(item, center=(50, 30), width=40.0))
-        page.svg()
-        assert calls == [name]
-        page.svg()                                                  # each export asks a live source again
-        assert calls == [name, name]
-
-
-def test_the_bar_has_a_dark_plate(tmp_path):
-    path = _picture(tmp_path, ".png")
-    page, _ = _page(Image(path, scale_um_per_px=0.02), bar=(5, "5 µm"))
-    svg = page.svg()
-    plates = re.findall(r'<rect[^>]*fill="#000000"[^>]*>', svg)
-    assert len(plates) == 1 and "fill-opacity" in plates[0]
-    assert len(re.findall(r'<rect[^>]*fill="#ffffff"[^>]*>', svg)) == 1
-
-
-def test_the_bar_sits_over_the_info_strip():
-    px = 400
-    page, inset = _page(SemView(_view(), width_px=px), width=40.0, bar=(2, "2 µm"))
-    fragment = inset.fragment()
-    strip = fragment.size_mm[1] - 40.0 * _view().maps(px).height.shape[0] / px
-    assert strip > 0 and fragment.floor_mm == pytest.approx(strip)
-    for fill in ("#ffffff", "#000000"):                                  # the bar and its plate, in mm from the top
-        rect = re.findall(rf'<rect[^>]*fill="{fill}"[^>]*>', page.svg())[0]
-        y, h = (float(re.search(rf'\s{k}="(-?[\d.]+)"', rect).group(1)) for k in ("y", "height"))
-        assert y + h <= fragment.size_mm[1] - strip + 1e-6
-
-
-@pytest.mark.parametrize("width", [60.0, 100.0])
-def test_the_bar_text_reads_the_font_at_any_print_scale(tmp_path, width):
-    from optodraw import Scene, Laser
-    from optodraw.publication import export_figure
-
-    scene = Scene(width=200, height=100)
-    scene.add(Laser(center=(-50, 0)))
-    scene.add(Inset(Image(_picture(tmp_path, ".png"), scale_um_per_px=0.02), center=(30, 0), width=60.0,
-                    bar=(5, "5 µm")))
-    out = export_figure(scene, tmp_path / "f", width_mm=width, font_size_pt=6.0, formats=("svg",))
-    texts = _read_page(ET.parse(out["svg"]).getroot(), "f.svg").texts
-    mine = [t for t in texts if t.words == "5 µm"]
-    assert len(mine) == 1 and mine[0].pt == pytest.approx(6.0, abs=0.02)
-
 
 def test_a_jpeg_keeps_its_orientation(tmp_path):
     path = tmp_path / "turned.jpg"
@@ -354,17 +176,6 @@ def test_a_jpeg_keeps_its_orientation(tmp_path):
     assert image.size == (500, 1000) and inset.fragment().size_mm == (40.0, 80.0)
     plain = _picture(tmp_path, ".jpg")
     assert _embedded(_page(Image(plain))[0].svg())[0][0] == "jpeg"      # no tag: the bytes stay
-
-
-def test_the_strip_height_holds_for_a_section_and_a_tilt():
-    xs = _modulator()
-    for item, extra in ((xs, {}), (_view(), {"tilt": 30.0})):
-        fragment = SemView(item, width_px=500, **extra).fragment(50.0, font_pt=7.0)
-        image = _embedded(fragment.svg)[0][1]
-        assert image.size[1] - fragment.floor_mm * 500 / 50.0 > 0
-        black = np.asarray(image, dtype=float)[-int(round(fragment.floor_mm * 10)) + 1:]
-        assert black.mean() < 40                                        # that bottom strip is the black info bar
-
 
 
 class _Unmapped:

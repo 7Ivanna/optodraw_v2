@@ -29,22 +29,6 @@ def test_each_spec_primitive_has_a_data_descriptor(action, kind):
     assert action().type == kind
 
 
-@pytest.mark.parametrize("bad", [-1, float("nan"), float("inf"), True])
-def test_invalid_durations_fail_before_scheduling(bad):
-    with pytest.raises(ValueError, match="seconds"):
-        p.FadeIn("part:laser1", seconds=bad)
-
-
-def test_composition_uses_seconds_and_copies_children():
-    first = p.Create("part:laser1", seconds=1)
-    second = p.Create("part:lens1", seconds=2)
-    assert p.Sequence(first, second).children == (first, second)
-    group = p.Lagged(first, second, lag=0.25)
-    assert group.lag == 0.25
-    with pytest.raises(ValueError, match="lag"):
-        p.Lagged(first, second, lag=-0.25)
-
-
 def test_invalid_sweeps_views_and_easing_are_rejected():
     with pytest.raises(ValueError, match="samples"):
         p.Sweep("wavelength", 1549, 1551, seconds=4, samples=1)

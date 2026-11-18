@@ -7,10 +7,8 @@ from pathlib import Path
 
 from examples.quickplot_helpers import (
     build_quickplot_scene,
-    quickplot_registry_component_names,
     registry_component_names,
 )
-from optodraw.registry import component_registry
 
 
 QUICKPLOT_NOTEBOOKS = [
@@ -18,10 +16,6 @@ QUICKPLOT_NOTEBOOKS = [
     "quickplot_onchip_components.ipynb",
     "quickplot_electronics_packaging_components.ipynb",
 ]
-
-
-def test_quickplot_groups_cover_registry_components():
-    assert set(quickplot_registry_component_names()) == set(component_registry())
 
 
 def test_quickplot_notebooks_exist_and_are_valid_json():

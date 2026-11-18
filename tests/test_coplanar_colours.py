@@ -13,7 +13,6 @@ stack (``test_onchip_stack.py`` holds the same rule on the part's own tree).
 
 from __future__ import annotations
 
-import numpy as np
 import pytest
 
 pytest.importorskip("shapely")
@@ -25,6 +24,8 @@ from optodraw import Scene  # noqa: E402
 from optodraw.registry import build_component, component_registry  # noqa: E402
 from optodraw.renderers.vector3d_scene import scene_solids  # noqa: E402
 from optodraw.renderers.vector3d_solids import Vector3DError  # noqa: E402
+
+from sweep import sweep
 
 _REGISTRY = component_registry()
 # PhaseShifter is thermo-optic by default.
@@ -60,8 +61,7 @@ def _alone(name: str, kwargs: dict[str, str]):
         pytest.skip(f"the vector view does not draw {name}")
 
 
-@pytest.mark.parametrize("name, kwargs", _BUILDS, ids=_ids(_BUILDS))
-def test_no_part_has_two_looks_on_one_plane(name, kwargs):
+def _check_no_part_has_two_looks_on_one_plane(name, kwargs):
     # mutant: give the feet of _carry_handle (instruments.py) the grip's depth 2.4 again: Oscilloscope and OSA fail
     _, built = _alone(name, kwargs)
     solids = built.solids
@@ -75,24 +75,7 @@ def test_no_part_has_two_looks_on_one_plane(name, kwargs):
     assert not pairs, f"{name} {kwargs}: two looks on one plane, which the viewer z-fights: {pairs}"
 
 
-@pytest.mark.parametrize("name, kwargs", _ON_THE_STACK, ids=_ids(_ON_THE_STACK))
-def test_every_drawn_onchip_layer_starts_on_a_level_of_its_stack(name, kwargs):
-    part, built = _alone(name, kwargs)
-    if not hasattr(part, "_draw_layer_stack"):
-        pytest.skip(f"{name} has no process stack")
-    stack, k = part._draw_layer_stack(), built.constants
-    levels = np.array([0.0, stack["contact_z"], stack["contact_z"] + stack["contact_height"], stack["via_z"],
-                       stack["metal_z"], stack["metal_z"] + stack["metal_height"], stack["heater_z"],
-                       stack["heater_z"] + stack["heater_height"], stack["pad_z"],
-                       stack["pad_z"] + stack["pad_height"]]) * k.chip_z + k.chip_lift
-    core_top = (stack["core_z"] + stack["core_height"]) * k.chip_z + k.chip_lift
-    off = []
-    for solid in built.solids:
-        heights = [face.ring[:, 1] for face in built.faces if face.solid == solid.id]
-        if not heights or solid.part.startswith(("base:", "mount:")) or solid.look.preset in _BONDED:
-            continue
-        bottom = float(np.concatenate(heights).min())
-        allowed = np.append(levels, core_top) if solid.look.preset in _ON_THE_CORE else levels
-        if np.abs(allowed - bottom).min() > _TOLERANCE:
-            off.append(f"{solid.kind} {solid.look.preset or solid.look.color} starts at {(bottom - k.chip_lift) / k.chip_z:.6f}")
-    assert not off, f"{name} {kwargs}: drawn layers off the levels of the stack: {sorted(set(off))}"
+def test_no_part_has_two_looks_on_one_plane():
+    sweep(_check_no_part_has_two_looks_on_one_plane, _BUILDS)
+
+

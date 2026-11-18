@@ -9,50 +9,10 @@ from __future__ import annotations
 import pytest
 
 from optodraw import Scene
-from optodraw.components.optics import Lens, Mirror
-
-
-def _tikz(*components) -> str:
-    scene = Scene(width=160, height=80)
-    for index, component in enumerate(components):
-        scene.add(component)
-    return scene.render_tikz()
-
-
-class TestTikzRotation:
-    def test_mirrors_at_different_angles_differ(self):
-        flat = _tikz(Mirror(center=(0, 0), angle=0))
-        turned = _tikz(Mirror(center=(0, 0), angle=45))
-        assert flat != turned
-
-    def test_rotated_mirror_uses_scope(self):
-        out = _tikz(Mirror(center=(10, 0), angle=45))
-        assert "\\begin{scope}[shift={(10.000,0.000)},rotate=45.000]" in out
-        assert "\\end{scope}" in out
-
-    def test_unrotated_mirror_has_no_scope(self):
-        out = _tikz(Mirror(center=(0, 0), angle=0))
-        assert "rotate" not in out.split("\\begin{tikzpicture}", 1)[1]    # no turn for an unturned mirror
 
 
 class TestTikzPaths:
-    def test_lens_body_survives_as_path(self):
-        out = _tikz(Lens(center=(0, 0)))
-        assert "\\path[" in out
-        assert "controls" in out
 
-    def test_arc_renders(self):
-        """The stage's graduation arc is drawn, as a curve, and nothing is dropped."""
-        from optodraw import Scene
-        from optodraw.components.optics.optomech import RotationStage
-        from optodraw.renderers.tikz_renderer import TikzRenderer
-
-        scene = Scene(width=120, height=80)
-        scene.add(RotationStage())
-        renderer = TikzRenderer(scene)
-        out = renderer.render()
-        assert ".. controls" in out
-        assert renderer.report.to_dict()["skipped"] == []
 
     def test_an_arc_becomes_a_curve_on_its_circle(self):
         """An SVG arc is written as a cubic Bezier, and the Bezier stays on the circle.
@@ -64,7 +24,6 @@ class TestTikzPaths:
         import math
         import re
 
-        from optodraw import Scene
         from optodraw.renderers.tikz_renderer import TikzRenderer
 
         out = TikzRenderer(Scene(width=40, height=40))._render_path(

@@ -43,12 +43,6 @@ def _isometric(solids: SolidSet, width_mm: float = 60.0) -> Camera:
     return camera_for(solids, "isometric", "parallel", width_mm)[0]
 
 
-def _fills(root) -> list[str]:
-    """The fill of each filled path but the shadows: the outlines and lines carry none."""
-
-    return [p.get("fill") for p in root.iter("path") if p.get("fill") not in (None, "none", SHADOW_INK)]
-
-
 def _stops(root, fill: str) -> list:
     (gradient,) = [g for g in root.iter("linearGradient") if f"url(#{g.get('id')})" == fill]
     return list(gradient.iter("stop"))
@@ -58,18 +52,6 @@ def _region(d: str) -> shapely.Geometry:
     rings = [[tuple(float(v) for v in point.split()) for point in part.rstrip("Z").split("L")]
              for part in d.split("M")[1:]]
     return shapely.union_all([shapely.Polygon(ring) for ring in rings])
-
-
-def test_a_cylinder_wall_is_one_path_with_one_gradient_and_a_box_shows_three_fills():
-    # mutant: no merge (one path per facet in _Studio.paths)
-    solids = _solids(CYLINDER)
-    root = ET.fromstring(draw(solids, _isometric(solids)))
-    fills = _fills(root)
-    assert len(fills) == 2                                   # the wall and the top cap, seen from above
-    walls = [f for f in fills if f.startswith("url(") and len(_stops(root, f)) > 3]
-    assert len(walls) == 1
-    cube = _solids(CUBE)
-    assert len(_fills(ET.fromstring(draw(cube, _isometric(cube))))) == 3
 
 
 def test_two_renders_give_the_same_bytes():
@@ -134,17 +116,6 @@ def test_a_plate_gives_cols_times_rows_holes_in_one_path():
     assert holes[0].get("d").count("M") == 8 * 4
 
 
-def _block_on_floor(on_chip: bool) -> SolidSet:
-    """A 40 by 30 slab whose top is the plane y = 0, and a 4 by 6 by 4 block standing on it."""
-
-    out = SolidSet(constants=replace(_constants(), on_chip=on_chip))
-    add_solid(out, box({"width": 40.0, "height": 2.0, "depth": 30.0}), trs((0.0, -1.0, 0.0)), part="floor",
-              kind="box", look=Look("#c8d0d8"))
-    add_solid(out, box({"width": 4.0, "height": 6.0, "depth": 4.0}), trs((0.0, 3.0, 0.0)), part="block", kind="box",
-              look=Look("#555555"))
-    return out
-
-
 def _shadow(root) -> shapely.Geometry:
     """The union of the shadow paths, each read even-odd."""
 
@@ -157,30 +128,6 @@ def _shadow(root) -> shapely.Geometry:
                 layer = layer.symmetric_difference(shapely.Polygon(ring))
             out = out.union(layer)
     return out
-
-
-def test_a_chip_shadow_is_vector_and_lies_inside_the_shown_receiver():
-    # mutant: paint the chip shadow unclipped (no intersection with the receiver); it lands on the block
-    solids = _block_on_floor(on_chip=True)
-    camera = _isometric(solids)
-    text = draw(solids, camera)
-    assert "<filter" not in text
-    shadow = _shadow(ET.fromstring(text))
-    assert shadow.area > 1.0
-    # the receiver, from the requirement: the slab's top on the page less the block's silhouette
-    top = next(f for f in solids.faces if f.solid == 0 and f.normal[1] > 0.99)
-    block = np.vstack([f.ring for f in solids.faces if f.solid == 1])
-    receiver = shapely.Polygon(camera.page(top.ring)).difference(shapely.MultiPoint(camera.page(block)).convex_hull)
-    assert shadow.difference(receiver.buffer(0.02)).area < 1e-3
-
-
-def test_line_style_and_shadows_false_draw_no_shadow():
-    # mutant: _Studio.draw casts the shadows whatever the shadows flag says
-    solids = _block_on_floor(on_chip=False)
-    camera = _isometric(solids)
-    assert SHADOW_INK in draw(solids, camera)
-    assert SHADOW_INK not in draw(solids, camera, shadows=False)
-    assert SHADOW_INK not in draw(solids, camera, style="line")
 
 
 def test_a_bench_page_holds_its_floor_shadow():

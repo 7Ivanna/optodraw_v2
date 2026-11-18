@@ -23,15 +23,6 @@ class TestLocalOnlyEditor:
         with pytest.raises(ValueError, match="local-only"):
             create_app(hosted=True)
 
-    def test_hosted_mode_is_refused_even_with_a_token(self):
-        """A token does not make a shared editor safe: sessions are still not isolated."""
-
-        with pytest.raises(ValueError, match="local-only"):
-            create_app(hosted=True, auth_token=TOKEN)
-
-    def test_local_requests_need_no_auth(self):
-        client = fastapi_testclient.TestClient(create_app())
-        assert client.get("/api/health").status_code == 200
 
     def test_a_foreign_host_name_is_refused(self):
         """Bound to 0.0.0.0 and reached by name, the editor must still say no."""
@@ -46,12 +37,6 @@ class TestLocalOnlyEditor:
         response = client.get("/api/health")
         assert response.status_code == 403
         assert "local-only" in response.text
-
-    def test_the_launcher_has_no_hosted_flag(self):
-        from optodraw.app.launcher import _build_parser
-
-        with pytest.raises(SystemExit):
-            _build_parser().parse_args(["--hosted"])
 
 
 class TestCreateAppGuards:

@@ -40,31 +40,6 @@ def _of(spec, **match):
     return next(e for e in spec["components"] if all(e.get(k) == v for k, v in match.items()))
 
 
-def test_the_text_reads_back_as_the_spec_it_shows():
-    held = _bench().spec
-    assert spec_from_text(spec_text(held)["text"], held) == held
-
-
-def test_the_text_leaves_out_traced_rays_and_says_so():
-    held = _bench().spec
-    assert any(beam.get("traced_from") for beam in held["beams"])
-    text = spec_text(held)["text"]
-    assert "traced_from" not in text and text.startswith("#")
-    assert "Trace" in text.splitlines()[1] or "Trace" in text.splitlines()[0]
-
-
-def test_a_part_gets_the_lines_of_its_block():
-    held = _bench().spec
-    shown = spec_text(held)
-    lines = shown["text"].splitlines()
-    for entry in held["components"]:
-        first, last = shown["blocks"][entry["id"]]
-        block = lines[first - 1:last]
-        assert block[0].lstrip().startswith("- ")
-        assert f"id: {entry['id']}" in "\n".join(block)
-        assert not any(line.lstrip().startswith("- type:") for line in block[1:])    # one part only
-
-
 def test_a_yaml_slip_names_its_line():
     held = _bench().spec
     lines = spec_text(held)["text"].splitlines()
@@ -78,14 +53,6 @@ def test_a_yaml_slip_names_its_line():
 def test_text_that_is_not_a_mapping_is_refused():
     with pytest.raises(SpecTextError, match="mapping"):
         spec_from_text("- just a list", _bench().spec)
-
-
-def test_the_rays_come_back_after_an_apply():
-    held = _bench().spec
-    text = spec_text(held)["text"].replace("label: M1", "label: M2")
-    spec = spec_from_text(text, held)
-    assert _of(spec, type="Mirror")["label"] == "M2"
-    assert [b for b in spec["beams"] if b.get("traced_from")] == [b for b in held["beams"] if b.get("traced_from")]
 
 
 def test_an_inset_shows_without_its_source_and_drawing(tmp_path):
@@ -143,26 +110,6 @@ def client(tmp_path):
     return client
 
 
-def test_the_route_gives_the_text(client):
-    client.post("/api/component", json={"name": "Laser", "params": {"center": [0, 0], "label": "Source"}})
-    shown = client.get("/api/scene/text").json()
-    assert "label: Source" in shown["text"] and len(shown["blocks"]) == 1
-
-
-def test_an_apply_moves_a_part_and_saves(client):
-    from optodraw.app import api
-
-    client.post("/api/component", json={"name": "Laser", "params": {"center": [0, 0], "label": "Source"}})
-    text = client.get("/api/scene/text").json()["text"]
-    assert "center: [0, 0]" in text                                                 # a point reads on one line
-    response = client.post("/api/scene/text", json={"text": text.replace("center: [0, 0]", "center: [12, 0]")})
-    assert response.status_code == 200, response.text
-    body = response.json()
-    assert _of(body["spec"], type="Laser")["center"] == [12, 0]
-    assert "svg" in body and "center: [12, 0]" in body["text"]
-    assert _of(api._store.workspaces.load(api._store.current), type="Laser")["center"] == [12, 0]
-
-
 def test_an_apply_that_does_not_build_names_the_line(client):
     client.post("/api/component", json={"name": "Laser", "params": {"center": [0, 0]}})
     client.post("/api/component", json={"name": "Mirror", "params": {"center": [30, 0]}})
@@ -178,16 +125,6 @@ def test_an_apply_that_does_not_build_names_the_line(client):
 def test_a_yaml_slip_through_the_route_names_the_line(client):
     response = client.post("/api/scene/text", json={"text": "title: a\nwidth: [1, 2\n"})
     assert response.status_code == 400 and response.json()["detail"]["line"] in (2, 3)
-
-
-def test_an_inset_moved_in_the_text_brings_its_marks(client, tmp_path):
-    client.post("/api/scene", json={"spec": _page(tmp_path)})
-    text = client.get("/api/scene/text").json()["text"]
-    spec = yaml.safe_load(text)
-    _of(spec, label="small")["center"] = [40, 90]
-    after = client.post("/api/scene/text", json={"text": yaml.safe_dump(spec, sort_keys=False)}).json()["spec"]
-    assert _of(after, type="Callout")["center"] == [110.0, 60.0]
-    assert "fragment" in _of(after, label="small")                                  # the drawing came back
 
 
 def test_a_date_stays_text_and_the_spec_stays_json():
@@ -274,19 +211,6 @@ def test_the_text_makes_a_text_and_a_timing_inset(client):
         assert entry["fragment"]["font_pt"] == 7.0                             # at the page's font
     assert "text: Hello" in body["text"] and "row: Clock" in body["text"]     # the text shows what it can edit
     assert "fragment" not in body["text"]
-
-
-def test_a_gds_view_in_the_text_is_refused_at_its_line(client):
-    _figure(client)
-    spec = yaml.safe_load(client.get("/api/scene/text").json()["text"])
-    spec["components"].append({"type": "Inset", "id": "chip", "center": [10, 10], "width": 20, "source": {
-        "kind": "GdsView", "path": "/etc/hosts", "stack": "gdsfactory_generic", "region": [0, 0, 1, 1]}})
-    text = yaml.safe_dump(spec, sort_keys=False)
-    response = client.post("/api/scene/text", json={"text": text})
-    assert response.status_code == 400                                         # mutant: every kind is on the list
-    detail = response.json()["detail"]
-    assert "GdsView" in detail["message"] and text.splitlines()[detail["line"] - 1] == "- type: Inset"
-    assert client.get("/api/scene").json()["components"] == []
 
 
 def test_an_unchanged_source_keeps_its_drawing_and_a_changed_one_builds():

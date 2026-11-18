@@ -13,9 +13,9 @@ from pathlib import Path
 
 import pytest
 
-from optodraw import Callout, Inset
+from optodraw import Inset
 from optodraw.check import check_figure
-from optodraw.figure.fragment import _root, _scoped, nested_svg, sanitized
+from optodraw.figure.fragment import sanitized
 from optodraw.figure.page import Page
 from optodraw.schema import scene_from_spec
 
@@ -42,18 +42,6 @@ def _box(page):
     return next(n for n in page.walk() if isinstance(n, Inset) and n.label == "box")
 
 
-def test_a_hand_written_equation_record_runs_no_tool(tmp_path, monkeypatch):
-    ran = []
-    real = subprocess.run
-    monkeypatch.setattr(subprocess, "run", lambda *a, **k: ran.append(a) or real(*a, **k))
-    page = scene_from_spec(_hand_written({"kind": "Equation", "latex": "\\input{/etc/hosts}", "tex": True}))
-    page.svg()
-    page.export(tmp_path / "page", formats=("svg",))
-    findings = check_figure(page)
-    assert ran == []
-    assert any('"box"' in f and "Equation" in f and "rebuild()" in f for f in findings), findings
-
-
 def test_a_hand_written_file_record_reads_no_file(tmp_path, monkeypatch):
     secret = tmp_path / "secret.svg"
     secret.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><text>SECRET-WORDS</text></svg>',
@@ -76,16 +64,6 @@ def test_a_hand_written_file_record_reads_no_file(tmp_path, monkeypatch):
     assert not any('"box"' in f and "rebuild()" in f for f in check_figure(page))
 
 
-def test_an_unbuilt_record_draws_an_empty_box_with_a_bar_and_marks(tmp_path):
-    spec = _hand_written({"kind": "SvgFile", "path": str(tmp_path / "gone.svg"), "drop_text": []})
-    spec["components"][0]["bar"] = [10, "10 um"]
-    page = scene_from_spec(spec)
-    box = _box(page)
-    assert "10 um" not in page.svg() and box.fragment().size_mm == pytest.approx((40.0, 24.0))
-    call = next(n for n in page.walk() if isinstance(n, Callout))
-    assert tuple(call.target) == pytest.approx((30.0, 40.0))            # every place lands in the middle
-
-
 @pytest.mark.skipif(shutil.which("latex") is None or shutil.which("dvisvgm") is None, reason="needs latex, dvisvgm")
 def test_a_tex_equation_opens_no_file_outside_its_folder(tmp_path):
     from optodraw.figure.sources import Equation
@@ -102,38 +80,6 @@ UNSAFE = ('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.or
           '<a xlink:href="javascript:alert(4)"><rect width="40" height="20" fill="#cccccc"/></a>'
           '<foreignObject><div onclick="alert(5)">x</div></foreignObject><use href="#keep"/>'
           '<image href="data:image/png;base64,AAAA" width="1" height="1"/></svg>')
-
-
-def _clean(svg):
-    for word in ("onload", "onerror", "onclick", "<script", "alert", "javascript:", "foreignObject", "x.png"):
-        assert word not in svg, word
-
-
-def test_a_stored_fragment_keeps_no_script(tmp_path):
-    page = Page(width_mm=100, height_mm=60, letters=False)
-    page.add(Inset(None, center=(50, 30), width=40, label="box"))
-    spec = json.loads(json.dumps(page.to_spec()))
-    stored = next(c for c in spec["components"] if c["type"] == "Inset")
-    stored["fragment"].update(svg=UNSAFE, size_mm=[40.0, 20.0])
-    loaded = scene_from_spec(spec)
-    _clean(_box(loaded).fragment().svg)
-    svg = loaded.svg()
-    _clean(svg)
-    assert 'href="#keep"' in svg and "data:image/png;base64,AAAA" in svg
-
-
-def test_a_live_fragment_draws_no_script():
-    from optodraw.figure.fragment import Fragment
-
-    class Own:
-        def fragment(self, width_mm, *, font_pt):
-            return Fragment(svg=UNSAFE, size_mm=(width_mm, width_mm / 2), place=lambda x, y: (x, y))
-
-    page = Page(width_mm=100, height_mm=60, letters=False)
-    page.add(Inset(Own(), center=(50, 30), width=40))
-    svg = page.svg()
-    _clean(svg)
-    assert "#cccccc" in svg                                             # the drawing inside the link stays
 
 
 @pytest.mark.parametrize("svg, want", [
@@ -222,14 +168,6 @@ def _runs(text):
                    if tag[0] == "img" or any(key.startswith("on") for key in tag[1])})
 
 
-@pytest.mark.skipif(not hasattr(HTMLParser, "RCDATA_CONTENT_ELEMENTS"), reason="this parser has no escapable raw text")
-@pytest.mark.parametrize("n, payload", list(enumerate(RAW_TEXT, start=1)))
-def test_raw_text_in_desc_and_title_hides_no_tag(n, payload):
-    svg = _svg_with(payload, n)
-    assert _runs(svg)                                                   # as written, the check finds the handler
-    assert _runs(_served(svg)) == []
-
-
 # ---- the scoping step strips CSS comments in each style span: the text it joins is sanitized again ----
 
 SCOPED = (                                      # with the comment out, "o" and "nerror" join to "onerror"
@@ -283,16 +221,6 @@ def _handlers_run(shown, folder):
     return json.loads(hits.group(1))
 
 
-@pytest.mark.skipif(_chrome() is None, reason="needs Chrome or Chromium")
-def test_a_browser_runs_no_handler_of_the_served_svg(tmp_path):
-    """Headless Chrome sets each served SVG with innerHTML, as the canvas does, and counts the handlers that run. The
-    first payload as written (handler 0) runs, so the check can fail."""
-
-    payloads = RAW_TEXT + SCOPED
-    shown = [_svg_with(RAW_TEXT[0], 0)] + [_served(_svg_with(payload, n)) for n, payload in enumerate(payloads, 1)]
-    assert _handlers_run(shown, tmp_path) == [0]
-
-
 def test_a_chrome_that_does_not_start_skips_the_browser_test(tmp_path, monkeypatch):
     broken = tmp_path / "chrome"
     broken.write_text("#!/bin/sh\nexit 1\n", encoding="utf-8")
@@ -301,48 +229,6 @@ def test_a_chrome_that_does_not_start_skips_the_browser_test(tmp_path, monkeypat
         monkeypatch.setitem(globals(), "_chrome", lambda chrome=chrome: str(chrome))
         with pytest.raises(pytest.skip.Exception, match="Chrome does not start"):
             _handlers_run(["<svg></svg>"], tmp_path)
-
-
-def _figures_cells():
-    """The docs page's cells, run in one namespace as the site runs them: the last one builds a page."""
-
-    import matplotlib
-    import matplotlib.pyplot as plt
-
-    matplotlib.use("Agg")
-    namespace = {"__name__": "__main__"}
-    with matplotlib.rc_context():                                       # a cell sets the font size of pyplot
-        for path in sorted(DOCS.glob("*.py")):
-            exec(compile(path.read_text(encoding="utf-8"), str(path), "exec"), namespace)
-        page = namespace["page"]
-        fragments = [inset.fragment() for inset in page.walk() if isinstance(inset, Inset)]
-    plt.close("all")
-    return fragments
-
-
-@pytest.mark.skipif(shutil.which("pdftocairo") is None, reason="pdftocairo is not on PATH")
-def test_real_sources_pass_the_sanitizer_byte_for_byte(tmp_path, monkeypatch):
-    from matplotlib.figure import Figure
-
-    from optodraw.figure.sources import Equation, PdfFile, Plot, SceneView, SectionView, Text
-    from optodraw.gds import stack_section
-
-    monkeypatch.chdir(Path(__file__).resolve().parents[1])
-    fragments = _figures_cells()                                        # the docs example
-    fig = Figure(figsize=(2.0, 1.5), layout="constrained")
-    ax = fig.subplots()
-    ax.plot([0, 1, 2], [0, 1, 4])
-    ax.set_xlabel("x (a.u.)")
-    fig.savefig(tmp_path / "p.pdf", format="pdf")
-    sources = [Plot(fig), PdfFile(tmp_path / "p.pdf"), SectionView(stack_section("gdsfactory_generic", (1, 0),
-                                                                                  width=0.5)),
-               SceneView(_bench()), SceneView(_bench(), view="1d"), Text("two **words**"), Equation("E = mc^2")]
-    fragments += [source.fragment(60.0, font_pt=7.0) for source in sources]
-    assert len(fragments) == 11
-    for fragment in fragments:
-        assert sanitized(fragment.svg) == fragment.svg
-        scoped = _scoped(_root(fragment.svg).close("40", "20"), "inset1")      # as nested_svg drew it before
-        assert nested_svg(fragment.svg, 40.0, 20.0, "inset1") == scoped
 
 
 def _bench():

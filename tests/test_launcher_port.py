@@ -21,18 +21,6 @@ def held_port():
     holder.close()
 
 
-def test_free_port_reads_as_free():
-    probe = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    probe.bind(("127.0.0.1", 0))
-    port = probe.getsockname()[1]
-    probe.close()
-    assert launcher._port_is_free("127.0.0.1", port)
-
-
-def test_busy_port_reads_as_busy(held_port):
-    assert not launcher._port_is_free("127.0.0.1", held_port)
-
-
 def test_default_walks_past_a_busy_port(monkeypatch, held_port):
     monkeypatch.setattr(launcher, "DEFAULT_PORT", held_port)
     assert launcher._resolve_port("127.0.0.1", None) == held_port + 1

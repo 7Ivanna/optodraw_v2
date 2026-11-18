@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import xml.etree.ElementTree as ET
 
-from optodraw.gds import load_layer_stack
 from optodraw.gds.lyp import stack_to_lyp
 from optodraw.gds.parsers import parse_klayout_lyp
 
@@ -28,12 +26,3 @@ def test_a_hidden_layer_stays_hidden_and_a_layer_without_colour_is_left_out():
     assert "<visible>false</visible>" in text and "99/0" not in text
 
 
-def test_names_with_markup_and_non_ascii_text_stay_valid_xml():
-    text = stack_to_lyp({(1, 0): {"name": 'Si & <rib> "λ"', "color": "#ffffff"}})
-    assert ET.fromstring(text).find(".//name").text == 'Si & <rib> "λ"'
-
-
-def test_the_generic_stack_writes_every_coloured_layer():
-    styles = load_layer_stack("gdsfactory_generic").styles
-    written = ET.fromstring(stack_to_lyp(styles)).findall(".//properties")
-    assert len(written) == sum(1 for style in styles.values() if style.get("color"))

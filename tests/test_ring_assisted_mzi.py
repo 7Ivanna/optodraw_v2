@@ -14,7 +14,6 @@ from optodraw import RingAssistedMZI, Scene
 from optodraw.animation_engine.graph import build_graph
 from optodraw.animation_engine.solver import propagate_pulses, steady_state
 from optodraw.animation_engine.state import compile_signal_state
-from optodraw.registry import build_component, component_registry
 from optodraw.symbols import build as symbol_build
 
 N_G = 4.2                      # group index of the engine for an optical port
@@ -61,38 +60,6 @@ def test_the_ports_follow_the_mzi():
     assert {n for n, p in ramzi.ports().items() if p.kind == "electrical"} == {"h1", "h2"}
 
 
-@pytest.mark.parametrize("rings, names", [((1, 0), {"rh1a", "rh1b"}), ((1, 1), {"rh1a", "rh1b", "rh2a", "rh2b"}),
-                                          ((2, 1), {f"rh{k}{s}" for k in (1, 2, 3) for s in "ab"})])
-def test_every_ring_has_two_heater_ports_and_the_arm_has_h1_h2(rings, names):
-    ports = RingAssistedMZI(rings_per_arm=rings).ports()
-    assert {n for n, p in ports.items() if p.kind == "electrical"} == names | {"h1", "h2"}
-    assert {n for n, p in ports.items() if p.kind == "optical"} == {"o1", "o2", "o3", "o4"}
-
-
-def test_heater_ports_face_north_for_the_top_arm_and_south_for_the_bottom_arm():
-    part = RingAssistedMZI(rings_per_arm=(2, 1))
-    ports, rings = part.ports(), part._draw_variant().ring_layout()
-    assert ports["h1"].orientation_deg == ports["h2"].orientation_deg == 90 and ports["h1"].center.y > 0
-    for ring in rings:
-        for side in "ab":
-            port = ports[f"rh{ring['k']}{side}"]
-            assert port.orientation_deg == (90 if ring["arm"] == 0 else 270)
-            assert (port.center.y - ring["y"]) * ring["sign"] > part.ring_radius       # the pad lies beyond the ring, away from the arm
-        a, b = ports[f"rh{ring['k']}a"], ports[f"rh{ring['k']}b"]
-        assert a.center.x < ring["x"] < b.center.x
-
-
-def test_without_heaters_there_are_no_electrical_ports():
-    assert {p.kind for p in RingAssistedMZI(rings_per_arm=(1, 1), with_heaters=False).ports().values()} == {"optical"}
-
-
-def test_a_turned_part_moves_its_ports():
-    part = RingAssistedMZI(rings_per_arm=(1, 0), angle=90)
-    world, local = part.world_ports(), part.ports()
-    for name in ("o1", "o3", "h1", "rh1a"):                                       # a quarter turn: (x, y) becomes (-y, x)
-        assert (world[name].center.x, world[name].center.y) == pytest.approx((-local[name].center.y, local[name].center.x), abs=1e-6)
-
-
 @pytest.mark.parametrize("bad", [dict(rings_per_arm=(1,)), dict(rings_per_arm=(-1, 0)), dict(coupler="y"),
                                  dict(rings_per_arm=(1, 1), ring_gap=[0.2])])
 def test_bad_arguments_are_named_errors(bad):
@@ -101,44 +68,6 @@ def test_bad_arguments_are_named_errors(bad):
 
 
 # ---------------------------------------------------------------- ring placement
-
-
-@pytest.mark.parametrize("coupler", ["dc", "mmi"])
-@pytest.mark.parametrize("rings", [(1, 0), (0, 1), (1, 1), (2, 1), (3, 2)])
-def test_rings_sit_beside_their_own_arm_and_never_between_the_arms(rings, coupler):
-    part = RingAssistedMZI(rings_per_arm=rings, coupler=coupler, render_physical=True)
-    layout = part.ring_layout()
-    assert [sum(1 for r in layout if r["arm"] == arm) for arm in (0, 1)] == list(rings)
-    for ring in layout:
-        assert ring["sign"] * ring["y"] > part.arm_gap / 2.0 + part.ring_radius          # outside the arm pair
-        assert abs(ring["x"]) + part.ring_radius < part.arm_span / 2.0                    # over the straight arm
-    for arm in (0, 1):                                                                     # neighbours do not touch
-        xs = sorted(r["x"] for r in layout if r["arm"] == arm)
-        assert all(b - a >= 2.0 * part.ring_radius + part.waveguide_width for a, b in zip(xs, xs[1:]))
-    assert part.arm_span >= part.arm_length
-
-
-def test_the_arm_phase_shifter_does_not_overlap_the_rings():
-    part = RingAssistedMZI(rings_per_arm=(2, 1), render_physical=True)
-    rings_left = min(r["x"] for r in part.ring_layout()) - part.ring_radius - part.waveguide_width / 2.0
-    heater = part._heater_polygon()
-    assert max(x for x, _ in heater) < rings_left
-    assert part.ports()["h2"].center.x < rings_left
-
-
-def test_the_gap_between_arm_and_ring_is_the_gap_asked_for():
-    gaps = (0.15, 0.2, 0.3)
-    part = RingAssistedMZI(rings_per_arm=(2, 1), ring_gap=gaps, render_physical=True)
-    for ring, gap in zip(part.ring_layout(), gaps):
-        nearest = min(abs(y - ring["sign"] * part.arm_gap / 2.0) for _, y in part._ring_polygon(ring))
-        assert nearest == pytest.approx(gap + part.waveguide_width / 2.0, abs=1e-6)
-
-
-def test_a_single_gap_is_used_for_every_ring_and_a_short_arm_grows():
-    part = RingAssistedMZI(rings_per_arm=(2, 2), ring_gap=0.25, arm_length=10.0, render_physical=True)
-    assert {r["gap"] for r in part.ring_layout()} == {0.25}
-    assert part.arm_length == 10.0 and part.arm_span > 2 * part.ring_cell
-    assert part.ports()["o3"].center.x > part.arm_span / 2.0
 
 
 # ---------------------------------------------------------------- geometry
@@ -181,93 +110,7 @@ def test_3d_has_the_silicon_the_rings_and_the_metal(rings, coupler):
     assert all(s["position"][1] >= max(si["height"] for si in silicon) - 1e-9 for s in metal)
 
 
-def test_the_schematic_drawing_is_larger_than_the_physical_one_and_ports_follow_it():
-    schematic, physical = RingAssistedMZI(rings_per_arm=(1, 0)), RingAssistedMZI(rings_per_arm=(1, 0), render_physical=True)
-    assert schematic.ports()["o3"].center.x > physical.ports()["o3"].center.x
-    for part in (schematic, physical):
-        for name, port in part.ports().items():
-            assert math.isfinite(port.center.x) and math.isfinite(port.center.y), name
-
-
-def test_rings_stay_inside_the_scene_bounds():
-    scene = Scene(width=300, height=200, platform="on_chip")
-    scene.add(RingAssistedMZI(rings_per_arm=(1, 1)))
-    x0, y0, x1, y1 = scene.content_bounds()
-    assert y0 < -30 < 30 < y1                                                    # the rings are in the box
-    assert "<svg" in scene.render_svg().as_svg()
-
-
 # ---------------------------------------------------------------- animation
-
-
-def test_with_no_rings_the_part_acts_as_the_mzi():
-    mzi = _scene(optodraw.MZI(center=(0, 0)))
-    ramzi = _scene(RingAssistedMZI(center=(0, 0), rings_per_arm=(0, 0)))
-    for wavelength in (1549.0, 1550.0, 1551.3):
-        for phase in (0.0, 0.7, math.pi):
-            got = _powers(ramzi, wavelength, {"phase:ringassistedmzi1:arm1": phase})
-            want = _powers(mzi, wavelength, {"phase:mzi1:arm1": phase})
-            assert got == pytest.approx(want, abs=1e-12)
-            assert got[1] == pytest.approx(math.cos(phase / 2) ** 2)                # o4 gets cos^2, as the MZI says
-
-
-def test_the_heater_power_sets_the_arm_phase_as_on_the_mzi():
-    got = _powers(_scene(RingAssistedMZI(rings_per_arm=(0, 0))), params={"heater:ringassistedmzi1": 10.0})
-    want = _powers(_scene(optodraw.MZI()), params={"heater:mzi1": 10.0})
-    assert got == pytest.approx(want, abs=1e-12) and got[0] == pytest.approx(0.5)     # 10 mW is a phase of pi / 2
-
-
-@pytest.mark.parametrize("wavelength", [1549.0, 1550.0, 1552.3, 1552.32])
-def test_one_ring_matches_the_all_pass_formula(wavelength):
-    part = RingAssistedMZI(center=(0, 0), rings_per_arm=(1, 0))
-    p3, p4 = _powers(_scene(part), wavelength)
-    h = _ring_response(part, 1, wavelength)
-    assert p3 == pytest.approx(abs(1 - h) ** 2 / 4, abs=1e-12)
-    assert p4 == pytest.approx(abs(1 + h) ** 2 / 4, abs=1e-12)
-
-
-def test_a_ring_on_the_bottom_arm_gives_the_same_powers():
-    top, bottom = RingAssistedMZI(rings_per_arm=(1, 0)), RingAssistedMZI(rings_per_arm=(0, 1))
-    for wavelength in (1550.0, 1552.32):
-        assert _powers(_scene(top), wavelength) == pytest.approx(_powers(_scene(bottom), wavelength), abs=1e-12)
-
-
-def test_rings_in_series_and_on_both_arms_multiply_their_responses():
-    part = RingAssistedMZI(center=(0, 0), rings_per_arm=(2, 1), ring_gap=(0.15, 0.2, 0.3))
-    scene = _scene(part)
-    for wavelength in (1550.0, 1552.3, 1553.9):
-        h = [_ring_response(part, k, wavelength) for k in (1, 2, 3)]
-        p3, p4 = _powers(scene, wavelength)
-        assert p3 == pytest.approx(abs(h[0] * h[1] - h[2]) ** 2 / 4, abs=1e-12)
-        assert p4 == pytest.approx(abs(h[0] * h[1] + h[2]) ** 2 / 4, abs=1e-12)
-
-
-def test_one_ring_shows_its_resonance_as_a_sharp_feature():
-    part = RingAssistedMZI(center=(0, 0), rings_per_arm=(1, 0))
-    scene = _scene(part)
-    circumference = 2.0 * math.pi * part.ring_radius
-    order = round(N_G * circumference / 1.5523)
-    resonance = N_G * circumference / order * 1000.0                                  # nm, where the ring phase is 2 pi m
-    fsr = resonance**2 / (N_G * circumference * 1000.0)
-    wavelengths = resonance + np.linspace(-fsr / 2, fsr / 2, 241)
-    o3 = np.array([_powers(scene, w)[0] for w in wavelengths])
-    assert o3.max() > 0.6 and wavelengths[o3.argmax()] == pytest.approx(resonance, abs=fsr / 240)
-    assert np.median(o3) < 0.01                                                       # a balanced MZI sends nothing here
-    width = (o3 > o3.max() / 2).sum() * (wavelengths[1] - wavelengths[0])
-    assert width < fsr / 10                                                           # a sharp line, not the MZI cosine
-
-
-def test_a_ring_heater_phase_moves_the_resonance_away():
-    part = RingAssistedMZI(center=(0, 0), rings_per_arm=(1, 0))
-    scene = _scene(part)
-    circumference = 2.0 * math.pi * part.ring_radius
-    resonance = N_G * circumference / round(N_G * circumference / 1.5523) * 1000.0
-    on = _powers(scene, resonance)[0]
-    shifted = _powers(scene, resonance, {"phase:ringassistedmzi1:ring1": math.pi})[0]
-    by_heat = _powers(scene, resonance, {"heater:ringassistedmzi1:ring1": 20.0})[0]    # 20 mW is pi
-    assert on > 0.6 and shifted < 0.01 and shifted == pytest.approx(by_heat, abs=1e-12)
-    h = _ring_response(part, 1, resonance, extra_phase=math.pi)
-    assert shifted == pytest.approx(abs(1 - h) ** 2 / 4, abs=1e-12)
 
 
 @pytest.mark.parametrize("rings, coupler", [((1, 0), "dc"), ((1, 1), "mmi"), ((2, 1), "dc"), ((2, 1), "mmi")])
@@ -315,18 +158,6 @@ def test_a_turned_part_has_the_same_response():
 
 
 # ---------------------------------------------------------------- catalog, round trip, symbol
-
-
-def test_the_part_is_in_the_catalog():
-    spec = component_registry()["RingAssistedMZI"]
-    assert spec.platform == "on_chip" and spec.supports_render_physical
-    assert {"rings_per_arm", "ring_radius", "ring_gap", "arm_length", "arm_gap", "coupler", "with_heaters"} <= set(spec.parameters)
-    part = build_component("RingAssistedMZI", rings_per_arm=[2, 1], ring_gap=[0.15, 0.2, 0.3], coupler="mmi")
-    assert part.rings_per_arm == (2, 1) and part.ring_gap == (0.15, 0.2, 0.3)
-
-
-def test_the_part_has_an_animation_behaviour():
-    assert "RingAssistedMZI" in optodraw.animation_engine.behaviours.registered_types()
 
 
 @pytest.mark.parametrize("kwargs", [

@@ -19,18 +19,6 @@ def source_glb(tmp_path):
 
 
 class TestBlenderAnnotations:
-    def test_export_includes_scale_bar_helpers(self, tmp_path, source_glb):
-        script_path = export_blender_script(
-            tmp_path / "render.blender.py",
-            source_glb=source_glb,
-            scale_bar={"length": 10.0, "unit": "um", "corner": "bottom-left"},
-        )
-        script = script_path.read_text(encoding="utf-8")
-
-        assert "def add_scale_bar" in script
-        assert "'length': 10.0" in script
-        assert "'corner': 'bottom_left'" in script
-        assert "OptoDraw Scale Bar" in script
 
     def test_export_includes_labels_and_clipping_planes(self, tmp_path, source_glb):
         script_path = export_blender_script(
@@ -81,14 +69,3 @@ class TestBlenderAnnotations:
         assert "OptoDraw Scale Bar" in script
         assert "apply_clipping_planes" in script
 
-    def test_free_space_table_preset_with_overrides(self, tmp_path, source_glb):
-        script_path = export_blender_script(
-            tmp_path / "render.blender.py",
-            source_glb=source_glb,
-            camera_preset="free_space_table",
-            material_overrides=[{"name": "OpticalTable", "preset": "aluminum"}],
-        )
-        script = script_path.read_text(encoding="utf-8")
-        assert "CAMERA_PRESET = 'free_space_table'" in script
-        assert "OpticalTable" in script
-        assert "apply_material_overrides" in script

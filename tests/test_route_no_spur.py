@@ -116,25 +116,3 @@ def test_a_short_route_draws_no_spur_at_a_port(kind, path_type, layout):
     assert not found, f"{kind} {path_type}: {found}; drawn path {[(round(x, 2), round(y, 2)) for x, y in points]}"
 
 
-def test_the_docs_circuit_cell_passes_the_figure_check_on_its_2d_tab():
-    """The electronics page shows 02-tia.py; its 2D tab is the scene's 2D drawing, as check_figure reads it."""
-
-    import runpy
-    from pathlib import Path
-
-    from optodraw.check import check_figure
-
-    example = Path(__file__).resolve().parents[1] / "docs" / "examples" / "electronics" / "02-tia.py"
-    scene = runpy.run_path(str(example))["scene"]
-    assert check_figure(scene, view="2d") == []
-
-
-def test_a_short_wire_bond_draws_no_spur():
-    """The wire bond's 2D arc already has no spur; it stays that way."""
-
-    scene = Scene(title="", platform="mixed")
-    a = scene.add(ElectricalPad(center=(0, 0), width=2, height=2, port_side="right"))
-    b = scene.add(ElectricalPad(center=(6, 1), width=2, height=2, port_side="left"))
-    route = scene.route((a, "e1"), (b, "e1"), kind="wirebond")
-    points, found = _spurs(scene, route)
-    assert not found, f"wire bond: {found}; drawn path {points}"

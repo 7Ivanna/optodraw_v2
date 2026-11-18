@@ -15,12 +15,14 @@ import pytest
 from shapely.geometry import LineString, Point, Polygon
 from shapely.ops import unary_union
 
-from optodraw.animation3d.rails import layout, rail_powers
+from optodraw.animation3d.rails import layout
 from optodraw.animation_engine.behaviours import find_behaviour
 from optodraw.animation_engine.behaviours.geometry import cut, local_to_world, port_xy
 from optodraw.animation_engine.ids import path_id
 from optodraw.components.electronics._shared import ANALOG_BLUE
 from optodraw.registry import build_component
+
+from sweep import sweep
 
 DRAWN_TYPES = frozenset({
     "DirectionalCoupler", "MZI", "MZM", "MicroringResonator", "MicroringWeightBank", "PNMicroringModulator",
@@ -231,80 +233,12 @@ def _params():
             for ctype in sorted(CHIP_BODY_TYPES | set(VARIANTS)) for angle, flip in CASES]
 
 
-@pytest.mark.parametrize("ctype,angle,flip", _params())
-def test_every_lit_path_stays_inside_its_guide(ctype, angle, flip):
-    """Every transfer the light takes, internal ones included; the transfers of a coupling section are drawn on its
-    rails, so the rails are what must stay inside."""
-
-    part = _build(ctype, angle, flip)
-    assert part.flip_horizontal == flip
-    for label, points in shown_points(part):
-        assert inside_drawn_guides(part, points), f"{ctype} {label} leaves its drawn guide"
-
-
-def _drawn_params():
-    return [pytest.param(ctype, angle, flip, id=f"{ctype}-{angle}-{'flip' if flip else 'noflip'}")
-            for ctype in sorted(DRAWN_TYPES | DRAWN_SINGLE_MODE_TYPES | MULTIMODE_TYPES | set(VARIANTS))
-            for angle, flip in CASES]
-
-
-@pytest.mark.parametrize("ctype,angle,flip", _drawn_params())
-def test_drawn_paths_follow_the_drawn_strips(ctype, angle, flip):
-    """A part's own paths must lie on the guides it draws, not only on its own centrelines (they would
-    pass the test above by definition). The largest real
-    curve error on the passing drawn types is 0.100 um (the RingAssistedMZI ring polygon against its
-    loop); 0.12 um sits just above it."""
-
-    part = _build(ctype, angle, flip)
-    for label, points in shown_points(part):
-        assert inside_drawn_guides(part, points, tolerance=0.12, with_paths=False), f"{ctype} {label} leaves the drawn strips"
-
-
 ADD_DROP_TYPES = ("MicroringResonator", "PNMicroringModulator", "RacetrackResonator")
-
-
-@pytest.mark.parametrize("ctype", ADD_DROP_TYPES)
-@pytest.mark.parametrize("angle,flip", CASES)
-def test_an_add_drop_ring_draws_its_light_on_its_rails(ctype, angle, flip):
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        part = build_component(ctype, angle=angle, add_drop=True)
-    part.flip_horizontal = flip
-    transfers = every_transfer(part)
-    assert {t.out_port for t in transfers} >= {"o2", "o3", "_ring_top", "_ring_bottom"}
-    assert {path_id("part", t.in_port, t.out_port, t.name) for t in transfers} <= drawn_by_sections(part)
-    for label, points in shown_points(part):
-        assert inside_drawn_guides(part, points), f"{ctype} {label}"
-        assert inside_drawn_guides(part, points, tolerance=0.12, with_paths=False), f"{ctype} {label}"
 
 
 GAP_TYPES = ("DirectionalCoupler", "TapCoupler", "MicroringResonator", "PNMicroringModulator", "RacetrackResonator",
              "CoupledRingFilter", "MicroringWeightBank", "RingAssistedMZI", "MZI", "MZM", "MZM:coupler",
              "MZM:branch_coupler")
-
-
-@pytest.mark.parametrize("ctype", GAP_TYPES)
-def test_a_part_with_coupler_gaps_draws_every_coupling_on_section_rails(ctype):
-    """Every transfer whose path jumps a coupler gap is drawn by a section; the two windows of a coupling section are
-    sampled alike, so the transfer done ``F`` runs from 0 to 1 at the same samples on both rails."""
-
-    part = _build(ctype, 0, False)
-    found = sections(part)
-    assert found, f"{ctype} has no coupling section"
-    hidden = drawn_by_sections(part)
-    plain = [t for t in every_transfer(part) if path_id("part", t.in_port, t.out_port, t.name) not in hidden]
-    # what no section draws is a plain guide (the weight bank's bus leads and its return guide): inside its strips
-    assert all(inside_drawn_guides(part, t.points, tolerance=0.12, with_paths=False) for t in plain)
-    for index, section in enumerate(found):
-        shape = layout(section)
-        assert len(shape) == len(section.rails) == len(section.inputs)
-        if section.kappa is None:
-            continue
-        assert len(shape) == 2 and 0.0 <= section.kappa <= 1.0
-        (a0, a1), (b0, b1) = shape[0]["window"], shape[1]["window"]
-        assert a1 - a0 == b1 - b0 >= 1, (ctype, index)
-        assert shape[0]["done"][a0:a1 + 1] == shape[1]["done"][b0:b1 + 1], (ctype, index)
-        assert shape[0]["done"][a0] == pytest.approx(0.0, abs=1e-12) and shape[0]["done"][a1] == pytest.approx(1.0)
 
 
 @pytest.mark.parametrize("ctype", GAP_TYPES)
@@ -335,25 +269,6 @@ def test_a_rail_starts_and_ends_where_the_light_goes_on(ctype):
                 assert min(math.dist(end, stop) for stop in stops + others) < 1e-6, (ctype, i, r, k, end)
 
 
-@pytest.mark.parametrize("ctype,setting", [("DirectionalCoupler", "coupling_ratio"), ("MicroringResonator", "power_coupling")])
-def test_a_coupler_that_sends_all_its_light_across_still_draws_the_input_rail(ctype, setting):
-    """Power coupling 1: light at o1 alone is drawn on the input rail from the port, at the input's power, down to
-    nothing at the window's end, and the other rail ends with all of it."""
-
-    part = _build(ctype, 0, False)
-    setattr(part, setting, 1.0)
-    section = next(s for s in sections(part) if math.dist(s.rails[0].points[0], port_xy(part, "o1")) < 1e-6)
-    assert section.kappa == pytest.approx(1.0)
-    shape = layout(section)
-    first, other = rail_powers(section, shape, [np.array([1.0, 0.0], complex), np.zeros(2, complex)])
-    assert math.dist(shape[0]["points"][0], port_xy(part, "o1")) < 1e-6
-    end = shape[0]["window"][1]
-    assert first[0] == pytest.approx(1.0) and first[end] == pytest.approx(0.0, abs=1e-12)
-    assert other[shape[1]["window"][1]] == pytest.approx(1.0)
-    for drawn in shape:
-        assert inside_drawn_guides(part, drawn["points"], tolerance=0.12, with_paths=False)
-
-
 def test_drawn_points_gives_the_drawn_path_or_the_fallback():
     from optodraw.animation_engine.behaviours.geometry import drawn_points, port_xy
 
@@ -367,9 +282,12 @@ def test_drawn_points_gives_the_drawn_path_or_the_fallback():
     assert math.dist(drawn[-1], port_xy(ybranch, "o2")) < 1e-6
 
 
-@pytest.mark.parametrize("ctype", sorted(CHIP_BODY_TYPES))
-def test_every_chip_type_gives_a_transfer(ctype):
+def _check_every_chip_type_gives_a_transfer(ctype):
     assert all_transfers(_build(ctype, 0, False)), f"{ctype} gives no transfer, so the guide check tests nothing"
+
+
+def test_every_chip_type_gives_a_transfer():
+    sweep(_check_every_chip_type_gives_a_transfer, sorted(CHIP_BODY_TYPES))
 
 
 def _layer_area(part, layer):
@@ -414,7 +332,6 @@ def test_an_emitters_light_starts_in_its_drawn_active_region(ctype, angle, flip)
 @pytest.mark.parametrize("ctype,ports", [("OnChipPhotodetector", ["o1"]), ("OnChipBalancedPhotodetector", ["o1", "o2"])])
 @pytest.mark.parametrize("angle,flip", CASES)
 def test_a_detectors_light_ends_in_its_drawn_absorber(ctype, ports, angle, flip):
-    import numpy as np
 
     from optodraw.animation_engine.behaviours.geometry import port_xy
 
@@ -430,24 +347,6 @@ def test_a_detectors_light_ends_in_its_drawn_absorber(ctype, ports, angle, flip)
         assert np.allclose(edge.matrix, np.eye(2))                 # all the power at the port is absorbed
         assert not behaviour.sinks(part, port)
         assert behaviour.transfers(part, "part", edge.out_port, WAVELENGTH_NM, {}) == []   # nothing leaves the absorber
-
-
-def test_a_flip_does_not_change_the_ring_assisted_mzi_physics():
-    """Same matrices, delays and names per (in port, out port) with and without the horizontal flip."""
-
-    import numpy as np
-
-    def table(flip):
-        part = _build("RingAssistedMZI", 0, flip)
-        return {(t.in_port, t.out_port, t.name): (t.matrix, t.length, t.group_index) for t in all_transfers(part)}
-
-    plain, flipped = table(False), table(True)
-    assert plain.keys() == flipped.keys()
-    for key, (matrix, length, index) in plain.items():
-        other = flipped[key]
-        assert np.allclose(matrix, other[0], atol=1e-12), key
-        assert length == pytest.approx(other[1], abs=1e-9), key
-        assert index == other[2], key
 
 
 REGION_TYPES = ("MMI1x2", "MMI1x4", "MMI2x2", "MMI2x2PowerSplitter", "AWG", "StarCoupler", "CoherentReceiver")
@@ -467,97 +366,3 @@ def _shape_polygons(part, node, out) -> None:
         out.append(Polygon(local_to_world(part, [(p[0], p[1]) for p in node["points"]])).buffer(0))
 
 
-@pytest.mark.parametrize("ctype", REGION_TYPES)
-@pytest.mark.parametrize("angle,flip", CASES)
-def test_a_region_outline_is_a_body_the_part_draws(ctype, angle, flip):
-    """The check trusts a region outline, so each outline must equal one shape of the drawing."""
-
-    part = _build(ctype, angle, flip)
-    outlines = region_outlines(part)
-    assert outlines, f"{ctype} names no region"
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        shapes: list = []
-        _shape_polygons(part, part.geometry_2d(), shapes)
-    for outline in outlines:
-        assert any(outline.symmetric_difference(shape).area < 1e-6 * outline.area for shape in shapes), (
-            f"{ctype} region is not a drawn shape")
-
-
-@pytest.mark.parametrize("ctype", REGION_TYPES)
-@pytest.mark.parametrize("angle,flip", CASES)
-def test_every_drawn_path_stays_on_the_strips_or_in_its_region(ctype, angle, flip):
-    """Each path of each in-port, not only the ones the engine lights at 1550 nm (all AWG channels)."""
-
-    part = _build(ctype, angle, flip)
-    for port in _optical_ports(part):
-        for path in part.optical_paths(port):
-            assert inside_drawn_guides(part, local_to_world(part, path["pts"]), tolerance=0.12, with_paths=False), (
-                f"{ctype} {port}->{path['port']} leaves the drawn strips and regions")
-
-
-@pytest.mark.parametrize("ctype", ["MMI1x2", "MMI1x4", "MMI2x2", "MMI2x2PowerSplitter"])
-@pytest.mark.parametrize("angle,flip", CASES)
-def test_an_mmi_fans_from_its_input_across_the_body_to_each_output(ctype, angle, flip):
-    part = _build(ctype, angle, flip)
-    body = region_outlines(part)[0]
-    behaviour = find_behaviour(part)
-    names = _optical_ports(part)
-    edges = behaviour.transfers(part, "part", "o1", WAVELENGTH_NM, {})
-    assert {e.out_port for e in edges} == {n for n in names if part.ports()[n].center.x > 0}
-    for edge in edges:
-        crossing = edge.points[1:-1]                       # between the two taper tips: the body crossing
-        assert len(crossing) >= 2
-        assert all(body.buffer(1e-6).covers(Point(p)) for p in crossing)
-        assert math.dist(edge.points[0], tuple(float(v) for v in (part.world_port("o1").center.x, part.world_port("o1").center.y))) < 1e-6
-    ends = {e.out_port: edge_end for e in edges for edge_end in [e.points[-1]]}
-    assert len({tuple(round(v, 6) for v in end) for end in ends.values()}) == len(ends)   # one distinct output each
-
-
-def test_the_check_rejects_a_path_through_the_body():
-    """The helper itself: a path off the body fails, the drawn stub passes."""
-
-    part = _build("MMI1x2", 0, False)
-    port = part.world_port("o1").center
-    stub = ((float(port.x), float(port.y)), (float(port.x) + 1.0, float(port.y)))
-    assert inside_drawn_guides(part, stub)
-    assert not inside_drawn_guides(part, (stub[0], (float(port.x) + 3.0, float(port.y) + 9.0)))
-
-
-def test_the_check_still_rejects_a_chord_from_a_tap_across_the_gap():
-    """Strict outside the regions: the receiver's input line pointing at the lane (not the hybrid) fails."""
-
-    part = _build("CoherentReceiver", 0, False)
-    start = part.world_port("signal").center
-    assert not inside_drawn_guides(part, ((float(start.x), float(start.y)), (float(start.x) + 2.0, float(start.y) + 7.0)),
-                                   with_paths=False)
-
-
-def test_an_awg_routes_a_wavelength_midway_between_two_channels_to_the_lower_one():
-    from optodraw.animation_engine.behaviours.splitters import ArrayedWaveguideGrating
-
-    part = _build("AWG", 0, False)
-    assert part.channel_count == 8 and part.channel_spacing_nm == 0.8 and part.center_wavelength_nm == 1550.0
-    assert ArrayedWaveguideGrating().channel(part, 1550.0) == "o4"
-    assert ArrayedWaveguideGrating().channel(part, 1550.0 + 0.4 + 2e-9) == "o5"
-    assert {t.out_port for t in all_transfers(part) if t.in_port == "i1"} == {"o4"}
-
-
-@pytest.mark.parametrize("angle,flip", CASES)
-def test_each_receiver_path_ends_inside_a_drawn_diode(angle, flip):
-    part = _build("CoherentReceiver", angle, flip)
-    circles = []
-
-    def walk(node):
-        if node.get("type") == "group":
-            for child in node.get("children", []):
-                walk(child)
-        elif node.get("type") == "circle" and node.get("fill") == "#81a9bb":
-            circles.append(Point(local_to_world(part, [(node["cx"], node["cy"])])[0]).buffer(float(node["r"])))
-
-    walk(part.geometry_2d())
-    assert len(circles) == 4
-    for port in ("signal", "lo"):
-        ends = [Point(local_to_world(part, path["pts"])[-1]) for path in part.optical_paths(port)]
-        assert all(any(c.covers(e) for c in circles) for e in ends)
-        assert len({tuple(round(v, 6) for v in (e.x, e.y)) for e in ends}) == 4

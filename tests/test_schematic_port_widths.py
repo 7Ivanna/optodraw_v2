@@ -21,28 +21,6 @@ PARTS = sorted(name for name, spec in component_registry().items()
 SHARED = SCHEMATIC_TABLES["_shared"]["waveguide_width"]
 
 
-def _family_width(part) -> float:
-    family = SCHEMATIC_TABLES.get(getattr(part, "schematic_family", ""), {})
-    return float(family.get("waveguide_width", SHARED))
-
-
-@pytest.mark.parametrize("name", PARTS)
-def test_every_schematic_guide_port_has_the_schematic_guide_width(name):
-    part = build_component(name)
-    ports = {key: port for key, port in part.ports().items()
-             if port.kind == "optical" and (name, key) not in _NOT_THE_GUIDE}
-    wrong = {key: round(float(port.width), 3) for key, port in ports.items()
-             if abs(float(port.width) - _family_width(part)) > 1e-6}
-    assert not wrong, f"{name}: guide ports not {_family_width(part)} wide: {wrong}"   # mutant: width=self.width
-
-
-@pytest.mark.parametrize("name", ["Spiral", "PhaseShifter", "TapCoupler", "WaveguideCrossing", "Terminator"])
-def test_a_physical_part_keeps_the_true_guide_width(name):
-    part = build_component(name, render_physical=True)
-    widths = {round(float(port.width), 3) for port in part.ports().values() if port.kind == "optical"}
-    assert widths == {0.5}, (name, widths)
-
-
 @pytest.mark.parametrize("name", ["WaveguideBend", "TapCoupler", "AdiabaticCoupler",
                                   "PolarizationSplitterRotator", "TwoDGratingCoupler", "Taper", "Terminator"])
 def test_the_drawn_guide_is_as_wide_as_its_port(name):

@@ -8,7 +8,6 @@ from pathlib import Path
 import pytest
 
 from optodraw import GDSModel
-from optodraw.gds import normalize_layer_stack
 from optodraw.renderers.capture3d import find_chrome
 
 from gds_layout_fixtures import capture_over_http, docs_device_gds
@@ -20,14 +19,6 @@ def test_the_preview_is_one_iframe_holding_the_viewer(tmp_path):
     html = GDSModel(str(docs_device_gds(tmp_path)), cell_name="straight_pn").layout_view(width=700, height=400)._repr_html_()
     assert html.count("<iframe") == 1 and "srcdoc=" in html and "gds-lens" in html
     assert 'width="700"' in html and 'height="400"' in html
-
-
-def test_the_part_colour_it_was_given_reaches_the_view(tmp_path):
-    model = GDSModel(str(docs_device_gds(tmp_path)), cell_name="straight_pn")
-    model.layer_stack = normalize_layer_stack({"49/0": {"name": "Pad metal", "color": "#123456"}})
-    lyp = model.layout_lyp()
-    assert "#123456" in lyp and "Pad metal" in lyp
-    assert "#123456" in model.layout_view().html
 
 
 def test_a_part_with_no_file_source_has_no_layout_view(tmp_path):

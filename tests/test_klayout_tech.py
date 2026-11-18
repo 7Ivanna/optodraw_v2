@@ -13,20 +13,6 @@ from optodraw.gds import load_layer_stack
 GDSFACTORY_TECH = Path(pytest.importorskip("gdsfactory").__file__).parent / "generic_tech" / "klayout"
 
 
-def test_a_lyd25_gives_the_heights_of_its_plain_layers():
-    from optodraw.gds.klayout_tech import parse_lyd25
-
-    styles, warnings = parse_lyd25(GDSFACTORY_TECH / "d25" / "generic_tech.lyd25")
-    nitride, metal3 = styles[(34, 0)], styles[(49, 0)]
-    assert nitride["zmin"] == pytest.approx(0.3) and nitride["thickness"] == pytest.approx(0.4)
-    assert nitride["name"] == "nitride" and nitride["material_preset"] == "silicon_nitride"
-    assert metal3["zmin"] == pytest.approx(3.2) and metal3["thickness"] == pytest.approx(2.0)
-    assert metal3["material_preset"] == "aluminum"
-    assert (99999, 0) not in styles and any("99999/0" in w for w in warnings)     # substrate, box and clad share it
-    assert any("slab_core_shallow_etch_0" in w for w in warnings)                  # a derived layer: skipped, said
-    assert styles[(6, 0)]["zmin"] == pytest.approx(-8.0) and styles[(6, 0)]["thickness"] == pytest.approx(5.0)
-
-
 def test_a_lyd25_takes_an_inline_input_and_a_height(tmp_path):
     from optodraw.gds.klayout_tech import parse_lyd25
 

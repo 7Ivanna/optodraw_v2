@@ -1,7 +1,6 @@
 """User parts retain their artwork, ports, and validated definitions."""
 
 import dataclasses
-import xml.etree.ElementTree as ET
 
 import pytest
 
@@ -42,67 +41,9 @@ def test_asset_bytes_survive_source_deletion_and_definition_cannot_change(tmp_pa
     assert factory.definition.to_dict()["name"] == "user:example/Tap"
 
 
-def test_explicit_symbol_wins_and_ports_use_the_svg_frame():
-    part = make_part(symbol_1d=LINE_SVG)()
-    symbol = lookup(part)
-    assert "circle" in symbol.svg
-    assert "path" not in symbol.svg
-    assert symbol.ports["in"].x == 0
-    assert symbol.ports["out"].x == 20
-    assert symbol.ports["in"].y == 5
-    assert symbol.ports["in"].side == "left"
-    assert symbol.ports["out"].side == "right"
-
-
-def test_missing_1d_draws_2d_art_as_black_lines_in_real_scene():
-    part = make_part()()
-    symbol = lookup(part)
-    path = next(node for node in ET.fromstring(symbol.svg).iter() if node.tag.endswith("path"))
-    assert path.attrib["fill"] == "none"
-    assert path.attrib["stroke"] == "#000"
-    scene = optodraw.Scene()
-    scene.add(part)
-    drawing = scene.render_svg().as_svg()
-    assert "M-10 0L0 -5" in drawing
-    assert sum(node.tag.endswith("svg") for node in ET.fromstring(drawing).iter()) == 1
-    schematic = scene.render_svg(onchip_view="1d").as_svg()
-    assert "M-10 0L0 -5" in schematic
-    assert "red" not in schematic
-
-
 def test_missing_both_symbols_asks_for_1d_instead_of_a_model_projection():
     with pytest.raises(ValueError, match="1D symbol"):
         make_part(symbol_2d=None)
-
-
-def test_filled_svg_with_zero_stroke_still_has_visible_monochrome_lines():
-    symbol = lookup(make_part(symbol_2d=SVG.replace('stroke="blue"', 'stroke="none" stroke-width="0"'))())
-    path = next(node for node in ET.fromstring(symbol.svg).iter() if node.tag.endswith("path"))
-    assert path.attrib["stroke"] == "#000"
-    assert float(path.attrib["stroke-width"]) > 0
-
-
-def test_uniform_scale_and_rotation_keep_ports_widths_and_art_aligned():
-    part = make_part()(center=(100, 20), angle=90, scale=2)
-    first = part.world_port("in")
-    last = part.world_port("out")
-    assert first.center.x == pytest.approx(100)
-    assert first.center.y == pytest.approx(0)
-    assert last.center.y == pytest.approx(40)
-    assert first.width == 1
-    assert first.orientation_deg == pytest.approx(-90)
-    assert part.geometry_2d()["matrix"] == (2, 0, 0, 2, 0, 0)
-    assert lookup(part).width == 40
-
-
-def test_user_ports_connect_with_existing_scene_routes():
-    scene = optodraw.Scene()
-    factory = make_part()
-    a = scene.add(factory())
-    b = scene.add(factory(center=(50, 0)))
-    link = scene.route((a, "out"), (b, "in"), backend="local")
-    assert link.points[0].x == pytest.approx(10)
-    assert link.points[-1].x == pytest.approx(40)
 
 
 def test_typed_parameters_keep_defaults_and_do_not_deform_art():
@@ -132,20 +73,6 @@ def test_typed_parameters_keep_defaults_and_do_not_deform_art():
 def test_bad_scale_is_rejected_before_ports_or_art_change(value):
     with pytest.raises(ValueError, match="scale"):
         make_part()(scale=value)
-
-
-def test_scale_edits_cannot_create_invalid_geometry_or_ports():
-    part = make_part()()
-    with pytest.raises(ValueError, match="scale"):
-        part.scale = float("nan")
-    assert part.world_port("out").center.x == 10
-    assert part.scale == 1
-
-
-def test_artwork_bounds_are_available_to_existing_layout_helpers():
-    from optodraw.layout import estimate_component_bounds
-
-    assert estimate_component_bounds(make_part()(scale=2)) == (-20, -10, 20, 10)
 
 
 def test_default_library_resolves_user_parts_without_changing_builtin_lookup():

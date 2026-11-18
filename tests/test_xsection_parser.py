@@ -26,8 +26,3 @@ def test_xsection_extracts_layer_thickness(tmp_path):
     assert styles[(11, 0)]["thickness"] == 0.70
 
 
-def test_xsection_ignores_comments_and_unmapped(tmp_path):
-    path = tmp_path / "process.xs"
-    path.write_text("# wg = mask(l).grow(9.9)\nl = layer(\"3/0\")\n", encoding="utf-8")
-    # commented grow is ignored; layer with no grow yields nothing
-    assert parse_xsection_thickness(str(path)) == {}

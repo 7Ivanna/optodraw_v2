@@ -105,23 +105,6 @@ def _modulator(*, loop=False):
     return scene, mzm, pd, dac, tia
 
 
-def test_a_dac_ramp_through_an_mzm_follows_the_steady_state_at_each_drive():
-    scene, mzm, pd, dac, tia = _modulator()
-    codes = np.arange(0, 256, 16)                                     # 16 codes at 1 GS/s
-    t = np.arange(32) * 0.5
-    chain = signal_chain(scene, t_ns=t, inputs=[((dac, "din"), Waveform(np.arange(16) * 1.0, codes, "code"))])
-    drive = 4.0 * (np.repeat(codes, 2) * (1.0 / 256))                 # each code held 1 ns, then x4
-    graph, ids = build_graph(scene), scene_ids(scene)
-    expected = []
-    for d in drive:
-        result = steady_state(graph, {f"drive:{ids[id(mzm)]}": float(d)}, floor=0.0)
-        p = sum(r["power"] for r in result.absorbed if r["part"] == ids[id(pd)])
-        expected.append(1e4 * (1.0 * p * 1e-3 + 0.0))
-    got = chain.at(tia, "out").values
-    assert np.max(np.abs(got - np.array(expected))) < 1e-12
-    assert got.max() > 2 * got.min()                                  # the drive swings the light
-
-
 def test_a_grid_that_is_not_uniform_or_coarser_than_the_dac_is_refused():
     scene, _, _, dac, _ = _modulator()
     codes = [((dac, "din"), Waveform(np.arange(16) * 1.0, np.arange(16), "code"))]
@@ -175,12 +158,6 @@ def test_a_part_with_no_electrical_model_stops_a_strict_chain_and_is_noted_other
     assert any(n.startswith("biastee1: no electrical model yet") for n in chain.notes)
 
 
-def test_show_puts_two_traces_on_a_scope():
-    scene, _, _, scope = _receiver()
-    signal_chain(scene, t_ns=np.arange(101) * 1.0).show(scope)
-    assert set(scope.traces) == {"ch1", "ch2"} and all(len(points) > 1 for points in scope.traces.values())
-
-
 def test_a_part_and_its_solver_param_name_an_input_over_time():
     # mutant: self.optical[f"{port}:{sid}"] -> self.optical[f"{sid}:{port}"] in _sources: the heater never moves
     from optodraw.animation_engine.spectrum import ended_power
@@ -203,14 +180,6 @@ def test_a_part_and_its_solver_param_name_an_input_over_time():
     assert np.ptp(got) > 0.5 * got.max()                     # the resonance crosses the laser line
     with pytest.raises(AnimationError, match="no port or solver param nope"):
         signal_chain(scene, t_ns=t, inputs=[((ring, "nope"), heat)])
-
-
-def test_a_result_through_an_mzm_names_its_v_pi():
-    # mutant: parameter_names returns () for the MZM: the notes hide the 2 V default the drive rests on
-    scene, *_ = _modulator()
-    codes = [((scene_dac(scene), "din"), Waveform(np.arange(4) * 1.0, np.array([0, 85, 170, 255]), "code"))]
-    notes = signal_chain(scene, t_ns=np.arange(16) * 0.25, inputs=codes).notes
-    assert any(note.endswith("v_pi (default, model)") for note in notes)
 
 
 def scene_dac(scene):

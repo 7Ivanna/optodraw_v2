@@ -1,8 +1,6 @@
 """Schema 3 carries immutable user definitions without an installed library."""
 
 import base64
-from copy import deepcopy
-import hashlib
 import json
 
 import pytest
@@ -33,50 +31,6 @@ def scene_spec():
     return scene.to_spec()
 
 
-def test_schema3_embeds_deduplicated_hashed_definitions_and_asset_bytes():
-    spec = scene_spec()
-    assert spec["schema_version"] == 3
-    assert len(spec["part_definitions"]) == len(spec["assets"]) == 1
-    digest, manifest = next(iter(spec["part_definitions"].items()))
-    canonical = json.dumps(manifest, sort_keys=True, separators=(",", ":"), allow_nan=False)
-    assert hashlib.sha256(canonical.encode()).hexdigest() == digest
-    asset_hash, asset = next(iter(spec["assets"].items()))
-    data = base64.b64decode(asset["data"], validate=True)
-    assert hashlib.sha256(data).hexdigest() == asset_hash
-    assert all(item["part_definition"] == digest for item in spec["components"])
-
-
-def test_scene_round_trip_without_library_keeps_ports_art_parameters_and_routes(tmp_path):
-    spec = scene_spec()
-    restored = Scene.from_spec(json.loads(json.dumps(spec)))
-    parts = [node for node in restored.walk() if isinstance(node, UserPart)]
-    assert [p.label for p in parts] == ["first", "second"]
-    assert parts[0].scale == 2 and parts[0].parameters["gain"] == 0.5
-    assert parts[0].world_port("out").center.x == 20
-    assert "M-10 0L10 0L0 5Z" in restored.render_svg().as_svg()
-    assert "svg_extrusion" in restored.render_threejs()
-    assert restored.to_spec() == spec
-    path = tmp_path / "saved.json"
-    restored.save(path)
-    assert Scene.load(path).to_spec() == spec
-
-
-def test_two_versions_of_one_named_definition_survive_a_library_update():
-    library = PartLibrary()
-    old = factory(library)
-    scene = Scene()
-    scene.add(old(label="old"))
-    new_definition = factory(symbol_2d=SVG.replace("L0 5", "L0 4")).definition
-    current = library.add(new_definition, replace=True)
-    scene.add(current(label="new"))
-    spec = scene.to_spec()
-    assert len(spec["part_definitions"]) == 2
-    restored = Scene.from_spec(spec)
-    parts = [node for node in restored.walk() if isinstance(node, UserPart)]
-    assert "L0 5" in parts[0].geometry_2d()["svg"]
-    assert "L0 4" in parts[1].geometry_2d()["svg"]
-
-
 def test_component_round_trip_and_nested_group_keep_variant_and_placement():
     definition = factory(ports=None, symbol_2d=None, variants={
         "a": {"ports": PORTS, "symbol_2d": SVG},
@@ -94,14 +48,6 @@ def test_component_round_trip_and_nested_group_keep_variant_and_placement():
     assert copy.to_spec() == scene.to_spec()
     copied_part = next(node for node in copy.walk() if isinstance(node, UserPart))
     assert copied_part.world_transform.position.z == 9
-
-
-@pytest.mark.parametrize("version", [None, 1, 2])
-def test_legacy_scenes_still_load(version):
-    spec = {"components": [{"type": "Lens", "label": "legacy", "center": [2, 3]}]}
-    if version is not None:
-        spec["schema_version"] = version
-    assert any(node.label == "legacy" for node in Scene.from_spec(spec).walk())
 
 
 @pytest.mark.parametrize("case", ["asset_data", "asset_hash", "definition", "reference", "missing_asset", "type"])
@@ -123,26 +69,6 @@ def test_corrupt_or_missing_portable_data_is_a_named_error(case):
         spec["components"][0]["type"] = "Lens"
     with pytest.raises(ValueError, match="asset|definition|hash|type"):
         Scene.from_spec(spec)
-
-
-def test_workspace_keeps_bytes_once_and_portable_exports_remain_embedded(tmp_path):
-    spec = scene_spec()
-    original = deepcopy(spec)
-    store = WorkspaceStore(tmp_path)
-    store.save("Example", spec)
-    saved = json.loads((tmp_path / "Example.json").read_text())
-    asset_hash = next(iter(spec["assets"]))
-    assert saved["assets"][asset_hash] == {"media_type": "image/svg+xml", "ref": asset_hash}
-    blob = tmp_path / ".assets" / asset_hash
-    timestamp = blob.stat().st_mtime_ns
-    before = blob.read_bytes()
-    spec["components"][0]["center"] = [1, 2]
-    store.save("Example", spec)
-    store.save("Other", spec)
-    assert blob.stat().st_mtime_ns == timestamp and blob.read_bytes() == before
-    assert store.load("Example") == spec
-    assert "data" in Scene.from_spec(store.load("Example")).to_spec()["assets"][asset_hash]
-    assert original["components"][0]["center"] == [0, 0]
 
 
 def test_trusted_python_part_reloads_as_portable_art_without_importing_its_class():

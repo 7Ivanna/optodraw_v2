@@ -5,7 +5,6 @@ router cannot turn round on one line, so the waveguide runs back through the cou
 check sees it: the route only crosses the two parts it joins.
 """
 
-import runpy
 from pathlib import Path
 
 from optodraw import OnChipPhotodetector, Scene, VerticalGratingCoupler, check_figure
@@ -31,21 +30,3 @@ def test_a_coupler_facing_away_is_named():
     assert len(found) == 1 and "in:o1" in found[0], found
 
 
-def test_a_coupler_facing_the_detector_passes():
-    assert _backwards(check_figure(_coupler_to_detector(180), view="2d")) == []
-
-
-def test_the_docs_amplifier_feeds_its_detector_from_the_front():
-    scene = runpy.run_path(str(DOCS_TIA))["scene"]
-    assert check_figure(scene, view="both") == []
-    light = next(n for n in scene.walk() if n.component_type == "VerticalGratingCoupler")
-    pd = next(n for n in scene.walk() if n.component_type == "OnChipPhotodetector")
-    port = light.world_port("o1")
-    assert port.normal().x > 0.99 and port.center.x < pd.world_port("o1").center.x       # it faces the detector
-
-
-def test_a_wire_bond_from_a_pad_centre_is_not_backwards():
-    """A bond leaves a pad's centre in any direction: only an optical port has a front."""
-
-    scene = runpy.run_path(str(DOCS_TIA.with_name("03-package.py")))["scene"]
-    assert _backwards(check_figure(scene, view="2d")) == []

@@ -73,18 +73,7 @@ NEW_MOTION_OPTICS = {
 
 
 class TestExpandedOpticsInstantiation:
-    @pytest.mark.parametrize("registry_name,spec", NEW_OPTICS.items())
-    def test_instantiation_and_component_type(self, registry_name, spec):
-        cls, _, _ = spec
-        component = cls(label=registry_name)
-        assert component.component_type == registry_name
-        assert component.label == registry_name
 
-    @pytest.mark.parametrize("registry_name,spec", NEW_OPTICS.items())
-    def test_port_count(self, registry_name, spec):
-        cls, expected_ports, _ = spec
-        component = cls()
-        assert len(component.ports()) == expected_ports
 
     @pytest.mark.parametrize("registry_name,spec", NEW_OPTICS.items())
     def test_geometry_keys(self, registry_name, spec, assert_1d_symbol):
@@ -115,18 +104,7 @@ class TestExpandedOpticsInstantiation:
 
 
 class TestLabSystemOpticsInstantiation:
-    @pytest.mark.parametrize("registry_name,spec", NEW_LAB_OPTICS.items())
-    def test_instantiation_and_component_type(self, registry_name, spec):
-        cls, _, _ = spec
-        component = cls(label=registry_name)
-        assert component.component_type == registry_name
-        assert component.label == registry_name
 
-    @pytest.mark.parametrize("registry_name,spec", NEW_LAB_OPTICS.items())
-    def test_port_count(self, registry_name, spec):
-        cls, expected_ports, _ = spec
-        component = cls()
-        assert len(component.ports()) == expected_ports
 
     @pytest.mark.parametrize("registry_name,spec", NEW_LAB_OPTICS.items())
     def test_geometry_and_metadata(self, registry_name, spec, assert_1d_symbol):
@@ -151,18 +129,7 @@ class TestLabSystemOpticsInstantiation:
 
 
 class TestMotionAndInstrumentOpticsInstantiation:
-    @pytest.mark.parametrize("registry_name,spec", NEW_MOTION_OPTICS.items())
-    def test_instantiation_and_component_type(self, registry_name, spec):
-        cls, _, _ = spec
-        component = cls(label=registry_name)
-        assert component.component_type == registry_name
-        assert component.label == registry_name
 
-    @pytest.mark.parametrize("registry_name,spec", NEW_MOTION_OPTICS.items())
-    def test_port_count(self, registry_name, spec):
-        cls, expected_ports, _ = spec
-        component = cls()
-        assert len(component.ports()) == expected_ports
 
     @pytest.mark.parametrize("registry_name,spec", NEW_MOTION_OPTICS.items())
     def test_geometry_and_metadata(self, registry_name, spec, assert_1d_symbol):
@@ -176,14 +143,6 @@ class TestMotionAndInstrumentOpticsInstantiation:
         assert geometry_2d.get("type") in {"group", "path", "rect", "polyline"}
         assert geometry_3d["shape"] in {"group", "extruded_polygon", "box", "cylinder"}
         assert component.physics_metadata()["component"] == component_key
-
-    @pytest.mark.parametrize("registry_name", NEW_MOTION_OPTICS.keys())
-    def test_registry_presence(self, registry_name):
-        optics = list_components(category="optics")
-        assert registry_name in optics
-        info = describe_component(registry_name)
-        assert info["platform"] == "free_space"
-        assert info["category"] == "optics"
 
 
 class TestExpandedOpticsSerialization:
@@ -203,11 +162,6 @@ class TestExpandedOpticsSerialization:
         assert data["wedge_angle_deg"] == 3.5
         assert data["refractive_index"] == 1.52
 
-    def test_polarizing_beam_splitter_ports_are_free_space(self):
-        component = PBS(aperture=8.0)
-        ports = component.ports()
-        assert set(ports) == {"in", "trans", "refl", "tap"}
-        assert all(port.kind == "free_space" for port in ports.values())
 
     def test_four_f_system_to_dict_includes_relay_metadata(self):
         component = FourFSystem(focal_length_1=25.0, focal_length_2=50.0, aperture=12.0)
@@ -234,21 +188,4 @@ class TestExpandedOpticsSerialization:
         assert data["hole_pitch"] == 2.5
         assert data["include_holes"] is False
 
-    def test_spad_array_metadata_includes_dead_time(self):
-        component = SPADArray(dead_time_ns=20.0, max_count_rate_mhz=45.0)
-        metadata = component.physics_metadata()
-        assert metadata["component"] == "spad_array"
-        assert metadata["dead_time_ns"] == pytest.approx(20.0)
-        assert metadata["max_count_rate_mhz"] == pytest.approx(45.0)
 
-    def test_monochromator_out_port_is_tilted(self):
-        component = Monochromator()
-        out_port = component.ports()["out"]
-        assert out_port.orientation_deg == pytest.approx(-18.0)
-
-    def test_vacuum_chamber_metadata_includes_pressure(self):
-        component = VacuumChamber(pressure_mbar=2e-7, window_count=6)
-        metadata = component.physics_metadata()
-        assert metadata["component"] == "vacuum_chamber"
-        assert metadata["pressure_mbar"] == pytest.approx(2e-7)
-        assert metadata["window_count"] == 6

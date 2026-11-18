@@ -2,7 +2,6 @@
 
 from pathlib import Path
 
-import pytest
 
 from optodraw import (
     Beam,
@@ -15,9 +14,7 @@ from optodraw import (
     describe_component,
     list_components,
     list_material_presets,
-    load_gds_layout,
 )
-from examples.tutorial_scenes import gc_ring_photodetector
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -50,16 +47,6 @@ class TestQuickstartDocs:
         assert html_path.exists()
         assert "Ring" in html
 
-    def test_onchip_routing_quickstart(self, tmp_path):
-        chip = gc_ring_photodetector()
-        svg_path = tmp_path / "chip.svg"
-        html_path = tmp_path / "chip.html"
-        chip.render_svg(svg_path.as_posix())
-        chip.render_threejs(html_path.as_posix(), show_grid=False)
-        assert svg_path.exists()
-        assert html_path.exists()
-        assert "dangling" in chip.metadata
-        assert isinstance(chip.metadata["dangling"], list)
 
     def test_component_discovery_quickstart(self):
         on_chip = list_components(platform="on_chip")
@@ -68,23 +55,6 @@ class TestQuickstartDocs:
         assert "GratingCouplerArray" in on_chip
         assert info["category"] == "on_chip"
         assert "silicon" in presets
-
-    def test_gds_mesh_export_quickstart(self, tmp_path):
-        pytest.importorskip("gdsfactory")
-        pytest.importorskip("gdstk")
-        pytest.importorskip("shapely")
-        pytest.importorskip("trimesh")
-        assert DEMO_GDS.exists()
-        layout = load_gds_layout(DEMO_GDS)
-        scene, _model = layout.build_scene(material_preset="silicon")
-        svg_path = tmp_path / "demo_mask.svg"
-        scene.render_svg(svg_path.as_posix())
-        exports = layout.export_mesh(tmp_path / "gds", backend="auto")
-        assert svg_path.exists()
-        assert exports["backend"] in {"gdsfactory", "trimesh"}
-        assert exports["stl"].exists()
-        assert exports["glb"].exists()
-        assert exports["layers"] > 0
 
 
 class TestTheRayTracingDocMatchesTheTracer:

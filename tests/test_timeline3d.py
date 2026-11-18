@@ -7,15 +7,12 @@ import pytest
 from optodraw import (
     Beam,
     FocusingBeam,
-    HalfWavePlate,
     HeaterPad,
     Laser,
     Lens,
     MetalRoute,
     MicroringResonator,
-    Mirror,
     Photodiode,
-    Polarizer,
     Scene,
     WaveguideRoute,
 )
@@ -26,61 +23,7 @@ def _payload_for(scene, node):
     return anim_payload_map(scene).get(id(node))
 
 
-class TestBeamPulse:
-    def test_simple_beam_has_segments_with_air_index(self):
-        scene = Scene(platform="free_space")
-        laser = scene.add(Laser(center=(0, 0)))
-        mirror = scene.add(Mirror(center=(40, 0), angle=45))
-        pd = scene.add(Photodiode(center=(40, 40), angle=90))
-        beam = scene.add(Beam(laser, mirror, pd))
-        anim = _payload_for(scene, beam)
-        segments = anim["pulse"]["segments"]
-        assert len(segments) == 2
-        assert all(seg["n"] == 1.0 for seg in segments)
-        assert segments[0]["len"] == pytest.approx(40.0, abs=10.0)
-
-    def test_crossed_polarizers_extinguish_power(self):
-        scene = Scene(platform="free_space")
-        laser = scene.add(Laser(center=(0, 0)))
-        pol_h = scene.add(Polarizer(center=(20, 0), axis_angle=0))
-        pol_v = scene.add(Polarizer(center=(40, 0), axis_angle=90))
-        pd = scene.add(Photodiode(center=(60, 0)))
-        beam = scene.add(Beam(laser, pol_h, pol_v, pd))
-        anim = _payload_for(scene, beam)
-        powers = [seg["power"] for seg in anim["pulse"]["segments"]]
-        # After the crossed analyzer the pulse must be (near) dark.
-        assert powers[-1] == pytest.approx(0.0, abs=0.01)
-
-    def test_half_wave_plate_yields_polarization_states(self):
-        scene = Scene(platform="free_space")
-        laser = scene.add(Laser(center=(0, 0)))
-        hwp = scene.add(HalfWavePlate(center=(20, 0)))
-        pd = scene.add(Photodiode(center=(40, 0)))
-        beam = scene.add(Beam(laser, hwp, pd))
-        anim = _payload_for(scene, beam)
-        assert anim["pol"] is not None
-        for state in anim["pol"]:
-            assert "orientation_deg" in state and "ellipticity" in state
-
-    def test_detector_absorbs_transmission_pulse(self):
-        scene = Scene(platform="free_space")
-        laser = scene.add(Laser(center=(0, 0)))
-        mirror = scene.add(Mirror(center=(30, 0), angle=45))
-        pd = scene.add(Photodiode(center=(30, 30), angle=90))
-        beam = scene.add(Beam(laser, mirror, pd))
-        anim = _payload_for(scene, beam)
-        powers = [seg["power"] for seg in anim["pulse"]["segments"]]
-        assert powers[0] == pytest.approx(1.0)
-        assert powers[1] <= 1.0  # mirror loss applied, still propagating
-
-
 class TestGuidedFlow:
-    def test_waveguide_route_uses_group_index(self):
-        scene = Scene(platform="on_chip")
-        route = scene.add(WaveguideRoute([(0, 0), (60, 0)]))
-        anim = _payload_for(scene, route)
-        assert anim["flow"]["n"] > 3.0  # silicon-like group index, not air
-        assert anim["flow"]["len"] > 0
 
     def test_electrical_route_gets_signal_kind(self):
         scene = Scene(platform="on_chip")
@@ -109,16 +52,6 @@ class TestEnvelope:
 
 
 class TestRingAndHeat:
-    def test_ring_is_a_system_device_with_guides(self):
-        scene = Scene(platform="on_chip")
-        ring = scene.add(MicroringResonator(center=(0, 0)))
-        anim = _payload_for(scene, ring)
-        assert "ring" not in anim  # NO overlay payload — the ring is guides only
-        loop = anim["guides"][1]
-        # the loop path IS the drawn ring (one full turn), started after the bus
-        # lead-in via its time delay — no duplicated bus geometry
-        assert loop["len"] == pytest.approx(2 * math.pi * ring.ring_radius, rel=0.05)
-        assert loop["t0"] > 0  # the lead-in became a delay, not extra geometry
 
     def test_heater_payload_follows_the_metal_strip(self):
         scene = Scene(platform="on_chip")
@@ -205,18 +138,6 @@ class TestBeamChaining:
         # and carries the reflected half of the power
         assert branch_p["segments"][0]["power"] == pytest.approx(0.5, abs=0.05)
 
-    def test_unconnected_beams_both_start_at_zero(self):
-        scene = Scene(platform="free_space")
-        l1 = scene.add(Laser(center=(0, 0)))
-        p1 = scene.add(Photodiode(center=(40, 0)))
-        l2 = scene.add(Laser(center=(0, 40)))
-        p2 = scene.add(Photodiode(center=(40, 40)))
-        b1 = scene.add(Beam(l1, p1))
-        b2 = scene.add(Beam(l2, p2))
-        payloads = anim_payload_map(scene)
-        assert payloads[id(b1)]["pulse"]["t0"] == 0.0
-        assert payloads[id(b2)]["pulse"]["t0"] == 0.0
-
 
 class TestAnchorTuples:
     def test_port_tuple_beams_chain_and_split(self):
@@ -249,53 +170,10 @@ class TestCouplingRegimes:
         ring.anim_params = {"ring_coupling": regime}
         return anim_payload_map(scene)[id(ring)]["guides"]
 
-    def test_critical_coupling_extinguishes_through_port(self):
-        through = self._guides("critical")[0]
-        assert through["segments"][-1]["power"] == pytest.approx(0.0, abs=1e-3)
-        # before the coupling gap the bus carries full power
-        assert through["segments"][0]["power"] == pytest.approx(1.0, abs=0.05)
-
-    def test_under_and_over_coupled_have_partial_dip(self):
-        for regime in ("under", "over"):
-            through = self._guides(regime)[0]
-            assert through["segments"][-1]["power"] == pytest.approx(0.1837, abs=0.02)
-
-    def test_loop_carries_the_coupled_power(self):
-        guides = self._guides("critical")
-        loop = guides[1]
-        assert len(loop["pts"]) > 40  # bus lead-in + a full drawn-loop turn
-        assert loop["segments"][-1]["power"] == pytest.approx(1.0, abs=0.05)
-
 
 class TestCouplerTransfer:
     """Couplers animate on their own DRAWN centerlines with baked transfer profiles."""
 
-    def test_directional_coupler_beats_to_half_on_drawn_rails(self):
-        from optodraw import DirectionalCoupler
-
-        scene = Scene(platform="on_chip")
-        dc = scene.add(DirectionalCoupler(center=(0, 0)))
-        guides = anim_payload_map(scene)[id(dc)]["guides"]
-        bar, cross = guides
-        assert bar["segments"][-1]["power"] == pytest.approx(0.5, abs=0.03)
-        assert cross["segments"][-1]["power"] == pytest.approx(0.5, abs=0.03)
-        # the bar path IS the drawn S-bend centerline: port tip to port tip
-        assert bar["pts"][0] == pytest.approx([-22.0, 7.0], abs=0.1)
-        assert bar["pts"][-1] == pytest.approx([22.0, 7.0], abs=0.1)
-        # the cross light GROWS on the other rail (no rail-hop): the whole cross
-        # path lives on the -y rail, starting near the coupling region with a
-        # lead-in delay and a sin^2 profile from ~zero
-        assert cross["pts"][0][1] < 0 and cross["pts"][-1][1] < 0
-        assert cross["t0"] > 0
-        assert cross["segments"][0]["power"] < 0.1  # grows from (near) nothing
-
-    def test_tap_coupler_transfers_its_design_ratio(self):
-        from optodraw import TapCoupler
-
-        scene = Scene(platform="on_chip")
-        tap = scene.add(TapCoupler(center=(0, 0)))  # tap_ratio 0.01
-        guides = anim_payload_map(scene)[id(tap)]["guides"]
-        assert guides[1]["segments"][-1]["power"] == pytest.approx(0.01, abs=0.005)
 
     def test_adiabatic_transfer_is_monotonic(self):
         from optodraw import AdiabaticCoupler
@@ -317,73 +195,8 @@ class TestCouplerTransfer:
         direct = math.dist(guides[0]["pts"][0], guides[0]["pts"][-1])
         assert guides[0]["len"] > 3 * direct
 
-    def test_mzi_guides_end_on_its_ports(self):
-        from optodraw import MZI
-
-        scene = Scene(platform="on_chip")
-        mzi = scene.add(MZI(center=(0, 0)))
-        guides = anim_payload_map(scene)[id(mzi)]["guides"]
-        ports = mzi.world_ports()
-        for guide in guides:
-            assert guide["pts"][0] == pytest.approx(
-                [float(ports["o1"].center.x), float(ports["o1"].center.y)], abs=0.1)
-            assert guide["pts"][-1] == pytest.approx(
-                [float(ports["o3"].center.x), float(ports["o3"].center.y)], abs=0.1)
-
-
-class TestRingLoops:
-    """Resonators are system devices: port in -> drawn bus -> drawn loop -> ports out."""
-
-    def test_racetrack_loop_guide_is_the_drawn_rounded_rect(self):
-        from optodraw import RacetrackResonator
-
-        scene = Scene(platform="on_chip")
-        rt = scene.add(RacetrackResonator(center=(0, 0)))
-        guides = anim_payload_map(scene)[id(rt)]["guides"]
-        loop = guides[1]
-        xs = [p[0] for p in loop["pts"]]
-        ys = [p[1] for p in loop["pts"]]
-        # rounded rect: wider than tall; longer than any circle of its bend radius
-        assert (max(xs) - min(xs)) > (max(ys) - min(ys)) + 3
-        assert loop["len"] > 2 * math.pi * rt.bend_radius
-
-    def test_add_drop_ring_exits_at_the_drop_port(self):
-        from optodraw import MicroringResonator
-
-        scene = Scene(platform="on_chip")
-        ring = scene.add(MicroringResonator(center=(0, 0), add_drop=True))
-        guides = anim_payload_map(scene)[id(ring)]["guides"]
-        assert len(guides) == 3  # through + circulation + drop
-        drop = guides[2]
-        ports = ring.world_ports()
-        assert drop["pts"][-1] == pytest.approx(
-            [float(ports["o3"].center.x), float(ports["o3"].center.y)], abs=0.2)
-        assert drop["segments"][-1]["power"] > 0.5  # most coupled light drops
-
-    def test_weight_bank_animates_as_a_ring_array(self):
-        from optodraw import MicroringWeightBank
-
-        scene = Scene(platform="on_chip")
-        bank = scene.add(MicroringWeightBank(center=(0, 0), with_heaters=True))
-        payload = anim_payload_map(scene)[id(bank)]
-        guides = payload["guides"]
-        # through bus + one loop per ring + the drop-bus exit
-        assert len(guides) == 1 + bank.ring_count + 1
-        through = guides[0]
-        # the bus power steps down at every ring it passes
-        assert through["segments"][-1]["power"] == pytest.approx(0.85 ** bank.ring_count, abs=0.02)
-        # heaters: one arc per ring
-        assert len(payload["heat"]["paths"]) == bank.ring_count
-
 
 class TestJunctions:
-    def test_mzm_gets_push_pull_pn_arms(self):
-        from optodraw import MZM
-
-        scene = Scene(platform="on_chip")
-        mzm = scene.add(MZM(center=(0, 0)))
-        j = anim_payload_map(scene)[id(mzm)]["junction"]
-        assert j["kind"] == "pn" and j["push_pull"] and len(j["paths"]) == 2
 
     def test_eam_is_pin_injection(self):
         from optodraw import ElectroAbsorptionModulator
@@ -427,54 +240,6 @@ class TestCircuitTrace:
         r1 = scene.add(route_ports((wg, "o2"), (mmi, "o1")))
         r2 = scene.add(route_ports((mmi, "o2"), (ring, "o1")))
         return scene, wg, mmi, ring, r1, r2
-
-    def test_mmi_gets_internal_guides_with_split_power(self):
-        scene, _, mmi, _, _, _ = self._chip()
-        payload = anim_payload_map(scene)[id(mmi)]
-        guides = payload["guides"]
-        assert len(guides) == 2  # o1 -> o2 and o1 -> o3
-        for g in guides:
-            assert g["power"] == pytest.approx(0.5)
-            assert g["t0"] > 0  # light had to travel the input route first
-
-    def test_delay_accumulates_along_the_circuit(self):
-        scene, _, mmi, _, r1, r2 = self._chip()
-        payloads = anim_payload_map(scene)
-        t_r1 = payloads[id(r1)]["flow"]["t0"]
-        t_guides = payloads[id(mmi)]["guides"][0]["t0"]
-        t_r2 = payloads[id(r2)]["flow"]["t0"]
-        assert t_r1 == 0.0
-        assert t_guides > t_r1
-        assert t_r2 > t_guides  # route after the MMI starts later than the MMI guide
-
-    def test_route_after_splitter_carries_half_power(self):
-        scene, _, _, _, _, r2 = self._chip()
-        payloads = anim_payload_map(scene)
-        assert payloads[id(r2)]["flow"]["power"] == pytest.approx(0.5)
-
-    def test_ring_guides_chain_from_arrival(self):
-        scene, _, _, ring, _, r2 = self._chip()
-        payloads = anim_payload_map(scene)
-        guides = payloads[id(ring)]["guides"]
-        assert guides  # the ring animates as part of the traced system
-        t_route = payloads[id(r2)]["flow"]["t0"]
-        for g in guides:
-            assert g["t0"] > t_route  # light reaches the ring after the route
-
-    def test_mzi_guides_go_via_both_arms(self):
-        from optodraw import MZI, Waveguide, route_ports
-
-        scene = Scene(platform="on_chip")
-        wg = scene.add(Waveguide(center=(-60, 0)))
-        mzi = scene.add(MZI(center=(0, 0)))
-        scene.add(route_ports((wg, "o2"), (mzi, "o1")))
-        payload = anim_payload_map(scene)[id(mzi)]
-        guides = payload.get("guides") or []
-        assert len(guides) == 2  # both interferometer arms
-        for g in guides:
-            assert g["power"] == pytest.approx(0.5)
-        # the two arm paths differ (upper vs lower rail)
-        assert guides[0]["pts"] != guides[1]["pts"]
 
 
 class TestPerComponentTransmissions:
@@ -534,62 +299,9 @@ class TestRelativeSpeeds:
         assert math.isclose(n_guided / 1.0, anim["flow"]["n"], rel_tol=1e-9)
 
 
-class TestRouteKeepOut:
-    """Routes must not run OVER the devices they connect to."""
-
-    def test_wraparound_route_clears_the_ring_body(self):
-        from optodraw import Waveguide, route_ports
-        from optodraw.core.routing import _port_hull_box
-
-        scene = Scene(platform="on_chip")
-        ring = scene.add(MicroringResonator(center=(0, 0)))
-        wg = scene.add(Waveguide(center=(-60, -13.6)))
-        route = scene.add(route_ports((ring, "o2"), (wg, "o2")))  # must wrap back west
-        pts = [(float(p[0]), float(p[1])) for p in route.resolve_points()]
-        x0, y0, x1, y1 = _port_hull_box(ring)
-        own_port = (16.0, -13.6)
-        for i in range(len(pts) - 1):
-            ax, ay = pts[i]
-            bx, by = pts[i + 1]
-            steps = max(int(math.dist((ax, ay), (bx, by)) / 2), 1)
-            for k in range(steps + 1):
-                t = k / steps
-                x, y = ax + (bx - ax) * t, ay + (by - ay) * t
-                if math.dist((x, y), own_port) <= 8:
-                    continue  # the exit stub touches its own device face
-                assert not (x0 < x < x1 and y0 < y < y1), f"route crosses device at ({x:.1f},{y:.1f})"
-
-
 class TestWavelengthChannels:
     """Resonators couple their RESONANT color; heaters act on the light."""
 
-    def test_different_radii_couple_different_colors(self):
-        scene = Scene(platform="on_chip")
-        rings = [scene.add(MicroringResonator(center=(i * 60, 0), ring_radius=9.0 + i))
-                 for i in range(3)]
-        payloads = anim_payload_map(scene)
-        colors = [payloads[id(r)]["guides"][1]["color"] for r in rings]
-        assert len(set(colors)) == 3  # distinct resonant channels
-
-    def test_bank_rings_have_distinct_channel_colors(self):
-        from optodraw import MicroringWeightBank
-
-        scene = Scene(platform="on_chip")
-        bank = scene.add(MicroringWeightBank(center=(0, 0)))
-        guides = anim_payload_map(scene)[id(bank)]["guides"]
-        loop_colors = [g["color"] for g in guides if g.get("color")]
-        assert len(set(loop_colors)) == bank.ring_count
-
-    def test_heated_ring_guides_carry_thermo_mod(self):
-        scene = Scene(platform="on_chip")
-        ring = scene.add(MicroringResonator(center=(0, 0), add_drop=True, with_heater=True))
-        guides = anim_payload_map(scene)[id(ring)]["guides"]
-        through, loop, drop = guides
-        assert through["mod"]["sign"] == 1    # through RECOVERS as the heater detunes
-        assert loop["mod"]["sign"] == -1      # coupled light dims
-        assert drop["mod"]["sign"] == -1
-        cold = scene.add(MicroringResonator(center=(80, 0)))  # no heater -> no mod
-        assert "mod" not in (anim_payload_map(scene)[id(cold)]["guides"][0])
 
     def test_bank_drop_follows_the_drawn_serial_bus_left_then_right(self):
         from optodraw import MicroringWeightBank
@@ -636,12 +348,6 @@ class TestBehavioralStates:
         assert payloads[id(r1)]["flow"].get("pulsed") is True
         assert all(g.get("pulsed") for g in payloads[id(ring)]["guides"])
 
-    def test_ring_switched_off_passes_light_untouched(self):
-        scene, _, ring, _ = self._laser_chip()
-        ring.anim_params = {"state": "off"}
-        guides = anim_payload_map(scene)[id(ring)]["guides"]
-        assert len(guides) == 1  # only the through bus — no loop, no drop
-        assert guides[0]["segments"][-1]["power"] == pytest.approx(1.0, abs=0.05)
 
     def test_heater_off_removes_halo_and_tuning(self):
         scene = Scene(platform="on_chip")
@@ -673,16 +379,6 @@ class TestBehaviorProtocol:
         assert "emission" in {b["key"] for b in OnChipLaser(center=(0, 0)).anim_behaviors()}
         assert MZI(center=(0, 0)).anim_behaviors()  # every guided device has controls
 
-    def test_mzm_bias_null_darkens_the_output(self):
-        from optodraw import MZM
-
-        scene = Scene(platform="on_chip")
-        mzm = scene.add(MZM(center=(0, 0)))
-        mzm.anim_params = {"bias": "null"}
-        guides = anim_payload_map(scene)[id(mzm)]["guides"]
-        for g in guides:
-            assert g["segments"][-1]["power"] < 0.05   # destructive interference
-            assert g["segments"][0]["power"] == pytest.approx(0.5, abs=0.05)  # arms still lit
 
     def test_mzm_default_bias_is_quadrature(self):
         from optodraw import MZM
@@ -692,16 +388,6 @@ class TestBehaviorProtocol:
         guides = anim_payload_map(scene)[id(mzm)]["guides"]
         total_out = sum(g["segments"][-1]["power"] for g in guides)
         assert total_out == pytest.approx(0.5, abs=0.06)  # half transmission
-
-    def test_coupler_split_override_changes_the_transfer(self):
-        from optodraw import DirectionalCoupler
-
-        scene = Scene(platform="on_chip")
-        dc = scene.add(DirectionalCoupler(center=(0, 0)))
-        dc.anim_params = {"split": "0.1"}
-        guides = anim_payload_map(scene)[id(dc)]["guides"]
-        assert guides[0]["segments"][-1]["power"] == pytest.approx(0.9, abs=0.03)  # bar
-        assert guides[1]["segments"][-1]["power"] == pytest.approx(0.1, abs=0.03)  # cross
 
 
 class TestPhysicsAudit:

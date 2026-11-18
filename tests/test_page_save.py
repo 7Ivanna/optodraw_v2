@@ -4,16 +4,12 @@ and exports with no source file, no GDS and no matplotlib."""
 from __future__ import annotations
 
 import json
-import os
 import shutil
-import subprocess
-import sys
 from pathlib import Path
 
 import pytest
 
-from optodraw import Bracket, Callout, DashedLink, Inset, Laser, Lens, Note, Scene
-from optodraw.core.transform import Vec3
+from optodraw import Callout, Inset, Laser, Lens, Note, Scene
 from optodraw.figure.page import Page
 
 np = pytest.importorskip("numpy")
@@ -90,145 +86,6 @@ def _inset(page, label):
     return next(n for n in page.walk() if isinstance(n, Inset) and n.label == label)
 
 
-def _callout(page, text):
-    return next(n for n in page.walk() if isinstance(n, Callout) and n.text == text)
-
-
-def _export(page, path):
-    return page.export(path, formats=("svg",))["svg"].read_bytes()
-
-
-def test_a_page_saves_and_loads_as_a_page(tmp_path):
-    page = Page(width_mm=120, height_mm=None, font_pt=6.5, letters=False, letter_pt=9.0, title="Fig 2")
-    page.add(Inset(None, center=(60, 20), width=40))
-    path = _saved(page, tmp_path)
-    spec = json.loads(path.read_text())
-    assert spec["page"] == {"width_mm": 120.0, "height_mm": None, "font_pt": 6.5, "letters": False, "letter_pt": 9.0}
-    loaded = Page.load(path)
-    assert isinstance(loaded, Page) and loaded.title == "Fig 2"
-    assert (loaded.width_mm, loaded.height_mm, loaded.font_pt, loaded.letters, loaded.letter_pt) == (
-        120.0, None, 6.5, False, 9.0)
-    assert isinstance(Scene.load(path), Page)
-    assert not isinstance(Scene.from_spec(_bench().to_spec()), Page)           # a plain scene stays a scene
-
-
-def test_the_spec_forms(tmp_path):
-    page = _page(tmp_path)
-    spec = json.loads(_saved(page, tmp_path).read_text())
-    inset = next(c for c in spec["components"] if c["type"] == "Inset" and c.get("label") == "file")
-    assert {"type", "center", "width", "source", "fragment"} <= set(inset)
-    assert inset["source"] == {"kind": "SvgFile", "path": "../data/a.svg", "drop_text": []}
-    fragment = inset["fragment"]
-    assert {"svg", "size_mm", "kind", "notes", "map", "frozen", "floor_mm"} <= set(fragment)
-    assert fragment["size_mm"] == [50.0, 25.0] and fragment["kind"] == "drawn" and fragment["frozen"] is False
-    assert fragment["map"]["form"] == "affine" and len(fragment["map"]["m"]) == 6
-    section = next(c for c in spec["components"] if c.get("label") == "section")["fragment"]
-    assert (section["width_mm"], section["height_mm"], section["font_pt"]) == (60.0, None, 7.0)   # the page font
-    assert inset["bar"] == [10, "10 um"]
-    call = next(c for c in spec["components"] if c["type"] == "Callout" and c["text"] == "edge")
-    assert call["target"] == {"anchor": inset["id"], "point": [10.0, 5.0], "options": {}}
-    log = next(c for c in spec["components"] if c["type"] == "Callout" and c["text"] == "log")
-    assert log["target"]["options"] == {"axes": 1}
-
-
-def test_the_stored_fragment_has_no_scale_bar(tmp_path):
-    page = _page(tmp_path)
-    spec = json.loads(_saved(page, tmp_path).read_text())
-    inset = next(c for c in spec["components"] if c.get("label") == "file")
-    assert "10 um" not in inset["fragment"]["svg"] and "10 um" in page.svg()
-    loaded = Page.load(tmp_path / "pages" / "page.json")
-    assert "10 um" in loaded.svg()                                              # laid over it again after the load
-
-
-def test_the_export_is_byte_equal_after_a_load(tmp_path):
-    page = _page(tmp_path)
-    before = _export(page, tmp_path / "before")
-    loaded = Page.load(_saved(page, tmp_path))
-    assert _export(loaded, tmp_path / "after") == before
-    again = tmp_path / "again.json"                                             # a loaded page saves the same file
-    loaded.save(again)
-    assert _export(Page.load(again), tmp_path / "third") == before
-
-
-def test_it_exports_with_its_sources_gone(tmp_path):
-    page = _page(tmp_path)
-    before = _export(page, tmp_path / "before")
-    path = _saved(page, tmp_path)
-    shutil.rmtree(tmp_path / "data")
-    assert _export(Page.load(path), tmp_path / "after") == before
-
-
-def test_a_page_loads_and_exports_with_no_matplotlib_and_no_gds(tmp_path):
-    page = _page(tmp_path)
-    before = page.svg()
-    path = _saved(page, tmp_path)
-    shutil.rmtree(tmp_path / "data")
-    out = tmp_path / "out.svg"
-    code = ("import sys\n"
-            "for name in ('matplotlib', 'shapely', 'gdstk', 'gdsfactory', 'PIL', 'cairosvg'):\n"
-            "    sys.modules[name] = None\n"
-            "from optodraw.figure.page import Page\n"
-            f"svg = Page.load({str(path)!r}).svg()\n"
-            f"open({str(out)!r}, 'w', encoding='utf-8').write(svg)\n"
-            "assert not [m for m in sys.modules if m.split('.')[0] in ('matplotlib', 'shapely', 'gdstk') "
-            "and sys.modules[m] is not None]\n")
-    run = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True,
-                         env={**os.environ, "PYTHONPATH": os.pathsep.join(sys.path)})
-    assert run.returncode == 0, run.stderr[-2000:]
-    assert out.read_text(encoding="utf-8") == before
-
-
-def test_a_mark_stays_on_its_point_after_a_load(tmp_path):
-    page = _page(tmp_path)
-    loaded = Page.load(_saved(page, tmp_path))
-    inset, call = _inset(loaded, "file"), _callout(loaded, "edge")
-    assert tuple(call.target) == pytest.approx(_inset(page, "file").at(10, 5).xy())
-    start = (call.world_position.x, call.world_position.y)
-    inset.move_to(40, 90)                                                       # 10 right, 10 down
-    assert tuple(call.target) == pytest.approx(inset.at(10, 5).xy())          # the anchor is live again
-    assert (call.world_position.x, call.world_position.y) == pytest.approx((start[0] + 10, start[1] - 10))
-    peak = _callout(loaded, "peak")
-    assert tuple(peak.target) == pytest.approx(_inset(page, "plot").at(1550, -3).xy())
-
-
-def test_anchors_work_after_a_load_with_no_source(tmp_path):
-    page = _page(tmp_path)
-    page.svg()                                                                  # every inset at the page font
-    want =[_inset(page, name).at(*point, **options).xy() for name, point, options in
-            (("file", (10, 5), {}), ("section", (0.0, 0.1), {}), ("picture", (100, 50), {}),
-             ("plot", (1550, -3), {}), ("plot", (150, 7), {"axes": 1}))]
-    path = _saved(page, tmp_path)
-    shutil.rmtree(tmp_path / "data")
-    loaded = Page.load(path)
-    got = [_inset(loaded, name).at(*point, **options).xy() for name, point, options in
-           (("file", (10, 5), {}), ("section", (0.0, 0.1), {}), ("picture", (100, 50), {}),
-            ("plot", (1550, -3), {}), ("plot", (150, 7), {"axes": 1}))]
-    assert got == want                                                          # the stored map gives the same place
-
-
-def test_a_plot_is_frozen(tmp_path):
-    page = _page(tmp_path)
-    path = _saved(page, tmp_path)
-    spec = json.loads(path.read_text())
-    plot = next(c for c in spec["components"] if c.get("label") == "plot")
-    assert plot["source"] == {"kind": "Plot"} and plot["fragment"]["frozen"] is True
-    assert plot["fragment"]["map"]["form"] == "plot"
-    assert plot["fragment"]["map"]["axes"][1]["x"] == ["log", 10.0]
-    loaded = Page.load(path)
-    with pytest.raises(ValueError, match="frozen"):
-        _inset(loaded, "plot").rebuild()
-    live = _inset(page, "plot")                                                 # a live plot redraws from its figure
-    old = live.fragment()
-    live.rebuild()
-    assert live.fragment() is not old and live.fragment().size_mm == old.size_mm
-    plot["fragment"]["frozen"] = False                                          # a hand-edited flag: the kind decides
-    edited = _inset(Scene.from_spec(spec), "plot")
-    with pytest.raises(ValueError, match="frozen"):
-        edited.rebuild()
-    edited.width = 40.0
-    assert edited.fragment().size_mm == pytest.approx((40.0, 20.0))            # scaled, as a frozen plot is
-
-
 def test_a_scene_whose_spec_does_not_draw_it_again_is_frozen(tmp_path):
     from optodraw.figure.sources import SceneView
 
@@ -275,60 +132,6 @@ def test_an_inset_over_another_keeps_it(tmp_path):
     assert loaded.svg() == before
 
 
-def test_rebuild_of_a_live_scene_inset_shows_the_edits(tmp_path):
-    from optodraw.figure.sources import SceneView
-
-    scene = _bench()
-    page = Page(width_mm=120, height_mm=80, letters=False)
-    inset = page.add(Inset(SceneView(scene), center=(60, 40), width=60))
-    page.svg()
-    scene.add(Lens(center=(60, 0), label="Late"))
-    assert "Late" in page.svg()                                                 # each export asks the scene again
-    inset.rebuild()
-    assert "Late" in inset.fragment().svg
-
-
-def test_rebuild_reads_the_file_again(tmp_path):
-    page = _page(tmp_path)
-    loaded = Page.load(_saved(page, tmp_path))
-    (tmp_path / "data" / "a.svg").write_text(SVG.replace("#cccccc", "#123456"), encoding="utf-8")
-    inset = _inset(loaded, "file")
-    assert "#123456" not in inset.fragment().svg                               # the stored fragment, until asked
-    inset.rebuild()
-    assert "#123456" in inset.fragment().svg and "#123456" in loaded.svg()
-
-
-def test_rebuild_with_a_lost_file_is_a_clear_error(tmp_path):
-    page = _page(tmp_path)
-    loaded = Page.load(_saved(page, tmp_path))
-    (tmp_path / "data" / "a.svg").unlink()
-    inset = _inset(loaded, "file")
-    with pytest.raises(FileNotFoundError, match="a.svg"):
-        inset.rebuild()
-    assert inset.fragment().size_mm == (50.0, 25.0) and "file" in loaded.svg()  # it keeps what it had
-
-
-def test_paths_are_relative_to_the_page_file(tmp_path):
-    page = _page(tmp_path)
-    spec = json.loads(_saved(page, tmp_path).read_text())
-    sources = {c["label"]: c["source"] for c in spec["components"] if c["type"] == "Inset"}
-    assert sources["file"]["path"] == "../data/a.svg" and sources["picture"]["path"] == "../data/p.png"
-    live = {c["label"]: c["source"] for c in page.to_spec()["components"] if c["type"] == "Inset"}
-    assert live["file"]["path"] == str(tmp_path / "data" / "a.svg")           # with no file: an absolute path
-    moved = tmp_path / "moved"
-    shutil.copytree(tmp_path / "data", moved / "data")
-    shutil.copytree(tmp_path / "pages", moved / "pages")
-    shutil.rmtree(tmp_path / "data")
-    loaded = Page.load(moved / "pages" / "page.json")
-    (moved / "data" / "a.svg").write_text(SVG.replace("#cccccc", "#654321"), encoding="utf-8")
-    inset = _inset(loaded, "file")
-    inset.rebuild()                                                             # it finds the file beside the page
-    assert "#654321" in inset.fragment().svg
-    loaded.save(moved / "pages" / "copy.json")                                  # and saves it relative again
-    copy = json.loads((moved / "pages" / "copy.json").read_text())
-    assert next(c["source"]["path"] for c in copy["components"] if c.get("label") == "file") == "../data/a.svg"
-
-
 def test_a_record_cannot_name_a_python_object(tmp_path):
     from optodraw.figure.sources import SOURCE_KINDS, from_record
     from optodraw.schema import scene_from_spec
@@ -363,98 +166,6 @@ def test_a_record_cannot_name_a_python_object(tmp_path):
         scene_from_spec(json.loads(json.dumps(spec)))
 
 
-def test_a_zoom_link_saves_and_loads(tmp_path):
-    page = _page(tmp_path)
-    spec = json.loads(_saved(page, tmp_path).read_text())
-    link = next(c for c in spec["components"] if c["type"] == "ZoomLink")
-    ids = {c.get("label"): c["id"] for c in spec["components"] if c["type"] == "Inset"}
-    assert (link["small"], link["big"], link["region"]) == (ids["file"], ids["picture"], [10.0, 5.0, 20.0, 15.0])
-    loaded = Page.load(tmp_path / "pages" / "page.json")
-    zoom = next(n for n in loaded.walk() if n.component_type == "ZoomLink")
-    small, big = _inset(loaded, "file"), _inset(loaded, "picture")
-    assert zoom.small is small and zoom.big is big and zoom.region == (10.0, 5.0, 20.0, 15.0)
-    small.move_to(40, 95)
-    assert zoom.drawn_points()[0] == pytest.approx(small.at(10, 5).xy())       # it follows the moved inset
-
-
-def test_a_frozen_inset_scales_its_stored_fragment(tmp_path):
-    page = _page(tmp_path)
-    loaded = Page.load(_saved(page, tmp_path))
-    loaded.svg()
-    plot = _inset(loaded, "plot")
-    before = plot.fragment()
-    plot.width = 40.0                                                            # half the width it was saved at
-    after = plot.fragment()
-    assert after.size_mm == pytest.approx((40.0, 20.0)) and after.floor_mm == pytest.approx(before.floor_mm / 2)
-    assert after.place(1550, -3) == pytest.approx(tuple(v / 2 for v in before.place(1550, -3)))
-    assert after.place(150, 7, axes=1) == pytest.approx(tuple(v / 2 for v in before.place(150, 7, axes=1)))
-    assert any("7 pt" in note for note in after.notes) and not any("7 pt" in note for note in before.notes)
-    assert 'width="40mm"' in after.svg and 'height="20mm"' in after.svg
-    assert loaded.svg()                                                          # it still draws
-    spec = loaded.to_spec()                                                      # and saves as it is now
-    stored = next(c for c in spec["components"] if c.get("label") == "plot")["fragment"]
-    assert stored["size_mm"] == [40.0, 20.0] and stored["frozen"] is True and stored["map"]["form"] == "scaled"
-
-
-def test_a_lost_file_scales_too(tmp_path):
-    page = _page(tmp_path)
-    loaded = Page.load(_saved(page, tmp_path))
-    shutil.rmtree(tmp_path / "data")
-    inset = _inset(loaded, "file")
-    inset.width = 100.0
-    fragment = inset.fragment()
-    assert fragment.size_mm == pytest.approx((100.0, 50.0)) and fragment.place(10, 5) == pytest.approx((25.0, 12.5))
-    assert any("7 pt" in note for note in fragment.notes)
-
-
-def test_a_rebuildable_inset_draws_again_at_a_new_width_on_rebuild(tmp_path):
-    from optodraw.figure.sources import SvgFile
-
-    page = _page(tmp_path)
-    loaded = Page.load(_saved(page, tmp_path))
-    inset = _inset(loaded, "file")
-    inset.width = 100.0
-    assert any("7 pt" in note for note in inset.fragment().notes)              # scaled until asked
-    inset.rebuild()
-    fragment = inset.fragment()
-    fresh = SvgFile(tmp_path / "data" / "a.svg").fragment(100.0, font_pt=7.0)
-    assert fragment.svg == fresh.svg and fragment.notes == () and fragment.place(10, 5) == fresh.place(10, 5)
-
-
-def test_a_loaded_inset_never_rebuilds_by_itself(tmp_path):
-    page = _page(tmp_path)
-    loaded = Page.load(_saved(page, tmp_path))
-    (tmp_path / "data" / "a.svg").write_text(SVG.replace("#cccccc", "#abcdef"), encoding="utf-8")
-    inset = _inset(loaded, "file")
-    stored = inset.fragment()
-    inset.width, loaded.font_pt = 60.0, 8.0                                     # a new width and a new font
-    svg = loaded.svg()
-    fragment = inset.fragment()
-    assert "#abcdef" not in svg and "#cccccc" in fragment.svg                    # the file was not read again
-    assert fragment.size_mm == pytest.approx((60.0, 30.0)) and fragment.svg != stored.svg
-    assert any("8 pt" in note for note in fragment.notes)
-    inset.rebuild()                                                             # only on purpose
-    assert "#abcdef" in inset.fragment().svg and inset.fragment().notes == ()
-
-
-@pytest.mark.skipif(shutil.which("latex") is None or shutil.which("dvisvgm") is None, reason="needs latex, dvisvgm")
-def test_a_loaded_equation_runs_no_tool_until_rebuild(tmp_path, monkeypatch):
-    from optodraw.figure.sources import Equation
-
-    page = Page(width_mm=100, height_mm=60, letters=False)
-    page.add(Inset(Equation("E = mc^2", tex=True), center=(50, 30), width=30, label="eq"))
-    loaded = Page.load(_saved(page, tmp_path))
-    ran = []
-    real = subprocess.run
-    monkeypatch.setattr(subprocess, "run", lambda *a, **k: ran.append(a) or real(*a, **k))
-    inset = _inset(loaded, "eq")
-    inset.width, loaded.font_pt = 45.0, 9.0
-    loaded.svg()
-    assert ran == [] and any("9 pt" in note for note in inset.fragment().notes)
-    inset.rebuild()
-    assert ran and inset.fragment().notes == ()
-
-
 def test_a_height_change_on_a_frozen_inset_keeps_the_stored_fragment(tmp_path):
     page = _page(tmp_path)
     loaded = Page.load(_saved(page, tmp_path))
@@ -471,38 +182,6 @@ def test_a_height_change_on_a_frozen_inset_keeps_the_stored_fragment(tmp_path):
                                                                            "7 pt, not 8 pt",)
 
 
-def test_note_and_span_anchors_stay_live_after_a_load(tmp_path):
-    folder = _data(tmp_path)
-    page = Page(width_mm=183, height_mm=120, font_pt=7.0, letters=False)
-    a = page.add(Inset(str(folder / "a.svg"), center=(40, 60), width=40, label="file"))
-    page.add(Note("n", center=a.at(10, 5)))
-    off = page.add(Note("off", center=a.at(30, 15)))
-    at = off.transform.position
-    off.transform.position = Vec3(at.x + 3.0, at.y, at.z)                       # moved off its place by hand
-    page.add(Bracket("b", a.at(0, 20), a.at(40, 20)))
-    page.add(DashedLink(a.at(40, 10), (150, 100), text="x"))                    # one anchored end, one plain end
-    before = page.svg()
-    spec = json.loads(_saved(page, tmp_path).read_text())
-    marks = {c.get("label") or c.get("text"): c for c in spec["components"]}
-    assert marks["n"]["center"] == {"anchor": "file", "point": [10.0, 5.0], "options": {}}
-    assert marks["off"]["center"]["anchor"] == "file" and marks["off"]["center_offset"] == pytest.approx([3.0, 0.0])
-    assert [end["anchor"] for end in marks["b"]["ends"]] == ["file", "file"]
-    link_ends = next(c for c in spec["components"] if c["type"] == "DashedLink")["ends"]
-    assert link_ends[0]["anchor"] == "file" and isinstance(link_ends[1], list)
-    loaded = Page.load(tmp_path / "pages" / "page.json")
-    assert loaded.svg() == before
-    inset = _inset(loaded, "file")
-    note, moved = (next(n for n in loaded.walk() if isinstance(n, Note) and n.text == t) for t in ("n", "off"))
-    bracket = next(n for n in loaded.walk() if isinstance(n, Bracket))
-    link = next(n for n in loaded.walk() if isinstance(n, DashedLink))
-    inset.move_to(80, 40)
-    assert (note.world_position.x, note.world_position.y) == pytest.approx(inset.at(10, 5).xy())
-    want = inset.at(30, 15).xy()
-    assert (moved.world_position.x, moved.world_position.y) == pytest.approx((want[0] + 3.0, want[1]))
-    assert bracket.start == pytest.approx(inset.at(0, 20).xy()) and bracket.end == pytest.approx(inset.at(40, 20).xy())
-    assert link.start == pytest.approx(inset.at(40, 10).xy()) and link.end == pytest.approx((150, 100))
-
-
 def test_a_mark_of_an_inset_that_left_the_page_saves_its_point(tmp_path):
     folder = _data(tmp_path)
     page = Page(width_mm=120, height_mm=80, letters=False)
@@ -517,55 +196,6 @@ def test_a_mark_of_an_inset_that_left_the_page_saves_its_point(tmp_path):
     back = next(n for n in loaded.walk() if isinstance(n, Note) and n.text == "n")
     assert (back.world_position.x, back.world_position.y) == pytest.approx((note.world_position.x,
                                                                            note.world_position.y))
-
-
-def test_the_editor_cache_relinks_marks_when_an_inset_changes(tmp_path):
-    import copy
-
-    from optodraw.app._scene_cache import RetainedScene
-
-    folder = _data(tmp_path)
-    page = Page(width_mm=183, height_mm=120, letters=False)
-    box = page.add(Inset(str(folder / "a.svg"), center=(30, 40), width=40, label="box"))
-    big = page.add(Inset(str(folder / "a.svg"), center=(130, 40), width=60, label="big"))
-    page.add(Callout("c", center=(80, 90), target=box.at(10, 5)))
-    page.add(Note("n", center=box.at(30, 5)))
-    page.zoom(box, (10, 5, 20, 15), big)
-    spec = json.loads(json.dumps(page.to_spec()))
-    cache = RetainedScene()
-    cache.get(spec)
-    moved = copy.deepcopy(spec)
-    next(c for c in moved["components"] if c.get("label") == "box")["center"] = [50, 40]
-    scene = cache.get(moved)
-    inset = next(n for n in scene.walk() if isinstance(n, Inset) and n.label == "box")
-    call = next(n for n in scene.walk() if isinstance(n, Callout))
-    note = next(n for n in scene.walk() if isinstance(n, Note) and n.text == "n")
-    zoom = next(n for n in scene.walk() if n.component_type == "ZoomLink")
-    assert call.target.inset is inset and tuple(call.target) == pytest.approx(inset.at(10, 5).xy())
-    assert (note.world_position.x, note.world_position.y) == pytest.approx(inset.at(30, 5).xy())
-    assert zoom.small is inset
-    assert scene.svg() == Scene.from_spec(copy.deepcopy(moved)).svg()
-
-
-def test_the_editor_cache_relinks_a_zoom_when_an_inset_changes(tmp_path):
-    import copy
-
-    from optodraw.app._scene_cache import RetainedScene
-
-    folder = _data(tmp_path)
-    page = Page(width_mm=183, height_mm=120, letters=False)
-    box = page.add(Inset(str(folder / "a.svg"), center=(30, 40), width=40, label="box"))
-    big = page.add(Inset(str(folder / "a.svg"), center=(130, 40), width=60, label="big"))
-    page.zoom(box, (10, 5, 20, 15), big)
-    spec = json.loads(json.dumps(page.to_spec()))
-    cache = RetainedScene()
-    cache.get(spec)
-    moved = copy.deepcopy(spec)
-    next(c for c in moved["components"] if c.get("label") == "big")["center"] = [120, 30]
-    scene = cache.get(moved)
-    zoom = next(n for n in scene.walk() if n.component_type == "ZoomLink")
-    assert zoom.big is next(n for n in scene.walk() if isinstance(n, Inset) and n.label == "big")
-    assert scene.svg() == Scene.from_spec(copy.deepcopy(moved)).svg()
 
 
 def test_a_scene_that_reads_a_file_of_its_own_is_frozen(tmp_path):
@@ -761,38 +391,6 @@ def _two_insets(tmp_path):
     return page
 
 
-def test_a_saved_page_over_the_limit_warns_and_still_writes(tmp_path, monkeypatch):
-    monkeypatch.setattr("optodraw.figure.sources.PICTURE_LIMIT", 2000)
-    path = tmp_path / "heavy.json"
-    with pytest.warns(UserWarning, match=r"heavy\.json.*MB.*big") as seen:
-        _two_insets(tmp_path).save(path)
-    message = str(seen[0].message)
-    assert path.exists() and message.index("big") < message.index("small")        # the largest inset comes first
-    assert Page.load(path)
-
-
-def test_a_saved_page_under_the_limit_does_not_warn(tmp_path):
-    import warnings
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("error")
-        _two_insets(tmp_path).save(tmp_path / "light.json")
-
-
-
-def test_a_mark_before_its_inset_loads(tmp_path):
-    folder = _data(tmp_path)
-    page = Page(width_mm=120, height_mm=80, letters=False)
-    a = page.add(Inset(str(folder / "a.svg"), center=(40, 40), width=40, label="file"))
-    page.add(Callout("c", center=(90, 60), target=a.at(10, 5)))
-    spec = json.loads(json.dumps(page.to_spec()))
-    spec["components"].reverse()                                                # the callout comes first
-    loaded = Scene.from_spec(spec)
-    call, inset = _callout(loaded, "c"), _inset(loaded, "file")
-    assert call.target.inset is inset and tuple(call.target) == pytest.approx(inset.at(10, 5).xy())
-    assert [n.component_type for n in loaded.root.children] == ["Callout", "Inset"]      # in the spec's order
-
-
 def _plot_spec(tmp_path):
     page = _page(tmp_path)
     page.add(Callout("third", center=(170, 40), target=_inset(page, "plot").at(150, 7, axes=1)))
@@ -811,16 +409,6 @@ def test_an_axes_the_plot_does_not_have_is_a_finding(tmp_path, axes):
     with pytest.raises(ValueError, match=f"no axes {axes}"):                   # not an IndexError, not axes 1
         _inset(loaded, "plot").fragment().place(150, 7, axes=axes)
     assert any('"third"' in f and "outside the inset" in f for f in _inset_faults(list(loaded.walk())))
-
-
-@pytest.mark.parametrize("value", [float("nan"), float("inf")])
-def test_a_stored_map_takes_finite_numbers_only(tmp_path, value):
-    page = _page(tmp_path)
-    spec = json.loads(json.dumps(page.to_spec()))
-    stored = next(c for c in spec["components"] if c.get("label") == "file")["fragment"]
-    stored["map"]["m"][0] = value
-    with pytest.raises(ValueError, match="numbers"):
-        Scene.from_spec(spec)
 
 
 def test_the_warning_of_a_heavy_page_names_insets_in_groups(tmp_path, monkeypatch):

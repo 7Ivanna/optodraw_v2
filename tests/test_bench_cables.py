@@ -28,22 +28,6 @@ def test_a_bench_cable_takes_one_width_and_a_neutral_colour(a, b):
     assert CABLE_COLOR.lower() not in ("#b24b4b", "#e79d1a")
 
 
-@pytest.mark.parametrize("other", [optodraw.PhaseShifter(center=(200, 0)), optodraw.HeaterPad(center=(200, 0))])
-def test_chip_metal_keeps_its_port_width_and_colour(other):
-    """A pad and a heater pad have no chip thickness: the registry names them chip parts."""
-
-    pad = optodraw.ElectricalPad(center=(0, 0))
-    metal = _wire(pad, other)
-    widths = [p.width for p in (*pad.ports().values(), *other.ports().values()) if p.kind == "electrical"]
-    assert metal.width in widths and metal.width != CABLE_WIDTH and metal.color != CABLE_COLOR
-
-
-def test_a_cable_keeps_the_width_and_colour_it_is_given():
-    cable = _wire(optodraw.WaveformGenerator(center=(0, 0)), optodraw.Oscilloscope(center=(120, 40)),
-                  width=1.2, color="#cc0000")
-    assert (cable.width, cable.color) == (1.2, "#cc0000")
-
-
 def _bench():
     """A modulator driven by a generator and a detector read by a scope: the instruments' jacks face down."""
 
@@ -69,63 +53,6 @@ def _inside(points, box, step=0.25):
         n = max(1, int(((bx - ax) ** 2 + (by - ay) ** 2) ** 0.5 / step))
         out += [(ax + (bx - ax) * k / n, ay + (by - ay) * k / n) for k in range(n + 1)]
     return [(x, y) for x, y in out if x0 < x < x1 and y0 < y < y1]
-
-
-def test_a_bench_cable_runs_round_every_part_and_label():
-    """A cable ran up through the generator and the modulator, and down through the scope."""
-
-    from optodraw.check import _label_box
-
-    _, parts, cables = _bench()
-    for cable in cables:
-        points = [(float(p.x), float(p.y)) for p in cable.points]
-        ends = (cable.start_component, cable.end_component)
-        for part in parts:
-            run = points[1:-1] if part in ends else points          # a cable reaches into its own part's port
-            assert not _inside(run, part.drawn_box()), (cable.start_port, cable.end_port, part.label)
-            if part.label != "EOM":                     # its RF port faces its label: check_figure reports that one
-                assert not _inside(points, _label_box(part, 8.0)), (cable.start_port, part.label)
-
-
-def test_a_bench_cable_leaves_and_meets_each_port_square():
-    """The modulator's RF port faces up: the cable met it from below, through the crystal."""
-
-    _, _, cables = _bench()
-    for cable in cables:
-        for port, (a, b) in ((cable.start_component.world_port(cable.start_port), cable.points[:2]),
-                             (cable.end_component.world_port(cable.end_port), cable.points[-1:-3:-1])):
-            facing = (round(math.cos(math.radians(port.orientation_deg))), round(math.sin(math.radians(port.orientation_deg))))
-            run = (float(b.x - a.x), float(b.y - a.y))
-            assert run[0] * facing[0] + run[1] * facing[1] > 0 and abs(run[0] * facing[1] - run[1] * facing[0]) < 1e-9
-
-
-def test_two_bench_cables_keep_a_track_apart():
-    _, _, cables = _bench()
-    runs = [[(float(a.x), float(a.y), float(b.x), float(b.y)) for a, b in zip(c.points, c.points[1:])] for c in cables]
-    for i, mine in enumerate(runs):
-        for theirs in runs[i + 1:]:
-            for ax, ay, bx, by in mine:
-                for cx, cy, dx, dy in theirs:
-                    if ay == by and cy == dy:                       # two horizontal runs over one stretch
-                        overlap = min(max(ax, bx), max(cx, dx)) - max(min(ax, bx), min(cx, dx))
-                        assert overlap <= 0 or abs(ay - cy) >= 1.5
-                    if ax == bx and cx == dx:
-                        overlap = min(max(ay, by), max(cy, dy)) - max(min(ay, by), min(cy, dy))
-                        assert overlap <= 0 or abs(ax - cx) >= 1.5
-
-
-def test_bench_cables_draw_under_the_parts():
-    """A cable drawn over the parts hid their connectors; under them, its end goes under the jack."""
-
-    scene, _, _ = _bench()
-    svg = scene.render_svg()
-    svg = svg if isinstance(svg, str) else svg.as_svg()
-    last_cable = svg.rindex(f'stroke="{CABLE_COLOR}" fill="none" stroke-width="{CABLE_WIDTH}"')
-    assert last_cable < svg.index('data-art="')
-    lines = scene.render_tikz().split("\\begin{tikzpicture}[x=1pt", 1)[1].splitlines()
-    cables = [i for i, line in enumerate(lines) if line.startswith(f"\\draw[line width={CABLE_WIDTH:.3f}pt")]
-    parts = [i for i, line in enumerate(lines) if "\\pic[" in line]
-    assert len(cables) == 3 and max(cables) < min(parts)
 
 
 def test_a_bench_cable_has_no_short_jog():

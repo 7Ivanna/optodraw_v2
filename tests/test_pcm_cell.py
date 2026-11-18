@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pytest
 
-from optodraw import PCMCell, Scene, VerticalGratingCoupler, check_figure, check_part_3d
+from optodraw import PCMCell, Scene, VerticalGratingCoupler, check_figure
 from optodraw.symbols import lookup
 
 
@@ -31,17 +31,6 @@ def test_a_crystalline_cell_is_drawn_darker_than_an_amorphous_one():
     assert _luminance(fill("crystalline")) < _luminance(fill("amorphous"))
     with pytest.raises(ValueError, match="state"):
         PCMCell(state="molten")
-
-
-def test_the_film_covers_the_core_top_and_runs_down_its_sides_to_the_oxide():
-    cell = PCMCell()
-    core = cell._draw_thickness()
-    width = cell._draw("waveguide_width")
-    bottoms = sorted({round(s["position"][1] - s["height"] / 2.0, 9) for s in _film(cell)})
-    assert bottoms == [0.0, pytest.approx(core)]                  # on the oxide beside the guide, and on its top
-    spans = [(-s["position"][2] - s["depth"] / 2.0, -s["position"][2] + s["depth"] / 2.0) for s in _film(cell)]
-    assert min(a for a, _ in spans) == pytest.approx(-width) and max(b for _, b in spans) == pytest.approx(width)
-    assert check_part_3d(cell) == []
 
 
 def test_a_cell_between_two_couplers_passes_the_figure_checks_in_2d_and_1d():

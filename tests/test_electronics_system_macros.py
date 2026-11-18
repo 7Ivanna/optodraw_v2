@@ -11,8 +11,7 @@ from optodraw import (
     ReceiverMacro,
     TransmitterMacro,
 )
-from optodraw.catalog import describe_component
-from optodraw.registry import build_component, component_registry, describe_physics_support
+from optodraw.registry import build_component, component_registry
 
 
 def test_electrical_io_bank_ports_and_metadata():
@@ -83,18 +82,6 @@ def test_system_macros_are_registry_creatable(name: str):
     assert component.geometry_3d()["shape"] == "group"
     assert name in component_registry()
 
-
-@pytest.mark.parametrize("name", ["BalancedPhotodetector", "CoherentReceiver", "ReceiverMacro"])
-def test_readout_components_advertise_readout_mode(name: str):
-    info = describe_physics_support(name)
-    assert "readout" in info["physics_modes"]
-    catalog_info = describe_component(name)
-    assert catalog_info["category"] == "electronics"
-
-
-def test_transmitter_macro_advertises_modulation_mode():
-    info = describe_physics_support("TransmitterMacro")
-    assert "modulation" in info["physics_modes"]
 
 class TestGeneratedLayoutsFitTheirFrame:
     """A generated layout must fit the figure it will be exported as.

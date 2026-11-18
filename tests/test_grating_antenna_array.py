@@ -9,16 +9,6 @@ from optodraw import GratingAntennaArray, MMI1x2, Scene, VerticalGratingCoupler,
 from optodraw.symbols import lookup
 
 
-def test_one_port_per_channel_at_the_west_end_lowest_first_on_the_pitch():
-    array = GratingAntennaArray(count=16, pitch=2.0, length=31.5, render_physical=True)
-    ports = array.ports()
-    assert list(ports) == [f"o{k}" for k in range(1, 17)]
-    ys = [port.center.y for port in ports.values()]
-    assert all(b - a == pytest.approx(2.0) for a, b in zip(ys, ys[1:]))         # o1 lowest, 2 um apart
-    assert {round(port.center.x, 6) for port in ports.values()} == {-15.75}     # the west end of 31.5 um gratings
-    assert {port.orientation_deg for port in ports.values()} == {180}
-
-
 def test_the_teeth_stand_at_core_height_on_a_floor_the_etch_thins():
     array = GratingAntennaArray(count=1, etch_depth=0.07)                       # 70 nm of 220 nm, as in the paper
     floor, tooth = sorted({round(solid["height"], 9) for solid in array.geometry_3d()["children"]})

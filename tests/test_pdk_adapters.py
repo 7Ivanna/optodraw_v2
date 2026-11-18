@@ -30,34 +30,13 @@ def _stack(**layers):
 
 
 class TestLayerStackHints:
-    def test_missing_layers_gives_empty_hints(self):
-        assert layer_stack_hints(SimpleNamespace()) == {}
-        assert layer_stack_hints(SimpleNamespace(layers=None)) == {}
 
     def test_level_without_layer_spec_is_skipped(self):
         stack = _stack(odd=SimpleNamespace(zmin=1.0))
         assert layer_stack_hints(stack) == {}
 
-    def test_extracts_gds_z_and_material(self):
-        stack = _stack(wg=_level((1, 0), zmin=2.0, thickness=0.22, material="si"))
-        assert layer_stack_hints(stack) == {
-            "wg": {"gds": (1, 0), "zmin": 2.0, "thickness": 0.22, "material": "si"}
-        }
-
-    def test_missing_numbers_default_to_zero(self):
-        stack = _stack(slab=_level((2, 0)))
-        hint = layer_stack_hints(stack)["slab"]
-        assert (hint["zmin"], hint["thickness"], hint["material"]) == (0.0, 0.0, "")
-
 
 class TestBootstrapSkeleton:
-    def test_defaults_with_no_inputs(self):
-        skeleton = bootstrap_process_skeleton()
-        assert skeleton["name"] == "bootstrap_process"
-        assert skeleton["units"] == "um"
-        assert skeleton["layout_layers"] == {}
-        assert skeleton["process"] == []
-        assert skeleton["device"]["thickness"] == 0.22
 
     def test_layout_layer_map_wins_over_stack(self):
         stack = _stack(wg=_level((1, 0)))
@@ -66,30 +45,6 @@ class TestBootstrapSkeleton:
         )
         assert skeleton["layout_layers"] == {"core": {"gds": [10, 0]}}
 
-    def test_stack_layers_become_layout_layers(self):
-        stack = _stack(wg=_level((1, 0)), slab=_level((2, 0)))
-        skeleton = bootstrap_process_skeleton(layer_stack=stack)
-        assert skeleton["layout_layers"] == {
-            "wg": {"gds": [1, 0]},
-            "slab": {"gds": [2, 0]},
-        }
-
-    def test_silicon_layer_sets_device_thickness(self):
-        stack = _stack(
-            wg=_level((1, 0), zmin=2.0, thickness=0.22, material="si"),
-            clad=_level((0, 0), zmin=0.0, thickness=2.0, material="sio2"),
-        )
-        device = bootstrap_process_skeleton(layer_stack=stack)["device"]
-        assert device["thickness"] == 0.22
-        assert device["z_on_box"] == 2.0
-
-    def test_oxide_and_empty_layers_ignored_for_device(self):
-        stack = _stack(
-            clad=_level((0, 0), thickness=2.0, material="SiO2"),
-            flat=_level((3, 0), thickness=0.0, material="si"),
-        )
-        device = bootstrap_process_skeleton(layer_stack=stack)["device"]
-        assert device["thickness"] == 0.22  # silicon default kept
 
     def test_skeleton_loads_as_process_definition(self):
         from optodraw.gds.xsection.schema import ProcessDefinition

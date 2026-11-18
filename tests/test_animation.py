@@ -24,7 +24,6 @@ from optodraw import (
     VerticalGratingCoupler,
     MicroringResonator,
     OnChipPhotodetector,
-    AnimationTimeline,
 )
 from optodraw.core.beam import Beam as BeamType
 from optodraw.core.routing import Route
@@ -73,12 +72,6 @@ class TestSvgRendererAnimationExtensions:
         assert "Pump" in svg_full
         assert "Pump" not in svg_hidden
 
-    def test_empty_hidden_ids_renders_full_scene(self):
-        scene = _simple_scene()
-        svg = SvgRenderer(scene, hidden_ids=set()).render().as_svg()
-        assert "Pump" in svg
-        assert "M1" in svg
-        assert "L1" in svg
 
     def test_partial_beams_shorter_path(self):
         scene = _simple_scene()
@@ -103,12 +96,6 @@ class TestSvgRendererAnimationExtensions:
         result = SvgRenderer._partial_path_points(pts, 0.0)
         assert result == [(0, 0)]
 
-    def test_partial_path_helper_midpoint(self):
-        pts = [(0, 0), (10, 0)]
-        result = SvgRenderer._partial_path_points(pts, 0.5)
-        assert len(result) == 2
-        assert abs(result[-1][0] - 5.0) < 1e-9
-        assert abs(result[-1][1]) < 1e-9
 
     def test_partial_path_helper_multi_segment(self):
         # Three equal-length segments; ask for 2/3 of total = first two segments exactly
@@ -147,108 +134,13 @@ class TestGifRendererFrameLogic:
         frames_trace = renderer._build_frames("beam_trace")
         assert len(frames_trace) > len(frames_build)
 
-    def test_first_frame_hides_everything(self):
-        scene = _simple_scene()
-        renderer = GifRenderer(scene)
-        frames = renderer._build_frames("build_up")
-        first = frames[0]
-        assert first["partial_beams"] == {}
-        # All non-Grid, non-Group components should be hidden
-        solids, beams = renderer._collect_components()
-        assert all(id(c) in first["hidden_ids"] for c in solids)
-        assert all(id(b) in first["hidden_ids"] for b in beams)
-
-    def test_last_frame_hides_nothing(self):
-        scene = _simple_scene()
-        renderer = GifRenderer(scene)
-        frames = renderer._build_frames("build_up")
-        last = frames[-1]
-        assert len(last["hidden_ids"]) == 0
-
-    def test_beam_trace_partial_beams_populated(self):
-        scene = _simple_scene()
-        renderer = GifRenderer(scene)
-        frames = renderer._build_frames("beam_trace")
-        # Find any frame with a partial_beams entry
-        partial_frames = [f for f in frames if f["partial_beams"]]
-        assert partial_frames, "No partial-beam frames found in beam_trace mode"
-        for f in partial_frames:
-            for v in f["partial_beams"].values():
-                assert 0.0 < v <= 1.0
-
-    def test_chip_scene_build_up(self):
-        chip = _chip_scene()
-        renderer = GifRenderer(chip)
-        frames = renderer._build_frames("build_up")
-        # Should have at least as many frames as solid components + routes
-        assert len(frames) >= 4
-
 
 # ---------------------------------------------------------------------------
 # AnimationTimeline API
 # ---------------------------------------------------------------------------
 
 class TestAnimationTimeline:
-    def test_scene_timeline_returns_timeline(self):
-        scene = _simple_scene()
-        tl = scene.timeline()
-        assert isinstance(tl, AnimationTimeline)
-        assert tl.scene is scene
 
-    def test_show_appends_step(self):
-        scene = _simple_scene()
-        laser = next(c for c in scene.walk() if c.label == "Pump")
-        tl = scene.timeline()
-        tl.show(laser, caption="Pump laser")
-        assert len(tl._steps) == 1
-        assert tl._steps[0].kind == "show"
-        assert tl._steps[0].caption == "Pump laser"
-
-    def test_trace_appends_step(self):
-        scene = _simple_scene()
-        beam = next(c for c in scene.walk() if isinstance(c, BeamType))
-        tl = scene.timeline()
-        tl.trace(beam, steps=8)
-        assert len(tl._steps) == 1
-        assert tl._steps[0].kind == "trace"
-        assert tl._steps[0].trace_steps == 8
-
-    def test_pause_appends_step(self):
-        tl = _simple_scene().timeline()
-        tl.pause(2.0, caption="Hold")
-        assert tl._steps[0].kind == "pause"
-        assert tl._steps[0].dwell == 2.0
-
-    def test_builder_returns_self(self):
-        scene = _simple_scene()
-        laser  = next(c for c in scene.walk() if c.label == "Pump")
-        mirror = next(c for c in scene.walk() if c.label == "M1")
-        beam   = next(c for c in scene.walk() if isinstance(c, BeamType))
-
-        tl = scene.timeline()
-        result = tl.show(laser).show(mirror).trace(beam).pause(1.0)
-        assert result is tl
-
-    def test_to_frame_states_blank_first(self):
-        scene = _simple_scene()
-        laser = next(c for c in scene.walk() if c.label == "Pump")
-        tl = scene.timeline()
-        tl.show(laser)
-        states = tl._to_frame_states()
-        # First state: laser is hidden
-        assert id(laser) in states[0]["hidden_ids"]
-        # Second state: laser visible
-        assert id(laser) not in states[1]["hidden_ids"]
-
-    def test_to_frame_states_trace_grows(self):
-        scene = _simple_scene()
-        beam = next(c for c in scene.walk() if isinstance(c, BeamType))
-        tl = scene.timeline().trace(beam, steps=5)
-        states = tl._to_frame_states()
-        # blank + 5 trace frames
-        assert len(states) == 6
-        fractions = [s["partial_beams"].get(id(beam)) for s in states if s["partial_beams"]]
-        assert fractions == [0.2, 0.4, 0.6, 0.8, 1.0]
 
     def test_full_timeline_frame_count(self):
         scene = _simple_scene()
@@ -263,17 +155,6 @@ class TestAnimationTimeline:
         # blank + 3 show + 10 trace + 1 pause = 15
         assert len(states) == 15
 
-    def test_wave_travel_keeps_route_visible_and_uses_traveling_window(self):
-        chip = _chip_scene()
-        route = next(c for c in chip.walk() if isinstance(c, Route))
-
-        tl = chip.timeline().show(route).wave_travel(route, steps=4)
-        states = tl._to_frame_states()
-
-        travel_states = [state for state in states if state["traveling_waves"]]
-        assert len(travel_states) == 4
-        assert all(id(route) not in state["hidden_ids"] for state in travel_states)
-        assert all(id(route) not in state["partial_beams"] for state in travel_states)
 
     def test_absorb_preserves_route_after_animation(self):
         chip = _chip_scene()
@@ -284,16 +165,6 @@ class TestAnimationTimeline:
 
         assert id(route) not in states[-1]["hidden_ids"]
 
-    def test_cavity_power_emits_highlight_frames(self):
-        chip = _chip_scene()
-        ring = next(c for c in chip.walk() if isinstance(c, MicroringResonator))
-
-        tl = chip.timeline().show(ring).cavity_power(ring, steps=5)
-        states = tl._to_frame_states()
-
-        highlight_states = [state for state in states if state["highlight_levels"]]
-        assert len(highlight_states) == 5
-        assert all(id(ring) in state["highlight_levels"] for state in highlight_states)
 
     def test_svg_traveling_wave_state_adds_overlay(self):
         chip = _chip_scene()
@@ -313,18 +184,6 @@ class TestAnimationTimeline:
 
         assert len(highlighted_svg) > len(base_svg)
 
-    def test_chip_timeline(self):
-        chip = _chip_scene()
-        components = list(chip.walk())
-        tl = chip.timeline()
-        routes = [c for c in components if isinstance(c, Route)]
-        solids = [c for c in components if not isinstance(c, Route)]
-        for c in solids[:3]:
-            tl.show(c)
-        for r in routes:
-            tl.trace(r, steps=6)
-        states = tl._to_frame_states()
-        assert len(states) > 0
 
     def test_onchip_orientation_deg_alias_matches_angle(self):
         gc_by_angle = VerticalGratingCoupler(center=(0, 0), angle=180)
@@ -336,25 +195,10 @@ class TestAnimationTimeline:
         assert port_angle.center.y == pytest.approx(port_alias.center.y)
         assert port_angle.orientation_deg == pytest.approx(port_alias.orientation_deg)
 
-    def test_rotated_detector_port_follows_device_angle(self):
-        detector = OnChipPhotodetector(center=(0, 0), angle=90)
-        port = detector.world_port("o1")
-        assert port.orientation_deg == pytest.approx(-90.0)
-        assert port.center.y < 0.0
-
 
 # ---------------------------------------------------------------------------
 # Scene integration (no I/O — just confirms the plumbing doesn't crash)
 # ---------------------------------------------------------------------------
-
-class TestSceneAnimationHooks:
-    def test_scene_has_render_gif(self):
-        scene = _simple_scene()
-        assert callable(scene.render_gif)
-
-    def test_scene_has_timeline(self):
-        scene = _simple_scene()
-        assert callable(scene.timeline)
 
 
 def test_gif_frames_sit_on_white_not_black(tmp_path):

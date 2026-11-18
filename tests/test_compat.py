@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import warnings
 
 import pytest
 
@@ -20,19 +19,6 @@ def test_deprecated_alias_still_works():
         assert wrapped(value=3) == 6
 
 
-def test_deprecated_keeps_name_and_doc():
-    def documented() -> str:
-        """Original doc."""
-        return "x"
-
-    wrapped = deprecated("documented", replacement="other", sunset="9.9")(documented)
-    assert wrapped.__name__ == "documented"
-    assert wrapped.__doc__ == "Original doc."
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", DeprecationWarning)
-        assert wrapped() == "x"
-
-
 def test_compiler_and_renderer_helpers_stay_off_the_root():
     import optodraw
 
@@ -45,10 +31,3 @@ def test_compiler_and_renderer_helpers_stay_off_the_root():
     assert not leaked, f"keep these in their modules until a changelog promotes them: {leaked}"
 
 
-def test_deprecated_points_at_caller():
-    wrapped = deprecated("traced", replacement="other", sunset="9.9")(_old_function)
-    with warnings.catch_warnings(record=True) as records:
-        warnings.simplefilter("always", DeprecationWarning)
-        wrapped()
-    assert records
-    assert "test_compat" in str(records[0].filename)

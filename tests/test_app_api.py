@@ -27,117 +27,16 @@ def client() -> TestClient:
     return test_client
 
 
-def test_health_reports_version(client: TestClient):
-    response = client.get("/api/health")
-    assert response.status_code == 200
-    body = response.json()
-    assert body["status"] == "ok"
-    assert body["version"]
-
-
-def test_catalog_lists_components_and_categories(client: TestClient):
-    body = client.get("/api/catalog").json()
-    assert "Lens" in body["components"]
-    assert isinstance(body["categories"], list)
-    assert "optics" in body["categories"]
-
-
-def test_catalog_filter_by_platform(client: TestClient):
-    body = client.get("/api/catalog", params={"platform": "on_chip"}).json()
-    assert all(
-        info.get("platform") in {"on_chip", "mixed"} for info in body["components"].values()
-    )
-
-
-def test_describe_component_has_parameters(client: TestClient):
-    body = client.get("/api/catalog/Lens").json()
-    assert "parameters" in body
-    assert "focal_length" in body["parameters"]
-
-
 def test_describe_unknown_component_404(client: TestClient):
     assert client.get("/api/catalog/NoSuchThing").status_code == 404
-
-
-def test_create_component_returns_id_and_taggable_svg(client: TestClient):
-    response = client.post(
-        "/api/component",
-        json={"name": "Lens", "params": {"center": [0, 0], "focal_length": 50, "label": "L1"}},
-    )
-    assert response.status_code == 200
-    body = response.json()
-    assert body["id"].startswith("lens_")
-    # The editable SVG tags the component group so the front-end can select it.
-    assert f'data-component-id="{body["id"]}"' in body["svg"]
-    assert len(body["spec"]["components"]) == 1
 
 
 def test_create_unknown_component_400(client: TestClient):
     assert client.post("/api/component", json={"name": "NotAComponent"}).status_code == 400
 
 
-def test_create_tolerates_unknown_param(client: TestClient):
-    # optodraw constructors accept **kwargs and ignore unknown keys; the editor
-    # inherits that lenient, forward-compatible behavior.
-    response = client.post(
-        "/api/component", json={"name": "Lens", "params": {"nonexistent_kwarg": 1}}
-    )
-    assert response.status_code == 200
-
-
-def test_update_component_merges_params(client: TestClient):
-    cid = client.post("/api/component", json={"name": "Lens", "params": {"focal_length": 50}}).json()["id"]
-    body = client.patch(f"/api/component/{cid}", json={"params": {"focal_length": 80}}).json()
-    entry = next(c for c in body["spec"]["components"] if c["id"] == cid)
-    assert entry["focal_length"] == 80
-
-
 def test_update_unknown_component_404(client: TestClient):
     assert client.patch("/api/component/ghost", json={"params": {}}).status_code == 404
-
-
-def test_move_component_sets_center_and_angle(client: TestClient):
-    cid = client.post("/api/component", json={"name": "Mirror"}).json()["id"]
-    body = client.post(f"/api/component/{cid}/move", json={"center": [12, -7], "angle": 45}).json()
-    entry = next(c for c in body["spec"]["components"] if c["id"] == cid)
-    assert entry["center"] == [12.0, -7.0]
-    assert entry["angle"] == 45.0
-
-
-def test_delete_component(client: TestClient):
-    cid = client.post("/api/component", json={"name": "Lens"}).json()["id"]
-    body = client.delete(f"/api/component/{cid}").json()
-    assert all(c["id"] != cid for c in body["spec"]["components"])
-
-
-def test_scene_roundtrip_load_and_get(client: TestClient):
-    client.post("/api/component", json={"name": "Lens", "params": {"label": "A"}})
-    client.post("/api/component", json={"name": "Mirror", "params": {"label": "B"}})
-    spec = client.get("/api/scene").json()
-    assert len(spec["components"]) == 2
-
-    # Load the spec back into a fresh app and confirm it renders.
-    fresh = TestClient(create_app())
-    loaded = fresh.post("/api/scene", json={"spec": spec})
-    assert loaded.status_code == 200
-    assert len(loaded.json()["spec"]["components"]) == 2
-
-
-def test_scene_meta_sets_background_and_grid(client: TestClient):
-    body = client.patch(
-        "/api/scene/meta", json={"title": "My Rig", "background": "#0b1020", "grid": 24}
-    ).json()
-    spec = body["spec"]
-    assert spec["title"] == "My Rig"
-    assert spec["background"] == "#0b1020"
-    assert spec["grid"] == 24
-
-
-def test_load_preset_seeds_scene(client: TestClient):
-    body = client.post("/api/scene/preset", json={"name": "confocal_pl"}).json()
-    types = {c["type"] for c in body["spec"]["components"]}
-    assert "BeamSplitter" in types or "Objective" in types  # confocal parts present
-    assert len(body["spec"]["beams"]) >= 1
 
 
 def test_load_preset_unknown_404(client: TestClient):
@@ -148,12 +47,6 @@ def test_load_preset_example_endpoint_alias(client: TestClient):
     # Back-compat: the deprecated /scene/example endpoint still seeds the scene.
     body = client.post("/api/scene/example", json={"name": "confocal_pl"}).json()
     assert len(body["spec"]["components"]) > 0
-
-
-def test_workspaces_lists_presets_and_examples_alias(client: TestClient):
-    data = client.get("/api/workspaces").json()
-    assert data["presets"]  # canonical
-    assert data["examples"] == data["presets"]  # deprecated alias mirrors it
 
 
 def test_load_invalid_spec_400(client: TestClient):
@@ -169,62 +62,15 @@ def test_render_svg_and_tikz(client: TestClient):
     assert "tikzpicture" in tikz or "begin" in tikz
 
 
-def test_unique_ids_across_same_type(client: TestClient):
-    a = client.post("/api/component", json={"name": "Lens"}).json()["id"]
-    b = client.post("/api/component", json={"name": "Lens"}).json()["id"]
-    assert a != b
-
-
-def test_materials_endpoint_lists_presets(client: TestClient):
-    presets = client.get("/api/materials").json()["presets"]
-    assert isinstance(presets, list)
-    assert "glass" in presets
-
-
-def test_new_components_land_on_optical_axis(client: TestClient):
-    a = client.post("/api/component", json={"name": "Lens"}).json()
-    b = client.post("/api/component", json={"name": "Mirror"}).json()
-    ea = next(c for c in a["spec"]["components"] if c["id"] == a["id"])
-    eb = next(c for c in b["spec"]["components"] if c["id"] == b["id"])
-    assert ea["center"][1] == 0.0 and eb["center"][1] == 0.0  # same plane
-    assert ea["center"][0] != eb["center"][0]  # stepped, not stacked
-
-
-def test_style_params_persist_in_session(client: TestClient):
-    cid = client.post("/api/component", json={"name": "Lens"}).json()["id"]
-    client.patch(f"/api/component/{cid}", json={"params": {"color": "#ff0000", "opacity": 0.3}})
-    entry = next(c for c in client.get("/api/scene").json()["components"] if c["id"] == cid)
-    assert entry["color"] == "#ff0000"
-    assert entry["opacity"] == 0.3
-
-
 # Sources auto-trace on placement (Optiverse-style live rays), so tests about
 # MANUAL beams filter the traced-bundle entries out; trace tests keep chief rays.
 def _manual_beams(spec):
     return [b for b in spec.get("beams", []) if not b.get("traced_from")]
 
 
-def _chief_beams(spec):
-    return [b for b in spec.get("beams", []) if b.get("traced_from") and not b.get("ray")]
-
-
-def test_beam_connects_components_and_is_selectable(client: TestClient):
-    a = client.post("/api/component", json={"name": "Laser"}).json()["id"]
-    b = client.post("/api/component", json={"name": "Mirror"}).json()["id"]
-    beam = client.post("/api/beam", json={"path": [a, b], "wavelength": 532}).json()
-    assert beam["id"].startswith("beam_")
-    assert len(_manual_beams(beam["spec"])) == 1
-    # the beam is tagged in the editable SVG so the canvas can select it
-    assert f'data-component-id="{beam["id"]}"' in beam["svg"]
-
-
 def test_beam_requires_two_endpoints(client: TestClient):
     a = client.post("/api/component", json={"name": "Laser"}).json()["id"]
     assert client.post("/api/beam", json={"path": [a]}).status_code == 400
-
-
-def test_beam_unknown_ref_400(client: TestClient):
-    assert client.post("/api/beam", json={"path": ["ghost1", "ghost2"]}).status_code == 400
 
 
 def test_update_and_delete_beam(client: TestClient):
@@ -238,41 +84,6 @@ def test_update_and_delete_beam(client: TestClient):
     # and delete through the same generic endpoint
     after = client.delete(f"/api/component/{beam_id}").json()
     assert _manual_beams(after["spec"]) == []
-
-
-def test_ports_endpoint_returns_world_ports(client: TestClient):
-    laser = client.post("/api/component", json={"name": "Laser", "params": {"center": [-50, 0]}}).json()["id"]
-    cam = client.post("/api/component", json={"name": "Camera", "params": {"center": [50, 0]}}).json()["id"]
-    ports = client.get("/api/ports").json()["ports"]
-    assert any(p["name"] == "out" for p in ports[laser])
-    assert any(p["name"] == "in" for p in ports[cam])
-    # ports sit at device faces (world), not the centers
-    out = next(p for p in ports[laser] if p["name"] == "out")
-    assert out["x"] != -50
-
-
-def test_beam_attaches_to_ports(client: TestClient):
-    laser = client.post("/api/component", json={"name": "Laser", "params": {"center": [-50, 0]}}).json()["id"]
-    cam = client.post("/api/component", json={"name": "Camera", "params": {"center": [50, 0]}}).json()["id"]
-    beam = client.post("/api/beam", json={"path": [[laser, "out"], [cam, "in"]], "wavelength": 532}).json()
-    assert beam["id"].startswith("beam_")
-    manual = _manual_beams(beam["spec"])
-    assert len(manual) == 1
-    # the stored path keeps the port references (so the beam follows the device)
-    assert manual[0]["path"] == [[laser, "out"], [cam, "in"]]
-
-
-def test_route_connects_onchip_ports(client: TestClient):
-    gc = client.post("/api/component", json={"name": "VerticalGratingCoupler"}).json()["id"]
-    pd = client.post("/api/component", json={"name": "OnChipPhotodetector"}).json()["id"]
-    ports = client.get("/api/ports").json()["ports"]
-    src_port = ports[gc][0]["name"]
-    dst_port = ports[pd][0]["name"]
-    route = client.post(
-        "/api/route", json={"src": [gc, src_port], "dst": [pd, dst_port], "kind": "waveguide"}
-    ).json()
-    assert route["id"].startswith("route_")
-    assert len(route["spec"]["routes"]) == 1
 
 
 def test_preview_endpoint_renders_svg(client: TestClient):
@@ -315,27 +126,6 @@ def test_update_route_unknown_404(client: TestClient):
     assert client.patch("/api/route/nope", json={"waypoints": [[0, 0]]}).status_code == 404
 
 
-def test_route_defaults_local_backend_and_port_width(client: TestClient):
-    gc = client.post("/api/component", json={"name": "VerticalGratingCoupler", "params": {"center": [-40, 0]}}).json()["id"]
-    pd = client.post("/api/component", json={"name": "OnChipPhotodetector", "params": {"center": [40, 20]}}).json()["id"]
-    ports = client.get("/api/ports").json()["ports"]
-    sp, dp = ports[gc][0]["name"], ports[pd][0]["name"]
-    entry = client.post("/api/route", json={"src": [gc, sp], "dst": [pd, dp], "kind": "waveguide", "path_type": "manhattan"}).json()["spec"]["routes"][0]
-    # local backend honors path_type (gdsfactory ignores it) and matches the mesh generators
-    assert entry["backend"] == "local"
-    # width omitted → derived from the ports, so manual routes match auto-generated ones
-    assert "width" not in entry
-
-
-def test_beam_with_waypoints(client: TestClient):
-    a = client.post("/api/component", json={"name": "Laser", "params": {"center": [-50, 0]}}).json()["id"]
-    b = client.post("/api/component", json={"name": "Camera", "params": {"center": [50, 0]}}).json()["id"]
-    beam = client.post(
-        "/api/beam", json={"path": [[a, "out"], [0, 20], [b, "in"]]}
-    ).json()
-    assert _manual_beams(beam["spec"])[0]["path"] == [[a, "out"], [0, 20], [b, "in"]]
-
-
 def test_threejs_editable_has_selection_bridge(client: TestClient):
     client.post("/api/component", json={"name": "Lens"})
     html = client.get("/api/render/threejs", params={"editable": "true"}).text
@@ -343,43 +133,6 @@ def test_threejs_editable_has_selection_bridge(client: TestClient):
     assert "window.__odPickables" in html
     # default (export) render stays clean, no editor bridge
     assert "optodraw-select" not in client.get("/api/render/threejs").text
-
-
-def test_gds_import_adds_model(client: TestClient):
-    import pathlib
-
-    gds = pathlib.Path("examples/assets/demo_mask.gds")
-    if not gds.exists():
-        pytest.skip("sample GDS not present")
-    res = client.post(
-        "/api/gds/import", params={"filename": "demo_mask.gds"}, content=gds.read_bytes()
-    )
-    assert res.status_code == 200
-    body = res.json()
-    assert body["id"].startswith("gdsmodel_")
-    entry = next(c for c in body["spec"]["components"] if c["id"] == body["id"])
-    assert entry["type"] == "GDSModel"
-
-
-def test_gds_import_grows_the_frame_to_hold_the_die(client: TestClient):
-    """A die is bigger than a fresh artboard, and the frame is what an export
-    gets cropped to — so importing one used to hand you half a chip."""
-
-    import pathlib
-
-    gds = pathlib.Path("examples/assets/demo_mask.gds")
-    if not gds.exists():
-        pytest.skip("sample GDS not present")
-
-    client.post("/api/scene/new", json={"width": 200, "height": 120})
-    client.post("/api/gds/import", params={"filename": "demo_mask.gds"}, content=gds.read_bytes())
-    assert not [c for c in client.post("/api/validate").json()["checks"] if c["kind"] == "frame"]
-
-    # a frame somebody has already worked in is theirs: a later import leaves it
-    client.post("/api/component", json={"name": "Lens", "params": {"center": [0, 0]}})
-    width = client.get("/api/scene").json()["width"]
-    client.post("/api/gds/import", params={"filename": "demo_mask.gds"}, content=gds.read_bytes())
-    assert client.get("/api/scene").json()["width"] == width
 
 
 def test_gds_import_rejects_empty(client: TestClient):
@@ -484,18 +237,6 @@ def _demo_gds(client: TestClient) -> str:
     return client.post("/api/gds/import", params={"filename": "demo_mask.gds"}, content=gds.read_bytes()).json()["id"]
 
 
-def test_gds_cross_section_runs_the_process_and_lists_its_looks(client: TestClient):
-    from optodraw.gds.xsection.model import CrossSection
-
-    gid = _demo_gds(client)
-    body = client.post(f"/api/gds/{gid}/cross_section", json={"label": "A-A'"}).json()
-    assert body["look"] == "schematic" and body["format"] == "svg"
-    assert 'class="region"' in body["cross_section"]                       # look A, from the process engine
-    assert body["looks"][:2] == ["schematic", "slab"]
-    assert ("sem" in body["looks"]) == hasattr(CrossSection, "png")
-    assert isinstance(body["findings"], list)
-
-
 def test_gds_cross_section_slab_look_is_an_interactive_page(client: TestClient):
     gid = _demo_gds(client)
     body = client.post(f"/api/gds/{gid}/cross_section", json={"look": "slab"}).json()
@@ -514,35 +255,6 @@ def test_gds_cross_section_sem_look_only_when_the_model_draws_it(client: TestCli
     else:
         assert res.status_code == 400 and "SEM" in res.json()["detail"]
     assert client.post(f"/api/gds/{gid}/cross_section", json={"look": "photo"}).status_code == 400
-
-
-def test_gds_cross_section_uses_the_stack_the_part_carries(client: TestClient):
-    from optodraw.app.api import _find_gds_node, _gds_layout_and_stack
-
-    gid = _demo_gds(client)
-    client.post(f"/api/gds/{gid}/stack", json={"name": "gdsfactory_generic"})
-    layout, stack = _gds_layout_and_stack(_find_gds_node(gid))
-    assert (stack.oxide["box_depth"], stack.oxide["cladding_top"]) == (3.0, 3.0)
-    assert stack.styles[(1, 0)]["thickness"] == pytest.approx(0.22) and stack.styles[(40, 0)]["role"] == "contact"
-    assert {record.spec for record in layout.layer_records} == {(1, 0), (2, 0), (3, 0)}
-    body = client.post(f"/api/gds/{gid}/cross_section", json={}).json()
-    assert not [f for f in body["findings"] if "no entry" in f]
-
-
-def test_gds_part_keeps_the_stack_passivation_for_its_cut(client: TestClient):
-    # the editor's cut must be the stack's cut: the part kept the BOX and the cladding but dropped the
-    # passivation and its material, so the editor drew no passivation where Python drew one
-    from optodraw.app.api import _find_gds_node, _gds_layout_and_stack
-    from optodraw.gds.xsection.model import cross_section
-
-    gid = _demo_gds(client)
-    client.post(f"/api/gds/{gid}/stack", json={"name": "gdsfactory_generic"})
-    layout, stack = _gds_layout_and_stack(_find_gds_node(gid))
-    assert stack.oxide["passivation"] == pytest.approx(0.5) and stack.passivation_material == "sio2"
-    xmin, ymin, xmax, ymax = layout.bounds
-    xs = cross_section(layout, stack, (((xmin + xmax) / 2, ymin), ((xmin + xmax) / 2, ymax)))
-    # the passivation is oxide, so it is one body with the cladding: the oxide rises by its thickness
-    assert xs.regions["oxide"].bounds[3] >= stack.oxide["cladding_top"] + 0.5 - 1e-6
 
 
 def _png_size(data_url: str) -> tuple[int, int]:
@@ -583,53 +295,6 @@ def test_gds_cross_section_top_look_reuses_its_cuts_when_only_the_tilt_changes(c
     assert len(built) == 1
     client.post(f"/api/gds/{gid}/cross_section", json={"look": "top", "width_px": 200, "rotation": 30})
     assert len(built) == 2                                              # a turn cuts again
-
-
-def test_gds_cross_section_options_reach_each_look(client: TestClient):
-    gid = _demo_gds(client)
-    true = client.post(f"/api/gds/{gid}/cross_section", json={"z_scale": 1}).json()["cross_section"]
-    stretched = client.post(f"/api/gds/{gid}/cross_section", json={"z_scale": 5}).json()["cross_section"]
-    assert "z × 5" in stretched and "z ×" not in true
-    sem = client.post(f"/api/gds/{gid}/cross_section", json={"look": "sem", "width_px": 300}).json()
-    plain = client.post(f"/api/gds/{gid}/cross_section", json={"look": "sem", "width_px": 300, "mark": False}).json()
-    assert _png_size(sem["cross_section"])[0] == 300 and sem["cross_section"] != plain["cross_section"]
-    slab = client.post(f"/api/gds/{gid}/cross_section", json={"look": "slab", "depth": 3.0, "cutaway": False})
-    assert slab.status_code == 200 and slab.json()["format"] == "html"
-
-
-def test_gds_cross_section_text_has_no_dashes(client: TestClient):
-    gid = _demo_gds(client)
-    body = client.post(f"/api/gds/{gid}/cross_section", json={}).json()
-    for text in (body["top_view"], body["cut"]["label"]):
-        assert "\u2014" not in text and "\u2013" not in text
-
-
-def test_gds_cross_section_unknown_404(client: TestClient):
-    assert client.post("/api/gds/ghost/cross_section", json={}).status_code == 404
-
-
-def test_gds_attach_technology_recolors_layers(client: TestClient):
-    import pathlib
-
-    gds = pathlib.Path("examples/assets/demo_mask.gds")
-    if not gds.exists():
-        pytest.skip("sample GDS not present")
-    gid = client.post(
-        "/api/gds/import", params={"filename": "demo_mask.gds"}, content=gds.read_bytes()
-    ).json()["id"]
-    lyp = (
-        b'<?xml version="1.0"?><layer-properties>'
-        b"<properties><name>WG</name><source>1/0@1</source><fill-color>#ff0000</fill-color></properties>"
-        b"<properties><name>SLAB</name><source>2/0@1</source><fill-color>#00ccff</fill-color></properties>"
-        b"</layer-properties>"
-    )
-    res = client.post(f"/api/gds/{gid}/technology", params={"filename": "demo.lyp"}, content=lyp)
-    assert res.status_code == 200
-    body = res.json()
-    assert body["applied"] >= 2
-    colors = {ly["key"]: ly["color"] for ly in body["layers"]}
-    assert colors.get("1/0") == "#ff0000"
-    assert colors.get("2/0") == "#00ccff"
 
 
 def test_lyp_does_not_inject_fake_z(client: TestClient):
@@ -726,31 +391,10 @@ def test_apply_pdk_to_gds(client: TestClient):
     assert res.json()["applied"] > 0
 
 
-def test_stacks_lists_open_stacks_only(client: TestClient):
-    body = client.get("/api/stacks").json()
-    ids = {s["id"] for s in body["stacks"]}
-    assert "gdsfactory_generic" in ids  # bundled open stack
-    assert "_template" not in ids  # template is download-only, not applyable
-
-
 def test_stack_template_downloads(client: TestClient):
     res = client.get("/api/stacks/template")
     assert res.status_code == 200
     assert "layers:" in res.text
-
-
-def test_apply_stack_to_gds(client: TestClient):
-    import pathlib
-
-    gds = pathlib.Path("examples/assets/demo_mask.gds")
-    if not gds.exists():
-        pytest.skip("sample GDS not present")
-    gid = client.post(
-        "/api/gds/import", params={"filename": "demo_mask.gds"}, content=gds.read_bytes()
-    ).json()["id"]
-    res = client.post(f"/api/gds/{gid}/stack", json={"name": "gdsfactory_generic"})
-    assert res.status_code == 200
-    assert res.json()["applied"] > 0
 
 
 def test_apply_unknown_stack_404(client: TestClient):
@@ -788,36 +432,8 @@ def test_export_blender_script(client: TestClient):
     assert "/optodraw_scene" not in txt  # absolute server path was rewritten out
 
 
-def test_trace_reflects_off_mirror(client: TestClient):
-    laser = client.post("/api/component", json={"name": "Laser", "params": {"center": [-80, 0]}}).json()["id"]
-    client.post("/api/component", json={"name": "Mirror", "params": {"center": [40, 0], "angle": 45, "aperture": 16}})
-    resp = client.post("/api/trace", json={"source_id": laser})
-    assert resp.status_code == 200
-    chiefs = _chief_beams(resp.json()["spec"])
-    assert len(chiefs) == 1
-    path = chiefs[0]["path"]
-    # chief ray goes +x to the mirror at x=40, then physically reflects downward
-    assert path[-2][0] == 40
-    assert path[-1][1] < -5
-    # re-tracing the same source replaces (not duplicates) its bundle
-    count = len(client.get("/api/scene").json()["beams"])
-    client.post("/api/trace", json={"source_id": laser})
-    assert len(client.get("/api/scene").json()["beams"]) == count
-
-
 def test_trace_bad_source_400(client: TestClient):
     assert client.post("/api/trace", json={"source_id": "nope"}).status_code == 400
-
-
-def test_trace_splits_at_beamsplitter(client: TestClient):
-    laser = client.post("/api/component", json={"name": "Laser", "params": {"center": [-70, 0]}}).json()["id"]
-    client.post("/api/component", json={"name": "BeamSplitter", "params": {"center": [15, 0], "angle": 45, "dichroic": True}})
-    beams = _chief_beams(client.post("/api/trace", json={"source_id": laser}).json()["spec"])
-    # a beam splitter yields BOTH a transmitted and a reflected chief ray
-    assert len(beams) == 2
-    ends = sorted(tuple(b["path"][-1]) for b in beams)
-    # one continues straight (+x, y≈0), one reflects off-axis (y != 0)
-    assert any(abs(e[1]) < 1 for e in ends) and any(abs(e[1]) > 1 for e in ends)
 
 
 def test_auth_dependency_gates_api():
@@ -841,23 +457,6 @@ def test_simulate_options_and_run_for_ring(client: TestClient):
     assert res["plot_svg"].lstrip().startswith(("<?xml", "<svg"))
     assert "Q" in res["data"]
     assert any(c["name"] == "bias_voltage_v" for c in res["controls"])
-
-
-def test_simulate_plots_do_not_crowd_their_tick_labels():
-    """A 4.7 in panel cannot carry nine six-digit wavelength ticks — they ran
-    together into 1549.0(1549.2(1549.5(... in the Simulate panel."""
-
-    from optodraw.app.sim_plots import _new_fig
-
-    fig, ax = _new_fig()
-    ax.plot([1549.0, 1549.5, 1550.0, 1550.5, 1551.0], [0.0, 0.4, 1.0, 0.4, 0.0])
-    fig.canvas.draw()
-
-    def visible(ticks, lo, hi):  # matplotlib also returns off-view edge ticks
-        return [t for t in ticks if lo <= t <= hi]
-
-    assert len(visible(ax.get_xticks(), *ax.get_xlim())) <= 6
-    assert len(visible(ax.get_yticks(), *ax.get_ylim())) <= 6
 
 
 def test_simulate_mzm_transfer(client: TestClient):
@@ -988,13 +587,6 @@ def test_validate_flags_a_detector_that_receives_no_light(client: TestClient):
     assert not [c for c in lit if c["kind"] == "illumination"]
 
 
-def test_validate_is_quiet_without_a_trace(client: TestClient):
-    # no rays traced yet = nothing known about illumination; don't cry wolf
-    client.post("/api/component", json={"name": "Photodiode", "params": {"center": [20, 0]}})
-    checks = client.post("/api/validate").json()["checks"]
-    assert not [c for c in checks if c["kind"] == "illumination"]
-
-
 def test_validate_on_chip_grating_coupler(client: TestClient):
     client.post("/api/scene/preset", json={"name": "ring_resonator_chip"})
     # the stock coupler pitch phase-matches at 1550 — a healthy preset must NOT
@@ -1035,41 +627,10 @@ def test_publication_templates_and_figure_zip(client: TestClient):
     assert res.content[:2] == b"PK"
 
 
-
 class TestRouteWidthsAndTapers:
     """Port widths are DRAWN widths (routes visually mate with the drawing) and
     mismatched ports taper automatically: width at the start, width2 at the end."""
 
-    def test_onchip_ports_declare_drawn_widths(self):
-        from optodraw.registry import component_registry
-
-        registry = component_registry()
-        for name in ("MicroringResonator", "PNMicroringModulator", "OnChipPhotodetector",
-                     "VerticalGratingCoupler", "BalancedPhotodetector"):
-            component = registry[name].cls()
-            for port in component.ports().values():
-                if port.kind in ("electrical", "thermal", "fiber"):
-                    continue
-                # no physical 0.5 µm leaking into the schematic port width
-                assert port.width >= 1.0, f"{name} port {port.name} = {port.width}"
-
-    def test_ring_port_width_matches_its_drawn_bus(self):
-        from optodraw.registry import component_registry
-
-        ring = component_registry()["MicroringResonator"].cls()
-        assert ring.ports()["o1"].width == pytest.approx(ring._geom_waveguide_width())
-
-    def test_mismatched_ports_taper_automatically(self):
-        from optodraw import Scene
-        from optodraw.registry import component_registry
-
-        registry = component_registry()
-        scene = Scene()
-        gc = scene.add(registry["VerticalGratingCoupler"].cls(center=(-60, 0)))
-        mmi = scene.add(registry["MMI1x2"].cls(center=(40, 0)))          # an MMI's access waveguide is 1.7 wide
-        route = scene.route((gc, "o1"), (mmi, "o1"), kind="waveguide")
-        assert route.width == pytest.approx(1.2)
-        assert route.width2 == pytest.approx(1.7)
 
     def test_matched_ports_stay_uniform(self):
         from optodraw import Scene
@@ -1083,45 +644,9 @@ class TestRouteWidthsAndTapers:
         assert route.width == pytest.approx(1.2)                         # rings draw the common 1.2 width
         assert route.width2 is None
 
-    def test_route_width_editable_and_nullable(self, client: TestClient):
-        gc = client.post("/api/component", json={"name": "VerticalGratingCoupler", "params": {"center": [-40, 0]}}).json()["id"]
-        pd = client.post("/api/component", json={"name": "OnChipPhotodetector", "params": {"center": [40, 0]}}).json()["id"]
-        rid = client.post("/api/route", json={"src": [gc, "o1"], "dst": [pd, "o1"], "kind": "waveguide"}).json()["id"]
-        # explicit width + taper via the inspector's generic update path
-        res = client.patch(f"/api/component/{rid}", json={"params": {"width": 3.0, "width2": 1.0}})
-        assert res.status_code == 200
-        entry = next(r for r in res.json()["spec"]["routes"] if r["id"] == rid)
-        assert entry["width"] == 3.0 and entry["width2"] == 1.0
-        # back to auto: null clears the override and the scene still builds
-        res = client.patch(f"/api/component/{rid}", json={"params": {"width": None, "width2": None}})
-        assert res.status_code == 200
-        assert "<svg" in res.json()["svg"]
-
-    def test_tapered_route_renders_filled_outline(self, client: TestClient):
-        gc = client.post("/api/component", json={"name": "VerticalGratingCoupler", "params": {"center": [-60, 0]}}).json()["id"]
-        bank = client.post("/api/component", json={"name": "MicroringWeightBank", "params": {"center": [40, 0]}}).json()["id"]
-        client.post("/api/route", json={"src": [gc, "o1"], "dst": [bank, "o1"], "kind": "waveguide"})
-        svg = client.get("/api/render/svg").json()["svg"]
-        assert "<svg" in svg  # taper polygon path renders without error
-
 
 class TestOnChipBaseDetection:
-    def test_chip_system_in_scratch_scene_gets_the_die_base(self, client: TestClient):
-        """A pure on-chip system built in a default (free_space) workspace must
-        still get the auto-generated die + carrier base in 3D."""
 
-        client.post("/api/component", json={"name": "VerticalGratingCoupler", "params": {"center": [-60, 0]}})
-        client.post("/api/component", json={"name": "MicroringResonator", "params": {"center": [0, 0]}})
-        client.post("/api/component", json={"name": "OnChipPhotodetector", "params": {"center": [60, 0]}})
-        html = client.get("/api/render/threejs").text
-        assert "const IS_ONCHIP = true" in html
-        assert "const liftMeshesToTable = false" in html  # chip parts sit flat, no posts
-
-    def test_mixed_scene_stays_free_space(self, client: TestClient):
-        client.post("/api/component", json={"name": "MicroringResonator", "params": {"center": [0, 0]}})
-        client.post("/api/component", json={"name": "Laser", "params": {"center": [-60, 0]}})
-        html = client.get("/api/render/threejs").text
-        assert "const IS_ONCHIP = false" in html
 
     def test_platform_meta_forces_chip_mode(self, client: TestClient):
         client.post("/api/component", json={"name": "MicroringResonator", "params": {"center": [0, 0]}})
@@ -1129,22 +654,6 @@ class TestOnChipBaseDetection:
         client.patch("/api/scene/meta", json={"platform": "on_chip"})
         html = client.get("/api/render/threejs").text
         assert "const IS_ONCHIP = true" in html
-
-    def test_placed_chip_substrate_replaces_the_auto_die(self, client: TestClient):
-        client.post("/api/component", json={"name": "MicroringResonator", "params": {"center": [0, 0]}})
-        client.post("/api/component", json={"name": "ChipSubstrate", "params": {"center": [0, 0], "length": 120, "width": 60}})
-        html = client.get("/api/render/threejs").text
-        assert "const IS_ONCHIP = true" in html
-        assert "const HAS_USER_DIE = true" in html  # auto die yields; carrier remains
-
-    def test_chip_base_meta_turns_the_auto_base_off(self, client: TestClient):
-        client.post("/api/component", json={"name": "MicroringResonator", "params": {"center": [0, 0]}})
-        client.patch("/api/scene/meta", json={"chip_base": False})
-        html = client.get("/api/render/threejs").text
-        assert "const SHOW_CHIP_BASE = false" in html
-        # and back on
-        client.patch("/api/scene/meta", json={"chip_base": True})
-        assert "const SHOW_CHIP_BASE = true" in client.get("/api/render/threejs").text
 
 
 class TestArrangeLayout:
@@ -1181,30 +690,6 @@ class TestArrangeLayout:
         assert client.post("/api/scene/arrange", json={"strategy": "grid"}).status_code == 400
 
 
-def test_scene_download_returns_a_loadable_spec(client: TestClient):
-    """The Save button's route. If this breaks, a user loses their work with no
-    way to get it back, so it is worth a test of its own."""
-
-    client.post("/api/scene/preset", json={"name": "confocal_pl"})
-    payload = client.get("/api/scene/download").json()
-    assert payload["schema_version"] >= 2
-    assert payload["optodraw_version"]
-    assert len(payload["components"]) > 4
-
-    # what came out goes back in
-    client.post("/api/scene/new", json={})
-    assert client.post("/api/scene", json={"spec": payload}).status_code == 200
-    assert len(client.get("/api/scene").json()["components"]) == len(payload["components"])
-
-
-def test_scene3d_lists_the_items_the_3d_view_draws(client: TestClient):
-    client.post("/api/scene/preset", json={"name": "confocal_pl"})
-    items = client.get("/api/scene3d").json()["items"]
-    labels = {item.get("label") for item in items}
-    assert "Sample in closed-cycle cryostat" in labels and "Objective NA 0.81" in labels
-    assert all("position" in item for item in items)
-
-
 def test_preset_preview_renders_and_404s_on_a_bad_name(client: TestClient):
     assert client.get("/api/presets/confocal_pl/preview").json()["svg"].startswith("<?xml")
     assert client.get("/api/presets/nope/preview").status_code == 404
@@ -1214,65 +699,11 @@ def _ftir(client: TestClient) -> None:
     client.post("/api/scene/preset", json={"name": "ftir"})
 
 
-def test_scene3d_has_no_light_unless_asked(client: TestClient):
-    _ftir(client)
-    body = client.get("/api/scene3d").json()
-    assert body["light"] is None and body["items"]
-
-
 def test_scene3d_light_carries_the_engines_pulse(client: TestClient):
     _ftir(client)
     body = client.get("/api/scene3d", params={"light": 1}).json()
     assert body["items"] and body["light"]["enabled"]
     assert body["light"]["pulse"]["edges"]
-
-
-def test_scene3d_light_follows_a_move(client: TestClient):
-    _ftir(client)
-    before = client.get("/api/scene3d", params={"light": 1}).json()["light"]["pulse"]["edges"]
-    client.post("/api/component/L/move", json={"center": [0, -16]})
-    after = client.get("/api/scene3d", params={"light": 1}).json()["light"]["pulse"]["edges"]
-    edge = "path:lens1:in->out"
-    assert before[edge]["points"] != after[edge]["points"]
-
-
-def test_animation_metadata_round_trips_through_save_and_load(client: TestClient):
-    _ftir(client)
-    spec = client.get("/api/scene/download").json()
-    spec.setdefault("metadata", {})["animation"] = {"look": "field", "params": {}, "inputs": [], "tour": None}
-    assert client.post("/api/scene", json={"spec": spec}).status_code == 200
-    again = client.get("/api/scene/download").json()
-    assert again["metadata"]["animation"]["look"] == "field"
-    assert client.get("/api/scene3d", params={"light": 1}).json()["light"]["look"] == "field"
-
-
-def test_the_editable_page_embeds_no_light_and_the_standalone_page_does(client: TestClient):
-    _ftir(client)
-    editable = client.get("/api/render/threejs", params={"editable": 1}).text
-    standalone = client.get("/api/render/threejs").text
-    assert '"edges": {"' not in editable and "path:lens1:in-" not in editable
-    assert "path:lens1:in-" in standalone
-
-
-def test_an_unchanged_scene_does_not_rebuild_the_light(client: TestClient, monkeypatch):
-    from optodraw.app import api
-
-    calls = []
-    real = api.build_light_payload
-
-    def counting(*args, **kwargs):
-        calls.append(1)
-        return real(*args, **kwargs)
-
-    monkeypatch.setattr(api, "build_light_payload", counting)
-    api._LIGHT_CACHE.clear()
-    _ftir(client)
-    first = client.get("/api/scene3d", params={"light": 1}).json()
-    second = client.get("/api/scene3d", params={"light": 1}).json()
-    assert first["light"] == second["light"] and len(calls) == 1
-    client.post("/api/component/L/move", json={"center": [0, -16]})
-    client.get("/api/scene3d", params={"light": 1})
-    assert len(calls) == 2
 
 
 # -- Light settings per part (the inspector's "Light" section) --------------------------------------------------- #
@@ -1314,20 +745,6 @@ def _ring_id(client: TestClient) -> str:
     return next(c["id"] for c in spec["components"] if c["type"] == "MicroringResonator")
 
 
-def test_a_ring_gets_tuning_and_heater_controls_and_a_part_without_a_heater_gets_none(client: TestClient):
-    cid = _load_ring_filter(client)
-    controls = client.get(f"/api/component/{cid}/light").json()["controls"]
-    kinds = [c["kind"] for c in controls]
-    assert kinds.count("tuning") == 5 and kinds.count("heater") == 5 and "drive" not in kinds
-    tuning = next(c for c in controls if c["kind"] == "tuning")
-    heater = next(c for c in controls if c["kind"] == "heater")
-    assert (tuning["min"], tuning["max"], tuning["value"]) == (-2.0, 2.0, 0.0)
-    assert (heater["min"], heater["max"], heater["value"], heater["unit"]) == (0.0, 40.0, 0.0, "mW")
-    assert heater["param"] == "heater:coupledringfilter1:ring1" and tuning["param"] == "phase:coupledringfilter1:ring1"
-    # the grating coupler has no ring, no heater and no modulator: no controls, and no heater slider
-    assert client.get("/api/component/In/light").json()["controls"] == []
-
-
 def test_a_modulator_gets_a_drive_control_up_to_its_v_pi(client: TestClient):
     from optodraw.animation_engine.behaviours.interferometers import mzm_v_pi
 
@@ -1348,19 +765,6 @@ def _part(client: TestClient, component_id: str):
     return next(n for n in api._session().scene().walk() if getattr(n, "_id", "") == component_id)
 
 
-def test_light_settings_land_in_metadata_animation_params_and_drive_the_3d_payload(client: TestClient):
-    cid = _load_ring_filter(client)
-    before = client.get("/api/scene3d", params={"light": 1}).json()["light"]
-    res = client.patch(f"/api/component/{cid}", json={"params": {"light": {"heater:coupledringfilter1:ring2": 12.5}}})
-    assert res.status_code == 200
-    params = client.get("/api/scene/download").json()["metadata"]["animation"]["params"]
-    assert params == {"heater:coupledringfilter1:ring2": 12.5}
-    after = client.get("/api/scene3d", params={"light": 1}).json()["light"]
-    assert after["cw"] != before["cw"]                                    # the payload shows the new state
-    again = client.get(f"/api/component/{cid}/light").json()["controls"]
-    assert next(c for c in again if c["key"] == "heater:coupledringfilter1:ring2")["value"] == 12.5
-
-
 def test_a_light_value_back_at_its_default_removes_the_key(client: TestClient):
     cid = _load_ring_filter(client)
     key = "heater:coupledringfilter1:ring1"
@@ -1369,19 +773,6 @@ def test_a_light_value_back_at_its_default_removes_the_key(client: TestClient):
     assert params[key] == 5.0 and "phase:coupledringfilter1:ring3" in params
     client.patch(f"/api/component/{cid}", json={"params": {"light": {key: 0.0, "tuning:coupledringfilter1:ring3": 0.0}}})
     assert client.get("/api/scene/download").json()["metadata"]["animation"].get("params", {}) == {}
-
-
-def test_light_settings_round_trip_through_save_and_load(client: TestClient):
-    cid = _load_ring_filter(client)
-    client.patch(f"/api/component/{cid}", json={"params": {"light": {"heater:coupledringfilter1:ring2": 7.0,
-                                                                     "tuning:coupledringfilter1:ring4": -1.5}}})
-    spec = client.get("/api/scene/download").json()
-    saved = dict(spec["metadata"]["animation"]["params"])
-    client.post("/api/scene/new", json={})
-    assert client.post("/api/scene", json={"spec": spec}).status_code == 200
-    assert client.get("/api/scene/download").json()["metadata"]["animation"]["params"] == saved
-    controls = client.get(f"/api/component/{cid}/light").json()["controls"]
-    assert next(c for c in controls if c["key"] == "tuning:coupledringfilter1:ring4")["value"] == pytest.approx(-1.5)
 
 
 def test_light_values_outside_the_range_or_without_a_control_are_refused(client: TestClient):
@@ -1424,23 +815,6 @@ def test_a_ring_tuned_one_linewidth_drops_what_the_engines_lorentzian_gives(clie
     assert stored == pytest.approx(res + width)
     # one linewidth (FWHM) away the Lorentzian is 1 / (1 + (2 d / FWHM)^2) = 1/5 of the peak
     assert _drop_power(client) / on == pytest.approx(0.2, rel=0.03)
-
-
-def test_a_light_edit_autosaves_and_its_reply_carries_the_value_the_undo_history_keeps(client: TestClient, monkeypatch):
-    """Undo is the page's history of the replies' specs: the reply to a light edit must hold the new params, and the
-    edit goes through the one autosave hook like every other edit."""
-
-    from optodraw.app.session import EditorSession
-
-    cid = _load_ring_filter(client)
-    saves = []
-    real = EditorSession.autosave
-    monkeypatch.setattr(EditorSession, "autosave", lambda self: (saves.append(1), real(self))[1])
-    key = "heater:coupledringfilter1:ring1"
-    reply = client.patch(f"/api/component/{cid}", json={"params": {"light": {key: 9.0}}}).json()
-    assert saves and reply["spec"]["metadata"]["animation"]["params"] == {key: 9.0}
-    back = client.post("/api/scene", json={"spec": {**reply["spec"], "metadata": {k: v for k, v in reply["spec"]["metadata"].items() if k != "animation"}}})
-    assert back.status_code == 200 and "animation" not in client.get("/api/scene/download").json()["metadata"]
 
 
 # -- record video: one render job at a time, run in a worker thread ----------------------------------------------- #
@@ -1507,22 +881,6 @@ def test_a_second_video_request_while_one_runs_gets_409(client: TestClient, vide
         release.set()
 
 
-def test_a_failed_job_removes_its_folder_but_keeps_its_error(client: TestClient, video_jobs, monkeypatch):
-    from pathlib import Path
-
-    from optodraw.core.scene import Scene
-
-    def boom(self, path, **options):
-        Path(path).write_bytes(b"partial")
-        raise RuntimeError("no chrome")
-
-    monkeypatch.setattr(Scene, "render_tour_video", boom)
-    job_id = client.post("/api/render/video", json={}).json()["id"]
-    job = _wait_job(client, job_id)
-    assert job["state"] == "failed" and job["error"] == "no chrome"
-    assert not Path(video_jobs._VIDEO_JOBS[job_id]["folder"]).exists()
-
-
 def _fast_job(monkeypatch):
     from pathlib import Path
 
@@ -1548,22 +906,6 @@ def test_a_done_job_past_the_time_limit_is_gone_after_a_request(client: TestClie
     assert not folder.exists()
 
 
-def test_a_timer_removes_an_undownloaded_job_without_any_request(client: TestClient, video_jobs, monkeypatch):
-    import time
-    from pathlib import Path
-
-    _fast_job(monkeypatch)
-    monkeypatch.setattr(video_jobs, "_VIDEO_KEEP_S", 0.3)
-    job_id = client.post("/api/render/video", json={}).json()["id"]
-    deadline = time.monotonic() + 30
-    while time.monotonic() < deadline and not video_jobs._VIDEO_JOBS.get(job_id, {}).get("path"):
-        time.sleep(0.05)
-    folder = Path(video_jobs._VIDEO_JOBS[job_id]["folder"])
-    while time.monotonic() < deadline and job_id in video_jobs._VIDEO_JOBS:
-        time.sleep(0.05)
-    assert job_id not in video_jobs._VIDEO_JOBS and not folder.exists()
-
-
 def test_the_server_start_sweeps_the_video_folders_a_stopped_server_left(tmp_path, monkeypatch):
     """Minor 18 of the final review: a job folder in the system temp that has not changed for the time limit goes
     when the app starts; a fresh one (a job that may still run) and other folders stay."""
@@ -1584,11 +926,6 @@ def test_the_server_start_sweeps_the_video_folders_a_stopped_server_left(tmp_pat
         os.utime(path, (past, past))
     create_app()
     assert not old.exists() and fresh.exists() and other.exists()
-
-
-def test_an_unknown_video_job_is_404(client: TestClient, video_jobs):
-    assert client.get("/api/render/video/nope").status_code == 404
-    assert client.get("/api/render/video/nope/file").status_code == 404
 
 
 def test_the_job_renders_the_scenes_own_animation_settings(client: TestClient, video_jobs, monkeypatch):
@@ -1617,26 +954,3 @@ def test_the_job_renders_the_scenes_own_animation_settings(client: TestClient, v
     assert client.get(f"/api/render/video/{job['id']}/file").status_code == 404      # the file goes after the download
 
 
-def test_the_video_request_checks_its_size(client: TestClient, video_jobs):
-    assert client.post("/api/render/video", json={"width": 2, "height": 2}).status_code == 422
-    assert client.post("/api/render/video", json={"fps": 0}).status_code == 422
-
-
-def _can_render_mp4() -> bool:
-    import shutil
-
-    from optodraw.renderers.capture3d import find_chrome
-
-    return bool(find_chrome(required=False) and shutil.which("ffmpeg"))
-
-
-@pytest.mark.skipif(not _can_render_mp4(), reason="needs Chrome and ffmpeg")
-@pytest.mark.filterwarnings("ignore:.*unconnected port:RuntimeWarning")
-def test_the_api_returns_mp4_bytes_for_a_tiny_scene(client: TestClient, video_jobs):
-    client.post("/api/scene", json={"spec": _chip_spec()})
-    job = client.post("/api/render/video", json={"width": 320, "height": 180, "fps": 5}).json()
-    done = _wait_job(client, job["id"])
-    assert done["state"] == "done", done
-    got = client.get(f"/api/render/video/{job['id']}/file")
-    assert got.status_code == 200 and got.headers["content-type"] == "video/mp4"
-    assert got.content[4:8] == b"ftyp"

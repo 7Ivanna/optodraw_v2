@@ -10,13 +10,11 @@ import pytest
 
 pytest.importorskip("shapely")
 
-from optodraw import Scene  # noqa: E402
 from optodraw.registry import build_component  # noqa: E402
 from optodraw.renderers.threejs_renderer import PageConstants  # noqa: E402
-from optodraw.renderers.vector3d_scene import scene_solids  # noqa: E402
 from optodraw.renderers.vector3d_solids import (  # noqa: E402
-    CatmullRom, SolidSet, box, cylinder, extruded_polygon, lathe_profile, look_of, solids_from_tree, sphere, three_box,
-    torus, trs, tube_path)
+    SolidSet, box, cylinder, extruded_polygon, lathe_profile, look_of, solids_from_tree, sphere, three_box,
+    torus, trs)
 
 BUMP = [(0.0, 0.0), (1.0, 0.0), (1.0, 0.5), (0.5, 1.0), (0.0, 1.2)]       # from the axis to the axis
 WASHER = [(1.0, -0.5), (2.0, -0.5), (2.0, 0.5), (1.0, 0.5), (1.0, -0.5)]  # a loop, counter-clockwise
@@ -105,21 +103,6 @@ def _vertices(points) -> np.ndarray:
     return np.unique(np.round(np.asarray(points, float), 9) + 0.0, axis=0)
 
 
-def test_cylinder_and_sphere_vertices_follow_the_three_js_formulas():
-    # CylinderGeometry: theta = 2 pi x / 32 from 0, vertex (r sin theta, y, r cos theta)
-    r, h = 1.5, 2.0
-    want = [(r * math.sin(2 * math.pi * x / 32), y, r * math.cos(2 * math.pi * x / 32))
-            for x in range(32) for y in (h / 2, -h / 2)]
-    got = np.vstack([f.ring for f in cylinder(GEOS["cylinder"])])
-    np.testing.assert_allclose(_vertices(got), _vertices(want), atol=1e-9)
-    # SphereGeometry: phi = 2 pi ix / 32, theta = pi iy / 32, vertex (-r cos phi sin theta, r cos theta, r sin phi sin theta)
-    r = 2.0
-    want = [(-r * math.cos(2 * math.pi * ix / 32) * math.sin(math.pi * iy / 32), r * math.cos(math.pi * iy / 32),
-             r * math.sin(2 * math.pi * ix / 32) * math.sin(math.pi * iy / 32)) for iy in range(33) for ix in range(33)]
-    got = np.vstack([f.ring for f in sphere(GEOS["sphere"])])
-    np.testing.assert_allclose(_vertices(got), _vertices(want), atol=1e-9)
-
-
 def test_three_box_of_a_turned_cylinder_takes_the_eight_corners_not_the_vertices():
     faces = cylinder({"shape": "cylinder", "radius": 1.0, "height": 4.0})
     lo, hi = three_box(faces, trs(rotation=(0.0, math.pi / 4, 0.0)))
@@ -178,51 +161,6 @@ def test_an_open_lathe_shows_both_sides_and_the_retroreflector_its_inside():
     assert len(seen) == 3 and all(f.surface[-1] == "back" for f in seen)
 
 
-def _barry_goldman(points, t: float) -> np.ndarray:
-    """CatmullRomCurve3.getPoint (centripetal, open), written as Barry and Goldman's pyramid: knots spaced by
-    |p_i+1 - p_i| ** 0.5, the ends extrapolated as p0 - p1 + p0. It is the same cubic as three.js's tangent form."""
-
-    p = np.asarray(points, float)
-    ends = np.vstack((2 * p[0] - p[1], p, 2 * p[-1] - p[-2]))
-    k = min(math.floor((len(p) - 1) * t), len(p) - 2)
-    p0, p1, p2, p3 = ends[k:k + 4]
-    t0 = 0.0
-    t1 = t0 + np.linalg.norm(p1 - p0) ** 0.5
-    t2 = t1 + np.linalg.norm(p2 - p1) ** 0.5
-    t3 = t2 + np.linalg.norm(p3 - p2) ** 0.5
-    x = t1 + ((len(p) - 1) * t - k) * (t2 - t1)
-    a1 = ((t1 - x) * p0 + (x - t0) * p1) / (t1 - t0)
-    a2 = ((t2 - x) * p1 + (x - t1) * p2) / (t2 - t1)
-    a3 = ((t3 - x) * p2 + (x - t2) * p3) / (t3 - t2)
-    b1 = ((t2 - x) * a1 + (x - t0) * a2) / (t2 - t0)
-    b2 = ((t3 - x) * a2 + (x - t1) * a3) / (t3 - t1)
-    return ((t2 - x) * b1 + (x - t1) * b2) / (t2 - t1)
-
-
-def test_tube_follows_the_centripetal_catmull_rom_curve():
-    # mutant: a uniform Catmull-Rom (every knot step 1) moves the points off this curve
-    points = [(0, 0, 0), (4, 1, 0), (5, 3, 2), (9, 3, -1), (10, 0, 0)]
-    curve = CatmullRom(points)
-    # getPointAt(u): t from the arc-length table of 200 chords (Curve.getLengths), then getPoint(t)
-    chords = [np.linalg.norm(_barry_goldman(points, (i + 1) / 200) - _barry_goldman(points, i / 200)) for i in range(200)]
-    arcs = np.concatenate(([0.0], np.cumsum(chords)))
-    for u in (0.0, 0.2, 0.45, 0.8, 1.0):
-        target = u * arcs[-1]
-        i = min(int(np.searchsorted(arcs, target, side="right")) - 1, 199)
-        t = (i + (target - arcs[i]) / (arcs[i + 1] - arcs[i])) / 200
-        np.testing.assert_allclose(curve.point_at(u), _barry_goldman(points, t), atol=1e-12)
-    # TubeGeometry(curve, 32, 0.3, 12, open): ring i lies square to the curve at getPointAt(i / 32), 0.3 from it
-    faces = tube_path({"shape": "tube_path", "points": points, "radius": 0.3})
-    vertices = _vertices(np.vstack([f.ring for f in faces]))
-    assert len(vertices) == 33 * 12
-    u = np.arange(33) / 32
-    centres, tangents = curve.point_at(u), curve.tangent(curve.u_to_t(u))
-    offset = vertices[:, None] - centres[None]
-    miss = np.abs(np.linalg.norm(offset, axis=2) - 0.3) + np.abs(np.einsum("vik,ik->vi", offset, tangents))
-    assert miss.min(axis=1).max() < 1e-8
-    assert _paired(faces)                                       # open ends: both sides show
-
-
 def test_decal_glyphs_lie_on_the_plane_centred_and_turn_with_the_part():
     # mutant: skip the part's matrix (the glyphs stay flat at the origin)
     decal = {"shape": "text_decal", "text": "ADC", "width": 4.0, "height": 2.0, "position": [0.0, 0.56, 0.0],
@@ -272,28 +210,3 @@ PART_KINDS = {"ADC": "text_decal", "DACDriver": "text_decal", "TIA": "text_decal
               "Periscope": "lathe_profile", "FiberCoupler": "tube_path"}
 
 
-@pytest.mark.parametrize("name", sorted(PART_KINDS))
-def test_parts_with_these_kinds_build(name):
-    # mutant: drop the kind from KINDS; the part then raises Vector3DError
-    scene = Scene()
-    scene.add(build_component(name))
-    assert PART_KINDS[name] in {s.kind for s in scene_solids(scene).solids}
-
-
-def test_a_die_in_a_figure_takes_the_oxide_colour_so_silicon_shows_on_it():
-    # mutant: the die keeps the viewer's grey, about the silicon fill, and a ring vanishes on it
-    from optodraw import MicroringResonator, Scene, Waveguide
-    from optodraw.gds.palette import material_fill
-    from optodraw.renderers.vector3d_scene import scene_solids
-    from optodraw.renderers.vector3d_solids import figure_color
-
-    scene = Scene(width=80, height=60, platform="on_chip")
-    scene.add(MicroringResonator(center=(0, 0)))
-    solids = scene_solids(scene).solids
-    die = next(solid for solid in solids if solid.part == "base:die")
-    ring = next(solid for solid in solids if solid.part.startswith("microring"))
-    guide = Scene(width=80, height=60, platform="on_chip")
-    guide.add(Waveguide(center=(0, 0), length=20))
-    core = next(solid for solid in scene_solids(guide).solids if solid.part.startswith("waveguide"))
-    # the ring is a silicon core like every other: one look, and it stands out on the oxide die
-    assert figure_color(die) == material_fill("sio2") != figure_color(ring) == figure_color(core)

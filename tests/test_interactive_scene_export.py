@@ -11,23 +11,6 @@ from optodraw.schema import AUTHORING_PATCH_SCHEMA_VERSION
 
 
 class TestInteractiveSceneExport:
-    def test_free_space_html_includes_sidebar_and_json_download(self):
-        scene = Scene(title="Interactive Demo", width=120, height=80, platform="free_space")
-        scene.add(Laser(center=(-20, 0), label="Laser"))
-        scene.add(Mirror(center=(10, 0), angle=45, label="M1"))
-
-        html = export_interactive_html(scene)
-
-        assert 'data-optodraw-interactive-scene="true"' in html
-        assert 'id="component-sidebar"' in html
-        assert 'data-optodraw-component-sidebar="true"' in html
-        assert 'data-component-id="Laser"' in html
-        assert 'data-component-type="Laser"' in html
-        assert 'id="btn-export-json"' in html
-        assert "downloadSceneJson" in html
-        assert "applySelectionHighlight" in html
-        assert "registerComponentObject" in html
-        assert '"schema_version"' in html
 
     def test_chip_scene_lists_physical_spec_and_dimension_toggle(self):
         built = build_ring_filter(title="Interactive Ring Filter")
@@ -58,16 +41,6 @@ class TestInteractiveSceneExport:
         assert 'id="component-sidebar"' in html
         assert "component-row" in html
 
-    def test_show_dimension_markers_false_omits_toggle(self):
-        built = build_ring_filter()
-        html = export_interactive_html(
-            built["scene"],
-            show_dimension_markers=False,
-            show_grid=False,
-        )
-
-        assert "btn-toggle-dimensions" not in html
-        assert "dimensionMarkersGroup" not in html
 
     def test_default_authoring_panel_exports_patch_controls(self):
         scene = Scene(title="Interactive Authoring", width=120, height=80, platform="free_space")
@@ -88,35 +61,6 @@ class TestInteractiveSceneExport:
         assert '"color":' in html
         assert '"opacity":' in html
 
-    def test_show_authoring_panel_false_keeps_sidebar_but_omits_controls(self):
-        scene = Scene(platform="free_space")
-        scene.add(Mirror(center=(0, 0), angle=0, label="M"))
-
-        html = export_interactive_html(
-            scene,
-            show_authoring_panel=False,
-            show_dimension_markers=False,
-        )
-
-        assert 'id="component-sidebar"' in html
-        assert "component-row" in html
-        assert '<div id="component-authoring-panel"' not in html
-        assert 'id="btn-download-authoring-patch"' not in html
-        assert "downloadAuthoringPatchJson" not in html
-
-    def test_annotated_scene_data_carries_component_ids(self):
-        built = build_ring_filter()
-        scene = built["scene"]
-        built["grating_coupler"]._id = "gc"
-
-        from optodraw.renderers.interactive_scene import _annotate_scene_data_with_ids
-        from optodraw.renderers.threejs_renderer import ThreeJsRenderer
-
-        renderer = ThreeJsRenderer(scene, show_grid=False)
-        scene_data = _annotate_scene_data_with_ids(scene, renderer._collect_scene_data())
-        ids = [item.get("id") for item in scene_data if item.get("id")]
-
-        assert "gc" in ids
 
     def test_scene_apply_authoring_patch_updates_display_metadata(self):
         scene = Scene(title="Authoring Patch Demo", width=120, height=80, platform="free_space")

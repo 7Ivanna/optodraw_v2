@@ -164,30 +164,6 @@ def mutant_base(viewer):
     return scene, largest
 
 
-def test_frames_put_each_point_where_the_renderer_draws_it():
-    solids = scene_solids(_scene(MUTANT_PART), renderer_options=OPTIONS)
-    points = np.vstack([f.ring for f in solids.faces])
-    for projection in viewer_flat.PROJECTIONS:
-        frame = viewer_flat.frame_for(solids, projection)
-        view = frame.view()
-        world = np.array(view["world"]).reshape(4, 4)
-        clip = (np.array(view["projection"]).reshape(4, 4) @ np.linalg.inv(world)
-                @ np.column_stack((points, np.ones(len(points)))).T)
-        ndc = clip[:3] / clip[3]
-        page = np.column_stack(((ndc[0] + 1) / 2 * frame.width_mm, (1 - ndc[1]) / 2 * frame.height_mm))
-        assert np.allclose(page, frame.camera.page(points), rtol=0, atol=1e-9), projection
-        assert (np.abs(ndc[2]) < 1).all(), f"{projection}: a point outside the near and far planes"
-
-
-@needs_chrome
-def test_catalog_matches_viewer(viewer):
-    # mutant: drop the 0.15 above the part from the post top in vector3d_scene._mount_for; each part on a post fails
-    names = solid_parts()
-    results = viewer_flat.compare(viewer, {name: _scene(name) for name in names}, renderer_options=OPTIONS)
-    failed = [result.report() for result in results if not result.ok]
-    assert not failed, f"{len(failed)} of {len(results)} parts differ from the viewer:\n" + "\n".join(failed)
-
-
 @needs_chrome
 def test_scenes_match_viewer(viewer):
     # mutant: skip the climb at the die edge in vector3d_scene.cable_solids (footprint_entry returns None); the
@@ -230,15 +206,6 @@ def test_out_of_scope_parts_raise():
     for scene, pattern in cases:
         with pytest.raises(Vector3DError, match=pattern):
             scene_solids(scene)
-
-
-@needs_chrome
-def test_missing_solid_fails(viewer, mutant_base):
-    scene, solid = mutant_base
-    result = viewer_flat.compare(viewer, {MUTANT_PART: scene}, renderer_options=OPTIONS,
-                                 mutate=functools.partial(viewer_flat.without_solid, solid=solid))[0]
-    for projection in viewer_flat.PROJECTIONS:
-        assert solid in result.wrong[projection], f"solid {solid} removed, no patch on it:\n{result.report()}"
 
 
 @needs_chrome

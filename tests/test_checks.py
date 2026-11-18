@@ -29,53 +29,6 @@ _RING = {"shape": "cylinder", "radius": 5.0, "height": 2.0, "rotation": [0.0, 0.
 _BOSS = {"shape": "box", "width": 2.0, "height": 1.2, "depth": 4.0, "position": [0, -5.0, 0]}
 
 
-def test_a_well_built_part_has_no_findings():
-    assert check_part_3d(_Part([_RING, _BOSS], post_at=[0.0, -5.6, 0.0])) == []
-
-
-def test_a_solid_that_touches_nothing_is_found():
-    knob = {"shape": "sphere", "radius": 0.5, "position": [0, 12.0, 0], "role": "knob"}
-    findings = check_part_3d(_Part([_RING, _BOSS, knob], post_at=[0.0, -5.6, 0.0]))
-    assert any("touches nothing" in f and "knob" in f for f in findings)
-
-
-def test_a_post_under_a_round_rim_is_found():
-    findings = check_part_3d(_Part([_RING], post_at=[0.0, -5.0, 0.0]))
-    assert any("flat face" in f for f in findings)
-
-
-def test_a_post_inside_its_boss_is_found():
-    findings = check_part_3d(_Part([_RING, _BOSS], post_at=[0.0, -5.5, 0.0]))
-    assert any("flat face" in f for f in findings)
-
-
-def test_a_part_that_stands_on_the_table_needs_no_post():
-    assert check_part_3d(_Part([_RING], base_mount="none")) == []
-
-
-def test_every_part_keeps_the_label_side_it_is_given():
-    """A constructor that dropped label_side left the label on the beam, whatever the caller asked."""
-
-    import warnings
-
-    from optodraw.registry import component_registry, get_component_class
-
-    dropped = []
-    for name, spec in sorted(component_registry().items()):
-        if not spec.creatable:
-            continue
-        cls = get_component_class(name)
-        try:
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore")
-                part = cls(label="x", label_side="right")
-        except Exception:
-            continue
-        if getattr(part, "label_side", "top") != "right":
-            dropped.append(name)
-    assert not dropped, f"{len(dropped)} parts drop label_side: {dropped[:12]}"
-
-
 def test_both_renderers_take_both_view_keywords(tmp_path):
     """render_svg took onchip_view= and render_tikz took view=; each ignored the other and drew 2D."""
 

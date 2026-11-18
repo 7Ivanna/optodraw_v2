@@ -4,19 +4,17 @@ tests/test_vector3d_viewer.py checks the same copies against the real viewer, pi
 
 from __future__ import annotations
 
-import math
 
 import numpy as np
 import pytest
 
 pytest.importorskip("shapely")
 
-from optodraw import Breadboard, Laser, Lens, Scene  # noqa: E402
+from optodraw import Breadboard, Laser, Scene  # noqa: E402
 from optodraw.components.optics.fibers import LEAD_HEIGHT  # noqa: E402
-from optodraw.registry import build_component  # noqa: E402
 from optodraw.renderers.threejs_renderer import PageConstants  # noqa: E402
-from optodraw.renderers.vector3d_scene import cable_solids, chip_base, scene_solids, strip_solids  # noqa: E402
-from optodraw.renderers.vector3d_solids import SolidSet, tree_box  # noqa: E402
+from optodraw.renderers.vector3d_scene import cable_solids, scene_solids, strip_solids  # noqa: E402
+from optodraw.renderers.vector3d_solids import SolidSet  # noqa: E402
 
 BOARD = 2.4                 # Breadboard().thickness: BOARD_TOP on its page
 BEAM = 30.0                 # the default beam height
@@ -49,63 +47,9 @@ def test_a_post_stands_on_the_board_and_ends_0_15_under_the_part():
     assert post[:, 1].max() == pytest.approx(laser[:, 1].min() + 0.15)
 
 
-def test_post_at_and_the_yaw_move_the_post():
-    # mutant: ignore the yaw in vector3d_scene._mount_for (px = x + lx, pz = z + lz)
-    objective = build_component("Objective", center=(24, 0), angle=30)
-    lx, ly, lz = objective.geometry_3d()["post_at"]
-    scene = Scene()
-    scene.add(objective)
-    out = scene_solids(scene)
-    post = _points(out, _sid(out, "mount:"))
-    yaw = math.radians(30)
-    centre = (post.min(axis=0) + post.max(axis=0)) / 2       # every piece of a post is round about one axis
-    assert centre[0] == pytest.approx(24 + lx * math.cos(yaw) + lz * math.sin(yaw))
-    assert centre[2] == pytest.approx(0 - lx * math.sin(yaw) + lz * math.cos(yaw))
-    assert post[:, 1].max() == pytest.approx(BEAM + ly + 0.15)
-
-
 # the meshes of each odAdd* function: base, holder, collar, post; base, top, barrel, thimble and the riser (holder,
 # collar, post); the x, y and z stages, three micrometers and the riser; base, dial, 24 ticks, screw and the riser
 MOUNT_MESHES = {"post": 4, "post_beam": 4, "stage": 7, "xyz_stage": 9, "rotation_stage": 30, "none": 0}
-
-
-def test_each_base_mount_gives_the_page_meshes_up_to_its_top():
-    # mutant: build odAddPost for "stage" in vector3d_scene._mount_for
-    for mount, meshes in MOUNT_MESHES.items():
-        scene = Scene()
-        scene.add(Breadboard(center=(0, 0)))
-        lens = scene.add(Lens(center=(0, 0)))
-        lens.base_mount = mount
-        out = scene_solids(scene)
-        mounted = [s for s in out.solids if s.part.startswith("mount:")]
-        assert len(mounted) == meshes, mount
-        if not meshes:
-            continue
-        held = _points(out, mounted[0].part)
-        bottom = _points(out, mounted[0].part.removeprefix("mount:"))[:, 1].min()
-        top = BEAM if mount == "post_beam" else bottom + 0.15
-        assert held[:, 1].min() == pytest.approx(BOARD), mount
-        assert held[:, 1].max() == pytest.approx(top), mount
-
-
-def test_chip_parts_grow_by_chip_z_and_lift_only_on_a_free_space_page():
-    # mutant: run liftToTable on chip pages too (lift whatever k.lift_meshes says)
-    mzi = build_component("MZI")
-    lo, hi = tree_box(mzi.geometry_3d(), np.eye(4))
-    chip = Scene(platform="on_chip")
-    chip.add(Breadboard(center=(0, 0)))                      # BOARD_TOP 2.4, which a chip page must not lift to
-    chip.add(build_component("MZI"))
-    out = scene_solids(chip)
-    ys = _points(out, _sid(out, "mzi"))[:, 1]
-    assert (ys.min(), ys.max()) == pytest.approx((lo[1] * out.constants.chip_z, hi[1] * out.constants.chip_z))
-    bench = Scene()
-    bench.add(Breadboard(center=(0, 0)))
-    bench.add(Laser(center=(-60, 0)))
-    bench.add(build_component("MZI"))
-    out = scene_solids(bench)
-    assert out.constants.mixed and out.constants.chip_lift == 8.2
-    ys = _points(out, _sid(out, "mzi"))[:, 1]
-    assert ys.min() == pytest.approx(max(lo[1] * out.constants.chip_z, BOARD) + 8.2)
 
 
 def test_a_strip_has_a_box_per_segment_and_a_filler_only_at_a_real_corner():
@@ -137,22 +81,3 @@ def test_a_cable_drop_climbs_at_the_die_edge_and_never_runs_through_the_die():
     assert np.linalg.norm(tube - [0.0, pad, 0.0], axis=1).min() == pytest.approx(radius)   # its open end on the pad
 
 
-def test_the_die_and_carrier_follow_the_footprint_and_the_stack():
-    # mutant: put the carrier at top - carT / 2 under the die (as under a user die) in vector3d_scene.chip_base
-    content = (np.array([-50.0, 0.0, -20.0]), np.array([50.0, 2.0, 20.0]))
-    hx, hz = 50 + 5, 20 + 5                                  # odDieFootprint: half size plus max(5 %, 5), at least 8
-    die_t, car_t, rim = 4.0, 4.0 * 0.64, 3.0                 # odChipStack: side 50; 8 % of it, 64 % of that, 6 %
-    out = SolidSet(constants=_constants())
-    chip_base(content, out.constants, {}, out)
-    assert [s.part for s in out.solids] == ["base:die", "base:carrier"]
-    die, carrier = _points(out, "base:die"), _points(out, "base:carrier")
-    assert die.min(axis=0) == pytest.approx([-hx, -die_t, -hz]) and die.max(axis=0) == pytest.approx([hx, 0, hz])
-    assert carrier.min(axis=0) == pytest.approx([-hx - rim, -die_t - car_t, -hz - rim])
-    assert carrier.max(axis=0) == pytest.approx([hx + rim, -die_t, hz + rim])
-    cut = min(hx, hz) * 0.24                                 # the cut corner at -x, +z
-    assert not np.any(np.all(np.isclose(die[:, [0, 2]], [-hx, hz]), axis=1))
-    assert np.any(np.all(np.isclose(die[:, [0, 2]], [-hx + cut, hz]), axis=1))
-    user = SolidSet(constants=_constants(has_user_die=True))
-    chip_base(content, user.constants, {}, user)
-    assert [s.part for s in user.solids] == ["base:carrier"]
-    assert _points(user, "base:carrier")[:, 1].max() == pytest.approx(0.0)

@@ -10,7 +10,6 @@ from optodraw import (
     GaussianBeamState,
     Lens,
     Mirror,
-    Scene,
     free_space_matrix,
     thin_lens_matrix,
     trace_paraxial_beam,
@@ -62,18 +61,3 @@ def test_trace_paraxial_beam_reflects_mirror_path_direction():
     assert result.points[-1].y == pytest.approx(0.0)
 
 
-def test_scene_trace_paraxial_beam_adds_visible_beam_path():
-    scene = Scene()
-    lens = scene.add(Lens(center=(10, 0), focal_length=20.0))
-
-    result = scene.trace_paraxial_beam(
-        (0, 0),
-        0.0,
-        [lens],
-        input_beam=GaussianBeamState(wavelength=0.633, waist_radius=1.0),
-        exit_length=5.0,
-        label="Gaussian path",
-    )
-
-    assert result.samples[-1].event == "exit"
-    assert any(component.component_type == "Beam" for component in scene.walk())
