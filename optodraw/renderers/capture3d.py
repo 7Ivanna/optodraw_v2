@@ -9,7 +9,6 @@ file is exactly the view and has an alpha channel when the background is ``"none
 from __future__ import annotations
 
 import base64
-import fcntl
 import json
 import os
 import select
@@ -66,6 +65,7 @@ class _Pipe:
     def __init__(self, browser: str, profile: Path, width: int, height: int):
         if os.name != "posix":
             raise RuntimeError("3D images need macOS or Linux for now.")
+        import fcntl                               # Unix only: imported here so the editor still loads on Windows
         to_chrome_r, self._to_chrome = os.pipe()
         self._from_chrome, from_chrome_w = os.pipe()
 

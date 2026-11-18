@@ -14,7 +14,7 @@ from optodraw.app.server import create_app
 
 from gds_layout_fixtures import docs_device_gds
 
-TECH = Path(__import__("gdsfactory").__file__).parent / "generic_tech" / "klayout"
+TECH = Path(pytest.importorskip("gdsfactory").__file__).parent / "generic_tech" / "klayout"
 
 
 @pytest.fixture()

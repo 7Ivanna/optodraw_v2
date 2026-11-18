@@ -10,7 +10,7 @@ import pytest
 
 from optodraw.gds import load_layer_stack
 
-GDSFACTORY_TECH = Path(__import__("gdsfactory").__file__).parent / "generic_tech" / "klayout"
+GDSFACTORY_TECH = Path(pytest.importorskip("gdsfactory").__file__).parent / "generic_tech" / "klayout"
 
 
 def test_a_lyd25_gives_the_heights_of_its_plain_layers():

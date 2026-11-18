@@ -17,6 +17,7 @@ import numpy as np
 import pytest
 
 pytest.importorskip("shapely")
+pytest.importorskip("PIL")                      # viewer_flat reads its images with Pillow
 
 import viewer_flat  # noqa: E402
 

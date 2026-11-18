@@ -10,12 +10,16 @@ from __future__ import annotations
 import os
 import re
 import sys
-import tomllib
 import types
 import warnings
 from pathlib import Path
 
 import pytest
+
+try:
+    import tomllib
+except ModuleNotFoundError:                     # Python 3.10: the dev extra installs tomli
+    import tomli as tomllib
 
 from optodraw import registry, skills
 

@@ -13,7 +13,7 @@ import pytest
 from gds_layout_fixtures import docs_device_gds
 from test_editor_layout_view import editor, needs_chrome  # noqa: F401  (the module-scoped editor fixture)
 
-TECH = Path(__import__("gdsfactory").__file__).parent / "generic_tech" / "klayout"
+TECH = Path(pytest.importorskip("gdsfactory").__file__).parent / "generic_tech" / "klayout"
 
 RECORD_UPLOADS = """(() => {
   window.__sent = [];
