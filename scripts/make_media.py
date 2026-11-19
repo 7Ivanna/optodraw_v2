@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CELLS = ROOT / "docs" / "examples"
 OUT = ROOT / "docs" / "public" / "media"
 WIDTH = 1400                         # PNG width in pixels
-EDITOR = (1200, 800)                 # the editor's window, in pixels
+EDITOR = (1440, 960)                 # the editor's window, in pixels: the whole toolbar fits; tile() scales it to TILE
 TILE = (1200, 800)                   # every gallery image: the same size, so the README's columns are equal
 GIF = (720, 480, 12, 3.0)            # the light GIF: width, height, frames per second, seconds
 
