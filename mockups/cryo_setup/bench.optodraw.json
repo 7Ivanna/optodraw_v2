@@ -542,8 +542,8 @@
    "type": "FiberCollimator",
    "id": "003 (in a KM100)",
    "center": [
-    -84.71181102362205,
-    -37.16535433070866
+    -118.01889763779526,
+    -1.574803149606299
    ],
    "angle": 0,
    "aperture": 6.0,
@@ -555,8 +555,8 @@
    "type": "CatalogCageMount",
    "id": "CXY1A (003)",
    "center": [
-    -77.51968503937007,
-    -37.16535433070866
+    -110.82677165354329,
+    -1.574803149606299
    ],
    "angle": 0,
    "part": "CXY1A",
@@ -568,11 +568,11 @@
    "type": "CageRods",
    "id": "Rods CXY1A-CP33",
    "center": [
-    -73.1791338582677,
-    -37.16535433070866
+    -107.47047244094486,
+    -1.574803149606299
    ],
    "angle": 0,
-   "length": 8.681102362204726,
+   "length": 6.712598425196845,
    "end_plates": false,
    "cage": 30,
    "label": "Rods CXY1A-CP33",
@@ -582,8 +582,8 @@
    "type": "CatalogCageMount",
    "id": "CP33 (003)",
    "center": [
-    -68.83858267716535,
-    -37.16535433070866
+    -104.11417322834644,
+    -1.574803149606299
    ],
    "angle": 0,
    "part": "CP33",
@@ -595,8 +595,8 @@
    "type": "CatalogLensTube",
    "id": "SM1PM10 (003)",
    "center": [
-    -60.196850393700785,
-    -37.16535433070866
+    -95.47244094488188,
+    -1.574803149606299
    ],
    "angle": 0,
    "part": "SM1L10",
@@ -609,8 +609,8 @@
    "type": "CatalogGlanPolarizer",
    "id": "Glan-Taylor GT10 (in the SM1PM10)",
    "center": [
-    -60.196850393700785,
-    -37.16535433070866
+    -95.47244094488188,
+    -1.574803149606299
    ],
    "angle": 0,
    "part": "GT10",
@@ -622,12 +622,87 @@
    "type": "MotorizedMirror",
    "id": "MM1",
    "center": [
-    -41.285108241107636,
-    -36.73419531941145
+    -78.3258169261742,
+    -1.3324771188247726
    ],
-   "angle": 63.92871400238698,
+   "angle": 30.321123228604392,
    "aperture": 10.0,
    "label": "MM1",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 A",
+   "center": [
+    -47.62057759290065,
+    -1.3267184645939392
+   ],
+   "angle": 31.120729699469962,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 A",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 B",
+   "center": [
+    -96.87969108390382,
+    -33.297741763469
+   ],
+   "angle": -151.79305770798138,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 B",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 C",
+   "center": [
+    -91.75760581830524,
+    -84.09240358988522
+   ],
+   "angle": -150.80502697412254,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 C",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "Mirror",
+   "id": "D mirror (003)",
+   "center": [
+    -35.60567367165437,
+    -37.64511605310792
+   ],
+   "angle": -91.80541309500693,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "D mirror (003)",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 E (in front of the DFM1BS)",
+   "center": [
+    0.3287753835804167,
+    -90.1135033430929
+   ],
+   "angle": -46.768425929565666,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 E (in front of the DFM1BS)",
    "z": 27.95275590551181
   },
   {
@@ -657,21 +732,6 @@
    "end_plates": false,
    "cage": 30,
    "label": "",
-   "z": 27.95275590551181
-  },
-  {
-   "type": "Mirror",
-   "id": "KM100 (in front of the DFM1BS)",
-   "center": [
-    0.15426404942042043,
-    -91.00571669288996
-   ],
-   "angle": -71.25339010609365,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
-   "label": "KM100 (in front of the DFM1BS)",
    "z": 27.95275590551181
   },
   {
@@ -826,10 +886,10 @@
    "type": "CatalogTableClamp",
    "id": "003 (in a KM100) fork",
    "center": [
-    -72.6370343834781,
-    -44.63991340284237
+    -103.92139797464908,
+    -4.5062519286543035
    ],
-   "angle": -35.0,
+   "angle": -13.0,
    "part": "CF125",
    "label": "003 (in a KM100) fork"
   },
@@ -837,23 +897,67 @@
    "type": "CatalogTableClamp",
    "id": "MM1 fork",
    "center": [
-    -34.29217971965386,
-    -22.441726755288165
+    -69.3240255698336,
+    11.407085705732465
    ],
-   "angle": 63.92871400238697,
+   "angle": 59.99999999999999,
    "part": "CF125",
    "label": "MM1 fork"
   },
   {
    "type": "CatalogTableClamp",
-   "id": "KM100 (in front of the DFM1BS) fork",
+   "id": "KM100 A fork",
    "center": [
-    13.619000207460868,
-    -90.27020016037733
+    -49.67807314321868,
+    -12.328998063139757
+   ],
+   "angle": -109.0,
+   "part": "CF125",
+   "label": "KM100 A fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 B fork",
+   "center": [
+    -83.95553354741155,
+    -41.97875921994225
+   ],
+   "angle": -35.0,
+   "part": "CF125",
+   "label": "KM100 B fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 C fork",
+   "center": [
+    -76.62468852969357,
+    -83.52383615749412
+   ],
+   "angle": 8.0,
+   "part": "CF125",
+   "label": "KM100 C fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "D mirror (003) fork",
+   "center": [
+    -35.11469693576845,
+    -53.22137603861705
+   ],
+   "angle": -88.19458690499314,
+   "part": "CF125",
+   "label": "D mirror (003) fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 E (in front of the DFM1BS) fork",
+   "center": [
+    14.721511917544595,
+    -88.8206283612637
    ],
    "angle": 14.0,
    "part": "CF125",
-   "label": "KM100 (in front of the DFM1BS) fork"
+   "label": "KM100 E (in front of the DFM1BS) fork"
   },
   {
    "type": "CatalogTableClamp",
@@ -984,20 +1088,24 @@
      "io"
     ],
     [
-     "KM100 (in front of the DFM1BS)",
+     "KM100 B",
      "io"
     ],
     [
-     "Collection wave plate 3",
+     "D mirror (003)",
+     "io"
+    ],
+    [
+     "Wave plate (003)",
      "in"
     ],
     [
-     "Collection wave plate 3",
+     "Wave plate (003)",
      "out"
     ],
     [
      "DFM1BS (magnetic BS)",
-     "trans"
+     "refl"
     ],
     [
      "DFM1BS (magnetic BS)",
@@ -1084,16 +1192,28 @@
      "out"
     ],
     [
-     "Wave plate (003)",
+     "KM100 A",
+     "io"
+    ],
+    [
+     "KM100 C",
+     "io"
+    ],
+    [
+     "KM100 E (in front of the DFM1BS)",
+     "io"
+    ],
+    [
+     "Collection wave plate 3",
      "in"
     ],
     [
-     "Wave plate (003)",
+     "Collection wave plate 3",
      "out"
     ],
     [
      "DFM1BS (magnetic BS)",
-     "refl"
+     "trans"
     ],
     [
      "DFM1BS (magnetic BS)",
