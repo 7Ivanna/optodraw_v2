@@ -459,7 +459,8 @@ let cameraState = null; // last 3D camera pose, restored across re-renders
 function postHighlight() {
   if (els.view3d.hidden) return;
   const win = els.view3d.contentWindow;
-  if (win) win.postMessage({ type: "optodraw-highlight", id: canvas.selectedId || null }, "*");
+  // the whole selection, the primary first: the 3D view highlights every part and puts its gizmo on the primary
+  if (win) win.postMessage({ type: "optodraw-highlight", id: canvas.selectedId || null, ids: canvas.selectedIds }, "*");
 }
 
 function postCamera() {
@@ -2900,7 +2901,9 @@ function setView(mode) {
 window.addEventListener("message", (e) => {
   const data = e.data || {};
   if (data.type === "optodraw-select") {
-    canvas.select(data.id || null); // triggers refreshProperties -> postHighlight
+    // Shift-click in 3D builds a selection (primary first); a plain click selects one part
+    if (Array.isArray(data.ids) && data.ids.length > 1) canvas.selectMany(data.ids);
+    else canvas.select(data.id || null); // triggers refreshProperties -> postHighlight
   } else if (data.type === "optodraw-ready") {
     postHighlight();
     postCamera(); // restore orbit pose after a live re-render
@@ -2923,6 +2926,20 @@ window.addEventListener("message", (e) => {
       }
       canvas.select(data.id); // keep selection -> 3D re-highlights + re-attaches gizmo
     });
+  } else if (data.type === "optodraw-move-group" && Array.isArray(data.moves) && data.moves.length) {
+    // the selection moved together on the 3D gizmo: one undoable step, the same shift (and lift) for every part
+    const ids = data.moves.map((m) => m.id);
+    applySpec("Move", (next) => {
+      applyMoveChanges(next, data.moves.map((m) => ({ id: m.id, center: m.center })));
+      for (const m of data.moves) {
+        const dz = Number(m.dz) || 0;
+        if (Math.abs(dz) <= 1e-3) continue;
+        const e = next.components.find((c) => c.id === m.id);
+        if (!e) continue;
+        const z = Math.round(((Number(e.z) || 0) + dz) * 10) / 10;
+        if (z === 0) delete e.z; else e.z = z;
+      }
+    }, { reselect: ids });
   } else if (data.type === "optodraw-rotate" && data.id) {
     withStatus("Rotating", async () => {
       const round = (v) => Math.round((Number(v) || 0) * 10) / 10;

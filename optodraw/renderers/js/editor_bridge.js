@@ -11,7 +11,8 @@
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
   let down = null;
-  let highlightId = null;
+  let highlightId = null;          // the primary selection: the gizmo sits on it
+  let selection = [];              // every selected part, the primary first (Shift-click adds and removes)
   const saved = new Set();
 
   function meshesFor(id) {
@@ -25,12 +26,14 @@
     }
     return out;
   }
-  function applyHighlight(id) {
+  // ids: the selection, primary first (a single id or null also works)
+  function applyHighlight(ids) {
     saved.forEach(m => odHighlightMaterial(m, false));
     saved.clear();
-    highlightId = id || null;
-    if (highlightId) {
-      for (const m of meshesFor(highlightId)) {
+    selection = (Array.isArray(ids) ? ids : [ids]).filter(Boolean);
+    highlightId = selection[0] || null;
+    for (const id of selection) {
+      for (const m of meshesFor(id)) {
         odHighlightMaterial(m, true);
         saved.add(m);
       }
@@ -59,8 +62,15 @@
     down = null;
     if (moved > 5) return; // treat as an orbit drag, not a click
     const id = pick(e);
-    applyHighlight(id);
-    if (window.parent) window.parent.postMessage({ type: 'optodraw-select', id: id }, '*');
+    let ids;
+    if (e.shiftKey) {               // Shift-click: add the part to the selection, or take it out
+      if (!id) return;
+      ids = selection.includes(id) ? selection.filter((s) => s !== id) : [id, ...selection];
+    } else {
+      ids = id ? [id] : [];
+    }
+    applyHighlight(ids);
+    if (window.parent) window.parent.postMessage({ type: 'optodraw-select', id: ids[0] || null, ids: ids }, '*');
   });
 
   // --- transform gizmo: move on the table and up (z); turn about the part's own x (X), its own y (Y), or the
@@ -68,6 +78,9 @@
   let gizmo = null;
   let gizmoMode = 'translate';
   let startY = 0;                  // the anchor's height when a move starts: the change is the part's new z
+  let startPos = null;             // the primary anchor's position when a move starts
+  let followers = [];              // the other selected parts' anchors and their start positions: they move with it
+  const anchorFor = (id) => pk().find((p) => p.userData.componentId === id);
   const ROT_SNAP = Math.PI / 12; // 15° detents (hold Shift for free rotation)
   function setGizmoMode(mode) {
     if (!gizmo) return;
@@ -123,7 +136,15 @@
       if (!ev.value) { // drag finished -> commit position OR facing angle
         const obj = gizmo.object;
         if (obj && obj.userData.componentId && window.parent) {
-          if (gizmoMode !== 'translate') {
+          if (gizmoMode === 'translate' && followers.length) {
+            // a group move: every selected part by the same amount, as one step
+            const dx = obj.position.x - startPos.x, dy = obj.position.y - startPos.y, dz = obj.position.z - startPos.z;
+            const moves = [obj, ...followers.map((f) => f.anchor)].map((a) => {
+              const p = a === obj ? a.position : { x: a.userData.odStart.x + dx, z: a.userData.odStart.z + dz };
+              return { id: a.userData.componentId, center: [p.x, -p.z], dz: dy };
+            });
+            window.parent.postMessage({ type: 'optodraw-move-group', moves: moves }, '*');
+          } else if (gizmoMode !== 'translate') {
             // the whole turn: the facing angle and the turns out of the table plane
             window.parent.postMessage({ type: 'optodraw-rotate', id: obj.userData.componentId, ...tableAngles(obj) }, '*');
           } else {
@@ -134,7 +155,17 @@
         }
       } else if (gizmo.object) {
         startY = gizmo.object.position.y;
+        startPos = gizmo.object.position.clone();
+        followers = gizmoMode !== 'translate' ? [] : selection.slice(1).map(anchorFor)
+          .filter((a) => a && a !== gizmo.object && a.userData.movable !== false)
+          .map((a) => { a.userData.odStart = a.position.clone(); return { anchor: a }; });
       }
+    });
+    // while the gizmo moves the primary part, the rest of the selection follows it
+    gizmo.addEventListener('objectChange', () => {
+      if (!followers.length || !startPos || !gizmo.object) return;
+      const d = gizmo.object.position.clone().sub(startPos);
+      for (const f of followers) f.anchor.position.copy(f.anchor.userData.odStart).add(d);
     });
     // X = turn the selected part about its own x (the beam axis), Y = about its own y (across the beam), Z or R =
     // about the table's vertical (the facing angle), all in 15° steps; M/G/T = move (and lift); hold Shift = free
@@ -160,7 +191,7 @@
     if (anchor && anchor.userData.movable !== false) gizmo.attach(anchor); else gizmo.detach();
   }
   const _origApplyHighlight = applyHighlight;
-  applyHighlight = function (id) { _origApplyHighlight(id); attachGizmo(id); };
+  applyHighlight = function (ids) { _origApplyHighlight(ids); attachGizmo(highlightId); };
 
   // --- camera persistence ---
   controls.addEventListener('end', () => {
@@ -178,11 +209,11 @@
   window.addEventListener('message', (e) => {
     const d = e.data || {};
     if (d.type === 'optodraw-highlight') {
-      applyHighlight(d.id || null);
+      applyHighlight(Array.isArray(d.ids) && d.ids.length ? d.ids : (d.id || null));
     } else if (d.type === 'optodraw-gizmo') {
       setGizmoMode(String(d.mode));            // X, Y, Z, R or M pressed while the focus was outside the 3D page
     } else if (d.type === 'optodraw-rebuild' && Array.isArray(d.items)) {
-      const sel = highlightId; // rebuild content in place, then restore selection
+      const sel = selection.slice(); // rebuild content in place, then restore selection
       lastItems = d.items;
       // pending: the light comes in a later 'optodraw-light'; the player keeps it on and draws none until then
       if (window.__odRebuild) window.__odRebuild(d.items, d.light || null, !!d.pending);
