@@ -283,13 +283,21 @@ def _box(w, h, d, pos, mat=BLACK, role="body", rot=None) -> dict[str, Any]:
     return out
 
 
-def _plate_x(w: float, h: float, t: float, x: float, bore: float, mat=BLACK, y: float = 0.0) -> dict[str, Any]:
-    """A plate across the beam (w along z, h along y, t along x) centred at x, with a round bore on the axis."""
+def _plate_x(w: float, h: float, t: float, x: float, bore: float, mat=BLACK, y: float = 0.0,
+             chamfer: float = 0.0) -> dict[str, Any]:
+    """A plate across the beam (w along z, h along y, t along x) centred at x, with a round bore on the axis; with
+    ``chamfer``, its corners cut off by that much along each edge (an octagon)."""
 
     # turned about z, the outline's u runs along y (the height) and v along -z (the width)
     hole = [(bore / 2 * math.sin(2 * math.pi * k / 40) - y, bore / 2 * math.cos(2 * math.pi * k / 40)) for k in range(40)] if bore > 0 else []
     hw, hh = w / 2, h / 2
-    return {"shape": "extruded_polygon", "points": [(-hh, -hw), (hh, -hw), (hh, hw), (-hh, hw)], "holes": [hole] if hole else [],
+    c = min(max(chamfer, 0.0), hw * 0.9, hh * 0.9)
+    if c > 0:
+        points = [(-hh + c, -hw), (hh - c, -hw), (hh, -hw + c), (hh, hw - c), (hh - c, hw), (-hh + c, hw), (-hh, hw - c),
+                  (-hh, -hw + c)]
+    else:
+        points = [(-hh, -hw), (hh, -hw), (hh, hw), (-hh, hw)]
+    return {"shape": "extruded_polygon", "points": points, "holes": [hole] if hole else [],
             "height": t, "position": [x + t / 2, y, 0.0], "rotation": [0.0, 0.0, math.pi / 2], "material": mat, "role": "plate"}
 
 
@@ -812,18 +820,22 @@ class CatalogCageMount(_Vendor, Component):
             reach = math.hypot(w, h) / 2               # the hub's centre to an arm's end
             start = hub * 0.6                          # each arm starts inside the hub, clear of the bore
             mid = (start + reach) / 2
-            out.append({**_ring_along_x(bore / 2, hub, t, BLACK, x=-t / 2), "role": "hub"})
+            out.append({**_ring_along_x(bore / 2, hub, t, BLACK, x=0.0), "role": "hub"})
             for k in range(4):
                 a = math.pi / 4 + k * math.pi / 2      # the diagonals, where the rods are
                 # a box's height (its y) turned about x by pi/2 - a points along (y, z) = (sin a, cos a)
-                out.append(_box(t, reach - start, arm, (-t / 2, mid * math.sin(a), mid * math.cos(a)), BLACK, "arm",
+                out.append(_box(t, reach - start, arm, (0.0, mid * math.sin(a), mid * math.cos(a)), BLACK, "arm",
                                 [math.pi / 2 - a, 0.0, 0.0]))
             land = 3.0 * MM                            # the flat under the hub with the 8-32 tap, where a post goes
-            out.append(_box(t, land, 10.0 * MM, (-t / 2, -hub - land / 2 + 0.05, 0.0), BLACK, "tap land"))
+            out.append(_box(t, land, 10.0 * MM, (0.0, -hub - land / 2 + 0.05, 0.0), BLACK, "tap land"))
             return {"shape": "group", "children": out + _rod_holes(s["rod"] * MM, t, 0.0)
                     + _rod_holes(s["rod_outer"] * MM, t, 0.0), "post_at": [0.0, -hub - land + 0.05, 0.0]}
         else:
-            out.append(_plate_x(w, h, t, -t / 2, bore, BLACK, y=cy))
+            # centred on the part, like its rod holes and ports (the face toward -x at -t/2)
+            out.append(_plate_x(w, h, t, 0.0, bore, BLACK, y=cy, chamfer=s.get("chamfer", 0.0) * MM))
+        if s.get("cell_l"):                            # CXY1A: the translating cell, standing proud of the front face
+            out.append({**_ring_along_x(bore / 2, s["cell_d"] * MM / 2, s["cell_l"] * MM, BLACK,
+                                        x=-t / 2 - s["cell_l"] * MM / 2), "role": "translating cell"})
         if s["rod"]:
             out += _rod_holes(s["rod"] * MM, t, 0.0)
         if s.get("rod_outer"):
@@ -837,11 +849,20 @@ class CatalogCageMount(_Vendor, Component):
                                 {"color": "#ffffff", "metalness": 0.1, "roughness": 0.6}, "tick", [a, 0.0, 0.0]))
         if kind in ("xy", "pivot"):
             kd, kl = s["knob_d"] * MM / 2, s["knob_l"] * MM
-            for pos, rot in (((0.0, h / 2 + kl / 2 + cy, 0.0), None), ((0.0, cy, w / 2 + kl / 2), [math.pi / 2, 0, 0])):
-                knob = {"shape": "cylinder", "radius": kd, "height": kl, "position": list(pos), "material": STEEL, "role": "knob"}
-                if rot:
-                    knob["rotation"] = rot
-                out.append(knob)
+            bl = s.get("bushing_l", 0.0) * MM          # a brass bushing between the body and the knob (CXY1A)
+            kl -= bl                                   # the knob's reach from the body includes it
+            for along_y in (True, False):
+                knob = {"shape": "cylinder", "radius": kd, "height": kl, "material": STEEL, "role": "knob",
+                        "position": [0.0, h / 2 + bl + kl / 2 + cy, 0.0] if along_y else [0.0, cy, w / 2 + bl + kl / 2]}
+                parts = [knob]
+                if bl > 0:
+                    parts.append({"shape": "cylinder", "radius": s["bushing_d"] * MM / 2, "height": bl + 0.02,
+                                  "material": BRASS, "role": "bushing",
+                                  "position": [0.0, h / 2 + bl / 2 + cy, 0.0] if along_y else [0.0, cy, w / 2 + bl / 2]})
+                for solid in parts:
+                    if not along_y:
+                        solid["rotation"] = [math.pi / 2, 0, 0]
+                    out.append(solid)
                 if kind == "pivot":
                     break
         if s.get("dial_d"):
