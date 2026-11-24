@@ -393,10 +393,11 @@
     0.0,
     -37.16535433070866
    ],
-   "angle": -90,
+   "angle": 90,
    "part": "DFM1BS",
    "label": "DFM1BS (magnetic BS)",
    "z": 27.95275590551181,
+   "rotation_y": 180.0,
    "base_mount": "none"
   },
   {
@@ -541,13 +542,124 @@
    "type": "CageRightAngleMirror",
    "id": "P1 (KCB1)",
    "center": [
-    -16.259842519685037,
-    -15.748031496062993
+    -26.37795275590551,
+    -2.2244094488188964
    ],
    "angle": 90,
    "cage": 30,
    "label": "P1 (KCB1)",
    "rotation_x": 90.0
+  },
+  {
+   "type": "CatalogCageCube",
+   "id": "DFM1BS (003)",
+   "center": [
+    -26.37795275590551,
+    -2.2244094488188964
+   ],
+   "angle": 0,
+   "part": "DFM1BS",
+   "label": "DFM1BS (003)",
+   "z": 27.95275590551181,
+   "rotation_x": 180.0,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "P2 (KCB1)",
+   "center": [
+    -26.37795275590551,
+    -37.16535433070866
+   ],
+   "angle": 90,
+   "cage": 30,
+   "label": "P2 (KCB1)",
+   "z": 27.95275590551181,
+   "rotation_x": 180.0,
+   "rotation_y": 180.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CRM1T (003, 1)",
+   "center": [
+    -26.37795275590551,
+    -16.574803149606296
+   ],
+   "angle": 90,
+   "part": "CRM1T",
+   "label": "CRM1T (003, 1)",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogGlanPolarizer",
+   "id": "Glan-Taylor GT10 (003, 1)",
+   "center": [
+    -26.37795275590551,
+    -16.574803149606296
+   ],
+   "angle": 90,
+   "part": "GT10",
+   "label": "Glan-Taylor GT10 (003, 1)",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CRM1T (003, 2)",
+   "center": [
+    -26.37795275590551,
+    -24.685039370078737
+   ],
+   "angle": 90,
+   "part": "CRM1T",
+   "label": "CRM1T (003, 2)",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogGlanPolarizer",
+   "id": "Glan-Taylor GT10 (003, 2)",
+   "center": [
+    -26.37795275590551,
+    -24.685039370078737
+   ],
+   "angle": 90,
+   "part": "GT10",
+   "label": "Glan-Taylor GT10 (003, 2)",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods P1-DFM1BS",
+   "center": [
+    -26.37795275590551,
+    -2.2244094488188964
+   ],
+   "angle": 0,
+   "length": 9.822834645669296,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods P1-DFM1BS",
+   "z": 13.041338582677163,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods",
+   "center": [
+    -26.37795275590551,
+    -20.62992125984252
+   ],
+   "angle": 90,
+   "length": 16.811023622047244,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 27.95275590551181
   },
   {
    "type": "FiberCollimator",
@@ -590,10 +702,10 @@
    "type": "Mirror",
    "id": "KM100 B",
    "center": [
-    -96.87874282134015,
-    -33.299500949221745
+    -96.87970749712917,
+    -33.29771115917909
    ],
-   "angle": -151.5545061368323,
+   "angle": -151.79720302762954,
    "aperture": 10.0,
    "thickness": 1.0,
    "surface_type": "flat",
@@ -604,10 +716,10 @@
    "type": "Mirror",
    "id": "KM100 C",
    "center": [
-    -91.75922647336313,
-    -84.089479300848
+    -91.76062490547837,
+    -84.08691669974023
    ],
-   "angle": -151.20411078952313,
+   "angle": -151.55258168184633,
    "aperture": 10.0,
    "thickness": 1.0,
    "surface_type": "flat",
@@ -618,10 +730,10 @@
    "type": "Mirror",
    "id": "D mirror (003)",
    "center": [
-    -15.930015671590038,
-    -38.14400793816998
+    -26.049523342368687,
+    -38.14532433047729
    ],
-   "angle": -46.59591851489432,
+   "angle": -46.82508039983907,
    "aperture": 10.0,
    "thickness": 1.0,
    "surface_type": "flat",
@@ -632,10 +744,10 @@
    "type": "Mirror",
    "id": "KM100 E",
    "center": [
-    -15.933397617800978,
-    -90.11567969242674
+    -26.053552959274015,
+    -90.11756586413163
    ],
-   "angle": -47.14904654149572,
+   "angle": -47.48113613469607,
    "aperture": 10.0,
    "thickness": 1.0,
    "surface_type": "flat",
@@ -733,7 +845,7 @@
   },
   {
    "type": "CageRods",
-   "id": "cagerods",
+   "id": "cagerods_1",
    "center": [
     0.0,
     -51.92913385826772
@@ -746,14 +858,26 @@
   },
   {
    "type": "CatalogCageMount",
-   "id": "CRM1T",
+   "id": "CRM1T (Olaf E)",
    "center": [
     0.0,
     -47.24409448818898
    ],
    "angle": 90,
    "part": "CRM1T",
-   "label": "CRM1T",
+   "label": "CRM1T (Olaf E)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogGlanPolarizer",
+   "id": "Glan-Taylor GT10 (Olaf E)",
+   "center": [
+    0.0,
+    -47.24409448818898
+   ],
+   "angle": 90,
+   "part": "GT10",
+   "label": "Glan-Taylor GT10 (Olaf E)",
    "base_mount": "none"
   },
   {
@@ -782,8 +906,8 @@
    "type": "CatalogTableClamp",
    "id": "P1 (KCB1) fork",
    "center": [
-    -28.144608626981054,
-    -34.52180362170931
+    -38.26271886320153,
+    -20.998181574465214
    ],
    "angle": -109.0,
    "part": "CF125",
@@ -826,8 +950,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 B fork",
    "center": [
-    -83.95962786858492,
-    -41.98987324243224
+    -83.95546267989168,
+    -41.978565870964815
    ],
    "angle": -35.0,
    "part": "CF125",
@@ -837,8 +961,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 C fork",
    "center": [
-    -76.61769101384468,
-    -83.5053613522746
+    -76.61165299184711,
+    -83.48917158590108
    ],
    "angle": 8.0,
    "part": "CF125",
@@ -848,10 +972,10 @@
    "type": "CatalogTableClamp",
    "id": "D mirror (003) fork",
    "center": [
-    -5.221640042045125,
-    -49.46618196385616
+    -15.386517743350625,
+    -49.51023721561035
    ],
-   "angle": -46.59591851489434,
+   "angle": -46.8250803998391,
    "part": "CF125",
    "label": "D mirror (003) fork"
   },
@@ -859,10 +983,10 @@
    "type": "CatalogTableClamp",
    "id": "KM100 E fork",
    "center": [
-    -1.5530539057742008,
-    -88.83437790158636
+    -14.723561848674352,
+    -83.19178451301232
    ],
-   "angle": 14.0,
+   "angle": 42.51886386530384,
    "part": "CF125",
    "label": "KM100 E fork"
   },
@@ -993,6 +1117,98 @@
     [
      "P1 (KCB1)",
      "out"
+    ],
+    [
+     "DFM1BS (003)",
+     "in"
+    ],
+    [
+     "DFM1BS (003)",
+     "refl"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 1)",
+     "out"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 1)",
+     "in"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 2)",
+     "out"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 2)",
+     "in"
+    ],
+    [
+     "P2 (KCB1)",
+     "in"
+    ],
+    [
+     "P2 (KCB1)",
+     "out"
+    ],
+    [
+     "DFM1BS (magnetic BS)",
+     "refl"
+    ],
+    [
+     "DFM1BS (magnetic BS)",
+     "in"
+    ],
+    [
+     "Collection wave plate 2",
+     "in"
+    ],
+    [
+     "Collection wave plate 2",
+     "out"
+    ],
+    [
+     "Collection wave plate 1",
+     "in"
+    ],
+    [
+     "Collection wave plate 1",
+     "out"
+    ],
+    [
+     "LCP33 (60 to 30 mm)",
+     "in"
+    ],
+    [
+     "LCP33 (60 to 30 mm)",
+     "out"
+    ],
+    [
+     "KCB2C",
+     "in"
+    ],
+    [
+     "KCB2C",
+     "out"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "tap"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "refl"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
     ]
    ],
    "wavelength": 633.0,
@@ -1025,6 +1241,98 @@
     [
      "P1 (KCB1)",
      "out"
+    ],
+    [
+     "DFM1BS (003)",
+     "in"
+    ],
+    [
+     "DFM1BS (003)",
+     "refl"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 1)",
+     "out"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 1)",
+     "in"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 2)",
+     "out"
+    ],
+    [
+     "Glan-Taylor GT10 (003, 2)",
+     "in"
+    ],
+    [
+     "P2 (KCB1)",
+     "in"
+    ],
+    [
+     "P2 (KCB1)",
+     "out"
+    ],
+    [
+     "DFM1BS (magnetic BS)",
+     "refl"
+    ],
+    [
+     "DFM1BS (magnetic BS)",
+     "in"
+    ],
+    [
+     "Collection wave plate 2",
+     "in"
+    ],
+    [
+     "Collection wave plate 2",
+     "out"
+    ],
+    [
+     "Collection wave plate 1",
+     "in"
+    ],
+    [
+     "Collection wave plate 1",
+     "out"
+    ],
+    [
+     "LCP33 (60 to 30 mm)",
+     "in"
+    ],
+    [
+     "LCP33 (60 to 30 mm)",
+     "out"
+    ],
+    [
+     "KCB2C",
+     "in"
+    ],
+    [
+     "KCB2C",
+     "out"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "tap"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "refl"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
     ]
    ],
    "wavelength": 633.0,
@@ -1140,6 +1448,14 @@
     ],
     [
      "Olaf E in (KCB1)",
+     "out"
+    ],
+    [
+     "Glan-Taylor GT10 (Olaf E)",
+     "in"
+    ],
+    [
+     "Glan-Taylor GT10 (Olaf E)",
      "out"
     ],
     [

@@ -807,7 +807,23 @@ class CatalogCageMount(_Vendor, Component):
         special = _cage_part_solids(s, t)
         if special is not None:
             return special
-        out.append(_plate_x(w, h, t, -t / 2, bore, BLACK, y=cy))
+        if kind == "adapter_60":                       # LCP33: an X, a round hub on the 30 mm cage, four arms out to
+            hub, arm = s["hub_d"] * MM / 2, s["arm"] * MM   # square ends round the 60 mm rods
+            reach = math.hypot(w, h) / 2               # the hub's centre to an arm's end
+            start = hub * 0.6                          # each arm starts inside the hub, clear of the bore
+            mid = (start + reach) / 2
+            out.append({**_ring_along_x(bore / 2, hub, t, BLACK, x=-t / 2), "role": "hub"})
+            for k in range(4):
+                a = math.pi / 4 + k * math.pi / 2      # the diagonals, where the rods are
+                # a box's height (its y) turned about x by pi/2 - a points along (y, z) = (sin a, cos a)
+                out.append(_box(t, reach - start, arm, (-t / 2, mid * math.sin(a), mid * math.cos(a)), BLACK, "arm",
+                                [math.pi / 2 - a, 0.0, 0.0]))
+            land = 3.0 * MM                            # the flat under the hub with the 8-32 tap, where a post goes
+            out.append(_box(t, land, 10.0 * MM, (-t / 2, -hub - land / 2 + 0.05, 0.0), BLACK, "tap land"))
+            return {"shape": "group", "children": out + _rod_holes(s["rod"] * MM, t, 0.0)
+                    + _rod_holes(s["rod_outer"] * MM, t, 0.0), "post_at": [0.0, -hub - land + 0.05, 0.0]}
+        else:
+            out.append(_plate_x(w, h, t, -t / 2, bore, BLACK, y=cy))
         if s["rod"]:
             out += _rod_holes(s["rod"] * MM, t, 0.0)
         if s.get("rod_outer"):

@@ -152,8 +152,10 @@ def collection(scene: Scene, z_board: float = Z_BOARD) -> dict:
     wp_b = scene.add(CageWavePlate(plate="quarter", angle=90, label="Collection wave plate 2", **put(Y_WP[1])))
     rods(scene, (Y_DFM + DFM, Z_COL), (Y_LCP - LCP_HALF, Z_COL), "Rods DFM1BS-LCP33")
 
-    # the light arrives from +y: the cube's "in" faces +y, it goes straight on toward -y
-    dfm = scene.add(CatalogCageCube(part="DFM1BS", angle=-90, label="DFM1BS (magnetic BS)", **put(Y_DFM)))
+    # the light arrives from +y: the cube's "in" faces +y, it goes straight on toward -y; its side port ("refl")
+    # faces -x, where 003's branch joins the line
+    dfm = scene.add(CatalogCageCube(part="DFM1BS", angle=90, rotation_y=180, label="DFM1BS (magnetic BS)",
+                                    **put(Y_DFM)))
     wp_c = scene.add(CageWavePlate(plate="half", angle=90, label="Collection wave plate 3", **put(Y_WP_OUT)))
     rods(scene, (Y_WP_OUT - 10.0, Z_COL), (Y_DFM - DFM, Z_COL), "Rods DFM1BS out")
     return {"kcb2": kcb2, "lcp": lcp, "wp_a": wp_a, "wp_b": wp_b, "dfm": dfm, "wp_c": wp_c}
