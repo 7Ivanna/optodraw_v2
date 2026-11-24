@@ -17,6 +17,7 @@ from optodraw.components.vendor.parts import (
     CatalogLens,
     CatalogLensTube,
     CatalogMirror,
+    CatalogMirrorMount,
     CatalogNDFilter,
     CatalogPhotodiode,
     CatalogPlateSplitter,

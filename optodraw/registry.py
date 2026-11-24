@@ -278,6 +278,7 @@ _BUILTIN_METADATA: dict[str, dict[str, Any]] = {
     "CatalogCubeSplitter": {"category": "optics", "platform": "free_space", "description": "A bare beamsplitter cube at its size (BS0.., PBS1.., PBS255, 20 and 25 mm cubes): the glass cube and its coated diagonal", "parameters": ["center", "angle", "part", "label"]},
     "CatalogPlateSplitter": {"category": "optics", "platform": "free_space", "description": "A plate or pellicle beamsplitter at its size (BSN11R, BSW29, BSW29R; BP108, BP145B3 pellicles in their frame)", "parameters": ["center", "angle", "part", "label"]},
     "CatalogMirror": {"category": "optics", "platform": "free_space", "description": "A Thorlabs protected-silver mirror (PF10-03-P01 Ø1\", PF20-03-P01 Ø2\", PFD10-03-P01 D-shaped) at its size, in a kinematic mount sized to it", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogMirrorMount": {"category": "optics", "platform": "free_space", "description": "A Thorlabs kinematic mirror mount with a Ø1\" mirror, drawn from its drawing: KM100 (two adjusters) or KS1 (three adjusters)", "parameters": ["center", "angle", "part", "label"]},
     "CatalogDichroic": {"category": "optics", "platform": "free_space", "description": "A Thorlabs Ø1\" dichroic mirror (DMLP805 longpass, DMSP650 shortpass) at its size", "parameters": ["center", "angle", "part", "label"]},
     "CatalogCageMount": {"category": "optics", "platform": "free_space", "description": "A Thorlabs 30 mm cage plate or cage mount at its size: plates (CP32, CP33, CP33T, CP36, CP42), the drop-in DCP1, rotation mounts (CRM1T, CRM1LT, C45M1, CP360Q), XY mounts (CXY1A, CXYZ05A), the dual rotation mount DLM1, the CP33C bracket and the LCP33 30-to-60 mm adapter", "parameters": ["center", "angle", "part", "label"]},
     "CatalogCageCube": {"category": "optics", "platform": "free_space", "description": "A Thorlabs 30 mm cage cube at its size (CCM1-4ER compact, CM1-DCH with its dichroic holder, the DFM1BS kinematic cube, BS20CAM holding a 20 mm cube)", "parameters": ["center", "angle", "part", "label"]},
@@ -475,7 +476,7 @@ def _build_class_map() -> dict[str, type]:
     from optodraw.components.optics import FaradayRotator, ModeCleaner, RoofMirror
     from optodraw.components.devices import BalancedDetector
     from optodraw.components.optics.cage import CageCube, CageRods, CageRightAngleMirror, CageTower, CageWavePlate, CryostatCabinet, MotorizedMirror
-    from optodraw.components.vendor import (CatalogLens, CatalogLensTube, CatalogAdapter, CatalogFilter, CatalogNDFilter, CatalogWavePlate, CatalogGlanPolarizer, CatalogPolarizer, CatalogCubeSplitter, CatalogPlateSplitter, CatalogMirror, CatalogDichroic, CatalogCageMount, CatalogCageCube, CatalogRightAngleMount, CatalogPhotodiode, CatalogLED, CatalogCollimator, CatalogCamera, CatalogHardware, CatalogTableClamp, CatalogSleeve)
+    from optodraw.components.vendor import (CatalogLens, CatalogLensTube, CatalogAdapter, CatalogFilter, CatalogNDFilter, CatalogWavePlate, CatalogGlanPolarizer, CatalogPolarizer, CatalogCubeSplitter, CatalogPlateSplitter, CatalogMirror, CatalogMirrorMount, CatalogDichroic, CatalogCageMount, CatalogCageCube, CatalogRightAngleMount, CatalogPhotodiode, CatalogLED, CatalogCollimator, CatalogCamera, CatalogHardware, CatalogTableClamp, CatalogSleeve)
 
     return {
         "Lens": Lens,
@@ -700,6 +701,7 @@ def _build_class_map() -> dict[str, type]:
         "CatalogCubeSplitter": CatalogCubeSplitter,
         "CatalogPlateSplitter": CatalogPlateSplitter,
         "CatalogMirror": CatalogMirror,
+        "CatalogMirrorMount": CatalogMirrorMount,
         "CatalogDichroic": CatalogDichroic,
         "CatalogCageMount": CatalogCageMount,
         "CatalogCageCube": CatalogCageCube,

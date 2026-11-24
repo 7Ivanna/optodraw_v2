@@ -199,6 +199,24 @@ MIRRORS = {
     "PF20-03-P01": {"title": "Ø2\" Protected Silver Mirror", "d": 50.8, "t": 12.0, "shape": "round", "source": "Ø2\" in the name; 12 mm thickness of the PF20 series"},
     "PFD10-03-P01": {"title": "Ø1\" Protected Silver D-Shaped Mirror", "d": 25.4, "t": 6.0, "shape": "D", "source": "Ø1\" in the name; 6 mm thickness of the PF10 series"},
 }
+# Kinematic mirror mounts for Ø1" optics, from Thorlabs' drawings (KM100: 6628-E0W rev C; KS1: 1579-E0W rev F). The
+# optical axis is ``axis`` from the bottom and from the side edges; the plates' body runs from there to ``body``
+# beyond the axis, with a round lobe of radius ``lobe`` round each adjuster. Adjusters are (up, across) from the axis,
+# looking at the back. ``plates`` is front face to back face, ``total`` to the knobs' ends.
+MIRROR_MOUNTS = {
+    "KM100": {"title": "Kinematic Mirror Mount for Ø1\" Optics, 2 Adjusters", "optic_d": 25.4, "optic_t": 6.0,
+              "optic_depth": 7.0, "clear": 24.0, "axis": 25.4, "body": 17.0, "lobe": 7.4, "t_front": 8.4,
+              "gap": 2.5, "t_back": 10.2, "arm": 12.0, "total": 38.4, "knob_d": 12.7, "knob_l": 11.0,
+              "screw_d": 4.8, "adjusters": [[19.0, -18.0], [-18.0, 19.0]], "pivot": [-18.0, -18.0],
+              "source": "drawing 6628-E0W rev C: 49.9 square with the lobes, plates 21.1 deep, 38.4 with the knobs, "
+                        "adjusters 44.4 and 44.5 from the far edges; lobe, knob and plate split from the drawing"},
+    "KS1": {"title": "Ø1\" Precision Kinematic Mirror Mount, 3 Adjusters", "optic_d": 25.4, "optic_t": 6.0,
+            "optic_depth": 7.0, "clear": 24.0, "axis": 25.4, "body": 17.0, "lobe": 7.35, "t_front": 8.4,
+            "gap": 1.1, "t_back": 15.5, "arm": 12.0, "total": 42.4, "knob_d": 14.7, "knob_l": 11.0,
+            "screw_d": 4.8, "adjusters": [[18.85, -18.85], [-18.85, -18.85], [-18.85, 18.85]], "pivot": None,
+            "source": "drawing 1579-E0W rev F: 49.9 square with the lobes, plates 25.0 deep (back plate 15.5), 42.4 "
+                      "with the knobs, three Ø14.7 knobs on a 37.7 square; lobe and front plate split from the drawing"},
+}
 DICHROICS = {
     "DMLP805": {"title": "Ø1\" Longpass Dichroic Mirror, 805 nm Cut-On", "d": 25.4, "t": 3.0, "band": "longpass", "edge": 805, "source": "drawing"},
     "DMSP650": {"title": "Ø1\" Shortpass Dichroic Mirror, 650 nm Cutoff", "d": 25.4, "t": 3.0, "band": "shortpass", "edge": 650, "source": "as DMLP805 (same size)"},

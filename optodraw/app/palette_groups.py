@@ -15,7 +15,7 @@ FREE_SPACE_GROUPS: dict[str, tuple[str, ...]] = {
                             "BeamExpanderTelescope", "FourFSystem"),
     "Mirrors": ("Mirror", "ConcaveMirror", "ConvexMirror", "BiconcaveMirror", "BiconvexMirror", "PartialMirror",
                 "DichroicMirror", "FlipMirror", "GalvoMirror", "MotorizedMirror", "RoofMirror", "Retroreflector",
-                "CatalogMirror", "CatalogDichroic"),
+                "CatalogMirror", "CatalogMirrorMount", "CatalogDichroic"),
     "Beamsplitters": ("BeamSplitter", "NonPolarizingBeamSplitter", "PBS", "CatalogCubeSplitter", "CatalogPlateSplitter"),
     "Polarization": ("Polarizer", "Analyzer", "WavePlate", "HalfWavePlate", "QuarterWavePlate", "GlanLaserPolarizer",
                      "WollastonPrism", "FaradayRotator", "OpticalIsolator", "BrewsterWindow", "CatalogWavePlate",

@@ -55,7 +55,7 @@ def _row(table: dict, part: str, family: str) -> dict:
 
 # Numbers in a part's row that are not sizes: optical values, counts and spacings set by the standard.
 _NOT_SIZES = frozenset({"efl", "bfl", "nm", "wavelength", "od_value", "count", "fins", "slots", "f", "cage",
-                        "rt", "range", "rod", "rod_outer"})   # rod spacing is the cage standard (30 or 60 mm)
+                        "rt", "range", "rod", "rod_outer", "adjusters", "pivot"})   # rod spacing is the cage standard (30 or 60 mm)
 # signed: a lens surface's radius (the side its centre lies on) and an offset of the axis from a reference
 _SIGNED = frozenset({"r", "axis_y"})
 # What the items of a size list are, so each gets a readable name.
@@ -741,6 +741,91 @@ class CatalogMirror(_Vendor, Mirror):
         return self._vendor_dict(super().to_dict())
 
 
+class CatalogMirrorMount(_Vendor, Mirror):
+    """A Thorlabs kinematic mirror mount holding a Ø1" mirror, drawn from its drawing: the KM100 (two adjusters) or
+    the KS1 (three adjusters). The mirror face is at the input port, as for any mirror; behind it the front plate,
+    a gap, the back plate, and the adjusters' knobs; the post holds the bottom of the back plate, the optical axis
+    25.4 mm above the post's top."""
+
+    component_type = "CatalogMirrorMount"
+    TABLE = D.MIRROR_MOUNTS
+
+    def __init__(self, center=(0, 0), angle=0, part="KM100", **kwargs):
+        s = _row(self.TABLE, part, "CatalogMirrorMount")
+        self.part = part
+        kwargs.setdefault("label", part)
+        super().__init__(center=center, angle=angle, aperture=s["optic_d"] * MM, thickness=s["optic_t"] * MM,
+                         **kwargs)
+
+    def _outline(self) -> list[tuple[float, float]]:
+        """The plates' outline in (up, across), scene units: the body square plus a lobe round each adjuster."""
+
+        from shapely.geometry import Point, box
+        from shapely.ops import unary_union
+
+        s = self.spec
+        lo, hi = -s["axis"], s["body"]
+        shapes = [box(lo, lo, hi, hi)] + [Point(u, v).buffer(s["lobe"], 24) for u, v in s["adjusters"]]
+        outline = unary_union(shapes).simplify(0.05)
+        return [(u * MM, v * MM) for u, v in list(outline.exterior.coords)[:-1]]
+
+    def geometry_3d(self) -> dict[str, Any]:
+        s = self.spec
+        front_mode = "flat" if self.surface_type == "flat" else ("convex" if "convex" in self.surface_type else "concave")
+        ap, th = self.aperture, self.thickness
+        face = -th * 0.52                                  # the mirror face at the input port, as for any mirror
+        optic_depth = s["optic_depth"] * MM
+        front = face + optic_depth - s["t_front"] * MM     # the optic sits 7 mm deep in the front plate's bore
+        t_f, gap, t_b = s["t_front"] * MM, s["gap"] * MM, s["t_back"] * MM
+        back = front + t_f + gap
+        rear = back + t_b
+        outline = self._outline()
+        bore = s["clear"] * MM / 2 * 1.06
+        hole = [(bore * math.cos(2 * math.pi * k / 40), bore * math.sin(2 * math.pi * k / 40)) for k in range(40)]
+
+        def plate(x: float, thick: float, holes, role: str) -> dict[str, Any]:
+            # (u, v) of the outline lands at (y, z) = (u, -v); the plate extrudes toward -x from its position
+            return {"shape": "extruded_polygon", "role": role, "points": outline,
+                    "holes": holes, "height": thick, "position": [x + thick, 0.0, 0.0],
+                    "rotation": [0.0, 0.0, math.pi / 2.0], "material": BLACK}
+
+        lo, hi, arm = -s["axis"] * MM, s["body"] * MM, s["arm"] * MM
+        # the back plate: open in the middle so a beam can pass, its outline the same as the front plate's
+        window = [(lo + arm, lo + arm), (hi - arm * 0.6, lo + arm), (hi - arm * 0.6, hi - arm * 0.6),
+                  (lo + arm, hi - arm * 0.6)]
+        children: list[dict[str, Any]] = [
+            _cylinder_along_x(ap * 0.5, th, {"color": "#dbe4ec", "metalness": 0.25, "roughness": 0.25, "preset": "glass"},
+                              position=[face + th / 2.0, 0.0, 0.0]),
+            *self._mirror_surface_3d(-1, front_mode),
+            plate(front, t_f, [hole], "front plate"),
+            plate(back, t_b, [window], "back plate"),
+            # the flat underside the post screws into
+            _box(t_b, 1.0 * MM, 12.0 * MM, (back + t_b / 2, lo + 0.5 * MM, 0.0), BLACK, "base"),
+        ]
+        knob_l = s["knob_l"] * MM
+        screw_l = s["total"] * MM - (rear - front) - knob_l
+        start = front + t_f - 0.02                         # each screw goes through the back plate to push the front
+        for u, v in s["adjusters"]:
+            y, z = u * MM, -v * MM
+            length = rear + screw_l - start
+            children += [
+                {**_cylinder_along_x(s["screw_d"] * MM / 2, length + 0.02, STEEL, position=[start + length / 2, y, z]),
+                 "role": "adjuster screw"},
+                {**_cylinder_along_x(s["knob_d"] * MM / 2, knob_l, BLACK, position=[rear + screw_l + knob_l / 2, y, z]),
+                 "role": "knob"},
+            ]
+        if s.get("pivot"):
+            u, v = s["pivot"]
+            children.append({"shape": "sphere", "role": "pivot", "radius": 2.0 * MM,
+                             "position": [back - gap / 2, u * MM, -v * MM],
+                             "material": {"color": "#eef2f7", "metalness": 0.95, "roughness": 0.04, "preset": "steel"}})
+        return {"shape": "group", "children": children, "post_at": [back + t_b / 2, lo, 0.0],
+                "surface_profile": {"type": self.surface_type, "curvature_depth": self.curvature_depth}}
+
+    def to_dict(self) -> dict[str, Any]:
+        return self._vendor_dict(super().to_dict())
+
+
 from ..optics.mirrors import DichroicMirror  # noqa: E402
 
 
@@ -1389,5 +1474,5 @@ class CatalogSleeve(_Vendor, Component):
 
 FAMILIES = (CatalogLens, CatalogLensTube, CatalogAdapter, CatalogFilter, CatalogNDFilter, CatalogWavePlate,
             CatalogGlanPolarizer, CatalogPolarizer, CatalogCubeSplitter, CatalogPlateSplitter, CatalogMirror,
-            CatalogDichroic, CatalogCageMount, CatalogCageCube, CatalogRightAngleMount, CatalogPhotodiode, CatalogLED,
+            CatalogMirrorMount, CatalogDichroic, CatalogCageMount, CatalogCageCube, CatalogRightAngleMount, CatalogPhotodiode, CatalogLED,
             CatalogCollimator, CatalogCamera, CatalogHardware, CatalogTableClamp, CatalogSleeve)

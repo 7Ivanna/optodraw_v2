@@ -34,7 +34,7 @@ NO_ART = {"OpticalTable", "Breadboard", "Baseplate", "Grid", "Periscope", "Teles
           "CageRods", "CageTower", "CryostatCabinet",
           # vendor parts are drawn to scale: their 2D is their real outline, not the symbol fitted to the ports
           "CatalogLens", "CatalogLensTube", "CatalogAdapter", "CatalogFilter", "CatalogNDFilter", "CatalogWavePlate",
-          "CatalogGlanPolarizer", "CatalogPolarizer", "CatalogCubeSplitter", "CatalogPlateSplitter", "CatalogMirror",
+          "CatalogGlanPolarizer", "CatalogPolarizer", "CatalogCubeSplitter", "CatalogPlateSplitter", "CatalogMirror", "CatalogMirrorMount",
           "CatalogDichroic", "CatalogCageMount", "CatalogCageCube", "CatalogRightAngleMount", "CatalogPhotodiode",
           "CatalogLED", "CatalogCollimator", "CatalogCamera", "CatalogHardware", "CatalogTableClamp", "CatalogSleeve",
           "ElectricalPad", "GSGProbePad", "HeaterPad", "MetalRoute", "PCB",
