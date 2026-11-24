@@ -52,6 +52,7 @@ from optodraw.components.vendor import (
     CatalogCageMount,
     CatalogGlanPolarizer,
     CatalogLensTube,
+    CatalogMirrorMount,
     CatalogNDFilter,
     CatalogPlateSplitter,
     CatalogTableClamp,
@@ -204,12 +205,12 @@ def build() -> Scene:
     glan = scene.add(CatalogGlanPolarizer(part="GT10", center=((x_tube0 + x_tube1) / 2, y_003),
                                           label="Glan-Taylor GT10 (in the SM1PM10)", **hang))
     mm1 = scene.add(MotorizedMirror(center=(x_mm1, y_003), label="MM1", **arm))
-    km_a = scene.add(Mirror(center=mm(-122, -4), label="KM100 A", **arm))
-    km_b = scene.add(Mirror(center=mm(-245, -84), label="KM100 B", **arm))
-    km_c = scene.add(Mirror(center=mm(-232, -213), label="KM100 C", **arm))
+    km_a = scene.add(CatalogMirrorMount(part="KM100", center=mm(-122, -4), label="KM100 A", **arm))
+    km_b = scene.add(CatalogMirrorMount(part="KM100", center=mm(-245, -84), label="KM100 B", **arm))
+    km_c = scene.add(CatalogMirrorMount(part="KM100", center=mm(-232, -213), label="KM100 C", **arm))
     d_mirror = scene.add(Mirror(center=(x_d, y_arm), label="D mirror (003)", **arm))
     # KM100 E moved onto the DFM1BS's axis, in front of it (past wave plate 3), to send 003 into its front face
-    km_e = scene.add(Mirror(center=(AX, mm(0, -228)[1]), label="KM100 E (in front of the DFM1BS)", **arm))
+    km_e = scene.add(CatalogMirrorMount(part="KM100", center=(AX, mm(0, -228)[1]), label="KM100 E (in front of the DFM1BS)", **arm))
     wp003 = scene.add(CageWavePlate(plate="half", center=(x_wp, y_arm), label="Wave plate (003)", **hang))
     hrods(scene, (x_rods, y_arm), (x_face, y_arm), z_col)
     aim(mm1, f003, km_b)
@@ -247,9 +248,9 @@ def build() -> Scene:
     olaf_e = scene.add(FiberCollimator(center=on_line(141.0 + 8.9 / 2 + FIBER_FRONT / MM_U), angle=-90,
                                        label="Olaf E"))
     mm2 = scene.add(MotorizedMirror(center=mm(188, 75), label="MM2"))
-    km_f = scene.add(Mirror(center=mm(116, 70), label="KM100 F"))
-    km_g = scene.add(Mirror(center=mm(226, -53), label="KM100 G"))
-    km_i = scene.add(Mirror(center=mm(188, -194), label="KM100 I"))
+    km_f = scene.add(CatalogMirrorMount(part="KM100", center=mm(116, 70), label="KM100 F"))
+    km_g = scene.add(CatalogMirrorMount(part="KM100", center=mm(226, -53), label="KM100 G"))
+    km_i = scene.add(CatalogMirrorMount(part="KM100", center=mm(188, -194), label="KM100 I"))
     # Olaf E's way into the excitation line at beam height: a KCB1 turns the dark-blue route into the left cube's
     # back, the red route comes into its side; a CRM1T between them
     kcb_in = scene.add(CageRightAngleMirror(center=(AX, mm(0, -194)[1]), rotation_y=180, label="Olaf E in (KCB1)"))

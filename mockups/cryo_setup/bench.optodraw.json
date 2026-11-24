@@ -631,47 +631,38 @@
    "z": 27.95275590551181
   },
   {
-   "type": "Mirror",
+   "type": "CatalogMirrorMount",
    "id": "KM100 A",
    "center": [
-    -47.62057759290065,
-    -1.3267184645939392
+    -47.06082251159494,
+    -0.9887763346164729
    ],
    "angle": 31.120729699469962,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
+   "part": "KM100",
    "label": "KM100 A",
    "z": 27.95275590551181
   },
   {
-   "type": "Mirror",
+   "type": "CatalogMirrorMount",
    "id": "KM100 B",
    "center": [
-    -96.87969108390382,
-    -33.297741763469
+    -97.4559011902,
+    -33.60679280725209
    ],
    "angle": -151.79305770798138,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
+   "part": "KM100",
    "label": "KM100 B",
    "z": 27.95275590551181
   },
   {
-   "type": "Mirror",
+   "type": "CatalogMirrorMount",
    "id": "KM100 C",
    "center": [
-    -91.75760581830524,
-    -84.09240358988522
+    -92.32938980497104,
+    -84.40957145020553
    ],
-   "angle": -150.80502697412254,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
+   "angle": -150.90761373629786,
+   "part": "KM100",
    "label": "KM100 C",
    "z": 27.95275590551181
   },
@@ -679,10 +670,10 @@
    "type": "Mirror",
    "id": "D mirror (003)",
    "center": [
-    -35.60567367165437,
-    -37.64511605310792
+    -35.60433914727983,
+    -37.64515626066381
    ],
-   "angle": -91.80541309500693,
+   "angle": -91.64604364654464,
    "aperture": 10.0,
    "thickness": 1.0,
    "surface_type": "flat",
@@ -691,17 +682,14 @@
    "z": 27.95275590551181
   },
   {
-   "type": "Mirror",
+   "type": "CatalogMirrorMount",
    "id": "KM100 E (in front of the DFM1BS)",
    "center": [
-    0.3287753835804167,
-    -90.1135033430929
+    0.7782047586984668,
+    -90.58842000971367
    ],
-   "angle": -46.768425929565666,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
+   "angle": -46.65944093261564,
+   "part": "KM100",
    "label": "KM100 E (in front of the DFM1BS)",
    "z": 27.95275590551181
   },
@@ -866,45 +854,36 @@
    "label": "MM2"
   },
   {
-   "type": "Mirror",
+   "type": "CatalogMirrorMount",
    "id": "KM100 F",
    "center": [
-    45.22570192631155,
-    27.74243568774879
+    44.62144233321782,
+    27.992237566075328
    ],
    "angle": 157.5397207677862,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
+   "part": "KM100",
    "label": "KM100 F"
   },
   {
-   "type": "Mirror",
+   "type": "CatalogMirrorMount",
    "id": "KM100 G",
    "center": [
-    89.42308571429062,
-    -21.041789606693165
+    90.03247733934927,
+    -21.278802194293405
    ],
-   "angle": -21.465016811044165,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
+   "angle": -21.34258461637799,
+   "part": "KM100",
    "label": "KM100 G"
   },
   {
-   "type": "Mirror",
+   "type": "CatalogMirrorMount",
    "id": "KM100 I",
    "center": [
-    74.35515928646561,
-    -76.71736401087506
+    74.81750690150285,
+    -77.1797116259123
    ],
    "angle": -45.0,
-   "aperture": 10.0,
-   "thickness": 1.0,
-   "surface_type": "flat",
-   "curvature_depth": 0.0,
+   "part": "KM100",
    "label": "KM100 I"
   },
   {
@@ -1004,8 +983,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 A fork",
    "center": [
-    -49.67807314321868,
-    -12.328998063139757
+    -47.43425000615299,
+    -10.97432993138489
    ],
    "angle": -109.0,
    "part": "CF125",
@@ -1015,8 +994,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 B fork",
    "center": [
-    -83.95553354741155,
-    -41.97875921994225
+    -82.79816933553288,
+    -43.21761511555505
    ],
    "angle": -35.0,
    "part": "CF125",
@@ -1026,8 +1005,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 C fork",
    "center": [
-    -76.62468852969357,
-    -83.52383615749412
+    -75.47524806474411,
+    -84.79349567134942
    ],
    "angle": 8.0,
    "part": "CF125",
@@ -1037,10 +1016,10 @@
    "type": "CatalogTableClamp",
    "id": "D mirror (003) fork",
    "center": [
-    -35.11469693576845,
-    -53.22137603861705
+    -35.156689958474715,
+    -53.2227216511578
    ],
-   "angle": -88.19458690499314,
+   "angle": -88.35395635345533,
    "part": "CF125",
    "label": "D mirror (003) fork"
   },
@@ -1048,8 +1027,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 E (in front of the DFM1BS) fork",
    "center": [
-    14.721511917544595,
-    -88.8206283612637
+    16.5246203309697,
+    -90.72292436824357
    ],
    "angle": 14.0,
    "part": "CF125",
@@ -1103,8 +1082,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 F fork",
    "center": [
-    50.07110771255706,
-    15.925529294662866
+    51.284811568302324,
+    16.926880158623003
    ],
    "angle": -79.0,
    "part": "CF125",
@@ -1114,8 +1093,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 G fork",
    "center": [
-    78.76903599734618,
-    -21.74840280639672
+    81.21269553566445,
+    -22.696281681250277
    ],
    "angle": 179.0,
    "part": "CF125",
@@ -1125,8 +1104,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 I fork",
    "center": [
-    63.130538042422,
-    -78.29482310407651
+    64.98389553864656,
+    -80.14818060030107
    ],
    "angle": 179.0,
    "part": "CF125",
