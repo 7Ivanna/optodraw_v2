@@ -86,6 +86,20 @@ def test_update_and_delete_beam(client: TestClient):
     assert _manual_beams(after["spec"]) == []
 
 
+def test_a_part_a_beam_goes_through_can_be_deleted(client: TestClient):
+    a = client.post("/api/component", json={"name": "Laser"}).json()["id"]
+    m = client.post("/api/component", json={"name": "Mirror"}).json()["id"]
+    b = client.post("/api/component", json={"name": "Camera"}).json()["id"]
+    beam_id = client.post("/api/beam", json={"path": [a, m, b]}).json()["id"]
+    response = client.delete(f"/api/component/{m}")
+    assert response.status_code == 200
+    beam = next(x for x in response.json()["spec"]["beams"] if x["id"] == beam_id)
+    assert [p if isinstance(p, str) else p[0] for p in beam["path"]] == [a, b]    # the beam skips the mirror
+    # an end of the beam: fewer than two stops left, so the beam goes too
+    after = client.delete(f"/api/component/{b}").json()
+    assert _manual_beams(after["spec"]) == []
+
+
 def test_preview_endpoint_renders_svg(client: TestClient):
     svg = client.get("/api/preview/Lens").json()["svg"]
     assert svg.lstrip().startswith("<")

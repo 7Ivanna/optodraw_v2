@@ -177,4 +177,5 @@ from optodraw.components.electronics import (
 from optodraw.components.instruments import RFSpectrumAnalyzer
 from optodraw.components.models import CustomModel, GDSModel
 from optodraw.components.optics import FaradayRotator, ModeCleaner, RoofMirror
+from optodraw.components.optics import CageCube, CageRightAngleMirror, CageRods, CageTower, CageWavePlate, CryostatCabinet, MotorizedMirror
 from optodraw.components.devices import BalancedDetector

@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.755606 20.755606" width="20.755606pt" height="20.755606pt"><g transform="translate(72.0,72.0)">
+<g id='od-cagemirror-page1'>
+<g stroke-miterlimit='10' transform='translate(-61.622203,-61.622203)scale(0.996264,-0.996264)'>
+<g fill='#334155' stroke='#334155'>
+<g stroke-width='0.4'>
+<g fill='#0f172a'>
+<g fill-opacity='0.03'>
+<g transform='translate(0.34123,-1.70709)'>
+<path d='M-7.96672-7.96672V7.96672H7.96672Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.04'>
+<g transform='translate(0.2275,-1.19522)'>
+<path d='M-7.96672-7.96672V7.96672H7.96672Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.05'>
+<g transform='translate(0.11374,-0.73979)'>
+<path d='M-7.96672-7.96672V7.96672H7.96672Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g fill='#0f172a'>
+<g fill-opacity='0.06'>
+<g transform='translate(0.0,-0.34123)'>
+<path d='M-7.96672-7.96672V7.96672H7.96672Z' stroke='none'/>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#64748b'>
+<clipPath id='od-cagemirror-pgfcp6'>
+<path d='M-7.96672-7.96672V7.96672H7.96672Z'/> </clipPath>
+<g clip-path='url(#od-cagemirror-pgfcp6)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.31752,0,0,0.31752,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-cagemirror-pgfsh1'>
+ <stop offset='0.0' stop-color=' #64748b '/>
+ <stop offset='0.25' stop-color=' #64748b '/>
+ <stop offset='0.31' stop-color=' #94a3b8 '/>
+ <stop offset='0.54999' stop-color=' #cbd5e1 '/>
+ <stop offset='0.7' stop-color=' #e2e8f0 '/>
+ <stop offset='0.75' stop-color=' #f1f5f9 '/>
+ <stop offset='1.0' stop-color=' #f1f5f9 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-cagemirror-pgfsh1); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-7.96672-7.96672V7.96672H7.96672Z' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke='#64748b'>
+<g stroke-linecap='round'>
+<g stroke='#ef4444'>
+<path d='M-7.96672 0H0V7.96672' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+<g stroke-width='0.3'>
+<g stroke-linecap='round'>
+<g stroke-linejoin='round'>
+<g stroke='#94a3b8'>
+<clipPath id='od-cagemirror-pgfcp7'>
+<path d='M-6.03581-6.84071L-6.84071-6.03581L6.03581 6.84071L6.84071 6.03581ZM6.03581 6.84071'/> </clipPath>
+<g clip-path='url(#od-cagemirror-pgfcp7)'>
+<g transform='matrix(1,0,0,1,0.0,0.0)'>
+<g transform='matrix(0.27263,0,0,0.27263,0.0,0.0)'>
+<linearGradient gradientTransform='rotate(90)' id='od-cagemirror-pgfsh4'>
+ <stop offset='0.0' stop-color=' #cbd5e1 '/>
+ <stop offset='0.25' stop-color=' #cbd5e1 '/>
+ <stop offset='0.45' stop-color=' #f1f5f9 '/>
+ <stop offset='0.57999' stop-color=' #fff '/>
+ <stop offset='0.65999' stop-color=' #f1f5f9 '/>
+ <stop offset='0.75' stop-color=' #cbd5e1 '/>
+ <stop offset='1.0' stop-color=' #cbd5e1 '/>
+ </linearGradient>
+<g transform='translate(-50.1875,-50.1875)'>
+<rect height='100.375' style='fill:url(#od-cagemirror-pgfsh4); stroke:none' width='100.375'/>
+</g>
+</g>
+</g>
+</g>
+<path d='M-6.03581-6.84071L-6.84071-6.03581L6.03581 6.84071L6.84071 6.03581ZM6.03581 6.84071' fill='none'/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g></svg>

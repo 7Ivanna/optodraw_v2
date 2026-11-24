@@ -268,6 +268,25 @@ def is_beam_plane_optic(node: Component, category: str, platform: str = "free_sp
     return platform == "free_space"
 
 
+def three_euler(rotation_deg: Any) -> list[float]:
+    """A part's rotation (degrees about x, y, z of the table frame, z up, applied as Rz Ry Rx) as the three.js
+    Euler angles (order XYZ, y up) of the same turn. A turn about z alone is the yaw (0, z, 0)."""
+
+    ax, ay, az = (math.radians(float(v)) for v in (rotation_deg.x, rotation_deg.y, rotation_deg.z))
+    cx, sx, cy, sy, cz, sz = math.cos(ax), math.sin(ax), math.cos(ay), math.sin(ay), math.cos(az), math.sin(az)
+    m = [[cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx],
+         [sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx],
+         [-sy, cy * sx, cy * cx]]
+    # the table frame (x, y, z up) seen in three.js (x, y up, z = -y): M3 = P M P^T, P = [[1,0,0],[0,0,1],[0,-1,0]]
+    t = [[m[0][0], m[0][2], -m[0][1]],
+         [m[2][0], m[2][2], -m[2][1]],
+         [-m[1][0], -m[1][2], m[1][1]]]
+    y = math.asin(max(-1.0, min(1.0, t[0][2])))
+    if abs(t[0][2]) < 0.9999999:
+        return [math.atan2(-t[1][2], t[2][2]), y, math.atan2(-t[0][1], t[0][0])]
+    return [math.atan2(t[2][1], t[1][1]), y, 0.0]
+
+
 class ThreeJsRenderer:
     """Renders a Scene to a self-contained HTML file with Three.js."""
 
@@ -715,12 +734,10 @@ class ThreeJsRenderer:
             "sid": self._sids.get(id(node)),
             "label": plain(node.label),
             "position": [wt.position.x, wt.position.z, -wt.position.y],  # Y-up for Three.js
-            "rotation": [
-                math.radians(wt.rotation_deg.x),
-                math.radians(wt.rotation_deg.z),
-                math.radians(-wt.rotation_deg.y),
-            ],
+            "rotation": three_euler(wt.rotation_deg),
         }
+        if abs(wt.rotation_deg.x) > 1e-9 or abs(wt.rotation_deg.y) > 1e-9:
+            entry["tilted"] = True        # turned out of the table plane: the post goes under its lowest point
         sx = -1.0 if getattr(node, "flip_horizontal", False) else 1.0
         sz = -1.0 if getattr(node, "flip_vertical", False) else 1.0
         if sx != 1.0 or sz != 1.0:
@@ -2465,7 +2482,8 @@ function odBuildAll(data) {{
       //  "post_beam": post to beam axis → uniform height regardless of aperture
       //  "stage"/"rotation_stage": stage to device bottom
       //  "none": no post (optic floats, e.g. for custom rigs)
-      const _axis = BEAM_PLANE + (item.lift || 0);   // a part after a periscope rides at its exit height
+      // a part after a periscope rides at its exit height; z raises a part above the beam plane (item.position[1])
+      const _axis = BEAM_PLANE + (item.lift || 0) + (item.position[1] || 0);
       anchor.position.set(item.position[0], _axis, item.position[2]);
       anchor.updateMatrixWorld(true);
       const _wb = new THREE.Box3().setFromObject(anchor);
@@ -2474,13 +2492,38 @@ function odBuildAll(data) {{
       // hardware sits behind the glass (mirror, waveplate) is carried from behind
       // a part can name the point its post holds (``post_at``, local x, y, z): a micrometer or a knob on one
       // side moves the middle of the bounds away from the stem
-      const _pa = item.geometry.post_at;
+      // a part turned out of the table plane (rotation about x or y): its post_at turns with it. The post
+      // holds that point while it stays in the lower part of the part; turned on its side, the part stands on
+      // its lowest point instead
+      let _pa = item.geometry.post_at;
+      let _tilt = null;
+      if (item.tilted) {{
+        if (_pa) {{
+          const _w = anchor.localToWorld(new THREE.Vector3(_pa[0], _pa[1], _pa[2]));
+          if (_w.y <= _bottom + 0.35 * (_wb.max.y - _wb.min.y)) _tilt = [_w.x, _w.y, _w.z];
+        }}
+        if (!_tilt) {{                     // the part's lowest point: the corner a tilted mount rests on
+          let _low = null;
+          const _v = new THREE.Vector3();
+          anchor.traverse(o => {{
+            const a = o.isMesh && o.geometry && o.geometry.attributes.position;
+            if (!a) return;
+            const step = Math.max(1, Math.floor(a.count / 400));
+            for (let i = 0; i < a.count; i += step) {{
+              _v.fromBufferAttribute(a, i).applyMatrix4(o.matrixWorld);
+              if (!_low || _v.y < _low.y) _low = _v.clone();
+            }}
+          }});
+          _tilt = _low ? [_low.x, _low.y, _low.z] : [(_wb.min.x + _wb.max.x) / 2, _bottom, (_wb.min.z + _wb.max.z) / 2];
+        }}
+        _pa = null;
+      }}
       const _yaw = item.rotation ? item.rotation[1] : 0;
       const _lx = _pa ? _pa[0] : (isFinite(_lb.min.x) ? (_lb.min.x + _lb.max.x) / 2 : 0);
       const _lz = _pa ? _pa[2] : (isFinite(_lb.min.z) ? (_lb.min.z + _lb.max.z) / 2 : 0);
-      const _px = item.position[0] + _lx * Math.cos(_yaw) + _lz * Math.sin(_yaw);
-      const _pz = item.position[2] - _lx * Math.sin(_yaw) + _lz * Math.cos(_yaw);
-      const _postTop = item.mountHeight !== undefined ? item.mountHeight : (_pa ? _axis + _pa[1] : _bottom) + 0.15;
+      const _px = _tilt ? _tilt[0] : item.position[0] + _lx * Math.cos(_yaw) + _lz * Math.sin(_yaw);
+      const _pz = _tilt ? _tilt[2] : item.position[2] - _lx * Math.sin(_yaw) + _lz * Math.cos(_yaw);
+      const _postTop = item.mountHeight !== undefined ? item.mountHeight : (_tilt ? _tilt[1] : _pa ? _axis + _pa[1] : _bottom) + 0.15;
       const _beamTop = item.mountHeight !== undefined ? item.mountHeight : _axis;
       if (item.baseMount === 'stage') odAddStage(scene, _px, _pz, _postTop);
       else if (item.baseMount === 'xyz_stage') odAddXYZStage(scene, _px, _pz, _postTop);

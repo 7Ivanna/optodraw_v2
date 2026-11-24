@@ -384,9 +384,14 @@ def catalog(platform: str | None = None, category: str | None = None) -> dict[st
         if (platform is None or definition.platform == platform) and category in {None, "my_parts"}:
             components[name] = describe_part(definition)
 
+    from .palette_groups import SECTIONS, palette_place
+
+    for name, info in components.items():                # where it sits in the parts menu
+        info["section"], info["group"] = palette_place(name, str(info.get("category", "")))
     return {
         "components": components,
         "categories": list_component_categories() + ["my_parts"],
+        "sections": list(SECTIONS),
     }
 
 

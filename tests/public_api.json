@@ -248,7 +248,8 @@
   ],
   "Breadboard": [
     "center",
-    "angle"
+    "angle",
+    "part"
   ],
   "BrewsterWindow": [
     "center",
@@ -260,6 +261,41 @@
   "CMOSCamera": [
     "center",
     "angle"
+  ],
+  "CageCube": [
+    "center",
+    "angle",
+    "split_ratio",
+    "coating_color",
+    "cage"
+  ],
+  "CageRightAngleMirror": [
+    "center",
+    "angle",
+    "cage"
+  ],
+  "CageRods": [
+    "center",
+    "angle",
+    "length",
+    "end_plates",
+    "cage"
+  ],
+  "CageTower": [
+    "center",
+    "angle",
+    "board",
+    "upper",
+    "led_len",
+    "sample_depth",
+    "camera_tube"
+  ],
+  "CageWavePlate": [
+    "center",
+    "angle",
+    "plate",
+    "fast_axis_angle",
+    "cage"
   ],
   "Callout": [
     "text",
@@ -291,6 +327,117 @@
     "label",
     "color",
     "opacity"
+  ],
+  "CatalogAdapter": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogCageCube": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogCageMount": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogCamera": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogCollimator": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogCubeSplitter": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogDichroic": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogFilter": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogGlanPolarizer": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogHardware": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogLED": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogLens": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogLensTube": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogMirror": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogNDFilter": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogPhotodiode": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogPlateSplitter": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogPolarizer": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogRightAngleMount": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogSleeve": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogTableClamp": [
+    "center",
+    "angle",
+    "part"
+  ],
+  "CatalogWavePlate": [
+    "center",
+    "angle",
+    "part",
+    "fast_axis_angle"
   ],
   "ChipSubstrate": [
     "center",
@@ -384,6 +531,14 @@
     "angle",
     "radius",
     "with_sample"
+  ],
+  "CryostatCabinet": [
+    "center",
+    "angle",
+    "board_bottom",
+    "sample_depth",
+    "size",
+    "cabinet_offset"
   ],
   "CryostatWindow": [
     "center",
@@ -1254,6 +1409,10 @@
     "width",
     "groove_density_l_mm",
     "focal_length_mm"
+  ],
+  "MotorizedMirror": [
+    "center",
+    "angle"
   ],
   "MuellerMatrix": [
     "m00",

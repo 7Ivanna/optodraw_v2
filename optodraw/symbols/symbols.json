@@ -1,6 +1,6 @@
 {
  "version": 1,
- "source_hash": "bd0b8854798f51590b642fe78e6e211cfa25ff935fb1a723a813922b68eb43b7",
+ "source_hash": "242d85bcb8478eb6d55b283372d54f9db4a682a8d460c5469ce2ee2bde10cd14",
  "symbols": {
   "waveguide": {
    "symbol": "waveguide",
@@ -11183,6 +11183,227 @@
     }
    },
    "component": "BalancedDetector",
+   "args": {},
+   "also": []
+  },
+  "motormirror": {
+   "symbol": "motormirror",
+   "params": {},
+   "svg": "motormirror.svg",
+   "svg2d": "motormirror.2d.svg",
+   "width": 52.045838,
+   "height": 37.197031,
+   "origin": [
+    2.267,
+    18.599
+   ],
+   "ports": {
+    "io": {
+     "x": 2.267,
+     "y": 18.599,
+     "kind": "free_space"
+    },
+    "motor": {
+     "x": 49.605,
+     "y": 18.599,
+     "kind": "electrical"
+    }
+   },
+   "component": "MotorizedMirror",
+   "args": {},
+   "also": []
+  },
+  "cagerods": {
+   "symbol": "cagerods",
+   "params": {},
+   "svg": "cagerods.svg",
+   "svg2d": "cagerods.2d.svg",
+   "width": 32.879422,
+   "height": 17.005469,
+   "origin": [
+    16.44,
+    8.503
+   ],
+   "ports": {
+    "in": {
+     "x": 2.267,
+     "y": 8.503,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 30.613,
+     "y": 8.503,
+     "kind": "free_space"
+    }
+   },
+   "component": "CageRods",
+   "args": {},
+   "also": []
+  },
+  "cagemirror": {
+   "symbol": "cagemirror",
+   "params": {},
+   "svg": "cagemirror.svg",
+   "svg2d": "cagemirror.2d.svg",
+   "width": 20.755606,
+   "height": 20.755606,
+   "origin": [
+    10.378,
+    10.378
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.378,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 10.378,
+     "y": 2.441,
+     "kind": "free_space"
+    }
+   },
+   "component": "CageRightAngleMirror",
+   "args": {},
+   "also": []
+  },
+  "cagetower": {
+   "symbol": "cagetower",
+   "params": {},
+   "svg": "cagetower.svg",
+   "svg2d": "cagetower.2d.svg",
+   "width": 28.518237,
+   "height": 49.220802,
+   "origin": [
+    7.936,
+    30.787
+   ],
+   "ports": {
+    "in": {
+     "x": 3.4,
+     "y": 30.787,
+     "kind": "free_space"
+    },
+    "led": {
+     "x": 26.077,
+     "y": 18.882,
+     "kind": "free_space"
+    },
+    "camera": {
+     "x": 7.936,
+     "y": 7.543,
+     "kind": "free_space"
+    },
+    "sample": {
+     "x": 7.936,
+     "y": 47.228,
+     "kind": "free_space"
+    }
+   },
+   "component": "CageTower",
+   "args": {},
+   "also": []
+  },
+  "cryocabinet": {
+   "symbol": "cryocabinet",
+   "params": {},
+   "svg": "cryocabinet.svg",
+   "svg2d": "cryocabinet.2d.svg",
+   "width": 41.165091,
+   "height": 27.558914,
+   "origin": [
+    16.614,
+    10.945
+   ],
+   "ports": {
+    "sample": {
+     "x": 16.614,
+     "y": 7.543,
+     "kind": "free_space"
+    }
+   },
+   "component": "CryostatCabinet",
+   "args": {},
+   "also": []
+  },
+  "tubering": {
+   "symbol": "tubering",
+   "params": {},
+   "svg": "tubering.svg",
+   "svg2d": "tubering.2d.svg",
+   "width": 11.684543,
+   "height": 21.889714,
+   "origin": [
+    5.842,
+    10.945
+   ],
+   "ports": {
+    "in": {
+     "x": 2.441,
+     "y": 10.945,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 9.244,
+     "y": 10.945,
+     "kind": "free_space"
+    }
+   },
+   "component": "CatalogAdapter",
+   "args": {},
+   "also": []
+  },
+  "cageplate": {
+   "symbol": "cageplate",
+   "params": {},
+   "svg": "cageplate.svg",
+   "svg2d": "cageplate.2d.svg",
+   "width": 21.541021,
+   "height": 28.692573,
+   "origin": [
+    10.771,
+    14.346
+   ],
+   "ports": {
+    "in": {
+     "x": 8.503,
+     "y": 14.346,
+     "kind": "free_space"
+    },
+    "out": {
+     "x": 13.038,
+     "y": 14.346,
+     "kind": "free_space"
+    }
+   },
+   "component": "CatalogCageMount",
+   "args": {},
+   "also": []
+  },
+  "matingsleeve": {
+   "symbol": "matingsleeve",
+   "params": {},
+   "svg": "matingsleeve.svg",
+   "svg2d": "matingsleeve.2d.svg",
+   "width": 24.942446,
+   "height": 21.889714,
+   "origin": [
+    12.471,
+    10.945
+   ],
+   "ports": {
+    "a": {
+     "x": 2.266,
+     "y": 10.945,
+     "kind": "fiber"
+    },
+    "b": {
+     "x": 22.676,
+     "y": 10.945,
+     "kind": "fiber"
+    }
+   },
+   "component": "CatalogSleeve",
    "args": {},
    "also": []
   }

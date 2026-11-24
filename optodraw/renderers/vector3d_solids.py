@@ -642,6 +642,19 @@ def tree_box(tree: dict, matrix: np.ndarray, part: str = "") -> Box | None:
     return box_union(three_box(local_faces(geo, part), m) for geo, m in nodes(tree, matrix))
 
 
+def lowest_point(tree: dict, matrix: np.ndarray, part: str = "") -> tuple[float, float, float] | None:
+    """The lowest corner of a whole geometry tree (y up): where a tilted part rests on its post."""
+
+    best = None
+    for geo, m in nodes(tree, matrix):
+        for face in local_faces(geo, part):
+            pts = _world(face.ring, m)
+            low = pts[int(np.argmin(pts[:, 1]))]
+            if best is None or low[1] < best[1]:
+                best = low
+    return None if best is None else (float(best[0]), float(best[1]), float(best[2]))
+
+
 def _move(face: Face, matrix: np.ndarray, solid: int) -> Face:
     turn, shift = matrix[:3, :3], matrix[:3, 3]
     mirror = np.linalg.det(turn) < 0                 # a mirror turns the winding round

@@ -1,0 +1,1453 @@
+{
+ "schema_version": 3,
+ "optodraw_version": "0.10.1",
+ "units": {
+  "length": "um",
+  "angle": "deg",
+  "wavelength": "nm"
+ },
+ "title": "Cryostat microscope bench",
+ "width": 300,
+ "height": 300,
+ "platform": "free_space",
+ "components": [
+  {
+   "type": "Breadboard",
+   "id": "Breadboard",
+   "center": [
+    0,
+    0
+   ],
+   "angle": 180,
+   "part": "attocube 1011879-2",
+   "length": 196.85039370078738,
+   "width": 187.00787401574803,
+   "thickness": 3.9370078740157477,
+   "hole_pitch": 9.842519685039369,
+   "include_holes": false,
+   "label": "Breadboard"
+  },
+  {
+   "type": "CryostatCabinet",
+   "id": "Cryostat",
+   "center": [
+    0.0,
+    63.976377952755904
+   ],
+   "angle": 0,
+   "board_bottom": -30.0,
+   "sample_depth": 55.0,
+   "size": [
+    175.0,
+    165.0,
+    110.0
+   ],
+   "cabinet_offset": [
+    -0.0,
+    -63.976377952755904
+   ],
+   "label": "Cryostat"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "KCB2",
+   "center": [
+    0.0,
+    63.976377952755904
+   ],
+   "angle": 90,
+   "cage": 60,
+   "label": "KCB2",
+   "z": 38.0,
+   "rotation_x": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "Objective",
+   "id": "Objective",
+   "center": [
+    0.0,
+    63.976377952755904
+   ],
+   "angle": 0,
+   "aperture": 10.0,
+   "length": 15.0,
+   "magnification": 10,
+   "working_distance": 9.0,
+   "label": "Objective",
+   "z": -15.629921259842519,
+   "rotation_y": 90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods",
+   "center": [
+    0.0,
+    63.976377952755904
+   ],
+   "angle": 0,
+   "length": 49.06299212598425,
+   "cage": 60,
+   "label": "",
+   "z": -1.531496062992126,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageCube",
+   "id": "U1 (CCM1)",
+   "center": [
+    0.0,
+    37.846456692913385
+   ],
+   "angle": 0,
+   "split_ratio": [
+    0.5,
+    0.5
+   ],
+   "coating_color": "#f2a65a",
+   "cage": 30,
+   "label": "U1 (CCM1)",
+   "z": 38.0,
+   "rotation_y": 90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageCube",
+   "id": "C1 (CCM1)",
+   "center": [
+    0.0,
+    17.586614173228348
+   ],
+   "angle": 0,
+   "split_ratio": [
+    0.5,
+    0.5
+   ],
+   "coating_color": "#7fd6d0",
+   "cage": 30,
+   "label": "C1 (CCM1)",
+   "z": 38.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "Olaf E lift (KCB1)",
+   "center": [
+    0.0,
+    -2.673228346456689
+   ],
+   "angle": 90,
+   "cage": 30,
+   "label": "Olaf E lift (KCB1)",
+   "rotation_x": 90.0
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "Olaf E lift (upper KCB1)",
+   "center": [
+    0.0,
+    -2.673228346456689
+   ],
+   "angle": 0,
+   "cage": 30,
+   "label": "Olaf E lift (upper KCB1)",
+   "z": 38.0,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_1",
+   "center": [
+    0.0,
+    -2.673228346456689
+   ],
+   "angle": 0,
+   "length": 21.740157480314963,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 19.0,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_2",
+   "center": [
+    0.0,
+    37.846456692913385
+   ],
+   "angle": 0,
+   "length": 55.93307086614173,
+   "cage": 30,
+   "label": "",
+   "z": 1.9035433070866148,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_3",
+   "center": [
+    0.0,
+    19.086614173228348
+   ],
+   "angle": 90,
+   "length": 59.77952755905511,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 38.0
+  },
+  {
+   "type": "CageCube",
+   "id": "C LED (CCM1)",
+   "center": [
+    0.0,
+    37.846456692913385
+   ],
+   "angle": 90,
+   "split_ratio": [
+    0.5,
+    0.5
+   ],
+   "coating_color": "#ffffff",
+   "cage": 30,
+   "label": "C LED (CCM1)",
+   "z": 87.0,
+   "rotation_x": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_4",
+   "center": [
+    0.0,
+    37.846456692913385
+   ],
+   "angle": 0,
+   "length": 32.74015748031496,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 62.5,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_5",
+   "center": [
+    0.0,
+    37.846456692913385
+   ],
+   "angle": 0,
+   "length": 0.0,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 95.12992125984252,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "J1 (KCB1)",
+   "center": [
+    0.0,
+    37.846456692913385
+   ],
+   "angle": 0,
+   "cage": 30,
+   "label": "J1 (KCB1)",
+   "z": 103.25984251968504,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "J2 (KCB1)",
+   "center": [
+    0.0,
+    54.10629921259842
+   ],
+   "angle": 90,
+   "cage": 30,
+   "label": "J2 (KCB1)",
+   "z": 103.25984251968504,
+   "rotation_x": 90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "LensTube",
+   "id": "Tube",
+   "center": [
+    0.0,
+    54.10629921259842
+   ],
+   "angle": 0,
+   "diameter": 8.0,
+   "length": 45.0,
+   "label": "Tube",
+   "z": 133.88976377952756,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "LensTube",
+   "id": "Tube (upper)",
+   "center": [
+    0.0,
+    54.10629921259842
+   ],
+   "angle": 0,
+   "diameter": 8.0,
+   "length": 18.0,
+   "label": "Tube (upper)",
+   "z": 165.38976377952756,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "Camera",
+   "id": "Camera",
+   "center": [
+    0.0,
+    54.10629921259842
+   ],
+   "angle": 0,
+   "label": "Camera",
+   "z": 177.38976377952756,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "LED KCB1 (upper)",
+   "center": [
+    0.0,
+    21.586614173228348
+   ],
+   "angle": 90,
+   "cage": 30,
+   "label": "LED KCB1 (upper)",
+   "z": 103.25984251968504,
+   "rotation_x": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "LED KCB1 (lower)",
+   "center": [
+    0.0,
+    21.586614173228348
+   ],
+   "angle": 0,
+   "cage": 30,
+   "label": "LED KCB1 (lower)",
+   "z": 87.0,
+   "rotation_y": 90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_6",
+   "center": [
+    0.0,
+    21.586614173228348
+   ],
+   "angle": 0,
+   "length": 0.0,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 95.12992125984252,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "Lamp",
+   "id": "LED",
+   "center": [
+    0.0,
+    -23.413385826771652
+   ],
+   "angle": 90,
+   "label": "LED",
+   "z": 103.25984251968504,
+   "base_mount": "none"
+  },
+  {
+   "type": "LensTube",
+   "id": "LED lens",
+   "center": [
+    0.0,
+    1.586614173228348
+   ],
+   "angle": 90,
+   "diameter": 8.0,
+   "length": 20.0,
+   "label": "LED lens",
+   "z": 103.25984251968504,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_7",
+   "center": [
+    0.0,
+    -1.9783464566929112
+   ],
+   "angle": 90,
+   "length": 30.87007874015748,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 103.25984251968504
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "P1 (KCB1)",
+   "center": [
+    -16.259842519685037,
+    -15.748031496062993
+   ],
+   "angle": 90,
+   "cage": 30,
+   "label": "P1 (KCB1)",
+   "rotation_x": 90.0
+  },
+  {
+   "type": "CatalogCageCube",
+   "id": "DFM1BS",
+   "center": [
+    -16.259842519685037,
+    -15.748031496062993
+   ],
+   "angle": 0,
+   "part": "DFM1BS",
+   "label": "DFM1BS",
+   "z": 38.0,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "P2 (KCB1)",
+   "center": [
+    -16.259842519685037,
+    17.586614173228348
+   ],
+   "angle": 90,
+   "cage": 30,
+   "label": "P2 (KCB1)",
+   "z": 38.0,
+   "rotation_x": 180.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_8",
+   "center": [
+    -16.259842519685037,
+    -15.748031496062993
+   ],
+   "angle": 0,
+   "length": 21.740157480314963,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 19.0,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_9",
+   "center": [
+    -16.259842519685037,
+    -15.34055118110236
+   ],
+   "angle": 90,
+   "length": 49.59448818897638,
+   "end_plates": false,
+   "cage": 30,
+   "label": "",
+   "z": 38.0
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CRM1T",
+   "center": [
+    -16.259842519685037,
+    -34.00787401574803
+   ],
+   "angle": 90,
+   "part": "CRM1T",
+   "label": "CRM1T",
+   "z": 38.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CRM1T_1",
+   "center": [
+    -16.259842519685037,
+    6.511811023622045
+   ],
+   "angle": 90,
+   "part": "CRM1T",
+   "label": "CRM1T",
+   "z": 38.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "FiberCollimator",
+   "id": "003",
+   "center": [
+    -91.33858267716535,
+    -1.574803149606299
+   ],
+   "angle": 0,
+   "aperture": 6.0,
+   "length": 14.0,
+   "label": "003"
+  },
+  {
+   "type": "MotorizedMirror",
+   "id": "MM1",
+   "center": [
+    -78.3258169261742,
+    -1.3324771188247726
+   ],
+   "angle": 30.321123228604392,
+   "aperture": 10.0,
+   "label": "MM1"
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 A",
+   "center": [
+    -47.62057759290065,
+    -1.3267184645939392
+   ],
+   "angle": 31.120729699469962,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 A"
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 B",
+   "center": [
+    -96.87874282134015,
+    -33.299500949221745
+   ],
+   "angle": -151.5545061368323,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 B"
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 C",
+   "center": [
+    -91.75922647336313,
+    -84.089479300848
+   ],
+   "angle": -151.20411078952313,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 C"
+  },
+  {
+   "type": "Mirror",
+   "id": "D mirror (003)",
+   "center": [
+    -15.930015671590038,
+    -38.14400793816998
+   ],
+   "angle": -46.59591851489432,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "D mirror (003)"
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 E",
+   "center": [
+    -15.933397617800978,
+    -90.11567969242674
+   ],
+   "angle": -47.14904654149572,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 E"
+  },
+  {
+   "type": "FiberCollimator",
+   "id": "Olaf E",
+   "center": [
+    74.01574803149606,
+    68.89763779527559
+   ],
+   "angle": -90,
+   "aperture": 6.0,
+   "length": 14.0,
+   "label": "Olaf E"
+  },
+  {
+   "type": "Filter",
+   "id": "Filter",
+   "center": [
+    74.01574803149606,
+    55.118110236220474
+   ],
+   "angle": -90,
+   "aperture": 8.0,
+   "pass_band": "longpass",
+   "label": "Filter"
+  },
+  {
+   "type": "MotorizedMirror",
+   "id": "MM2",
+   "center": [
+    74.36671922599461,
+    29.200115593384243
+   ],
+   "angle": -43.01375202962464,
+   "aperture": 10.0,
+   "label": "MM2"
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 F",
+   "center": [
+    45.22570192631155,
+    27.74243568774879
+   ],
+   "angle": 157.5397207677862,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 F"
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 G",
+   "center": [
+    89.4148612639555,
+    -21.06141688635957
+   ],
+   "angle": -24.00543115702257,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 G"
+  },
+  {
+   "type": "Mirror",
+   "id": "KM100 I",
+   "center": [
+    74.35515928646561,
+    -76.71736401087506
+   ],
+   "angle": -45.0,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "KM100 I"
+  },
+  {
+   "type": "CageRightAngleMirror",
+   "id": "Olaf E in (KCB1)",
+   "center": [
+    0.0,
+    -76.37795275590551
+   ],
+   "angle": 0,
+   "cage": 30,
+   "label": "Olaf E in (KCB1)",
+   "rotation_y": 180.0
+  },
+  {
+   "type": "CageCube",
+   "id": "CCM1",
+   "center": [
+    0.0,
+    -20.866141732283463
+   ],
+   "angle": 0,
+   "split_ratio": [
+    0.5,
+    0.5
+   ],
+   "coating_color": "#ffffff",
+   "cage": 30,
+   "label": "CCM1",
+   "rotation_y": 180.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_10",
+   "center": [
+    0.0,
+    -31.39566929133858
+   ],
+   "angle": 90,
+   "length": 41.18503937007875,
+   "end_plates": false,
+   "cage": 30,
+   "label": ""
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CRM1T_2",
+   "center": [
+    0.0,
+    -47.24409448818898
+   ],
+   "angle": 90,
+   "part": "CRM1T",
+   "label": "CRM1T",
+   "base_mount": "none"
+  },
+  {
+   "type": "FiberCollimator",
+   "id": "Olaf 1",
+   "center": [
+    -38.58267716535433,
+    84.64566929133858
+   ],
+   "angle": -90,
+   "aperture": 6.0,
+   "length": 14.0,
+   "label": "Olaf 1"
+  },
+  {
+   "type": "Photodiode",
+   "id": "PD",
+   "center": [
+    44.881889763779526,
+    84.64566929133858
+   ],
+   "angle": -90,
+   "label": "PD"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "Olaf E lift (KCB1) fork",
+   "center": [
+    -17.59928547230009,
+    -17.53231327314564
+   ],
+   "angle": -139.82558191157153,
+   "part": "CF125",
+   "label": "Olaf E lift (KCB1) fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "P1 (KCB1) fork",
+   "center": [
+    -28.144608626981054,
+    -34.52180362170931
+   ],
+   "angle": -109.0,
+   "part": "CF125",
+   "label": "P1 (KCB1) fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "003 fork",
+   "center": [
+    -80.40794979386041,
+    -10.462262093727833
+   ],
+   "angle": -43.0,
+   "part": "CF125",
+   "label": "003 fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "MM1 fork",
+   "center": [
+    -69.3240255698336,
+    11.407085705732465
+   ],
+   "angle": 59.99999999999999,
+   "part": "CF125",
+   "label": "MM1 fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 A fork",
+   "center": [
+    -49.67807314321868,
+    -12.328998063139757
+   ],
+   "angle": -109.0,
+   "part": "CF125",
+   "label": "KM100 A fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 B fork",
+   "center": [
+    -83.95962786858492,
+    -41.98987324243224
+   ],
+   "angle": -35.0,
+   "part": "CF125",
+   "label": "KM100 B fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 C fork",
+   "center": [
+    -76.61769101384468,
+    -83.5053613522746
+   ],
+   "angle": 8.0,
+   "part": "CF125",
+   "label": "KM100 C fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "D mirror (003) fork",
+   "center": [
+    -5.221640042045125,
+    -49.46618196385616
+   ],
+   "angle": -46.59591851489434,
+   "part": "CF125",
+   "label": "D mirror (003) fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 E fork",
+   "center": [
+    -1.5530539057742008,
+    -88.83437790158636
+   ],
+   "angle": 14.0,
+   "part": "CF125",
+   "label": "KM100 E fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "Olaf E fork",
+   "center": [
+    64.64167425542938,
+    58.44519997551463
+   ],
+   "angle": -136.0,
+   "part": "CF125",
+   "label": "Olaf E fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "Filter fork",
+   "center": [
+    64.64167425542938,
+    46.06567241645953
+   ],
+   "angle": -136.0,
+   "part": "CF125",
+   "label": "Filter fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "MM2 fork",
+   "center": [
+    70.75991451947472,
+    15.522823747192684
+   ],
+   "angle": -116.00000000000001,
+   "part": "CF125",
+   "label": "MM2 fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 F fork",
+   "center": [
+    50.07110771255706,
+    15.925529294662866
+   ],
+   "angle": -79.0,
+   "part": "CF125",
+   "label": "KM100 F fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 G fork",
+   "center": [
+    78.71707631892687,
+    -21.872402234705834
+   ],
+   "angle": 179.0,
+   "part": "CF125",
+   "label": "KM100 G fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "KM100 I fork",
+   "center": [
+    63.130538042422,
+    -78.29482310407651
+   ],
+   "angle": 179.0,
+   "part": "CF125",
+   "label": "KM100 I fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "Olaf E in (KCB1) fork",
+   "center": [
+    14.782086096324024,
+    -69.94947839004863
+   ],
+   "angle": 14.0,
+   "part": "CF125",
+   "label": "Olaf E in (KCB1) fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "Olaf 1 fork",
+   "center": [
+    -51.542785329405454,
+    81.88350703379552
+   ],
+   "angle": -174.0,
+   "part": "CF125",
+   "label": "Olaf 1 fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "PD fork",
+   "center": [
+    40.85493601818474,
+    71.75198004355528
+   ],
+   "angle": -108.0,
+   "part": "CF125",
+   "label": "PD fork"
+  }
+ ],
+ "routes": [],
+ "beams": [
+  {
+   "path": [
+    [
+     "003",
+     "out"
+    ],
+    [
+     "MM1",
+     "io"
+    ],
+    [
+     "KM100 B",
+     "io"
+    ],
+    [
+     "D mirror (003)",
+     "io"
+    ],
+    [
+     "P1 (KCB1)",
+     "in"
+    ],
+    [
+     "P1 (KCB1)",
+     "out"
+    ],
+    [
+     "DFM1BS",
+     "in"
+    ],
+    [
+     "DFM1BS",
+     "refl"
+    ],
+    [
+     "P2 (KCB1)",
+     "in"
+    ],
+    [
+     "P2 (KCB1)",
+     "out"
+    ],
+    [
+     "C1 (CCM1)",
+     "in"
+    ],
+    [
+     "C1 (CCM1)",
+     "refl"
+    ],
+    [
+     "U1 (CCM1)",
+     "tap"
+    ],
+    [
+     "U1 (CCM1)",
+     "refl"
+    ],
+    [
+     "KCB2",
+     "in"
+    ],
+    [
+     "KCB2",
+     "out"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
+    ]
+   ],
+   "wavelength": 633.0,
+   "width": 1.4,
+   "label": "003, MM1 in the beam",
+   "color": "#f39c12"
+  },
+  {
+   "path": [
+    [
+     "003",
+     "out"
+    ],
+    [
+     "KM100 A",
+     "io"
+    ],
+    [
+     "KM100 C",
+     "io"
+    ],
+    [
+     "KM100 E",
+     "io"
+    ],
+    [
+     "P1 (KCB1)",
+     "in"
+    ],
+    [
+     "P1 (KCB1)",
+     "out"
+    ],
+    [
+     "DFM1BS",
+     "in"
+    ],
+    [
+     "DFM1BS",
+     "refl"
+    ],
+    [
+     "P2 (KCB1)",
+     "in"
+    ],
+    [
+     "P2 (KCB1)",
+     "out"
+    ],
+    [
+     "C1 (CCM1)",
+     "in"
+    ],
+    [
+     "C1 (CCM1)",
+     "refl"
+    ],
+    [
+     "U1 (CCM1)",
+     "tap"
+    ],
+    [
+     "U1 (CCM1)",
+     "refl"
+    ],
+    [
+     "KCB2",
+     "in"
+    ],
+    [
+     "KCB2",
+     "out"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
+    ]
+   ],
+   "wavelength": 633.0,
+   "width": 1.4,
+   "label": "003, MM1 turned away",
+   "color": "#8ecdf5"
+  },
+  {
+   "path": [
+    [
+     "Olaf E",
+     "out"
+    ],
+    [
+     "Filter",
+     "in"
+    ],
+    [
+     "Filter",
+     "out"
+    ],
+    [
+     "MM2",
+     "io"
+    ],
+    [
+     "KM100 F",
+     "io"
+    ],
+    [
+     "KM100 G",
+     "io"
+    ],
+    [
+     "CCM1",
+     "in"
+    ],
+    [
+     "CCM1",
+     "refl"
+    ],
+    [
+     "Olaf E lift (KCB1)",
+     "in"
+    ],
+    [
+     "Olaf E lift (KCB1)",
+     "out"
+    ],
+    [
+     "Olaf E lift (upper KCB1)",
+     "in"
+    ],
+    [
+     "Olaf E lift (upper KCB1)",
+     "out"
+    ],
+    [
+     "C1 (CCM1)",
+     "tap"
+    ],
+    [
+     "C1 (CCM1)",
+     "refl"
+    ],
+    [
+     "U1 (CCM1)",
+     "tap"
+    ],
+    [
+     "U1 (CCM1)",
+     "refl"
+    ],
+    [
+     "KCB2",
+     "in"
+    ],
+    [
+     "KCB2",
+     "out"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
+    ]
+   ],
+   "wavelength": 633.0,
+   "width": 1.4,
+   "label": "Olaf E, MM2 in the beam",
+   "color": "#d62828"
+  },
+  {
+   "path": [
+    [
+     "Olaf E",
+     "out"
+    ],
+    [
+     "Filter",
+     "in"
+    ],
+    [
+     "Filter",
+     "out"
+    ],
+    [
+     "KM100 I",
+     "io"
+    ],
+    [
+     "Olaf E in (KCB1)",
+     "in"
+    ],
+    [
+     "Olaf E in (KCB1)",
+     "out"
+    ],
+    [
+     "CCM1",
+     "tap"
+    ],
+    [
+     "CCM1",
+     "refl"
+    ],
+    [
+     "Olaf E lift (KCB1)",
+     "in"
+    ],
+    [
+     "Olaf E lift (KCB1)",
+     "out"
+    ],
+    [
+     "Olaf E lift (upper KCB1)",
+     "in"
+    ],
+    [
+     "Olaf E lift (upper KCB1)",
+     "out"
+    ],
+    [
+     "C1 (CCM1)",
+     "tap"
+    ],
+    [
+     "C1 (CCM1)",
+     "refl"
+    ],
+    [
+     "U1 (CCM1)",
+     "tap"
+    ],
+    [
+     "U1 (CCM1)",
+     "refl"
+    ],
+    [
+     "KCB2",
+     "in"
+    ],
+    [
+     "KCB2",
+     "out"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
+    ]
+   ],
+   "wavelength": 633.0,
+   "width": 1.4,
+   "label": "Olaf E, MM2 turned away",
+   "color": "#1f4fd6"
+  },
+  {
+   "path": [
+    [
+     "LED",
+     "out"
+    ],
+    [
+     "LED lens",
+     "in"
+    ],
+    [
+     "LED lens",
+     "out"
+    ],
+    [
+     "LED KCB1 (upper)",
+     "in"
+    ],
+    [
+     "LED KCB1 (upper)",
+     "out"
+    ],
+    [
+     "LED KCB1 (lower)",
+     "in"
+    ],
+    [
+     "LED KCB1 (lower)",
+     "out"
+    ],
+    [
+     "C LED (CCM1)",
+     "in"
+    ],
+    [
+     "C LED (CCM1)",
+     "refl"
+    ],
+    [
+     "U1 (CCM1)",
+     "in"
+    ],
+    [
+     "U1 (CCM1)",
+     "refl"
+    ],
+    [
+     "KCB2",
+     "in"
+    ],
+    [
+     "KCB2",
+     "out"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
+    ]
+   ],
+   "wavelength": 590.0,
+   "width": 0.8,
+   "label": "LED",
+   "opacity": 0.5
+  },
+  {
+   "path": [
+    [
+     "Cryostat",
+     "sample"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "KCB2",
+     "out"
+    ],
+    [
+     "KCB2",
+     "in"
+    ],
+    [
+     "U1 (CCM1)",
+     "refl"
+    ],
+    [
+     "U1 (CCM1)",
+     "in"
+    ],
+    [
+     "C LED (CCM1)",
+     "refl"
+    ],
+    [
+     "C LED (CCM1)",
+     "tap"
+    ],
+    [
+     "J1 (KCB1)",
+     "in"
+    ],
+    [
+     "J1 (KCB1)",
+     "out"
+    ],
+    [
+     "J2 (KCB1)",
+     "in"
+    ],
+    [
+     "J2 (KCB1)",
+     "out"
+    ],
+    [
+     "Tube",
+     "in"
+    ],
+    [
+     "Tube",
+     "out"
+    ],
+    [
+     "Tube (upper)",
+     "in"
+    ],
+    [
+     "Tube (upper)",
+     "out"
+    ],
+    [
+     "Camera",
+     "in"
+    ]
+   ],
+   "wavelength": 590.0,
+   "width": 0.8,
+   "label": "Imaging",
+   "opacity": 0.5
+  }
+ ]
+}

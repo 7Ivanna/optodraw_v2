@@ -47,6 +47,12 @@ class Component:
     """
 
     component_type: ClassVar[str] = "Component"
+
+    # Every part takes these as keyword arguments, whatever its own constructor reads: a height above where it would
+    # stand (``z``), its turns out of the table plane (``rotation_x``, ``rotation_y``) and its 3D base. They are set
+    # once the part is built (see __init_subclass__), so a constructor that never heard of them still honours them.
+    _PLACEMENT_KEYS: ClassVar[tuple[str, ...]] = ("z", "rotation_x", "rotation_y", "base_mount")
+
     label: str = ""
     color: str = "#888888"
     opacity: float = 1.0
@@ -102,13 +108,22 @@ class Component:
             cls.component_type = cls.__name__
         # Most parts write their own __init__ and set only the fields they know; the side of the label is
         # every part's, so it is applied here and no constructor can drop it.
+        # The same holds for its placement in 3D: its height (z), its turns out of the table plane and its base.
         init = cls.__dict__.get("__init__")
         if init is not None and not getattr(init, "_keeps_label_side", False):
             def __init__(self, *args, _init=init, **kw):
                 side = kw.pop("label_side", None)
+                placed = {key: kw.pop(key) for key in Component._PLACEMENT_KEYS if key in kw}
                 _init(self, *args, **kw)
                 if side is not None:
                     self.label_side = side
+                for key, value in placed.items():
+                    if value is None:
+                        continue
+                    if key == "base_mount":
+                        self.base_mount = str(value)
+                    else:
+                        setattr(self, key, float(value))
             __init__.__wrapped__ = init
             __init__.__doc__ = init.__doc__
             __init__._keeps_label_side = True
@@ -234,6 +249,45 @@ class Component:
         if name not in ports:
             raise KeyError(f"Component {self.component_type} has no world port '{name}'")
         return ports[name]
+
+    @property
+    def z(self) -> float:
+        """The part's height above where it would stand, in scene units: above the bench beam plane for an optic
+        on a post (its post grows to reach it), above the table for anything that stands on the table. The
+        beams that meet the part meet it there. 3D only: the 2D and 1D views draw the plan."""
+
+        return float(self.transform.position.z)
+
+    @z.setter
+    def z(self, value: float) -> None:
+        p = self.transform.position
+        self.transform.position = Vec3(p.x, p.y, float(value))
+
+    @property
+    def rotation_x(self) -> float:
+        """The turn about the part's own x axis (its beam axis), in degrees: 90 stands a fold that sends light
+        up the plan so that it sends light up off the table. 3D only: the 2D and 1D views draw the part from
+        above as if it were not turned."""
+
+        return float(self.transform.rotation_deg.x)
+
+    @rotation_x.setter
+    def rotation_x(self, degrees: float) -> None:
+        r = self.transform.rotation_deg
+        self.transform.rotation_deg = Vec3(float(degrees), r.y, r.z)
+
+    @property
+    def rotation_y(self) -> float:
+        """The tilt about the part's own y axis (across the beam, in the table plane), in degrees: a positive
+        tilt turns a mirror's face up, so that it sends light up off the table. Applied after ``rotation_x``
+        and before ``angle``. 3D only, as ``rotation_x``."""
+
+        return float(self.transform.rotation_deg.y)
+
+    @rotation_y.setter
+    def rotation_y(self, degrees: float) -> None:
+        r = self.transform.rotation_deg
+        self.transform.rotation_deg = Vec3(r.x, float(degrees), r.z)
 
     # -- serialization (for MCP / AI) --------------------------------------
     def to_dict(self) -> dict[str, Any]:

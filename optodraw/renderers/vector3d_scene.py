@@ -18,7 +18,7 @@ from optodraw.renderers.threejs_renderer import PageConstants, ThreeJsRenderer
 from optodraw.renderers.vector3d_hidden import Camera, _direction
 from optodraw.renderers.vector3d_solids import (
     KINDS, Band, Box, SolidSet, Vector3DError, add_solid, box, box_union, cylinder, look_of, nodes, solids_from_tree,
-    three_box, tree_box, trs, tube_path)
+    lowest_point, three_box, tree_box, trs, tube_path)
 
 # The page's mount hardware, against the 1 in optic it draws at 10 units (OPTIC_UNIT and the radii below it)
 OPTIC_UNIT = 10.0
@@ -140,20 +140,30 @@ def _mount_for(item: dict, k: PageConstants, root: dict) -> dict | None:
 
     if item.get("baseMount") == "none":
         return None
-    x, _, z = item["position"]
-    axis = k.beam_plane + (item.get("lift") or 0)      # a part after a periscope rides at its exit height
+    x, raised, z = item["position"]
+    axis = k.beam_plane + (item.get("lift") or 0) + (raised or 0)   # its run's height, and its own z above it
     rotation = item.get("rotation")
     local = tree_box(root, np.eye(4), item.get("sid") or "")
     world = tree_box(root, trs((x, axis, z), rotation), item.get("sid") or "")
     bottom = world[0][1] if world is not None else axis
     held = root.get("post_at")                          # a JS array is true even when empty
+    tilt = None                                         # turned out of the table plane: as the 3D page does
+    if item.get("tilted") and world is not None:
+        if held is not None:
+            w = trs((x, axis, z), rotation) @ np.array([held[0], held[1], held[2], 1.0])
+            if w[1] <= bottom + 0.35 * (world[1][1] - world[0][1]):
+                tilt = (float(w[0]), float(w[1]), float(w[2]))
+        if tilt is None:                                # the corner a tilted mount rests on
+            tilt = lowest_point(root, trs((x, axis, z), rotation), item.get("sid") or "") \
+                or ((world[0][0] + world[1][0]) / 2, bottom, (world[0][2] + world[1][2]) / 2)
+        held = None
     yaw = rotation[1] if rotation else 0
     lx = held[0] if held is not None else ((local[0][0] + local[1][0]) / 2 if local is not None else 0)
     lz = held[2] if held is not None else ((local[0][2] + local[1][2]) / 2 if local is not None else 0)
-    px = x + lx * math.cos(yaw) + lz * math.sin(yaw)
-    pz = z - lx * math.sin(yaw) + lz * math.cos(yaw)
+    px = tilt[0] if tilt else x + lx * math.cos(yaw) + lz * math.sin(yaw)
+    pz = tilt[2] if tilt else z - lx * math.sin(yaw) + lz * math.cos(yaw)
     given = item.get("mountHeight")
-    post_top = given if given is not None else (axis + held[1] if held is not None else bottom) + 0.15
+    post_top = given if given is not None else (tilt[1] if tilt else axis + held[1] if held is not None else bottom) + 0.15
     if item.get("baseMount") in STAGES:
         return STAGES[item["baseMount"]](px, pz, post_top, k)
     if item.get("baseMount") == "post_beam":
@@ -172,7 +182,7 @@ def place_mesh(item: dict, k: PageConstants, catalog: dict, out: SolidSet) -> li
     mount = None
     if item.get("beamPlane"):
         mount = _mount_for(item, k, root)
-        y = k.beam_plane + (item.get("lift") or 0)
+        y = k.beam_plane + (item.get("lift") or 0) + (y or 0)
     else:
         if item.get("zScale"):
             sx, sy, sz = root.get("scale") or (1.0, 1.0, 1.0)

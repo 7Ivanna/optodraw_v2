@@ -107,6 +107,8 @@ from optodraw.components.optics.optomech import (
 from optodraw.components.optics.filters_modulators import FaradayRotator  # noqa: E402
 from optodraw.components.optics.cavities import ModeCleaner  # noqa: E402
 from optodraw.components.optics.mirrors import RoofMirror  # noqa: E402
+# 30 mm cage-system parts, the stepper-motor mirror and the cryostat cabinet a bench sits on.
+from optodraw.components.optics.cage import CageCube, CageRods, CageRightAngleMirror, CageTower, CageWavePlate, CryostatCabinet, MotorizedMirror  # noqa: E402
 
 __all__ = [
 	"Lens",
@@ -186,4 +188,11 @@ __all__ = [
 	"FaradayRotator",
 	"ModeCleaner",
 	"RoofMirror",
+	"CageCube",
+	"CageRods",
+	"CageRightAngleMirror",
+	"CageWavePlate",
+	"MotorizedMirror",
+	"CageTower",
+	"CryostatCabinet",
 ]

@@ -341,6 +341,15 @@ def component_to_spec(
     for flag in ("flip_horizontal", "flip_vertical"):
         if getattr(component, flag, False):
             spec[flag] = True
+    if isinstance(spec.get("center"), list) and len(spec["center"]) == 3:
+        spec["center"] = spec["center"][:2]                       # the height is its own key, kept by a 2D move
+    height = float(component.transform.position.z)
+    if abs(height) > 1e-9 and component_type != "Group":
+        spec["z"] = height
+    for axis in ("x", "y"):                                       # a turn out of the table plane (3D)
+        turn = float(getattr(component.transform.rotation_deg, axis))
+        if abs(turn) > 1e-9:
+            spec[f"rotation_{axis}"] = turn
     beam_height = getattr(component, "beam_height", None)
     if beam_height is not None and not getattr(component, "_scene_beam", False):
         spec["beam_height"] = float(beam_height)
@@ -649,7 +658,7 @@ def component_from_spec(spec: dict[str, Any], *, refs: dict[str, Component] | No
     constructor_kwargs = {
         key: _anchor_from_spec(value, refs)
         for key, value in spec.items()
-        if key not in {"type", "id", "physical_spec", "base_mount", "anim_params", "beam_height", "label_side",
+        if key not in {"type", "id", "physical_spec", "base_mount", "anim_params", "beam_height", "label_side", "rotation_x", "rotation_y", "z",
                        "center_offset", "sources", "left_open"}
     }
     stored = None
@@ -679,6 +688,18 @@ def component_from_spec(spec: dict[str, Any], *, refs: dict[str, Component] | No
     # incl. devices whose constructors don't take them): 3D mount + animation choices.
     if "base_mount" in spec:
         component.base_mount = str(spec["base_mount"])
+    if spec.get("z") is not None:
+        height = spec["z"]
+        if isinstance(height, bool) or not isinstance(height, (int, float)):
+            raise ValueError(f"z is a height in scene units, got {height!r}")
+        component.z = float(height)
+    for key in ("rotation_x", "rotation_y"):
+        turn = spec.get(key)
+        if turn is None:
+            continue
+        if isinstance(turn, bool) or not isinstance(turn, (int, float)):
+            raise ValueError(f"{key} is a number of degrees, got {turn!r}")
+        setattr(component, key, float(turn))
     if isinstance(spec.get("anim_params"), dict):
         component.anim_params = dict(spec["anim_params"])
     if spec.get("label_side"):

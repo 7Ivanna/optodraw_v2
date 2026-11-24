@@ -606,10 +606,13 @@ class EditorSession:
         params = dict(params or {})
         params.pop("type", None)
         params.pop("id", None)
+        near = params.pop("near", None)                  # where the person is looking: put it there, in a free spot
         with self._lock:
             component_id = self._new_id(name)
             entry = {"type": name, "id": component_id, **params}
-            if "center" not in entry:
+            if "center" not in entry and near is not None:
+                entry["center"] = self._free_spot(near)
+            elif "center" not in entry:
                 # Default new parts onto the optical axis (y=0), stepped along x so
                 # mirrors, lenses, etc. line up on the same plane instead of stacking.
                 n = len(self._spec["components"])
@@ -629,6 +632,29 @@ class EditorSession:
                 except Exception:
                     pass  # portless/degenerate placement must never block the add
             return component_id
+
+    def _free_spot(self, near: Any, clear: float = 14.0, step: float = 18.0) -> list[float]:
+        """The point nearest ``near`` (x, y) that no part's centre is within ``clear`` of: the spot itself, then rings
+        of eight spots ``step`` apart round it. A breadboard or a table is the ground, not a part in the way."""
+
+        try:
+            x0, y0 = float(near[0]), float(near[1])
+        except (TypeError, ValueError, IndexError) as error:
+            raise ValueError(f"near is a point [x, y], got {near!r}") from error
+        ground = {"OpticalTable", "Breadboard", "Baseplate", "Grid", "ChipSubstrate", "PCB"}
+        taken = [(float(c["center"][0]), float(c["center"][1])) for c in self._spec["components"]
+                 if c.get("type") not in ground and isinstance(c.get("center"), list) and len(c["center"]) >= 2
+                 and all(isinstance(v, (int, float)) for v in c["center"][:2])]
+
+        def free(x: float, y: float) -> bool:
+            return all(math.hypot(x - a, y - b) >= clear for a, b in taken)
+
+        for ring in range(0, 12):
+            spots = [(x0, y0)] if ring == 0 else [(x0 + ring * step * math.cos(math.pi * k / 4), y0 + ring * step * math.sin(math.pi * k / 4)) for k in range(8)]
+            for x, y in spots:
+                if free(x, y):
+                    return [round(x, 1), round(y, 1)]
+        return [round(x0, 1), round(y0, 1)]
 
     def add_part(self, definition, params=None):
         """Place a frozen definition and carry its tables through scene history."""
@@ -1081,6 +1107,10 @@ class EditorSession:
             for entry in self._spec["components"]:
                 if entry.get("id") == item_id:
                     merged = {**entry, **params}
+                    if params.get("part") and params.get("part") != entry.get("part"):
+                        # a new part number brings its own sizes: the sizes set by hand on the old one go
+                        merged = {k: v for k, v in merged.items() if not (k.endswith("_mm") and k not in params)}
+                    merged = {k: v for k, v in merged.items() if not (k.endswith("_mm") and v is None)}
                     if "part_definition" in entry:
                         from optodraw.parts.serialization import read_definitions
                         if "parameters" in params:
@@ -1338,8 +1368,9 @@ class EditorSession:
                             removed_ids: set[str] = set()
 
                             def collect_ids(component: dict[str, Any]) -> None:
-                                if component.get("id"):
-                                    removed_ids.add(component["id"])
+                                for name in (component.get("id"), component.get("label")):   # a beam may name either
+                                    if name:
+                                        removed_ids.add(name)
                                 for child in component.get("children") or []:
                                     if isinstance(child, dict):
                                         collect_ids(child)
@@ -1354,11 +1385,21 @@ class EditorSession:
                                 return False
 
                             collect_ids(entry)
-                            self._spec["beams"] = [
-                                beam for beam in self._spec.get("beams", [])
-                                if beam.get("traced_from") not in removed_ids
-                                and not any(references_removed(point) for point in (beam.get("path") or []))
-                            ]
+                            # a beam through the part skips it, straight on from the stop before to the stop
+                            # after; it goes only when fewer than two stops are left
+                            beams = []
+                            for beam in self._spec.get("beams", []):
+                                if beam.get("traced_from") in removed_ids:
+                                    continue
+                                path = beam.get("path")
+                                if isinstance(path, list):
+                                    kept = [point for point in path if not references_removed(point)]
+                                    if len(kept) < len(path):
+                                        if len(kept) < 2:
+                                            continue
+                                        beam = {**beam, "path": kept}
+                                beams.append(beam)
+                            self._spec["beams"] = beams
                             self._spec["routes"] = [
                                 route for route in self._spec.get("routes", [])
                                 if not references_removed(route.get("from"))

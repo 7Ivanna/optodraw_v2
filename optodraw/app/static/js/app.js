@@ -342,7 +342,8 @@ function paletteAdd(name) {
   if (name === "GDSModel") { document.getElementById("file-gds").click(); return; }
   if (name === "CustomModel") { document.getElementById("file-model").click(); return; }
   withStatus(`Adding ${name}`, async () => {
-    const payload = await api.create(name); // backend places it on the optical axis
+    const middle = canvas.viewCenter();          // the backend puts it where you look, in a free spot
+    const payload = await api.create(name, middle ? { near: middle } : {});
     commit(payload);
     // snap the freshly-placed component onto the grid so it lands aligned
     if (snapOn && payload.id) {
@@ -985,12 +986,40 @@ function deleteSelected() {
     (currentSpec?.beams || []).filter((b) => ids.includes(b.id) && b.traced_from).map((b) => b.traced_from),
   );
   return applySpec("Delete", (next) => {
+    // the names a deleted part goes by (its id, its label, and those of the parts inside it): a beam or route that
+    // still named one would stop the scene loading
+    const gone = new Set();
+    const collect = (c) => {
+      if (!c || typeof c !== "object") return;
+      if (c.id) gone.add(c.id);
+      if (c.label) gone.add(c.label);
+      (c.children || []).forEach(collect);
+    };
+    (next.components || []).filter((c) => ids.includes(c.id)).forEach(collect);
     for (const key of ["components", "beams", "routes"]) {
       next[key] = (next[key] || []).filter(
         (x) => !ids.includes(x.id) && !(key === "beams" && x.traced_from && offSources.has(x.traced_from)),
       );
     }
+    // a part some light went through: the beam skips it (straight on from the stop before to the stop after) and
+    // goes only when fewer than two stops are left; a route that started or ended on it goes with it
+    next.beams = next.beams.flatMap((b) => {
+      if (b.traced_from && gone.has(b.traced_from)) return [];
+      if (!Array.isArray(b.path)) return [b];
+      const path = b.path.filter((p) => !refersTo(p, gone));
+      if (path.length === b.path.length) return [b];
+      return path.length >= 2 ? [{ ...b, path }] : [];
+    });
+    next.routes = next.routes.filter((r) => !refersTo(r.from, gone) && !refersTo(r.to, gone));
   }, { reselect: [] });
+}
+
+// whether a beam stop or route end names one of the parts in `names`: "M", ["M", "out"], or {component: "M", ...}
+function refersTo(end, names) {
+  if (typeof end === "string") return names.has(end);
+  if (Array.isArray(end)) return typeof end[0] === "string" && names.has(end[0]);
+  if (end && typeof end === "object") return ["id", "component", "component_id"].some((f) => names.has(end[f]));
+  return false;
 }
 
 function duplicateSelected() {
@@ -2862,7 +2891,7 @@ function setView(mode) {
   }
   if (is3d) {
     els.view3d.src = threejsSrc();
-    setStatus("3D view: drag to orbit, scroll to zoom. Select a part, then M moves it and R rotates it");
+    setStatus("3D view: drag to orbit, scroll to zoom. Select a part, then M moves (and lifts) it; X, Y and Z turn it about its own x, its own y and the vertical");
   }
 }
 
@@ -2886,11 +2915,23 @@ window.addEventListener("message", (e) => {
   } else if (data.type === "optodraw-move" && data.id) {
     withStatus("Moving", async () => {
       commit(await api.move(data.id, data.center)); // angle unchanged
+      const dz = Number(data.dz) || 0;
+      if (Math.abs(dz) > 1e-3) {                     // lifted on the gizmo's up arrow: a new height
+        const entry = (currentSpec?.components || []).find((c) => c.id === data.id) || {};
+        const z = Math.round(((Number(entry.z) || 0) + dz) * 10) / 10;
+        commit(await api.update(data.id, { z: z === 0 ? null : z }));
+      }
       canvas.select(data.id); // keep selection -> 3D re-highlights + re-attaches gizmo
     });
   } else if (data.type === "optodraw-rotate" && data.id) {
     withStatus("Rotating", async () => {
-      commit(await api.update(data.id, { angle: Math.round(data.angle * 10) / 10 }));
+      const round = (v) => Math.round((Number(v) || 0) * 10) / 10;
+      const turn = { angle: round(data.angle) };
+      for (const key of ["rotation_x", "rotation_y"]) {
+        const v = round(data[key]);
+        turn[key] = v === 0 ? null : v;              // a flat part saves no turn
+      }
+      commit(await api.update(data.id, turn));
       canvas.select(data.id); // sync 2D + reattach gizmo
     });
   }
@@ -2939,6 +2980,13 @@ document.addEventListener("keydown", (e) => {
     const step = e.shiftKey ? 10 : 1;
     const d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] }[e.key];
     if (d) nudge(d[0], d[1]);
+  } else if (!mod && !inField && in3d() && canvas.selectedIds.length) {
+    // the 3D handle keys, wherever the focus is (the 3D page hears them itself only once it has the focus):
+    // X turns the part about its own x (its beam axis), Y about its own y, Z (or R) about the vertical; M/G/T moves
+    // and lifts it
+    const mode = { x: "roll", y: "tilt", z: "rotate", r: "rotate", m: "translate", g: "translate",
+                   t: "translate" }[e.key.toLowerCase()];
+    if (mode) { e.preventDefault(); post3d({ type: "optodraw-gizmo", mode }); }
   }
 });
 

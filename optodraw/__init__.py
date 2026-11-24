@@ -297,6 +297,8 @@ from optodraw.components.electronics import (
 from optodraw.components.instruments import RFSpectrumAnalyzer
 from optodraw.components.models import CustomModel, GDSModel
 from optodraw.components.optics import FaradayRotator, ModeCleaner, RoofMirror
+from optodraw.components.vendor import CatalogAdapter, CatalogCageCube, CatalogCageMount, CatalogCamera, CatalogCollimator, CatalogCubeSplitter, CatalogDichroic, CatalogFilter, CatalogGlanPolarizer, CatalogHardware, CatalogLED, CatalogLens, CatalogLensTube, CatalogMirror, CatalogNDFilter, CatalogPhotodiode, CatalogPlateSplitter, CatalogPolarizer, CatalogRightAngleMount, CatalogSleeve, CatalogTableClamp, CatalogWavePlate
+from optodraw.components.optics import CageCube, CageRightAngleMirror, CageRods, CageTower, CageWavePlate, CryostatCabinet, MotorizedMirror
 from optodraw.components.devices import BalancedDetector
 from optodraw.parts import PartDefinition, PartLibrary, UserPart, define_part, register_part, load_part, save_part
 from optodraw.parts import import_svg_part
@@ -805,5 +807,34 @@ __all__ = [
     "FaradayRotator",
     "ModeCleaner",
     "RoofMirror",
+    "CageCube",
+    "CageRods",
+    "CageRightAngleMirror",
+    "CageWavePlate",
+    "CatalogLens",
+    "CatalogLensTube",
+    "CatalogAdapter",
+    "CatalogFilter",
+    "CatalogNDFilter",
+    "CatalogWavePlate",
+    "CatalogGlanPolarizer",
+    "CatalogPolarizer",
+    "CatalogCubeSplitter",
+    "CatalogPlateSplitter",
+    "CatalogMirror",
+    "CatalogDichroic",
+    "CatalogCageMount",
+    "CatalogCageCube",
+    "CatalogRightAngleMount",
+    "CatalogPhotodiode",
+    "CatalogLED",
+    "CatalogCollimator",
+    "CatalogCamera",
+    "CatalogHardware",
+    "CatalogTableClamp",
+    "CatalogSleeve",
+    "MotorizedMirror",
+    "CageTower",
+    "CryostatCabinet",
     "BalancedDetector",
 ]

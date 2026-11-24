@@ -68,14 +68,24 @@ export function humanizeName(name) {
 // by the import flows (toolbar / ⌘K), not dropped bare from a palette card.
 export const HIDDEN_CATEGORIES = new Set(["light_paths", "routing", "models"]);
 
-// Curated order: what users reach for most sits on top. Unknown future
-// categories slot in at the bottom.
-const CATEGORY_ORDER = ["my_parts", "devices", "instruments", "optics", "on_chip", "electronics", "samples", "misc"];
-const categoryRank = (c) => {
-  const i = CATEGORY_ORDER.indexOf(c);
-  return i === -1 ? CATEGORY_ORDER.length : i;
-};
 const CATEGORY_TITLES = { my_parts: "My parts", on_chip: "on-chip" };
+// The parts menu: sections in this order, and inside each the groups in the order the server lists them.
+const SECTION_ORDER = ["My parts", "Free-space optics", "On-chip photonics", "Electronics", "Annotations"];
+const GROUP_ORDER = {
+  "Free-space optics": ["Sources", "Lenses & objectives", "Mirrors", "Beamsplitters", "Polarization", "Filters & apertures",
+    "Prisms, gratings & modulators", "Fiber", "Detectors & cameras", "Cage system", "Mounts & hardware",
+    "Tables & breadboards", "Samples & cryostats", "Other free-space parts"],
+  "On-chip photonics": ["Waveguides", "Couplers & I/O", "Splitters & multiplexers", "Resonators & interferometers",
+    "Modulators & phase shifters", "Lasers, sources & amplifiers", "Detectors & receivers", "Electronics on chip",
+    "Substrate", "Other on-chip parts"],
+  "Electronics": ["Circuit parts", "RF parts", "Receivers & transmitters", "Chips & boards", "Pads, probes & packaging",
+    "Control", "Instruments", "Other electronics"],
+};
+const groupRank = (section, group) => {
+  const order = GROUP_ORDER[section] || [];
+  const i = order.indexOf(group);
+  return i === -1 ? order.length : i;
+};
 // GUI-pointless entries: Grid duplicates the canvas grid toggle.
 export const HIDDEN_COMPONENTS = new Set(["Grid"]);
 
@@ -148,10 +158,10 @@ export function createPalette({ listEl, searchEl, onAdd, onFigure }) {
     listEl.innerHTML = "";
 
     // A group title that folds its cards; collapse state is always honored, including while searching.
-    const groupTitle = (cat, text, count) => {
+    const groupTitle = (cat, text, count, hidden = false, kind = "palette-group-title") => {
       const isCollapsed = collapsed.has(cat);
       const title = document.createElement("div");
-      title.className = "palette-group-title" + (isCollapsed ? " collapsed" : "");
+      title.className = kind + (isCollapsed ? " collapsed" : "") + (hidden ? " is-hidden" : "");
       title.tabIndex = 0;
       title.setAttribute("role", "button");
       title.setAttribute("aria-expanded", String(!isCollapsed));
@@ -169,6 +179,8 @@ export function createPalette({ listEl, searchEl, onAdd, onFigure }) {
       listEl.appendChild(title);
       return isCollapsed;
     };
+    // A section header: a bigger title that folds every group in it. While searching, sections stay open.
+    const sectionTitle = (key, text, count) => groupTitle(key, text, count, false, "palette-section-title") && !term;
     const addCard = (shown, tip, thumb, add, isCollapsed) => {
       const card = document.createElement("div");
       card.className = "palette-item" + (isCollapsed ? " is-hidden" : "");
@@ -195,14 +207,34 @@ export function createPalette({ listEl, searchEl, onAdd, onFigure }) {
       }
     }
 
-    for (const cat of Object.keys(groups).sort((a, b) => categoryRank(a) - categoryRank(b) || a.localeCompare(b))) {
-      const isCollapsed = groupTitle(cat, CATEGORY_TITLES[cat] || cat.replace(/_/g, " "), groups[cat].length);
-      for (const [name, info] of groups[cat].sort((a, b) => a[0].localeCompare(b[0]))) {
-        const shown = info.display_name || humanizeName(name);
-        const card = addCard(shown, info.description || shown, "", () => onAdd(name), isCollapsed);
-        card.dataset.name = name;
-        if (info.definition_hash) card.dataset.definitionHash = info.definition_hash;
-        if (!isCollapsed) observer.observe(card); // only lazy-load visible thumbnails
+    // Sections (Free-space optics, On-chip photonics, Electronics...) each fold their groups (Lenses, Cage system...).
+    // The server names both; a catalogue without them (an older server) falls back on the category.
+    const sections = {};
+    for (const items of Object.values(groups)) {
+      for (const [name, info] of items) {
+        const section = info.section || CATEGORY_TITLES[info.category] || String(info.category || "other").replace(/_/g, " ");
+        const group = info.group || section;
+        ((sections[section] ||= {})[group] ||= []).push([name, info]);
+      }
+    }
+    const sectionRank = (s) => { const i = SECTION_ORDER.indexOf(s); return i === -1 ? SECTION_ORDER.length : i; };
+    for (const section of Object.keys(sections).sort((a, b) => sectionRank(a) - sectionRank(b) || a.localeCompare(b))) {
+      const byGroup = sections[section];
+      const total = Object.values(byGroup).reduce((n, list) => n + list.length, 0);
+      const sectionKey = `section:${section}`;
+      const sectionCollapsed = sectionTitle(sectionKey, section, total);
+      const groupNames = Object.keys(byGroup).sort((a, b) => groupRank(section, a) - groupRank(section, b) || a.localeCompare(b));
+      for (const group of groupNames) {
+        const single = groupNames.length === 1 && group === section;   // a section of one group needs no second title
+        const groupKey = `${sectionKey}/${group}`;
+        const isCollapsed = sectionCollapsed || (!single && groupTitle(groupKey, group, byGroup[group].length, sectionCollapsed));
+        for (const [name, info] of byGroup[group].sort((a, b) => (a[1].display_name || humanizeName(a[0])).localeCompare(b[1].display_name || humanizeName(b[0])))) {
+          const shown = info.display_name || humanizeName(name);
+          const card = addCard(shown, info.description || shown, "", () => onAdd(name), isCollapsed);
+          card.dataset.name = name;
+          if (info.definition_hash) card.dataset.definitionHash = info.definition_hash;
+          if (!isCollapsed) observer.observe(card); // only lazy-load visible thumbnails
+        }
       }
     }
   }

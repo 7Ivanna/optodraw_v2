@@ -31,6 +31,27 @@ from ._shared import (
 BEAM_HEIGHT = 30.0
 
 
+def _parse_holes(value: Any) -> list[tuple[float, float, float]]:
+    """Through-holes as (x, y, radius) tuples, from a list or from the editor's text ("[[0, 30, 8]]" or
+    "0 30 8; 20 0 4")."""
+
+    if not value:
+        return []
+    if isinstance(value, str):
+        text = value.strip()
+        if text.startswith("["):
+            import json
+
+            value = json.loads(text)
+        else:
+            value = [[float(v) for v in part.replace(",", " ").split()] for part in text.split(";") if part.strip()]
+    holes = [tuple(float(v) for v in hole) for hole in value]
+    for hole in holes:
+        if len(hole) != 3 or hole[2] <= 0:
+            raise ValueError(f"a through-hole is (x, y, radius) with radius > 0, not {hole!r}")
+    return holes
+
+
 @dataclass
 class OpticalTable(Component):
     """Optical table or breadboard base with hole-grid metadata."""
@@ -48,6 +69,9 @@ class OpticalTable(Component):
         self.hole_pitch = hole_pitch
         self.edge_margin = kwargs.get("edge_margin", hole_pitch * 0.75)
         self.include_holes = kwargs.get("include_holes", True)
+        # round holes cut through the plate, as (x, y, radius) in the plate's frame: an objective looking down
+        # through the board into a cryostat underneath, or a cable pass-through
+        self.through_holes = _parse_holes(kwargs.get("through_holes"))
         _set_common_free_space_fields(self, center, angle, kwargs, color="#b9bfc6", opacity=1.0, material_preset="steel", label=kwargs.get("label", "Optical Table"))   # stainless top
 
     # Hole ⌀/pitch ≈ 0.25 (a 1/4-20 tap on a 1" grid) — the real Thorlabs/Newport ratio.
@@ -106,9 +130,20 @@ class OpticalTable(Component):
                         "opacity": 0.9,
                     }
                 )
+        children += [{"type": "circle", "cx": x, "cy": y, "r": r, "fill": "#ffffff", "stroke": self._edge_stroke(),
+                      "stroke_width": 0.1} for x, y, r in self.through_holes]
         return {"type": "group", "children": children}
 
     def geometry_3d(self) -> dict[str, Any]:
+        if self.through_holes:
+            # a plate with holes cut through it: an extruded outline ((u, v) lands at (x, -z), so v is the plan's
+            # y). The tapped-hole texture is drawn on boxes only, so this plate is plain.
+            hl, hw = self.length / 2.0, self.width / 2.0
+            holes = [[(x + r * math.cos(2 * math.pi * k / 40), y + r * math.sin(2 * math.pi * k / 40)) for k in range(40)]
+                     for x, y, r in self.through_holes]
+            return {"shape": "extruded_polygon", "points": [(-hl, -hw), (hl, -hw), (hl, hw), (-hl, hw)], "holes": holes,
+                    "height": self.thickness,
+                    "material": {"color": self.color, "metalness": 0.52, "roughness": 0.38, "preset": self.material_preset}}
         box: dict[str, Any] = {
             "shape": "box",
             "width": self.length,
@@ -156,6 +191,8 @@ class OpticalTable(Component):
         data["hole_pitch"] = self.hole_pitch
         data["edge_margin"] = self.edge_margin
         data["include_holes"] = self.include_holes
+        if self.through_holes:
+            data["through_holes"] = [list(hole) for hole in self.through_holes]
         return data
 
 
@@ -165,13 +202,108 @@ class Breadboard(OpticalTable):
 
     component_type = "Breadboard"
 
-    def __init__(self, center=(0, 0), angle=0, **kwargs):
+    def __init__(self, center=(0, 0), angle=0, part="custom", **kwargs):
+        self.part = part or "custom"
+        spec = self.board_spec
+        if spec:                                         # a vendor's board: its size comes from the drawing
+            mm = 1 / 2.54
+            kwargs.update(length=spec["length"] * mm, width=spec["width"] * mm, thickness=spec["thickness"] * mm,
+                          hole_pitch=spec["taps"]["pitch"] * mm, include_holes=False)
         kwargs.setdefault("length", 60.0)
         kwargs.setdefault("width", 45.0)
         kwargs.setdefault("thickness", 2.4)
         kwargs.setdefault("color", "#2a2e34")            # black anodised aluminium
         kwargs.setdefault("label", "Breadboard")
         super().__init__(center=center, angle=angle, **kwargs)
+
+    @property
+    def board_spec(self) -> dict | None:
+        """The vendor drawing's row for ``part``, or None for a board sized by hand."""
+
+        if self.part == "custom":
+            return None
+        from optodraw.components.vendor.data import BREADBOARDS
+
+        if self.part not in BREADBOARDS:
+            raise ValueError(f"Breadboard: unknown part {self.part!r}; known parts: custom, {', '.join(BREADBOARDS)}")
+        return BREADBOARDS[self.part]
+
+    def _drawn(self) -> tuple[list, list, list]:
+        """(taps, pockets, through holes) of a vendor board as (x, y, radius) in the plate's frame: the drawing's
+        top edge is +y, so the Ø31 hole near its bottom edge is on the -y side."""
+
+        spec, mm = self.board_spec, 1 / 2.54
+        hl, hw = spec["length"] / 2.0, spec["width"] / 2.0
+        cx, cy, clear = spec["keep_clear"]
+
+        def at(x, y, d):
+            return ((x - hl) * mm, (hw - y) * mm, d * mm / 2.0)
+
+        def grid(g):
+            out = []
+            for i in range(g["cols"]):
+                for j in range(g["rows"]):
+                    x, y = g["x0"] + i * g["pitch"], g["y0"] + j * g["pitch"]
+                    if math.hypot(x - cx, y - cy) >= clear:
+                        out.append(at(x, y, g["d"]))
+            return out
+
+        return grid(spec["taps"]), grid(spec["pockets"]), [at(*hole) for hole in spec["holes"]]
+
+    def _outline(self) -> list[tuple[float, float]]:
+        hl, hw = self.length / 2.0, self.width / 2.0
+        r = self.board_spec["corner_r"] / 2.54
+        pts = []
+        for qx, qy, start in ((1, -1, -90), (1, 1, 0), (-1, 1, 90), (-1, -1, 180)):
+            for k in range(7):
+                a = math.radians(start + 15 * k)
+                pts.append((qx * (hl - r) + r * math.cos(a), qy * (hw - r) + r * math.sin(a)))
+        return pts
+
+    def geometry_2d(self) -> dict[str, Any]:
+        if not self.board_spec:
+            return super().geometry_2d()
+        taps, pockets, holes = self._drawn()
+        outline = " L ".join(f"{x:.3f},{y:.3f}" for x, y in self._outline())
+        children: list[dict[str, Any]] = [
+            {"type": "path", "d": f"M {outline} Z", "fill": self.PLATE_2D, "stroke": self._edge_stroke(), "stroke_width": 0.12}]
+        children += [{"type": "circle", "cx": x, "cy": y, "r": r, "fill": "none", "stroke": "#c3c8cf", "stroke_width": 0.08}
+                     for x, y, r in pockets]
+        children += [{"type": "circle", "cx": x, "cy": y, "r": r, "fill": self.HOLE_2D} for x, y, r in taps]
+        children += [{"type": "circle", "cx": x, "cy": y, "r": r, "fill": "#ffffff", "stroke": self._edge_stroke(),
+                      "stroke_width": 0.08} for x, y, r in holes + list(self.through_holes)]
+        return {"type": "group", "children": children}
+
+    def geometry_3d(self) -> dict[str, Any]:
+        if not self.board_spec:
+            return super().geometry_3d()
+        taps, pockets, holes = self._drawn()
+
+        def circle(x, y, r, n):
+            return [(x + r * math.cos(2 * math.pi * k / n), y + r * math.sin(2 * math.pi * k / n)) for k in range(n)]
+
+        cut = [circle(x, y, r, 12) for x, y, r in taps] + \
+              [circle(x, y, r, 36 if r > 1 else 16) for x, y, r in holes + list(self.through_holes)]
+        material = {"color": self.color, "metalness": 0.52, "roughness": 0.38, "preset": self.material_preset}
+        plate = {"shape": "extruded_polygon", "role": "plate", "points": self._outline(), "holes": cut,
+                 "height": self.thickness, "material": material}
+        # the weight-saving pockets: dark discs let into the top face
+        floor = {"color": "#15181c", "metalness": 0.3, "roughness": 0.7}
+        discs = [{"shape": "cylinder", "role": "pocket", "radius": r, "height": 0.02, "segments": 28,
+                  "position": [x, self.thickness + 0.005, -y], "material": floor} for x, y, r in pockets]
+        return {"shape": "group", "children": [plate, *discs]}
+
+    def physics_metadata(self) -> dict[str, Any]:
+        data = super().physics_metadata()
+        if self.board_spec:
+            data["part"] = self.part
+        return data
+
+    def to_dict(self) -> dict[str, Any]:
+        data = super().to_dict()
+        if self.board_spec:
+            data["part"] = self.part
+        return data
 
 
 @dataclass

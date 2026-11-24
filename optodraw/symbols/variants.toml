@@ -1425,3 +1425,37 @@ component = "RoofMirror"
 [[variant]]
 symbol = "balanced"
 component = "BalancedDetector"
+
+# ---------------------------------------------------------------- 30 mm cage system (cage.py)
+[[variant]]
+symbol = "motormirror"
+component = "MotorizedMirror"
+
+[[variant]]
+symbol = "cagerods"
+component = "CageRods"
+
+[[variant]]
+symbol = "cagemirror"
+component = "CageRightAngleMirror"
+
+[[variant]]
+symbol = "cagetower"
+component = "CageTower"
+
+[[variant]]
+symbol = "cryocabinet"
+component = "CryostatCabinet"
+
+# ---------------------------------------------------------------- vendor parts (vendor/parts.py)
+[[variant]]
+symbol = "tubering"
+component = "CatalogAdapter"
+
+[[variant]]
+symbol = "cageplate"
+component = "CatalogCageMount"
+
+[[variant]]
+symbol = "matingsleeve"
+component = "CatalogSleeve"

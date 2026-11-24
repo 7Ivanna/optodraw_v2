@@ -867,3 +867,73 @@
   \draw[od rayb] (-0.17,0.17) -- (0,0.17) -- (0,-0.17) -- (-0.17,-0.17);
   \odport[free_space]{in}{-0.17,0.17}\odport[free_space]{out}{-0.17,-0.17}
 }}}
+
+% ---------------------------------------------------------------- 30 mm cage system (cage.py)
+% A mirror turned by a NEMA 17 stepper: the mirror as `od mirror` draws it, a shaft and coupler behind it, the
+% motor with its two end caps and round label; the drive cable leaves the back of the motor (motor). One unit is
+% the mirror's height over 0.68: MotorizedMirror.MOTOR_REACH holds the place of the motor port.
+\tikzset{pics/od motormirror/.default={}, pics/od motormirror/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od back] (0.05,-0.34) rectangle (0.13,0.34);
+  \draw[od coat] (0,-0.34) rectangle (0.05,0.34);
+  \draw[od alusmall] (0.13,-0.05) rectangle (0.6,0.05);
+  \draw[od housing] (0.6,-0.57) rectangle (1.67,0.57);
+  \draw[od alusmall] (0.6,-0.57) rectangle (0.72,0.57);\draw[od alusmall] (1.55,-0.57) rectangle (1.67,0.57);
+  \draw[od el] (1.135,0) circle [radius=0.2];
+  \odport[free_space]{io}{0,0}\odport[electrical]{motor}{1.67,0}
+}}}
+
+% Four cage rods seen from the side: two rods above and below the axis, open between them so the beam shows.
+\tikzset{pics/od cagerods/.default={}, pics/od cagerods/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od rod] (-0.5,0.17) rectangle (0.5,0.22);
+  \draw[od rod] (-0.5,-0.22) rectangle (0.5,-0.17);
+  \odport[free_space]{in}{-0.5,0}\odport[free_space]{out}{0.5,0}
+}}}
+
+% A right-angle kinematic cage mount (KCB1 kind): a triangular block with the mirror on its hypotenuse; in on the
+% left face, out of the top face.
+\tikzset{pics/od cagemirror/.default={}, pics/od cagemirror/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing] (-0.28,-0.28) -- (-0.28,0.28) -- (0.28,0.28) -- cycle;
+  \draw[od rayb] (-0.28,0) -- (0,0) -- (0,0.28);
+  \draw[od coat, rotate=45] (-0.32,-0.02) rectangle (0.32,0.02);
+  \odport[free_space]{in}{-0.28,0}\odport[free_space]{out}{0,0.28}
+}}}
+
+% A vertical cage microscope seen from the side: the objective down to the sample, the lower beamsplitter cube
+% that takes the beam in from the left, the upper cube with the LED arm to the right, the tube and the camera.
+\tikzset{pics/od cagetower/.default={}, pics/od cagetower/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od rod] (-0.2,-0.2) rectangle (-0.17,0.62);\draw[od rod] (0.17,-0.2) rectangle (0.2,0.62);
+  \draw[od chrome] (-0.08,-0.16) -- (-0.08,-0.4) -- (-0.04,-0.48) -- (0.04,-0.48) -- (0.08,-0.4) -- (0.08,-0.16) -- cycle;
+  \draw[od housing] (-0.16,-0.16) rectangle (0.16,0.16);
+  \draw[od glass] (-0.09,-0.09) rectangle (0.09,0.09);\draw[od el] (-0.09,0.09) -- (0.09,-0.09);
+  \draw[od housing] (-0.16,0.26) rectangle (0.16,0.58);
+  \draw[od glass] (-0.09,0.33) rectangle (0.09,0.51);\draw[od el] (-0.09,0.33) -- (0.09,0.51);
+  \draw[od tube] (0.16,0.37) rectangle (0.52,0.47);
+  \draw[od housing] (0.52,0.34) rectangle (0.64,0.5);
+  \foreach \odx in {0.555,0.585,0.615} {\draw[od ray] (\odx,0.34) -- (\odx,0.5);}
+  \draw[od tube] (-0.07,0.58) rectangle (0.07,0.82);
+  \draw[od housing, rounded corners=0.04cm] (-0.14,0.82) rectangle (0.14,1.0);
+  \odport[free_space]{in}{-0.16,0}\odport[free_space]{led}{0.64,0.42}\odport[free_space]{camera}{0,0.82}
+  \odport[free_space]{sample}{0,-0.58}
+}}}
+
+% ---------------------------------------------------------------- vendor parts (vendor/parts.py)
+% A thread adapter or coupler seen from the side: a short knurled ring around the axis, open in the middle.
+\tikzset{pics/od tubering/.default={}, pics/od tubering/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od tube] (-0.12,0.13) rectangle (0.12,0.3);\draw[od tube] (-0.12,-0.3) rectangle (0.12,-0.13);
+  \foreach \odx in {-0.06,0,0.06} {\draw[od ray] (\odx,0.13) -- (\odx,0.3);\draw[od ray] (\odx,-0.3) -- (\odx,-0.13);}
+  \odport[free_space]{in}{-0.12,0}\odport[free_space]{out}{0.12,0}
+}}}
+
+% A 30 mm cage plate seen from the side: the plate across the beam, its bore open, a rod stub above and below.
+\tikzset{pics/od cageplate/.default={}, pics/od cageplate/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od housing] (-0.08,0.15) rectangle (0.08,0.42);\draw[od housing] (-0.08,-0.42) rectangle (0.08,-0.15);
+  \draw[od rod] (-0.3,0.28) rectangle (-0.08,0.33);\draw[od rod] (0.08,0.28) rectangle (0.3,0.33);
+  \draw[od rod] (-0.3,-0.33) rectangle (-0.08,-0.28);\draw[od rod] (0.08,-0.33) rectangle (0.3,-0.28);
+  \odport[free_space]{in}{-0.08,0}\odport[free_space]{out}{0.08,0}
+}}}

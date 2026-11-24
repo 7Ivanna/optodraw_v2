@@ -50,7 +50,10 @@ def _set_common_free_space_fields(
     # mixed apertures, exactly as you swap TR1/TR2/TR3 in the lab.
     mh = kwargs.get("mount_height", kwargs.get("post_height"))
     component.mount_height = float(mh) if mh is not None else None  # type: ignore[attr-defined]
-    component.transform = Transform.from_2d(*component._parse_center(center).as_2d(), angle)
+    placed = component._parse_center(center)
+    component.transform = Transform.from_2d(*placed.as_2d(), angle)
+    if placed.z:
+        component.z = float(placed.z)                     # a height: center=(x, y, z)
     component._parent = None
     component._id = ""
 

@@ -31,6 +31,8 @@ def _spec_to_catalog_entry(spec) -> dict[str, Any]:
 # the on-chip vs electronics families), but the palette shows these friendly names.
 _DISPLAY_NAMES: dict[str, str] = {
     "ADCBlock": "ADC",
+    "CatalogTableClamp": "Table Clamp",
+    "CatalogHardware": "Brackets & Platforms",
     "TIABlock": "TIA",
     "MetalRoute": "Metal route",
     "ElectricalPad": "Electrical pad",
@@ -192,7 +194,25 @@ _PARAM_CHOICES: dict[str, tuple[str, ...]] = {
 
 #: Per-component choices for GENERIC parameter names ("kind", "mode", "side") whose
 #: vocabulary differs between components — consulted before the global map.
+def _vendor_families() -> tuple:
+    """The vendor part families: each one's part numbers are the choices of its ``part``."""
+
+    from optodraw.components.vendor import FAMILIES
+
+    return FAMILIES
+
+
+def _breadboard_parts() -> tuple[str, ...]:
+    """The vendor boards a Breadboard can be, besides one sized by hand."""
+
+    from optodraw.components.vendor.data import BREADBOARDS
+
+    return tuple(BREADBOARDS)
+
+
 _COMPONENT_PARAM_CHOICES: dict[str, dict[str, tuple[str, ...]]] = {
+    **{cls.__name__: {"part": tuple(cls.TABLE)} for cls in _vendor_families()},
+    "Breadboard": {"part": ("custom", *_breadboard_parts())},
     "Note": {"anchor": ("start", "middle", "end")},
     "Callout": {"anchor": ("start", "middle", "end")},
     "Bracket": {"anchor": ("start", "middle", "end"), "side": ("left", "right")},
@@ -217,6 +237,14 @@ def describe_component(name: str) -> dict[str, Any]:
     entry.update(describe_physics_support(name))
     entry["units"] = dict(UNITS)
     entry["param_meta"] = _param_meta(name)
+    cls = getattr(component_registry().get(name), "cls", None)
+    if callable(getattr(cls, "part_sizes", None)):
+        # a catalogue part: each part number's sizes from its drawing, mm, so the editor shows them as the values
+        # in force until one is set by hand
+        entry["part_sizes"] = {part: cls.part_sizes(part) for part in cls.TABLE}
+        entry["default_part"] = cls().part                  # what a part with no ``part`` saved is
+        for size in cls.size_names():
+            entry["param_meta"][size] = {"type": "number", "default": None, "unit": "mm"}
     return entry
 
 

@@ -671,18 +671,50 @@ export function createProperties({ formEl, emptyEl, onChange, onDelete, onAlign,
 
     if (inset && entry.source) insetSourceSection(entry);
 
+
     // -- Parameters (typed from param_meta: toggles for bool, etc.) ---------
     const declared = (describe && describe.parameters || []).filter(
       (p) => !PLACEMENT.has(p) && !CONTEXT.has(p) && !(inset && p === "height" && !free),
     );
     if (declared.length) {
       const body = addSection(formEl, "Parameters");
+      // a catalogue part saved on its default part number has no ``part`` in its entry
+      const partNo = entry.part || (describe && describe.default_part);
+      const drawnSizes = describe && describe.part_sizes && describe.part_sizes[partNo];
+      if (drawnSizes) {
+        const changed = declared.filter((n) => n.endsWith("_mm") && entry[n] != null);
+        const hint = document.createElement("div");
+        hint.className = "field-hint";
+        hint.textContent = changed.length
+          ? `Changed from the ${partNo} drawing: ${changed.map((n) => prettyName(n.slice(0, -3))).join(", ")}. Clear a size to go back to the drawing.`
+          : `Sizes from the ${partNo} drawing (mm). Type a size to change it.`;
+        body.appendChild(hint);
+      }
       const pg = document.createElement("div");
       pg.className = "param-grid";
       body.appendChild(pg);
       for (const name of declared) {
         const customParameter = entry.part_definition && !["scale", "variant"].includes(name);
         const value = customParameter ? entry.parameters?.[name] : entry[name];
+        const drawn = drawnSizes;
+        if (drawn && name.endsWith("_mm")) {
+          // a catalogue part's size: empty shows the drawing's value; a number sets it by hand; clearing it goes
+          // back to the drawing
+          if (drawn[name] === undefined && value == null) continue;      // this part number has no such size
+          const input = document.createElement("input");
+          input.type = "number"; input.step = "any"; input.min = "0";
+          input.value = value != null ? value : "";
+          input.placeholder = drawn[name] !== undefined ? String(drawn[name]) : "";
+          input.title = `${partNo} drawing: ${drawn[name]} mm`;
+          if (value != null) input.classList.add("is-changed");
+          input.addEventListener("change", () => {
+            const v = input.value.trim();
+            input.classList.toggle("is-changed", v !== "");
+            onChange(entry.id, { [name]: v === "" ? null : Number(v) });
+          });
+          pg.appendChild(field(prettyName(name.slice(0, -3)) + " (mm)", input));
+          continue;
+        }
         const f = controlFor(name, value, meta[name], (v) => (inset && (name === "width" || name === "height")
           ? insetSize(name, v)
           : onChange(entry.id, customParameter ? { parameters: { [name]: v } } : { [name]: v })));
@@ -708,7 +740,8 @@ export function createProperties({ formEl, emptyEl, onChange, onDelete, onAlign,
       const mountBody = addSection(formEl, "3D mount");
       const sel = document.createElement("select");
       sel.className = "props-select";
-      for (const [val, txt] of [["post", "Post (pedestal)"], ["stage", "Stage (translation)"], ["xyz_stage", "Stage (XYZ)"], ["rotation_stage", "Stage (rotation)"]]) {
+      // "none": no post, the part stays at its height (held by cage rods, a tower, or a mount of its own)
+      for (const [val, txt] of [["post", "Post (pedestal)"], ["post_beam", "Post to the beam axis"], ["stage", "Stage (translation)"], ["xyz_stage", "Stage (XYZ)"], ["rotation_stage", "Stage (rotation)"], ["none", "None (no post)"]]) {
         const o = document.createElement("option");
         o.value = val; o.textContent = txt;
         if (val === (entry.base_mount || "post")) o.selected = true;
@@ -727,6 +760,27 @@ export function createProperties({ formEl, emptyEl, onChange, onDelete, onAlign,
         onChange(entry.id, { beam_height: v === "" ? null : Number(v) });
       });
       mountBody.appendChild(field("Beam height (3D)", height));
+      // its height: above the beam plane on a post (the post grows), above the table otherwise
+      const lift = document.createElement("input");
+      lift.type = "number"; lift.step = "1";
+      lift.value = entry.z !== undefined && entry.z !== null ? entry.z : 0;
+      lift.addEventListener("change", () => {
+        const v = lift.value.trim();
+        onChange(entry.id, { z: v === "" || Number(v) === 0 ? null : Number(v) });
+      });
+      mountBody.appendChild(field("Height z (3D)", lift));
+      // turns out of the table plane (3D; 2D draws the part from above): about the part's own beam axis (x),
+      // where 90 stands a fold up off the table, and across the beam (y), where a positive tilt turns a face up
+      for (const [key, label] of [["rotation_x", "Rotation about x (°)"], ["rotation_y", "Rotation about y (°)"]]) {
+        const turn = document.createElement("input");
+        turn.type = "number"; turn.step = "15"; turn.min = "-180"; turn.max = "180";
+        turn.value = entry[key] !== undefined && entry[key] !== null ? entry[key] : 0;
+        turn.addEventListener("change", () => {
+          const v = turn.value.trim();
+          onChange(entry.id, { [key]: v === "" || Number(v) === 0 ? null : Number(v) });
+        });
+        mountBody.appendChild(field(label, turn));
+      }
     }
 
     // -- Light (the settings that drive the 3D light) --------------------------

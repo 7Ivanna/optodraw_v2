@@ -596,3 +596,27 @@
   \fill[od paint={black}{ods700}] (0.04,0) circle [radius=0.022];
   \odport[free_space]{in1}{-0.31,0.2}\odport[free_space]{in2}{-0.31,-0.2}\odport[electrical]{out}{0.31,0}
 }}}
+
+% ---------------------------------------------------------------- cryostat cabinet (cage.py)
+% A closed-cycle cryostat cabinet seen from the side: the cabinet, the sample insert open at the top, the cold
+% finger and the sample on it, and a helium hose; light reaches the sample from above (sample).
+\tikzset{pics/od cryocabinet/.default={}, pics/od cryocabinet/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od wg] (0.5,-0.05) .. controls (0.78,-0.05) and (0.78,-0.38) .. (0.5,-0.38);
+  \draw[od alu, rounded corners=0.06cm] (-0.5,-0.5) rectangle (0.5,0.3);
+  \draw[od el, rounded corners=0.04cm] (-0.16,-0.36) rectangle (0.16,0.3);
+  \draw[od copper] (-0.035,-0.36) rectangle (0.035,0.05);
+  \draw[od copper] (-0.09,0.05) rectangle (0.09,0.09);
+  \draw[od el, fill=black!70] (-0.05,0.09) rectangle (0.05,0.12);
+  \odport[free_space]{sample}{0,0.12}
+}}}
+
+% ---------------------------------------------------------------- fiber mating sleeve (vendor/parts.py)
+% A mating sleeve (butt coupler): a barrel through a square flange; a fiber connector meets each end.
+\tikzset{pics/od matingsleeve/.default={}, pics/od matingsleeve/.style={code={
+  \pgfkeys{/od/.cd,#1}\gdef\odportlist{}
+  \draw[od alusmall] (-0.36,-0.09) rectangle (0.36,0.09);
+  \draw[od alu] (-0.05,-0.3) rectangle (0.05,0.3);
+  \draw[od el] (-0.36,0) -- (0.36,0);
+  \odport[fiber]{a}{-0.36,0}\odport[fiber]{b}{0.36,0}
+}}}

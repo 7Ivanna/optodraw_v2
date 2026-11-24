@@ -1,0 +1,471 @@
+{
+ "schema_version": 3,
+ "optodraw_version": "0.10.1",
+ "units": {
+  "length": "um",
+  "angle": "deg",
+  "wavelength": "nm"
+ },
+ "title": "Cryostat microscope bench",
+ "width": 260,
+ "height": 300,
+ "platform": "free_space",
+ "components": [
+  {
+   "type": "Breadboard",
+   "id": "Breadboard",
+   "center": [
+    0,
+    0
+   ],
+   "angle": 0,
+   "length": 177.0,
+   "width": 236.0,
+   "thickness": 5.0,
+   "hole_pitch": 10.0,
+   "through_holes": [
+    [
+     0.0,
+     30.0,
+     8.0
+    ]
+   ],
+   "label": "Breadboard"
+  },
+  {
+   "type": "CryostatCabinet",
+   "id": "Cryostat",
+   "center": [
+    0.0,
+    30.0
+   ],
+   "angle": 0,
+   "board_bottom": -30.0,
+   "sample_depth": 55.0,
+   "size": [
+    170.0,
+    200.0,
+    110.0
+   ],
+   "cabinet_offset": [
+    0.0,
+    -30.0
+   ],
+   "label": "Cryostat"
+  },
+  {
+   "type": "CageTower",
+   "id": "Cage tower",
+   "center": [
+    0.0,
+    30.0
+   ],
+   "angle": 0,
+   "board": 25.0,
+   "upper": 34.0,
+   "led_len": 70.0,
+   "sample_depth": 55.0,
+   "camera_tube": 34.0,
+   "label": "Cage tower"
+  },
+  {
+   "type": "LaserDriver",
+   "id": "LED driver",
+   "center": [
+    -68,
+    -105
+   ],
+   "angle": 0,
+   "label": "LED driver"
+  },
+  {
+   "type": "CageCube",
+   "id": "BS A",
+   "center": [
+    -21.0,
+    30.0
+   ],
+   "angle": 0,
+   "split_ratio": [
+    0.5,
+    0.5
+   ],
+   "coating_color": "#7fd6d0",
+   "label": "BS A"
+  },
+  {
+   "type": "CageCube",
+   "id": "BS B",
+   "center": [
+    -40.0,
+    30.0
+   ],
+   "angle": 0,
+   "split_ratio": [
+    0.5,
+    0.5
+   ],
+   "coating_color": "#f2a65a",
+   "label": "BS B"
+  },
+  {
+   "type": "CageCube",
+   "id": "BS C",
+   "center": [
+    -59.0,
+    30.0
+   ],
+   "angle": 0,
+   "split_ratio": [
+    0.5,
+    0.5
+   ],
+   "coating_color": "#ffffff",
+   "label": "BS C"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods",
+   "center": [
+    -10.5,
+    30.0
+   ],
+   "angle": 0,
+   "length": 4.740157480314963,
+   "end_plates": false,
+   "label": ""
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_1",
+   "center": [
+    -30.5,
+    30.0
+   ],
+   "angle": 0,
+   "length": 2.740157480314963,
+   "end_plates": false,
+   "label": ""
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_2",
+   "center": [
+    -49.5,
+    30.0
+   ],
+   "angle": 0,
+   "length": 2.740157480314963,
+   "end_plates": false,
+   "label": ""
+  },
+  {
+   "type": "MotorizedMirror",
+   "id": "MM1",
+   "center": [
+    -80.33886665741692,
+    30.339954980094557
+   ],
+   "angle": 134.90814046090378,
+   "aperture": 10.0,
+   "label": "MM1"
+  },
+  {
+   "type": "Mirror",
+   "id": "M1",
+   "center": [
+    -80.33777748974387,
+    -75.34103719360552
+   ],
+   "angle": -134.72486476392524,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "M1"
+  },
+  {
+   "type": "Mirror",
+   "id": "M2",
+   "center": [
+    -44.66058874503046,
+    -74.66058874503045
+   ],
+   "angle": 45.0,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "M2"
+  },
+  {
+   "type": "FiberCollimator",
+   "id": "003",
+   "center": [
+    -45,
+    -100
+   ],
+   "angle": 90,
+   "aperture": 6.0,
+   "length": 14.0,
+   "label": "003"
+  },
+  {
+   "type": "FiberCollimator",
+   "id": "Olaf 1",
+   "center": [
+    -80,
+    100
+   ],
+   "angle": -90,
+   "aperture": 6.0,
+   "length": 14.0,
+   "label": "Olaf 1"
+  },
+  {
+   "type": "MotorizedMirror",
+   "id": "MM2",
+   "center": [
+    -21.339411254969544,
+    -45.33941125496954
+   ],
+   "angle": -135.0,
+   "aperture": 10.0,
+   "label": "MM2"
+  },
+  {
+   "type": "Mirror",
+   "id": "M3",
+   "center": [
+    55.340164935792764,
+    -45.338655896829074
+   ],
+   "angle": -44.87262998252487,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "M3"
+  },
+  {
+   "type": "Mirror",
+   "id": "M4",
+   "center": [
+    54.660128483379246,
+    80.33895036832833
+   ],
+   "angle": 135.0777492273554,
+   "aperture": 10.0,
+   "thickness": 1.0,
+   "surface_type": "flat",
+   "curvature_depth": 0.0,
+   "label": "M4"
+  },
+  {
+   "type": "Filter",
+   "id": "Filter",
+   "center": [
+    68,
+    80
+   ],
+   "angle": 0,
+   "aperture": 8.0,
+   "pass_band": "longpass",
+   "label": "Filter"
+  },
+  {
+   "type": "FiberCollimator",
+   "id": "Olaf E",
+   "center": [
+    80,
+    80
+   ],
+   "angle": 180,
+   "aperture": 6.0,
+   "length": 14.0,
+   "label": "Olaf E"
+  },
+  {
+   "type": "FiberCollimator",
+   "id": "004",
+   "center": [
+    -60,
+    -45
+   ],
+   "angle": 0,
+   "aperture": 6.0,
+   "length": 14.0,
+   "label": "004"
+  }
+ ],
+ "routes": [],
+ "beams": [
+  {
+   "path": [
+    [
+     "003",
+     "out"
+    ],
+    [
+     "M2",
+     "io"
+    ],
+    [
+     "M1",
+     "io"
+    ],
+    [
+     "MM1",
+     "io"
+    ],
+    [
+     "BS C",
+     "in"
+    ],
+    [
+     "BS C",
+     "trans"
+    ],
+    [
+     "cagerods_2",
+     "in"
+    ],
+    [
+     "cagerods_2",
+     "out"
+    ],
+    [
+     "BS B",
+     "in"
+    ],
+    [
+     "BS B",
+     "trans"
+    ],
+    [
+     "cagerods_1",
+     "in"
+    ],
+    [
+     "cagerods_1",
+     "out"
+    ],
+    [
+     "BS A",
+     "in"
+    ],
+    [
+     "BS A",
+     "trans"
+    ],
+    [
+     "cagerods",
+     "in"
+    ],
+    [
+     "cagerods",
+     "out"
+    ],
+    [
+     "Cage tower",
+     "in"
+    ],
+    [
+     "Cage tower",
+     "sample"
+    ]
+   ],
+   "wavelength": 532.0,
+   "width": 1.6,
+   "label": "Excitation"
+  },
+  {
+   "path": [
+    [
+     "Cage tower",
+     "sample"
+    ],
+    [
+     "Cage tower",
+     "in"
+    ],
+    [
+     "cagerods",
+     "out"
+    ],
+    [
+     "cagerods",
+     "in"
+    ],
+    [
+     "BS A",
+     "trans"
+    ],
+    [
+     "BS A",
+     "tap"
+    ],
+    [
+     "MM2",
+     "io"
+    ],
+    [
+     "M3",
+     "io"
+    ],
+    [
+     "M4",
+     "io"
+    ],
+    [
+     "Filter",
+     "in"
+    ],
+    [
+     "Filter",
+     "out"
+    ],
+    [
+     "Olaf E",
+     "out"
+    ]
+   ],
+   "wavelength": 700.0,
+   "width": 1.6,
+   "label": "Collection",
+   "offset": 1.8
+  },
+  {
+   "path": [
+    [
+     "Cage tower",
+     "led"
+    ],
+    [
+     "Cage tower",
+     "sample"
+    ]
+   ],
+   "wavelength": 590.0,
+   "width": 0.8,
+   "label": "LED",
+   "opacity": 0.5
+  },
+  {
+   "path": [
+    [
+     "Cage tower",
+     "sample"
+    ],
+    [
+     "Cage tower",
+     "camera"
+    ]
+   ],
+   "wavelength": 590.0,
+   "width": 0.8,
+   "label": "Imaging",
+   "opacity": 0.5
+  }
+ ]
+}

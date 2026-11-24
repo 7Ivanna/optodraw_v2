@@ -96,9 +96,9 @@ _BUILTIN_METADATA: dict[str, dict[str, Any]] = {
     "EMCCD": {"category": "optics", "platform": "free_space", "description": "EMCCD camera specialization with electron-multiplication gain metadata", "parameters": ["center", "angle", "sensor_width", "sensor_height", "pixel_pitch_um", "resolution", "em_gain", "label"], "physics_modes": ("diagram", "ray")},
     "SPADArray": {"category": "optics", "platform": "free_space", "description": "Single-photon avalanche diode array specialization with dead-time metadata", "parameters": ["center", "angle", "sensor_width", "sensor_height", "pixel_pitch_um", "resolution", "dead_time_ns", "max_count_rate_mhz", "label"], "physics_modes": ("diagram", "ray")},
     "PowerMeter": {"category": "optics", "platform": "free_space", "description": "Inline power meter stub with spectral and responsivity metadata", "parameters": ["center", "angle", "aperture", "length", "spectral_min_nm", "spectral_max_nm", "responsivity_a_per_w", "label"]},
-    "OpticalTable": {"category": "optics", "platform": "free_space", "description": "Optical table or breadboard base with hole-grid metadata", "parameters": ["center", "angle", "length", "width", "thickness", "hole_pitch", "include_holes", "label"]},
-    "Breadboard": {"category": "optics", "platform": "free_space", "description": "Compact optical breadboard: a small black table with a hole grid", "parameters": ["center", "angle", "length", "width", "thickness", "hole_pitch", "include_holes", "label"]},
-    "Baseplate": {"category": "optics", "platform": "free_space", "description": "Modular optical baseplate: a machined sub-plate with a mount-hole grid that anchors a free-space subsystem at a fixed beam (optical) height (visualization only, no machining geometry)", "parameters": ["center", "angle", "length", "width", "thickness", "hole_pitch", "optical_height", "include_holes", "label"]},
+    "OpticalTable": {"category": "optics", "platform": "free_space", "description": "Optical table or breadboard base with hole-grid metadata", "parameters": ["center", "angle", "length", "width", "thickness", "hole_pitch", "include_holes", "through_holes", "label"]},
+    "Breadboard": {"category": "optics", "platform": "free_space", "description": "Compact optical breadboard: a small black table with a hole grid, or a vendor's board to scale (the attocube attoDRY 25 mm raster board, 1011879-2)", "parameters": ["center", "angle", "part", "length", "width", "thickness", "hole_pitch", "include_holes", "through_holes", "label"]},
+    "Baseplate": {"category": "optics", "platform": "free_space", "description": "Modular optical baseplate: a machined sub-plate with a mount-hole grid that anchors a free-space subsystem at a fixed beam (optical) height (visualization only, no machining geometry)", "parameters": ["center", "angle", "length", "width", "thickness", "hole_pitch", "optical_height", "include_holes", "through_holes", "label"]},
     "Retroreflector": {"category": "optics", "platform": "free_space", "description": "Corner-cube retroreflector: returns any incoming beam back parallel to itself", "parameters": ["center", "angle", "aperture", "label"]},
     "BeamDump": {"category": "optics", "platform": "free_space", "description": "Beam dump / block: a horned cavity absorber that safely terminates a laser beam", "parameters": ["center", "angle", "aperture", "label"]},
     "OpticalChopper": {"category": "optics", "platform": "free_space", "description": "Rotating slotted-wheel optical chopper for lock-in detection", "parameters": ["center", "angle", "wheel_diameter", "blades", "label"]},
@@ -260,6 +260,35 @@ _BUILTIN_METADATA: dict[str, dict[str, Any]] = {
     "FaradayRotator": {"category": "optics", "platform": "free_space", "description": "Faraday rotator: a TGG rod in a ring magnet turns the polarization by rotation_deg, the same sense both ways (two passes add)", "parameters": ["center", "angle", "length", "aperture", "rotation_deg", "label"]},
     "ModeCleaner": {"category": "optics", "platform": "free_space", "description": "Triangular ring mode cleaner (mode-cleaning cavity): two flat couplers and a curved mirror; passes the TEM00 mode on the input line, refl carries the lock error signal; piezo on the curved mirror", "parameters": ["center", "angle", "size", "transmission", "piezo", "label"]},
     "RoofMirror": {"category": "optics", "platform": "free_space", "description": "Hollow roof mirror: two mirrors at 90 degrees send the beam back parallel and beside itself (separate in and out); on its stage, the default mount, it is an optical delay line", "parameters": ["center", "angle", "aperture", "label"]},
+    "CageCube": {"category": "optics", "platform": "free_space", "description": "30 or 60 mm cage cube holding a beamsplitter cube (1 or 2 inch); coating_color tints a dichroic", "parameters": ["center", "angle", "split_ratio", "coating_color", "cage", "label"]},
+    "CageRods": {"category": "optics", "platform": "free_space", "description": "Four 6 mm rods of a 30 or 60 mm cage system; end_plates=False between two cage cubes", "parameters": ["center", "angle", "length", "end_plates", "cage", "label"]},
+    "CageRightAngleMirror": {"category": "optics", "platform": "free_space", "description": "Right-angle kinematic cage mount (KCB1 for a 30 mm cage, KCB2 for 60 mm): a 45 deg mirror in a cage block, in on the left, out up the plan", "parameters": ["center", "angle", "cage", "label"]},
+    "CageWavePlate": {"category": "optics", "platform": "free_space", "description": "Half- or quarter-wave plate in a 30 or 60 mm cage rotation mount, with its fast axis marked", "parameters": ["center", "angle", "plate", "fast_axis_angle", "cage", "label"]},
+    "MotorizedMirror": {"category": "optics", "platform": "free_space", "description": "Steering mirror in a kinematic mount turned by a NEMA 17 stepper motor through a shaft coupler; a motor drive port", "parameters": ["center", "angle", "aperture", "label"]},
+    "CageTower": {"category": "optics", "platform": "free_space", "description": "Vertical 30 mm cage microscope tower: objective down through the board, two beamsplitter cubes, an LED arm, a KCB1 pair and a camera", "parameters": ["center", "angle", "board", "upper", "led_len", "sample_depth", "camera_tube", "label"]},
+    "CryostatCabinet": {"category": "samples", "platform": "free_space", "description": "Closed-cycle cryostat cabinet under a breadboard: adapter plate, sample insert, helium hoses and a stepper controller", "parameters": ["center", "angle", "board_bottom", "sample_depth", "size", "cabinet_offset", "label"]},
+    "CatalogLens": {"category": "optics", "platform": "free_space", "description": "A catalogue lens at its true size and shape: Edmund Optics (stock number) or Thorlabs (item number)", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogLensTube": {"category": "optics", "platform": "free_space", "description": "A Thorlabs lens tube (SM1L.., SM1V", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogAdapter": {"category": "optics", "platform": "free_space", "description": "A thread adapter, coupler or small spacer (SM1A.., SM1T.., AD.., ERSCB.., S1TM12...) as its stack of rings", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogFilter": {"category": "optics", "platform": "free_space", "description": "A Ø25 mm Thorlabs longpass or shortpass filter (FELH.., FESH..) in its unthreaded ring", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogNDFilter": {"category": "optics", "platform": "free_space", "description": "A Thorlabs absorptive ND filter in its engraved SM1 mount (NE..A-B, NENIR..), or the NDC-50C-4M-B continuously variable wheel (the beam crosses the coated annulus below the wheel's axle)", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogWavePlate": {"category": "optics", "platform": "free_space", "description": "A Thorlabs zero-order half- or quarter-wave plate in its mount (WPH05M / WPQ05M: Ø1/2\" plate in a Ø1\" ring; WPH10M / WPQ10M: Ø1\" plate in an SM1-threaded mount)", "parameters": ["center", "angle", "part", "fast_axis_angle", "label"]},
+    "CatalogGlanPolarizer": {"category": "optics", "platform": "free_space", "description": "A Thorlabs Glan-Taylor polarizer (GT10, GT10-C): a square aluminium housing with the calcite pair, the entrance and exit windows and the escape window on its side", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogPolarizer": {"category": "optics", "platform": "free_space", "description": "A Thorlabs SM05-mounted linear polarizer (LPNIR050-MP2): the film in its threaded housing", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogCubeSplitter": {"category": "optics", "platform": "free_space", "description": "A bare beamsplitter cube at its size (BS0.., PBS1.., PBS255, 20 and 25 mm cubes): the glass cube and its coated diagonal", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogPlateSplitter": {"category": "optics", "platform": "free_space", "description": "A plate or pellicle beamsplitter at its size (BSN11R, BSW29, BSW29R; BP108, BP145B3 pellicles in their frame)", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogMirror": {"category": "optics", "platform": "free_space", "description": "A Thorlabs protected-silver mirror (PF10-03-P01 Ø1\", PF20-03-P01 Ø2\", PFD10-03-P01 D-shaped) at its size, in a kinematic mount sized to it", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogDichroic": {"category": "optics", "platform": "free_space", "description": "A Thorlabs Ø1\" dichroic mirror (DMLP805 longpass, DMSP650 shortpass) at its size", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogCageMount": {"category": "optics", "platform": "free_space", "description": "A Thorlabs 30 mm cage plate or cage mount at its size: plates (CP32, CP33, CP33T, CP36, CP42), the drop-in DCP1, rotation mounts (CRM1T, CRM1LT, C45M1, CP360Q), XY mounts (CXY1A, CXYZ05A), the dual rotation mount DLM1, the CP33C bracket and the LCP33 30-to-60 mm adapter", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogCageCube": {"category": "optics", "platform": "free_space", "description": "A Thorlabs 30 mm cage cube at its size (CCM1-4ER compact, CM1-DCH with its dichroic holder, the DFM1BS kinematic cube, BS20CAM holding a 20 mm cube)", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogRightAngleMount": {"category": "optics", "platform": "free_space", "description": "A Thorlabs right-angle kinematic cage mount at its size (KCB1C)", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogPhotodiode": {"category": "devices", "platform": "free_space", "description": "A Thorlabs photodiode or power sensor at its size: a bare TO can with its leads (FDS100, FGA01, FGA015), the SM05-mounted SM05PD4A, the S144C integrating-sphere sensor, or the PM121D console", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogLED": {"category": "devices", "platform": "free_space", "description": "A Thorlabs LED at its size: a mounted LED (M..L4, M..L5, MNWHL4) with its SM1 housing and finned heat sink, or a fiber-coupled LED (M..F1, M..F4) with its finned box and SMA port", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogCollimator": {"category": "optics", "platform": "free_space", "description": "A Thorlabs fixed fiber collimator (F220.., F280..) at its size: the Ø11 barrel with its M11 front and the FC or SMA adapter at the back", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogCamera": {"category": "devices", "platform": "free_space", "description": "A camera at its size: Thorlabs Zelux CS165MU (SM1 front, 30 mm cage taps) or an Allied Vision Alvium 1800 U (C-mount)", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogTableClamp": {"category": "misc", "platform": "free_space", "description": "Table clamp or clamping fork at its size (CL4, CL5, CL5A, CL6, CL8, CF125): holds a post base or a mount's foot down on the table", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogHardware": {"category": "misc", "platform": "free_space", "description": "Optical-table hardware at its size: the AB90A right-angle bracket, platform mounts (BSH05, BSH1, BSH20), the BP107 pellicle mount, the DMM1 D-mirror mount and the quadruple fiber mating-sleeve brackets (ADAFCB6, ADAFCPMB6)", "parameters": ["center", "angle", "part", "label"]},
+    "CatalogSleeve": {"category": "optics", "platform": "free_space", "description": "A fiber mating sleeve (butt coupler) with its square flange (ADAFC2 and the square-flange FC couplers): two fiber connectors meet in it, ``a`` and ``b``", "parameters": ["center", "angle", "part", "label"]},
     "BalancedDetector": {"category": "devices", "platform": "free_space", "description": "Free-space balanced detector: two matched photodiodes in one housing (inputs in1 and in2 on the front face), out carries the difference; for balanced homodyne detection", "parameters": ["center", "angle", "box_size", "label"]},
 }
 
@@ -445,6 +474,8 @@ def _build_class_map() -> dict[str, type]:
     from optodraw.core.routing import Route
     from optodraw.components.optics import FaradayRotator, ModeCleaner, RoofMirror
     from optodraw.components.devices import BalancedDetector
+    from optodraw.components.optics.cage import CageCube, CageRods, CageRightAngleMirror, CageTower, CageWavePlate, CryostatCabinet, MotorizedMirror
+    from optodraw.components.vendor import (CatalogLens, CatalogLensTube, CatalogAdapter, CatalogFilter, CatalogNDFilter, CatalogWavePlate, CatalogGlanPolarizer, CatalogPolarizer, CatalogCubeSplitter, CatalogPlateSplitter, CatalogMirror, CatalogDichroic, CatalogCageMount, CatalogCageCube, CatalogRightAngleMount, CatalogPhotodiode, CatalogLED, CatalogCollimator, CatalogCamera, CatalogHardware, CatalogTableClamp, CatalogSleeve)
 
     return {
         "Lens": Lens,
@@ -658,6 +689,35 @@ def _build_class_map() -> dict[str, type]:
         "ModeCleaner": ModeCleaner,
         "RoofMirror": RoofMirror,
         "BalancedDetector": BalancedDetector,
+        "CatalogLens": CatalogLens,
+        "CatalogLensTube": CatalogLensTube,
+        "CatalogAdapter": CatalogAdapter,
+        "CatalogFilter": CatalogFilter,
+        "CatalogNDFilter": CatalogNDFilter,
+        "CatalogWavePlate": CatalogWavePlate,
+        "CatalogGlanPolarizer": CatalogGlanPolarizer,
+        "CatalogPolarizer": CatalogPolarizer,
+        "CatalogCubeSplitter": CatalogCubeSplitter,
+        "CatalogPlateSplitter": CatalogPlateSplitter,
+        "CatalogMirror": CatalogMirror,
+        "CatalogDichroic": CatalogDichroic,
+        "CatalogCageMount": CatalogCageMount,
+        "CatalogCageCube": CatalogCageCube,
+        "CatalogRightAngleMount": CatalogRightAngleMount,
+        "CatalogPhotodiode": CatalogPhotodiode,
+        "CatalogLED": CatalogLED,
+        "CatalogCollimator": CatalogCollimator,
+        "CatalogCamera": CatalogCamera,
+        "CatalogHardware": CatalogHardware,
+        "CatalogTableClamp": CatalogTableClamp,
+        "CatalogSleeve": CatalogSleeve,
+        "CageCube": CageCube,
+        "CageRods": CageRods,
+        "CageRightAngleMirror": CageRightAngleMirror,
+        "CageWavePlate": CageWavePlate,
+        "MotorizedMirror": MotorizedMirror,
+        "CageTower": CageTower,
+        "CryostatCabinet": CryostatCabinet,
     }
 
 
@@ -788,6 +848,12 @@ def _bootstrap_registry() -> None:
         raise RuntimeError(f"Registry class map is missing entries: {', '.join(missing)}")
 
     for name, meta in _BUILTIN_METADATA.items():
+        sized = getattr(_CLASS_MAP[name], "size_names", None)
+        if callable(sized):                                # a catalogue part: each size from its drawing, in mm
+            extra = [p for p in sized() if p not in meta["parameters"]]
+            params = list(meta["parameters"])
+            at = params.index("label") if "label" in params else len(params)
+            meta = {**meta, "parameters": params[:at] + extra + params[at:]}
         category = meta["category"]
         category_defaults = _CATEGORY_PHYSICS_DEFAULTS.get(category, {})
         physics_modes = tuple(meta.get("physics_modes", category_defaults.get("physics_modes", ("diagram",))))
