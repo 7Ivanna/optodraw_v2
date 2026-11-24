@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "optodraw-gui-test",
+      "runtimeExecutable": "/private/tmp/claude-501/-Users-iva--claude-spares-spare-Ogq9Kp/bf2b62a6-c91a-42a6-9bdf-62f4c467b8e1/scratchpad/venv/bin/python",
+      "runtimeArgs": ["-m", "optodraw.app.launcher", "--port", "8765", "--no-browser"],
+      "port": 8765
+    }
+  ]
+}
