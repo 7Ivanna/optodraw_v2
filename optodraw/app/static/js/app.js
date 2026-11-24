@@ -2930,10 +2930,11 @@ window.addEventListener("message", (e) => {
       }
       canvas.select(data.id); // keep selection -> 3D re-highlights + re-attaches gizmo
     });
-  } else if (data.type === "optodraw-key") {      // Ctrl/Cmd+C, V or D pressed while the 3D view had the keyboard
+  } else if (data.type === "optodraw-key") {      // Ctrl/Cmd+C, V, D or Delete pressed while the 3D view had the keyboard
     if (data.key === "c") copySelected();
     else if (data.key === "v") paste();
     else if (data.key === "d") duplicateSelected();
+    else if (data.key === "delete") deleteSelected();
   } else if (data.type === "optodraw-undo") {
     data.redo ? redo() : undo();                     // Ctrl/Cmd+Z pressed while the 3D view had the keyboard
   } else if (data.type === "optodraw-move-group" && Array.isArray(data.moves) && data.moves.length) {

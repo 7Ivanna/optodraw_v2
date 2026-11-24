@@ -205,6 +205,13 @@
         return;
       }
       if (ev.metaKey || ev.ctrlKey) return;
+      // Delete or Backspace removes the selected parts: the editor does it, so pass it up
+      if (ev.key === 'Delete' || ev.key === 'Backspace') {
+        if (gizmo && gizmo.dragging) return;
+        ev.preventDefault();
+        if (window.parent) window.parent.postMessage({ type: 'optodraw-key', key: 'delete' }, '*');
+        return;
+      }
       // Esc lets go of the selection, so nothing selected moves by accident
       if (ev.key === 'Escape') {
         if (gizmo && gizmo.dragging) return;
