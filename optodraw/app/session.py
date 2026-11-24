@@ -607,16 +607,16 @@ class EditorSession:
         params.pop("type", None)
         params.pop("id", None)
         near = params.pop("near", None)                  # where the person is looking: put it there, in a free spot
-        grid = params.pop("grid", None)                  # the editor's snap grid: the spot is on it
         with self._lock:
             component_id = self._new_id(name)
             entry = {"type": name, "id": component_id, **params}
-            if "center" not in entry:
-                # where the person looks, or else along the optical axis (y = 0), stepped along x so parts line up;
-                # either way the nearest spot where the new part's footprint overlaps no other part's
-                if near is None:
-                    near = [round(-90.0 + len(self._spec["components"]) * 26.0, 1), 0.0]
-                entry["center"] = self._free_spot(near, entry=entry, grid=grid)
+            if "center" not in entry and near is not None:
+                entry["center"] = self._free_spot(near)
+            elif "center" not in entry:
+                # Default new parts onto the optical axis (y=0), stepped along x so
+                # mirrors, lenses, etc. line up on the same plane instead of stacking.
+                n = len(self._spec["components"])
+                entry["center"] = [round(-90.0 + n * 26.0, 1), 0.0]
             component_from_spec(deepcopy(entry))  # validate (raises on bad params)
             self._spec["components"].append(entry)
             self._refresh_traces()  # a new optic may sit in a traced ray's path
@@ -633,69 +633,27 @@ class EditorSession:
                     pass  # portless/degenerate placement must never block the add
             return component_id
 
-    _GROUND = frozenset({"OpticalTable", "Breadboard", "Baseplate", "Grid", "ChipSubstrate", "PCB"})
-
-    @staticmethod
-    def _footprint(entry: dict[str, Any], center: tuple[float, float] | None = None
-                   ) -> tuple[float, float, float, float] | None:
-        """The plan box (x0, y0, x1, y1) a part covers: its drawn extent turned by its angle, at its centre (or at
-        ``center``). None when it does not build or has no centre."""
-
-        from optodraw.layout import estimate_component_bounds
-
-        try:
-            part = component_from_spec(deepcopy(entry))
-            x0, y0, x1, y1 = estimate_component_bounds(part)
-        except Exception:
-            return None
-        # at least a post base (about 36 mm) round its middle: a mirror's drawing is a thin line, its mount is not
-        x0, y0, x1, y1 = min(x0, -7.0), min(y0, -7.0), max(x1, 7.0), max(y1, 7.0)
-        if center is None:
-            c = entry.get("center")
-            if not (isinstance(c, list) and len(c) >= 2 and all(isinstance(v, (int, float)) for v in c[:2])):
-                return None
-            center = (float(c[0]), float(c[1]))
-        turn = math.radians(float(entry.get("angle", 0) or 0))
-        cos, sin = math.cos(turn), math.sin(turn)
-        xs, ys = [], []
-        for x, y in ((x0, y0), (x1, y0), (x1, y1), (x0, y1)):
-            xs.append(center[0] + x * cos - y * sin)
-            ys.append(center[1] + x * sin + y * cos)
-        return min(xs), min(ys), max(xs), max(ys)
-
-    def _free_spot(self, near: Any, entry: dict[str, Any] | None = None, grid: Any = None,
-                   gap: float = 2.0, reach: float = 200.0) -> list[float]:
-        """The point nearest ``near`` (x, y) where the new part (``entry``) overlaps no part already placed, footprint
-        against footprint with ``gap`` between them; on the snap ``grid`` when one is given. A breadboard or a table
-        is the ground, not a part in the way. Without an entry, a 14-unit square stands in for the new part."""
+    def _free_spot(self, near: Any, clear: float = 14.0, step: float = 18.0) -> list[float]:
+        """The point nearest ``near`` (x, y) that no part's centre is within ``clear`` of: the spot itself, then rings
+        of eight spots ``step`` apart round it. A breadboard or a table is the ground, not a part in the way."""
 
         try:
             x0, y0 = float(near[0]), float(near[1])
         except (TypeError, ValueError, IndexError) as error:
             raise ValueError(f"near is a point [x, y], got {near!r}") from error
-        try:
-            step = float(grid) if grid else 0.0
-        except (TypeError, ValueError):
-            step = 0.0
-        taken = [box for c in self._spec["components"] if c.get("type") not in self._GROUND
-                 for box in [self._footprint(c)] if box is not None]
-        own = self._footprint(entry, (0.0, 0.0)) if entry is not None else None
-        if own is None:
-            own = (-7.0, -7.0, 7.0, 7.0)
+        ground = {"OpticalTable", "Breadboard", "Baseplate", "Grid", "ChipSubstrate", "PCB"}
+        taken = [(float(c["center"][0]), float(c["center"][1])) for c in self._spec["components"]
+                 if c.get("type") not in ground and isinstance(c.get("center"), list) and len(c["center"]) >= 2
+                 and all(isinstance(v, (int, float)) for v in c["center"][:2])]
 
         def free(x: float, y: float) -> bool:
-            a = (own[0] + x - gap, own[1] + y - gap, own[2] + x + gap, own[3] + y + gap)
-            return all(a[2] <= b[0] or b[2] <= a[0] or a[3] <= b[1] or b[3] <= a[1] for b in taken)
+            return all(math.hypot(x - a, y - b) >= clear for a, b in taken)
 
-        pitch = step if step > 0 else 5.0
-        if step > 0:                                     # start on the grid point nearest where the person looks
-            x0, y0 = round(x0 / step) * step, round(y0 / step) * step
-        n = int(reach / pitch)
-        spots = sorted(((i * pitch, j * pitch) for i in range(-n, n + 1) for j in range(-n, n + 1)),
-                       key=lambda d: (math.hypot(*d), d))
-        for dx, dy in spots:
-            if free(x0 + dx, y0 + dy):
-                return [round(x0 + dx, 1), round(y0 + dy, 1)]
+        for ring in range(0, 12):
+            spots = [(x0, y0)] if ring == 0 else [(x0 + ring * step * math.cos(math.pi * k / 4), y0 + ring * step * math.sin(math.pi * k / 4)) for k in range(8)]
+            for x, y in spots:
+                if free(x, y):
+                    return [round(x, 1), round(y, 1)]
         return [round(x0, 1), round(y0, 1)]
 
     def add_part(self, definition, params=None):
