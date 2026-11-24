@@ -10,8 +10,10 @@ Each stepper mirror sends its fiber's light one of two ways (the colours of the 
                     the arm), at the collection line's height, into the upper beamsplitter (its DFM1BS):
                     MM1 in the beam -> KM100 B -> D mirror -> rods, wave plate -> its left side           orange
                     MM1 turned away -> KM100 A -> KM100 C -> KM100 E (in front of it) -> its front face   light blue
-    Olaf E (right): filter -> MM2 in the beam -> KM100 F -> KM100 G -> into the left cube's side       red
-                    filter -> MM2 turned away -> KM100 I -> KCB1 -> Glan-Taylor in a CRM1T -> its back  dark blue
+    Olaf E (right): the laser's fiber -> CP33s -> SM1PM10 with a GT10 -> BP108 pellicle -> CP33 -> two ND
+                    filters (the photo of its cage), then
+                    MM2 in the beam -> KM100 F -> KM100 G -> into the left cube's side                    red
+                    MM2 turned away -> KM100 I -> KCB1 -> Glan-Taylor in a CRM1T -> its back              dark blue
 
 The excitation line at beam height, toward the far edge: three CCM1-4ER cubes, two wave plates between the first two;
 the right cube sends the light down through the objective to the sample. From the sample: up through the right cube,
@@ -39,7 +41,6 @@ from optodraw import (
     CageWavePlate,
     CryostatCabinet,
     FiberCollimator,
-    Filter,
     Mirror,
     MotorizedMirror,
     Objective,
@@ -47,7 +48,14 @@ from optodraw import (
     Scene,
 )
 from optodraw.components.optics.cage import CUBE_HALF as H
-from optodraw.components.vendor import CatalogCageMount, CatalogGlanPolarizer, CatalogLensTube, CatalogTableClamp
+from optodraw.components.vendor import (
+    CatalogCageMount,
+    CatalogGlanPolarizer,
+    CatalogLensTube,
+    CatalogNDFilter,
+    CatalogPlateSplitter,
+    CatalogTableClamp,
+)
 from optodraw.components.vendor.data import CLAMPS
 from optodraw.layout import aim
 
@@ -211,9 +219,33 @@ def build() -> Scene:
     aim(km_c, km_a, km_e)
     aim(km_e, km_c, col["dfm"].world_port("trans").center.as_2d())
 
-    # ---- Olaf E down from the far right corner, a filter, and its two routes
-    olaf_e = scene.add(FiberCollimator(center=mm(188, 175), angle=-90, label="Olaf E"))
-    filt = scene.add(Filter(center=mm(188, 140), angle=-90, label="Filter"))
+    # ---- Olaf E, the laser, down from the far right corner (the photo of its cage): the fiber -> two CP33s -> an
+    # SM1PM10 holding a GT10 Glan-Taylor -> a BP108 pellicle (it samples 8 % toward -x) -> CP33 -> two ND filters,
+    # on four rods, the cage overhanging the board's far edge; then MM2 and its two routes. Positions along the line
+    # are the photo's, scaled by the cage plates (40.6 mm).
+    x_olaf = mm(188, 0)[0]
+    y_nd2 = mm(0, 105)[1]                                       # the ND filter nearest MM2
+    def on_line(y_mm):                                          # mm along the line from the ND filter nearest MM2
+        return (x_olaf, y_nd2 + y_mm * MM_U)
+    nd2 = scene.add(CatalogNDFilter(part="NE10A-B", center=on_line(0.0), angle=-90, label="ND filter (Olaf E, 2)",
+                                    base_mount="none"))
+    nd1 = scene.add(CatalogNDFilter(part="NE10A-B", center=on_line(12.0), angle=-90, label="ND filter (Olaf E, 1)",
+                                    base_mount="none"))
+    scene.add(CatalogCageMount(part="CP33", center=on_line(22.5), angle=90, label="CP33 (Olaf E, 3)"))
+    pellicle = scene.add(CatalogPlateSplitter(part="BP108", center=on_line(50.0), angle=-45, label="Pellicle BP108 (Olaf E)",
+                                              base_mount="none"))
+    tube_lo, tube_hi = 70.0, 106.5                              # the SM1PM10, screwed into CP33 2
+    olaf_tube = scene.add(CatalogLensTube(part="SM1L10", length_mm=tube_hi - tube_lo, angle=-90,
+                                          center=on_line((tube_lo + tube_hi) / 2), label="SM1PM10 (Olaf E)",
+                                          base_mount="none"))
+    olaf_tube_glan = scene.add(CatalogGlanPolarizer(part="GT10", center=on_line((tube_lo + tube_hi) / 2), angle=-90,
+                                               label="Glan-Taylor GT10 (in Olaf E's SM1PM10)", base_mount="none"))
+    scene.add(CatalogCageMount(part="CP33", center=on_line(111.0), angle=90, label="CP33 (Olaf E, 2)",
+                               base_mount="none"))
+    scene.add(CatalogCageMount(part="CP33", center=on_line(141.0), angle=90, label="CP33 (Olaf E, 1)"))
+    hrods(scene, (x_olaf, on_line(-5.0)[1]), (x_olaf, on_line(145.5)[1]), 0.0)
+    olaf_e = scene.add(FiberCollimator(center=on_line(141.0 + 8.9 / 2 + FIBER_FRONT / MM_U), angle=-90,
+                                       label="Olaf E"))
     mm2 = scene.add(MotorizedMirror(center=mm(188, 75), label="MM2"))
     km_f = scene.add(Mirror(center=mm(116, 70), label="KM100 F"))
     km_g = scene.add(Mirror(center=mm(226, -53), label="KM100 G"))
@@ -227,10 +259,10 @@ def build() -> Scene:
                                base_mount="none"))
     olaf_glan = scene.add(CatalogGlanPolarizer(part="GT10", center=(AX, mm(0, -120)[1]), angle=90,
                                                label="Glan-Taylor GT10 (Olaf E)", base_mount="none"))
-    aim(mm2, filt, km_f)
+    aim(mm2, nd2, km_f)
     aim(km_f, mm2, km_g)
     aim(km_g, km_f, ex["left"].world_port("tap").center.as_2d())
-    aim(km_i, filt, kcb_in.world_port("in").center.as_2d())
+    aim(km_i, nd2, kcb_in.world_port("in").center.as_2d())
 
     # ---- the other parts on the board, off the traced routes
     scene.add(FiberCollimator(center=mm(-98, 215), angle=-90, label="Olaf 1"))
@@ -248,7 +280,8 @@ def build() -> Scene:
                            *to_sample, color=ORANGE, width=1.4, label="003, MM1 in the beam"))
     scene.add(Beam.through(*launch, km_a, km_c, km_e, (col["wp_c"], "in"), (col["wp_c"], "out"), (col["dfm"], "trans"),
                            *to_sample, color=LIGHT_BLUE, width=1.4, label="003, MM1 turned away"))
-    olaf = [(olaf_e, "out"), (filt, "in"), (filt, "out")]
+    olaf = [(olaf_e, "out"), (olaf_tube, "in"), (olaf_tube_glan, "in"), (olaf_tube_glan, "out"), (olaf_tube, "out"),
+            (pellicle, "in"), (pellicle, "trans"), (nd1, "in"), (nd1, "out"), (nd2, "in"), (nd2, "out")]
     add_light(scene, cages, [(cryo, "sample"), (objective, "out"), (objective, "in"), (ex["right"], "refl")],
               excitation_in=[
                   ([*olaf, mm2, km_f, km_g, (ex["left"], "tap")],

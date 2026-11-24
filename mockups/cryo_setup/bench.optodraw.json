@@ -735,28 +735,124 @@
    "z": 27.95275590551181
   },
   {
+   "type": "CatalogNDFilter",
+   "id": "ND filter (Olaf E, 2)",
+   "center": [
+    74.01574803149606,
+    41.338582677165356
+   ],
+   "angle": -90,
+   "part": "NE10A-B",
+   "label": "ND filter (Olaf E, 2)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogNDFilter",
+   "id": "ND filter (Olaf E, 1)",
+   "center": [
+    74.01574803149606,
+    46.06299212598425
+   ],
+   "angle": -90,
+   "part": "NE10A-B",
+   "label": "ND filter (Olaf E, 1)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CP33 (Olaf E, 3)",
+   "center": [
+    74.01574803149606,
+    50.196850393700785
+   ],
+   "angle": 90,
+   "part": "CP33",
+   "label": "CP33 (Olaf E, 3)"
+  },
+  {
+   "type": "CatalogPlateSplitter",
+   "id": "Pellicle BP108 (Olaf E)",
+   "center": [
+    74.01574803149606,
+    61.02362204724409
+   ],
+   "angle": -45,
+   "part": "BP108",
+   "label": "Pellicle BP108 (Olaf E)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogLensTube",
+   "id": "SM1PM10 (Olaf E)",
+   "center": [
+    74.01574803149606,
+    76.08267716535433
+   ],
+   "angle": -90,
+   "part": "SM1L10",
+   "length_mm": 36.5,
+   "label": "SM1PM10 (Olaf E)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogGlanPolarizer",
+   "id": "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+   "center": [
+    74.01574803149606,
+    76.08267716535433
+   ],
+   "angle": -90,
+   "part": "GT10",
+   "label": "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CP33 (Olaf E, 2)",
+   "center": [
+    74.01574803149606,
+    85.03937007874015
+   ],
+   "angle": 90,
+   "part": "CP33",
+   "label": "CP33 (Olaf E, 2)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CP33 (Olaf E, 1)",
+   "center": [
+    74.01574803149606,
+    96.85039370078741
+   ],
+   "angle": 90,
+   "part": "CP33",
+   "label": "CP33 (Olaf E, 1)"
+  },
+  {
+   "type": "CageRods",
+   "id": "cagerods_1",
+   "center": [
+    74.01574803149606,
+    68.99606299212599
+   ],
+   "angle": 90,
+   "length": 59.25196850393701,
+   "end_plates": false,
+   "cage": 30,
+   "label": ""
+  },
+  {
    "type": "FiberCollimator",
    "id": "Olaf E",
    "center": [
     74.01574803149606,
-    68.89763779527559
+    102.8023622047244
    ],
    "angle": -90,
    "aperture": 6.0,
    "length": 14.0,
    "label": "Olaf E"
-  },
-  {
-   "type": "Filter",
-   "id": "Filter",
-   "center": [
-    74.01574803149606,
-    55.118110236220474
-   ],
-   "angle": -90,
-   "aperture": 8.0,
-   "pass_band": "longpass",
-   "label": "Filter"
   },
   {
    "type": "MotorizedMirror",
@@ -825,7 +921,7 @@
   },
   {
    "type": "CageRods",
-   "id": "cagerods_1",
+   "id": "cagerods_2",
    "center": [
     0.0,
     -51.92913385826772
@@ -961,25 +1057,36 @@
   },
   {
    "type": "CatalogTableClamp",
-   "id": "Olaf E fork",
+   "id": "CP33 (Olaf E, 3) fork",
    "center": [
     64.64167425542938,
-    58.44519997551463
+    41.14441257393984
    ],
    "angle": -136.0,
    "part": "CF125",
-   "label": "Olaf E fork"
+   "label": "CP33 (Olaf E, 3) fork"
   },
   {
    "type": "CatalogTableClamp",
-   "id": "Filter fork",
+   "id": "CP33 (Olaf E, 1) fork",
    "center": [
-    64.64167425542938,
-    46.06567241645953
+    74.01574803149606,
+    83.81889763779529
    ],
-   "angle": -136.0,
+   "angle": 270.0,
    "part": "CF125",
-   "label": "Filter fork"
+   "label": "CP33 (Olaf E, 1) fork"
+  },
+  {
+   "type": "CatalogTableClamp",
+   "id": "Olaf E fork",
+   "center": [
+    87.04724409448818,
+    101.4023622047244
+   ],
+   "angle": 0.0,
+   "part": "CF125",
+   "label": "Olaf E fork"
   },
   {
    "type": "CatalogTableClamp",
@@ -1284,11 +1391,43 @@
      "out"
     ],
     [
-     "Filter",
+     "SM1PM10 (Olaf E)",
      "in"
     ],
     [
-     "Filter",
+     "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+     "in"
+    ],
+    [
+     "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+     "out"
+    ],
+    [
+     "SM1PM10 (Olaf E)",
+     "out"
+    ],
+    [
+     "Pellicle BP108 (Olaf E)",
+     "in"
+    ],
+    [
+     "Pellicle BP108 (Olaf E)",
+     "trans"
+    ],
+    [
+     "ND filter (Olaf E, 1)",
+     "in"
+    ],
+    [
+     "ND filter (Olaf E, 1)",
+     "out"
+    ],
+    [
+     "ND filter (Olaf E, 2)",
+     "in"
+    ],
+    [
+     "ND filter (Olaf E, 2)",
      "out"
     ],
     [
@@ -1368,11 +1507,43 @@
      "out"
     ],
     [
-     "Filter",
+     "SM1PM10 (Olaf E)",
      "in"
     ],
     [
-     "Filter",
+     "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+     "in"
+    ],
+    [
+     "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+     "out"
+    ],
+    [
+     "SM1PM10 (Olaf E)",
+     "out"
+    ],
+    [
+     "Pellicle BP108 (Olaf E)",
+     "in"
+    ],
+    [
+     "Pellicle BP108 (Olaf E)",
+     "trans"
+    ],
+    [
+     "ND filter (Olaf E, 1)",
+     "in"
+    ],
+    [
+     "ND filter (Olaf E, 1)",
+     "out"
+    ],
+    [
+     "ND filter (Olaf E, 2)",
+     "in"
+    ],
+    [
+     "ND filter (Olaf E, 2)",
      "out"
     ],
     [
