@@ -1,23 +1,23 @@
 """3D mockup of the cryostat microscope bench on the attocube breadboard (500 x 475 mm, drawing 1011879-2), laid out
 from the annotated top view: positions are the photo mapped onto the board through its four corners (``PHOTO``),
-good to about a hole. The KCB2 (the large right-angle mount) stands over the board's Ø31 hole, 75 mm from its far
-edge, one cube up: it turns every beam from the near side down through the objective into the cryostat, and the light
-from the sample back out.
+good to about a hole. The cage systems over the cryostat come from the front photos (cage_systems.py): the KCB2C
+(the large right-angle mount) stands over the board's Ø31 hole, 75 mm from its far edge, on 60 mm rods, with the
+excitation line's right cube under it and the objective under that, down into the cryostat.
 
 Each stepper mirror sends its fiber's light one of two ways (the colours of the annotated photo):
 
     003 (left):     MM1 in the beam -> KM100 B -> D mirror -> KCB1 P1 (up)                            orange
                     MM1 turned away -> KM100 A -> KM100 C -> KM100 E -> P1                            light blue
-                    then the cage line one cube high: DFM1BS -> CRM1Ts -> KCB1 P2 -> cube C1
-    Olaf E (right): filter -> MM2 in the beam -> KM100 F -> KM100 G -> CCM1 (folds it into the line)  red
-                    filter -> MM2 turned away -> KM100 I -> KCB1 -> through the CCM1                  dark blue
-                    the cage line at beam height toward the far edge, then a KCB1 pair lifts it into C1
+                    (where P1 sends it is not in the photos yet)
+    Olaf E (right): filter -> MM2 in the beam -> KM100 F -> KM100 G -> into the left cube's side       red
+                    filter -> MM2 turned away -> KM100 I -> KCB1 -> CRM1T -> into its back             dark blue
 
-The line into the KCB2, one cube up, from the near side: the Olaf E lift -> C1 (003 joins) -> U1 -> KCB2 -> down
-through the objective to the sample. The tower stands on U1: the LED, on the near side one cube above C LED and
-facing the tower, drops into it through a KCB1 pair, and C LED sends it down into U1. Imaging: sample -> KCB2 -> U1
--> up through C LED -> KCB1 pair J1, J2 (one cube toward the far edge) -> two tubes -> camera. Every post has a CF125
-clamping fork, turned the way the fork beside it in the photo points.
+The excitation line at beam height, toward the far edge: three CCM1-4ER cubes, two wave plates between the first two;
+the right cube sends the light down through the objective to the sample. From the sample: up through the right cube,
+on up into the KCB2C and along the collection line (LCP33, two wave plates, DFM1BS, a wave plate), and across to the
+middle cube and up the imaging rods to the imaging cube, the KCB1C pair and the camera. The LED arm drops into the
+imaging cube and its light goes the other way down to the sample. Every post has a CF125 clamping fork, turned the
+way the fork beside it in the photo points.
 
 Heights are scene units (2.54 mm) above the bench beam plane. Run:
     python3 mockups/cryo_setup/bench.py            (bench.optodraw.json, bench_3d.html, bench_3d_*.png)
@@ -33,15 +33,11 @@ from pathlib import Path
 from optodraw import (
     Beam,
     Breadboard,
-    CageCube,
     CageRightAngleMirror,
     CageRods,
-    Camera,
     CryostatCabinet,
     FiberCollimator,
     Filter,
-    Lamp,
-    LensTube,
     Mirror,
     MotorizedMirror,
     Objective,
@@ -49,9 +45,12 @@ from optodraw import (
     Scene,
 )
 from optodraw.components.optics.cage import CUBE_HALF as H
-from optodraw.components.vendor import CatalogCageCube, CatalogCageMount, CatalogTableClamp
+from optodraw.components.vendor import CatalogCageMount, CatalogTableClamp
 from optodraw.components.vendor.data import CLAMPS
 from optodraw.layout import aim
+
+sys.path.insert(0, str(Path(__file__).parent))
+from cage_systems import Y_KCB2, Z_EXC, add_light, add_systems  # noqa: E402
 
 HERE = Path(__file__).parent
 BEAM = 30.0                  # the renderer's beam plane above the table
@@ -67,9 +66,8 @@ def mm(x: float, y: float) -> tuple[float, float]:
 
 
 AX, AY = mm(0.0, 237.5 - 75.0)   # the tower's axis, over the Ø31 hole
-Z_UP, Z_LED = 38.0, 87.0     # the upper cage level and the LED arm
-Z_JOG = Z_LED + 2 * H        # the KCB1 pair under the camera
-LED_NM = 590
+MM_U = 1 / 2.54              # scene units per mm (the cage systems are laid out in mm)
+CUBE_CCM1 = 38.1 / 2 * MM_U  # the CCM1-4ER's half width
 # the annotated photo's colours for the four routes
 ORANGE, LIGHT_BLUE, RED, DARK_BLUE = "#f39c12", "#8ecdf5", "#d62828", "#1f4fd6"
 
@@ -78,12 +76,6 @@ ORANGE, LIGHT_BLUE, RED, DARK_BLUE = "#f39c12", "#8ecdf5", "#d62828", "#1f4fd6"
 PHOTO_FORKS = [(-89, 201, -174), (114, 223, -108), (175, 119, -136), (90, 55, -79), (228, 39, -116), (221, -63, 179),
                (180, -193, 179), (5, -199, 14), (40, -59, 52), (-178, 42, 60), (-101, -17, -109), (-249, -23, -43),
                (-231, -76, -35), (-208, -151, 27), (-220, -194, 8), (-24, -180, 152)]
-
-
-def vrods(scene, z0, z1, x=AX, y=AY, plates=False, cage=30):
-    """Vertical cage rods from height z0 to z1 on the axis at (x, y)."""
-    return scene.add(CageRods(center=(x, y), z=(z0 + z1) / 2, length=z1 - z0, rotation_y=90, end_plates=plates,
-                              cage=cage, base_mount="none"))
 
 
 def hrods(scene, a, b, z):
@@ -160,73 +152,18 @@ def build() -> Scene:
                                      cabinet_offset=(-AX, -AY), label="Cryostat"))
     board_top = -(BEAM - BOARD_T)
 
-    # ---- the KCB2 over the window, one cube up: it takes every beam from the near side (-y) and turns it down
-    # through the objective into the cryostat, and turns the light from the sample back toward the near side
-    kcb2_half = 15.0                                          # the 60 mm cage mount's half width
-    kcb2 = scene.add(CageRightAngleMirror(cage=60, center=(AX, AY), z=Z_UP, angle=90, rotation_x=-90, label="KCB2",
-                                          base_mount="none"))
+    # ---- the cage systems (cage_systems.py, from the front photos): the KCB2C stands over the window, the
+    # excitation line runs at beam height from Olaf E's side to the cube under it, collection at the KCB2C's level,
+    # imaging on top. The module's frame turns onto the board as it is: its +y is the board's +y.
+    origin = (AX, AY - Y_KCB2 * MM_U, -Z_EXC * MM_U)
+    cages = add_systems(scene, origin=origin, z_board=Z_EXC + board_top / MM_U)
+    ex = cages["ex"]
+    # the objective under the right excitation cube, down through the window into the cryostat
     objective = scene.add(Objective(center=(AX, AY), z=-H - 7.5, rotation_y=90, label="Objective", base_mount="none"))
-    vrods(scene, board_top, Z_UP - kcb2_half, cage=60, plates=True)  # the KCB2 on rods round the objective
 
-    # ---- the line into the KCB2 at the upper level, from the near side: Olaf E lifted up, C1 (003 joins from the
-    # left), U1 under the tower (the LED comes down into it, the image goes up out of it)
-    y_u1 = AY - kcb2_half - H - 3.0
-    y_c1 = y_u1 - 2 * H - 4.0
-    y_lift = y_c1 - 2 * H - 4.0
-    u1 = scene.add(CageCube(center=(AX, y_u1), z=Z_UP, rotation_y=90, coating_color="#f2a65a", label="U1 (CCM1)",
-                            base_mount="none"))
-    c1 = scene.add(CageCube(center=(AX, y_c1), z=Z_UP, coating_color="#7fd6d0", label="C1 (CCM1)", base_mount="none"))
-    lift_lo = scene.add(CageRightAngleMirror(center=(AX, y_lift), angle=90, rotation_x=90, label="Olaf E lift (KCB1)"))
-    lift_hi = scene.add(CageRightAngleMirror(center=(AX, y_lift), z=Z_UP, rotation_y=-90,
-                                             label="Olaf E lift (upper KCB1)", base_mount="none"))
-    vrods(scene, H, Z_UP - H, y=y_lift)
-    vrods(scene, board_top, Z_UP - H, y=y_u1, plates=True)
-    hrods(scene, (AX, y_lift - H), (AX, AY - kcb2_half), Z_UP)
-
-    # ---- the tower over U1: C LED (CCM1), the LED arm, the camera
-    cled = scene.add(CageCube(center=(AX, y_u1), z=Z_LED, angle=90, rotation_x=-90, label="C LED (CCM1)",
-                              base_mount="none"))
-    vrods(scene, Z_UP + H, Z_LED - H, y=y_u1)
-    vrods(scene, Z_LED + H, Z_JOG - H, y=y_u1)
-
-    # the camera: a KCB1 pair over C LED steps the image one cube toward the far edge (+y), two tubes, camera
-    y_cam = y_u1 + 2 * H
-    j1 = scene.add(CageRightAngleMirror(center=(AX, y_u1), z=Z_JOG, rotation_y=-90, label="J1 (KCB1)", base_mount="none"))
-    j2 = scene.add(CageRightAngleMirror(center=(AX, y_cam), z=Z_JOG, angle=90, rotation_x=90, label="J2 (KCB1)",
-                                        base_mount="none"))
-    tube_z0, tube_mid, tube_z1 = Z_JOG + H, Z_JOG + H + 45.0, Z_JOG + H + 63.0
-    tube = scene.add(LensTube(center=(AX, y_cam), z=(tube_z0 + tube_mid) / 2, length=tube_mid - tube_z0,
-                              rotation_y=-90, label="Tube", base_mount="none"))
-    tube2 = scene.add(LensTube(center=(AX, y_cam), z=(tube_mid + tube_z1) / 2, length=tube_z1 - tube_mid,
-                               rotation_y=-90, label="Tube (upper)", base_mount="none"))
-    camera = scene.add(Camera(center=(AX, y_cam), z=tube_z1 + 3.0, rotation_y=-90, label="Camera", base_mount="none"))
-
-    # the LED on the near side (-y), one cube above C LED and facing the tower: a KCB1 pair drops it into C LED
-    y_led = y_u1 - 2 * H
-    k_a = scene.add(CageRightAngleMirror(center=(AX, y_led), z=Z_JOG, angle=90, rotation_x=-90,
-                                         label="LED KCB1 (upper)", base_mount="none"))
-    k_b = scene.add(CageRightAngleMirror(center=(AX, y_led), z=Z_LED, rotation_y=90, label="LED KCB1 (lower)",
-                                         base_mount="none"))
-    vrods(scene, Z_LED + H, Z_JOG - H, y=y_led)
-    led_y = y_led - 45.0
-    led = scene.add(Lamp(center=(AX, led_y), z=Z_JOG, angle=90, label="LED", base_mount="none"))
-    led_tube = scene.add(LensTube(center=(AX, y_led - 20.0), z=Z_JOG, angle=90, length=20.0, label="LED lens",
-                                  base_mount="none"))
-    hrods(scene, (AX, led_y + 6.0), (AX, y_led - H), Z_JOG)
-
-    # ---- 003's cage line, one cube up: KCB1 P1 lifts it, the DFM1BS turns it toward the far edge, a CRM1T, KCB1 P2
-    # turns it into C1
+    # 003's lift: KCB1 P1 sends it up (where it goes from there is not in the photos yet)
     left, y_up = AX - 2 * H, mm(0, -40)[1]
     p1 = scene.add(CageRightAngleMirror(center=(left, y_up), angle=90, rotation_x=90, label="P1 (KCB1)"))
-    dfm = scene.add(CatalogCageCube(part="DFM1BS", center=(left, y_up), z=Z_UP, rotation_y=-90, label="DFM1BS",
-                                    base_mount="none"))
-    p2 = scene.add(CageRightAngleMirror(center=(left, y_c1), z=Z_UP, angle=90, rotation_x=180, label="P2 (KCB1)",
-                                        base_mount="none"))
-    vrods(scene, H, Z_UP - H, x=left, y=y_up)
-    hrods(scene, (left, y_up - 3 * H), (left, y_c1 - H), Z_UP)
-    for y in (y_up - 2 * H - 2.0, y_up + 2 * H + 6.0):
-        scene.add(CatalogCageMount(part="CRM1T", center=(left, y), z=Z_UP, angle=90, label="CRM1T",
-                                   base_mount="none"))
 
     # ---- 003 on the left edge and its two routes
     f003 = scene.add(FiberCollimator(center=mm(-232, -4), angle=0, label="003"))
@@ -251,42 +188,36 @@ def build() -> Scene:
     km_f = scene.add(Mirror(center=mm(116, 70), label="KM100 F"))
     km_g = scene.add(Mirror(center=mm(226, -53), label="KM100 G"))
     km_i = scene.add(Mirror(center=mm(188, -194), label="KM100 I"))
-    # Olaf E's cage line at beam height, toward the far edge: a KCB1 turns the dark-blue route into it, the CCM1 folds
-    # the red route in and passes the dark blue, a CRM1T, then the lift up to the KCB2's level
+    # Olaf E's way into the excitation line at beam height: a KCB1 turns the dark-blue route into the left cube's
+    # back, the red route comes into its side; a CRM1T between them
     kcb_in = scene.add(CageRightAngleMirror(center=(AX, mm(0, -194)[1]), rotation_y=180, label="Olaf E in (KCB1)"))
-    ccm1 = scene.add(CageCube(center=(AX, mm(0, -53)[1]), rotation_y=180, label="CCM1", base_mount="none"))
-    hrods(scene, (AX, mm(0, -194)[1] + 3 * H), (AX, y_lift - H), 0.0)
+    y_left = ex["left"].transform.position.y
+    hrods(scene, (AX, mm(0, -194)[1] + H), (AX, y_left - CUBE_CCM1), 0.0)
     scene.add(CatalogCageMount(part="CRM1T", center=(AX, mm(0, -120)[1]), angle=90, label="CRM1T", base_mount="none"))
     aim(mm2, filt, km_f)
     aim(km_f, mm2, km_g)
-    aim(km_g, km_f, ccm1.world_port("in").center.as_2d())
+    aim(km_g, km_f, ex["left"].world_port("tap").center.as_2d())
     aim(km_i, filt, kcb_in.world_port("in").center.as_2d())
 
     # ---- the other parts on the board, off the traced routes
     scene.add(FiberCollimator(center=mm(-98, 215), angle=-90, label="Olaf 1"))
     scene.add(Photodiode(center=mm(114, 215), angle=-90, label="PD"))
 
-    # ---- light: each route into the line, along it to the KCB2, then down to the sample
-    to_sample = [(kcb2, "in"), (kcb2, "out"), (objective, "in"), (objective, "out"), (cryo, "sample")]
-    via_c1 = [(c1, "refl"), (u1, "tap"), (u1, "refl"), *to_sample]
-    up_003 = [(p1, "in"), (p1, "out"), (dfm, "in"), (dfm, "refl"), (p2, "in"), (p2, "out"), (c1, "in"), *via_c1]
-    lift = [(ccm1, "refl"), (lift_lo, "in"), (lift_lo, "out"), (lift_hi, "in"), (lift_hi, "out"), (c1, "tap"), *via_c1]
-    scene.add(Beam.through((f003, "out"), mm1, km_b, d_left, *up_003, color=ORANGE, width=1.4,
+    # ---- light: 003 up to its lift; Olaf E's two routes into the excitation line and down to the sample; the sample's
+    # light up to the collection line and the camera; the LED down to the sample
+    p1_up = [(p1, "in"), (p1, "out")]
+    scene.add(Beam.through((f003, "out"), mm1, km_b, d_left, *p1_up, color=ORANGE, width=1.4,
                            label="003, MM1 in the beam"))
-    scene.add(Beam.through((f003, "out"), km_a, km_c, km_e, *up_003, color=LIGHT_BLUE, width=1.4,
+    scene.add(Beam.through((f003, "out"), km_a, km_c, km_e, *p1_up, color=LIGHT_BLUE, width=1.4,
                            label="003, MM1 turned away"))
-    scene.add(Beam.through((olaf_e, "out"), (filt, "in"), (filt, "out"), mm2, km_f, km_g, (ccm1, "in"), *lift,
-                           color=RED, width=1.4, label="Olaf E, MM2 in the beam"))
-    scene.add(Beam.through((olaf_e, "out"), (filt, "in"), (filt, "out"), km_i, (kcb_in, "in"), (kcb_in, "out"),
-                           (ccm1, "tap"), *lift, color=DARK_BLUE, width=1.4, label="Olaf E, MM2 turned away"))
-    scene.add(Beam.through((led, "out"), (led_tube, "in"), (led_tube, "out"), (k_a, "in"), (k_a, "out"), (k_b, "in"),
-                           (k_b, "out"), (cled, "in"), (cled, "refl"), (u1, "in"), (u1, "refl"), *to_sample,
-                           wavelength=LED_NM, opacity=0.5, label="LED"))
-    scene.add(Beam.through((cryo, "sample"), (objective, "out"), (objective, "in"), (kcb2, "out"), (kcb2, "in"),
-                           (u1, "refl"), (u1, "in"), (cled, "refl"), (cled, "tap"), (j1, "in"), (j1, "out"),
-                           (j2, "in"), (j2, "out"), (tube, "in"), (tube, "out"), (tube2, "in"), (tube2, "out"),
-                           (camera, "in"),
-                           wavelength=LED_NM, opacity=0.5, label="Imaging"))
+    olaf = [(olaf_e, "out"), (filt, "in"), (filt, "out")]
+    add_light(scene, cages, [(cryo, "sample"), (objective, "out"), (objective, "in"), (ex["right"], "refl")],
+              excitation_in=[
+                  ([*olaf, mm2, km_f, km_g, (ex["left"], "tap")],
+                   {"color": RED, "width": 1.4, "label": "Olaf E, MM2 in the beam"}),
+                  ([*olaf, km_i, (kcb_in, "in"), (kcb_in, "out"), (ex["left"], "in")],
+                   {"color": DARK_BLUE, "width": 1.4, "label": "Olaf E, MM2 turned away"}),
+              ])
     clamp_posts(scene)
     return scene
 

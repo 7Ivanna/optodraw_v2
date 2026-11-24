@@ -49,18 +49,476 @@
    "label": "Cryostat"
   },
   {
-   "type": "CageRightAngleMirror",
-   "id": "KCB2",
+   "type": "CatalogCageCube",
+   "id": "CCM1-4ER (imaging)",
+   "center": [
+    0.0,
+    27.795275590551178
+   ],
+   "angle": 90,
+   "part": "CCM1-4ER",
+   "label": "CCM1-4ER (imaging)",
+   "z": 56.69291338582677,
+   "rotation_x": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods imaging-excitation",
+   "center": [
+    0.0,
+    27.795275590551178
+   ],
+   "angle": 0,
+   "length": 41.69291338582677,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods imaging-excitation",
+   "z": 28.346456692913385,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CatalogRightAngleMount",
+   "id": "J1 (KCB1C)",
+   "center": [
+    0.0,
+    27.795275590551178
+   ],
+   "angle": 0,
+   "part": "KCB1C",
+   "label": "J1 (KCB1C)",
+   "z": 76.85039370078741,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogRightAngleMount",
+   "id": "J2 (KCB1C)",
+   "center": [
+    0.0,
+    47.204724409448815
+   ],
+   "angle": 90,
+   "part": "KCB1C",
+   "label": "J2 (KCB1C)",
+   "z": 76.85039370078741,
+   "rotation_x": 90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods cube-J1",
+   "center": [
+    0.0,
+    27.795275590551178
+   ],
+   "angle": 0,
+   "length": 3.1496062992125995,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods cube-J1",
+   "z": 65.76771653543307,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CatalogLensTube",
+   "id": "SM1L40 (lower)",
+   "center": [
+    0.0,
+    47.204724409448815
+   ],
+   "angle": 0,
+   "part": "SM1L40",
+   "label": "SM1L40 (lower)",
+   "z": 105.92519685039369,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogLensTube",
+   "id": "SM1L40 (upper)",
+   "center": [
+    0.0,
+    47.204724409448815
+   ],
+   "angle": 0,
+   "part": "SM1L40",
+   "label": "SM1L40 (upper)",
+   "z": 146.24015748031496,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CP33 (camera)",
+   "center": [
+    0.0,
+    47.204724409448815
+   ],
+   "angle": 0,
+   "part": "CP33",
+   "label": "CP33 (camera)",
+   "z": 142.26377952755905,
+   "rotation_y": 90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods camera",
+   "center": [
+    0.0,
+    47.204724409448815
+   ],
+   "angle": 0,
+   "length": 80.6299212598425,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods camera",
+   "z": 126.67322834645668,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CatalogCamera",
+   "id": "Camera (CS165MU)",
+   "center": [
+    0.0,
+    47.204724409448815
+   ],
+   "angle": 0,
+   "part": "CS165MU",
+   "label": "Camera (CS165MU)",
+   "z": 170.92519685039366,
+   "rotation_y": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogRightAngleMount",
+   "id": "LED KCB1C (lower)",
+   "center": [
+    0.0,
+    2.9133858267716555
+   ],
+   "angle": 0,
+   "part": "KCB1C",
+   "label": "LED KCB1C (lower)",
+   "z": 56.69291338582677,
+   "rotation_y": 90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogRightAngleMount",
+   "id": "LED KCB1C (upper)",
+   "center": [
+    0.0,
+    2.9133858267716555
+   ],
+   "angle": 90,
+   "part": "KCB1C",
+   "label": "LED KCB1C (upper)",
+   "z": 76.85039370078741,
+   "rotation_x": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods cube-LED",
+   "center": [
+    0.0,
+    16.35826771653543
+   ],
+   "angle": 90,
+   "length": 7.874015748031494,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods cube-LED",
+   "z": 56.69291338582677
+  },
+  {
+   "type": "CatalogLensTube",
+   "id": "SM1L30 (LED)",
+   "center": [
+    0.0,
+    -21.161417322834644
+   ],
+   "angle": 90,
+   "part": "SM1L30",
+   "label": "SM1L30 (LED)",
+   "z": 76.85039370078741,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogLED",
+   "id": "LED (M660L4)",
+   "center": [
+    0.0,
+    -41.90944881889762
+   ],
+   "angle": 90,
+   "part": "M660L4",
+   "label": "LED (M660L4)",
+   "z": 76.85039370078741,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "CP33 (LED)",
+   "center": [
+    0.0,
+    -34.15354330708661
+   ],
+   "angle": 90,
+   "part": "CP33",
+   "label": "CP33 (LED)",
+   "z": 76.85039370078741,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods LED",
+   "center": [
+    0.0,
+    -25.88582677165354
+   ],
+   "angle": 90,
+   "length": 38.582677165354326,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods LED",
+   "z": 76.85039370078741
+  },
+  {
+   "type": "CatalogRightAngleMount",
+   "id": "KCB2C",
    "center": [
     0.0,
     63.976377952755904
    ],
    "angle": 90,
-   "cage": 60,
-   "label": "KCB2",
-   "z": 38.0,
+   "part": "KCB2C",
+   "label": "KCB2C",
+   "z": 27.95275590551181,
    "rotation_x": -90.0,
    "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageMount",
+   "id": "LCP33 (60 to 30 mm)",
+   "center": [
+    0.0,
+    0.6299212598425186
+   ],
+   "angle": 90,
+   "part": "LCP33",
+   "label": "LCP33 (60 to 30 mm)",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods 60 mm (collection)",
+   "center": [
+    0.0,
+    26.05314960629921
+   ],
+   "angle": 90,
+   "length": 45.846456692913385,
+   "end_plates": false,
+   "cage": 60,
+   "label": "Rods 60 mm (collection)",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods KCB2C to board",
+   "center": [
+    0.0,
+    63.976377952755904
+   ],
+   "angle": 0,
+   "length": 39.01574803149606,
+   "end_plates": false,
+   "cage": 60,
+   "label": "Rods KCB2C to board",
+   "z": -6.555118110236208,
+   "rotation_y": 90.0
+  },
+  {
+   "type": "CageWavePlate",
+   "id": "Collection wave plate 1",
+   "center": [
+    0.0,
+    -12.362204724409452
+   ],
+   "angle": 90,
+   "plate": "half",
+   "fast_axis_angle": 0.0,
+   "cage": 30,
+   "label": "Collection wave plate 1",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageWavePlate",
+   "id": "Collection wave plate 2",
+   "center": [
+    0.0,
+    -22.598425196850393
+   ],
+   "angle": 90,
+   "plate": "quarter",
+   "fast_axis_angle": 0.0,
+   "cage": 30,
+   "label": "Collection wave plate 2",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods DFM1BS-LCP33",
+   "center": [
+    0.0,
+    -14.517716535433067
+   ],
+   "angle": 90,
+   "length": 25.295275590551178,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods DFM1BS-LCP33",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "CatalogCageCube",
+   "id": "DFM1BS (magnetic BS)",
+   "center": [
+    0.0,
+    -37.16535433070866
+   ],
+   "angle": -90,
+   "part": "DFM1BS",
+   "label": "DFM1BS (magnetic BS)",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageWavePlate",
+   "id": "Collection wave plate 3",
+   "center": [
+    0.0,
+    -55.275590551181104
+   ],
+   "angle": 90,
+   "plate": "half",
+   "fast_axis_angle": 0.0,
+   "cage": 30,
+   "label": "Collection wave plate 3",
+   "z": 27.95275590551181,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods DFM1BS out",
+   "center": [
+    0.0,
+    -53.18897637795275
+   ],
+   "angle": 90,
+   "length": 12.047244094488185,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods DFM1BS out",
+   "z": 27.95275590551181
+  },
+  {
+   "type": "CatalogCageCube",
+   "id": "CCM1-4ER (excitation, left)",
+   "center": [
+    0.0,
+    -28.110236220472437
+   ],
+   "angle": 90,
+   "part": "CCM1-4ER",
+   "label": "CCM1-4ER (excitation, left)",
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageCube",
+   "id": "CCM1-4ER (excitation, middle)",
+   "center": [
+    0.0,
+    27.795275590551178
+   ],
+   "angle": 90,
+   "part": "CCM1-4ER",
+   "label": "CCM1-4ER (excitation, middle)",
+   "rotation_x": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CatalogCageCube",
+   "id": "CCM1-4ER (excitation, right)",
+   "center": [
+    0.0,
+    63.976377952755904
+   ],
+   "angle": 90,
+   "part": "CCM1-4ER",
+   "label": "CCM1-4ER (excitation, right)",
+   "rotation_x": -90.0,
+   "base_mount": "none"
+  },
+  {
+   "type": "CageWavePlate",
+   "id": "Excitation wave plate 1",
+   "center": [
+    0.0,
+    -12.362204724409452
+   ],
+   "angle": 90,
+   "plate": "half",
+   "fast_axis_angle": 0.0,
+   "cage": 30,
+   "label": "Excitation wave plate 1",
+   "base_mount": "none"
+  },
+  {
+   "type": "CageWavePlate",
+   "id": "Excitation wave plate 2",
+   "center": [
+    0.0,
+    -0.9448818897637814
+   ],
+   "angle": 90,
+   "plate": "quarter",
+   "fast_axis_angle": 0.0,
+   "cage": 30,
+   "label": "Excitation wave plate 2",
+   "base_mount": "none"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods excitation left-middle",
+   "center": [
+    0.0,
+    -0.15748031496062964
+   ],
+   "angle": 90,
+   "length": 40.90551181102362,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods excitation left-middle"
+  },
+  {
+   "type": "CageRods",
+   "id": "Rods excitation middle-right",
+   "center": [
+    0.0,
+    45.88582677165354
+   ],
+   "angle": 90,
+   "length": 21.181102362204726,
+   "end_plates": false,
+   "cage": 30,
+   "label": "Rods excitation middle-right"
   },
   {
    "type": "Objective",
@@ -80,329 +538,6 @@
    "base_mount": "none"
   },
   {
-   "type": "CageRods",
-   "id": "cagerods",
-   "center": [
-    0.0,
-    63.976377952755904
-   ],
-   "angle": 0,
-   "length": 49.06299212598425,
-   "cage": 60,
-   "label": "",
-   "z": -1.531496062992126,
-   "rotation_y": 90.0
-  },
-  {
-   "type": "CageCube",
-   "id": "U1 (CCM1)",
-   "center": [
-    0.0,
-    37.846456692913385
-   ],
-   "angle": 0,
-   "split_ratio": [
-    0.5,
-    0.5
-   ],
-   "coating_color": "#f2a65a",
-   "cage": 30,
-   "label": "U1 (CCM1)",
-   "z": 38.0,
-   "rotation_y": 90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageCube",
-   "id": "C1 (CCM1)",
-   "center": [
-    0.0,
-    17.586614173228348
-   ],
-   "angle": 0,
-   "split_ratio": [
-    0.5,
-    0.5
-   ],
-   "coating_color": "#7fd6d0",
-   "cage": 30,
-   "label": "C1 (CCM1)",
-   "z": 38.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRightAngleMirror",
-   "id": "Olaf E lift (KCB1)",
-   "center": [
-    0.0,
-    -2.673228346456689
-   ],
-   "angle": 90,
-   "cage": 30,
-   "label": "Olaf E lift (KCB1)",
-   "rotation_x": 90.0
-  },
-  {
-   "type": "CageRightAngleMirror",
-   "id": "Olaf E lift (upper KCB1)",
-   "center": [
-    0.0,
-    -2.673228346456689
-   ],
-   "angle": 0,
-   "cage": 30,
-   "label": "Olaf E lift (upper KCB1)",
-   "z": 38.0,
-   "rotation_y": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_1",
-   "center": [
-    0.0,
-    -2.673228346456689
-   ],
-   "angle": 0,
-   "length": 21.740157480314963,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 19.0,
-   "rotation_y": 90.0
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_2",
-   "center": [
-    0.0,
-    37.846456692913385
-   ],
-   "angle": 0,
-   "length": 55.93307086614173,
-   "cage": 30,
-   "label": "",
-   "z": 1.9035433070866148,
-   "rotation_y": 90.0
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_3",
-   "center": [
-    0.0,
-    19.086614173228348
-   ],
-   "angle": 90,
-   "length": 59.77952755905511,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 38.0
-  },
-  {
-   "type": "CageCube",
-   "id": "C LED (CCM1)",
-   "center": [
-    0.0,
-    37.846456692913385
-   ],
-   "angle": 90,
-   "split_ratio": [
-    0.5,
-    0.5
-   ],
-   "coating_color": "#ffffff",
-   "cage": 30,
-   "label": "C LED (CCM1)",
-   "z": 87.0,
-   "rotation_x": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_4",
-   "center": [
-    0.0,
-    37.846456692913385
-   ],
-   "angle": 0,
-   "length": 32.74015748031496,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 62.5,
-   "rotation_y": 90.0
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_5",
-   "center": [
-    0.0,
-    37.846456692913385
-   ],
-   "angle": 0,
-   "length": 0.0,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 95.12992125984252,
-   "rotation_y": 90.0
-  },
-  {
-   "type": "CageRightAngleMirror",
-   "id": "J1 (KCB1)",
-   "center": [
-    0.0,
-    37.846456692913385
-   ],
-   "angle": 0,
-   "cage": 30,
-   "label": "J1 (KCB1)",
-   "z": 103.25984251968504,
-   "rotation_y": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRightAngleMirror",
-   "id": "J2 (KCB1)",
-   "center": [
-    0.0,
-    54.10629921259842
-   ],
-   "angle": 90,
-   "cage": 30,
-   "label": "J2 (KCB1)",
-   "z": 103.25984251968504,
-   "rotation_x": 90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "LensTube",
-   "id": "Tube",
-   "center": [
-    0.0,
-    54.10629921259842
-   ],
-   "angle": 0,
-   "diameter": 8.0,
-   "length": 45.0,
-   "label": "Tube",
-   "z": 133.88976377952756,
-   "rotation_y": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "LensTube",
-   "id": "Tube (upper)",
-   "center": [
-    0.0,
-    54.10629921259842
-   ],
-   "angle": 0,
-   "diameter": 8.0,
-   "length": 18.0,
-   "label": "Tube (upper)",
-   "z": 165.38976377952756,
-   "rotation_y": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "Camera",
-   "id": "Camera",
-   "center": [
-    0.0,
-    54.10629921259842
-   ],
-   "angle": 0,
-   "label": "Camera",
-   "z": 177.38976377952756,
-   "rotation_y": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRightAngleMirror",
-   "id": "LED KCB1 (upper)",
-   "center": [
-    0.0,
-    21.586614173228348
-   ],
-   "angle": 90,
-   "cage": 30,
-   "label": "LED KCB1 (upper)",
-   "z": 103.25984251968504,
-   "rotation_x": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRightAngleMirror",
-   "id": "LED KCB1 (lower)",
-   "center": [
-    0.0,
-    21.586614173228348
-   ],
-   "angle": 0,
-   "cage": 30,
-   "label": "LED KCB1 (lower)",
-   "z": 87.0,
-   "rotation_y": 90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_6",
-   "center": [
-    0.0,
-    21.586614173228348
-   ],
-   "angle": 0,
-   "length": 0.0,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 95.12992125984252,
-   "rotation_y": 90.0
-  },
-  {
-   "type": "Lamp",
-   "id": "LED",
-   "center": [
-    0.0,
-    -23.413385826771652
-   ],
-   "angle": 90,
-   "label": "LED",
-   "z": 103.25984251968504,
-   "base_mount": "none"
-  },
-  {
-   "type": "LensTube",
-   "id": "LED lens",
-   "center": [
-    0.0,
-    1.586614173228348
-   ],
-   "angle": 90,
-   "diameter": 8.0,
-   "length": 20.0,
-   "label": "LED lens",
-   "z": 103.25984251968504,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_7",
-   "center": [
-    0.0,
-    -1.9783464566929112
-   ],
-   "angle": 90,
-   "length": 30.87007874015748,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 103.25984251968504
-  },
-  {
    "type": "CageRightAngleMirror",
    "id": "P1 (KCB1)",
    "center": [
@@ -413,89 +548,6 @@
    "cage": 30,
    "label": "P1 (KCB1)",
    "rotation_x": 90.0
-  },
-  {
-   "type": "CatalogCageCube",
-   "id": "DFM1BS",
-   "center": [
-    -16.259842519685037,
-    -15.748031496062993
-   ],
-   "angle": 0,
-   "part": "DFM1BS",
-   "label": "DFM1BS",
-   "z": 38.0,
-   "rotation_y": -90.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRightAngleMirror",
-   "id": "P2 (KCB1)",
-   "center": [
-    -16.259842519685037,
-    17.586614173228348
-   ],
-   "angle": 90,
-   "cage": 30,
-   "label": "P2 (KCB1)",
-   "z": 38.0,
-   "rotation_x": 180.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_8",
-   "center": [
-    -16.259842519685037,
-    -15.748031496062993
-   ],
-   "angle": 0,
-   "length": 21.740157480314963,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 19.0,
-   "rotation_y": 90.0
-  },
-  {
-   "type": "CageRods",
-   "id": "cagerods_9",
-   "center": [
-    -16.259842519685037,
-    -15.34055118110236
-   ],
-   "angle": 90,
-   "length": 49.59448818897638,
-   "end_plates": false,
-   "cage": 30,
-   "label": "",
-   "z": 38.0
-  },
-  {
-   "type": "CatalogCageMount",
-   "id": "CRM1T",
-   "center": [
-    -16.259842519685037,
-    -34.00787401574803
-   ],
-   "angle": 90,
-   "part": "CRM1T",
-   "label": "CRM1T",
-   "z": 38.0,
-   "base_mount": "none"
-  },
-  {
-   "type": "CatalogCageMount",
-   "id": "CRM1T_1",
-   "center": [
-    -16.259842519685037,
-    6.511811023622045
-   ],
-   "angle": 90,
-   "part": "CRM1T",
-   "label": "CRM1T",
-   "z": 38.0,
-   "base_mount": "none"
   },
   {
    "type": "FiberCollimator",
@@ -643,10 +695,10 @@
    "type": "Mirror",
    "id": "KM100 G",
    "center": [
-    89.4148612639555,
-    -21.06141688635957
+    89.42308571429062,
+    -21.041789606693165
    ],
-   "angle": -24.00543115702257,
+   "angle": -21.465016811044165,
    "aperture": 10.0,
    "thickness": 1.0,
    "surface_type": "flat",
@@ -680,39 +732,21 @@
    "rotation_y": 180.0
   },
   {
-   "type": "CageCube",
-   "id": "CCM1",
-   "center": [
-    0.0,
-    -20.866141732283463
-   ],
-   "angle": 0,
-   "split_ratio": [
-    0.5,
-    0.5
-   ],
-   "coating_color": "#ffffff",
-   "cage": 30,
-   "label": "CCM1",
-   "rotation_y": 180.0,
-   "base_mount": "none"
-  },
-  {
    "type": "CageRods",
-   "id": "cagerods_10",
+   "id": "cagerods",
    "center": [
     0.0,
-    -31.39566929133858
+    -51.92913385826772
    ],
    "angle": 90,
-   "length": 41.18503937007875,
+   "length": 32.637795275590555,
    "end_plates": false,
    "cage": 30,
    "label": ""
   },
   {
    "type": "CatalogCageMount",
-   "id": "CRM1T_2",
+   "id": "CRM1T",
    "center": [
     0.0,
     -47.24409448818898
@@ -743,17 +777,6 @@
    ],
    "angle": -90,
    "label": "PD"
-  },
-  {
-   "type": "CatalogTableClamp",
-   "id": "Olaf E lift (KCB1) fork",
-   "center": [
-    -17.59928547230009,
-    -17.53231327314564
-   ],
-   "angle": -139.82558191157153,
-   "part": "CF125",
-   "label": "Olaf E lift (KCB1) fork"
   },
   {
    "type": "CatalogTableClamp",
@@ -891,8 +914,8 @@
    "type": "CatalogTableClamp",
    "id": "KM100 G fork",
    "center": [
-    78.71707631892687,
-    -21.872402234705834
+    78.76903599734618,
+    -21.74840280639672
    ],
    "angle": 179.0,
    "part": "CF125",
@@ -970,58 +993,6 @@
     [
      "P1 (KCB1)",
      "out"
-    ],
-    [
-     "DFM1BS",
-     "in"
-    ],
-    [
-     "DFM1BS",
-     "refl"
-    ],
-    [
-     "P2 (KCB1)",
-     "in"
-    ],
-    [
-     "P2 (KCB1)",
-     "out"
-    ],
-    [
-     "C1 (CCM1)",
-     "in"
-    ],
-    [
-     "C1 (CCM1)",
-     "refl"
-    ],
-    [
-     "U1 (CCM1)",
-     "tap"
-    ],
-    [
-     "U1 (CCM1)",
-     "refl"
-    ],
-    [
-     "KCB2",
-     "in"
-    ],
-    [
-     "KCB2",
-     "out"
-    ],
-    [
-     "Objective",
-     "in"
-    ],
-    [
-     "Objective",
-     "out"
-    ],
-    [
-     "Cryostat",
-     "sample"
     ]
    ],
    "wavelength": 633.0,
@@ -1054,58 +1025,6 @@
     [
      "P1 (KCB1)",
      "out"
-    ],
-    [
-     "DFM1BS",
-     "in"
-    ],
-    [
-     "DFM1BS",
-     "refl"
-    ],
-    [
-     "P2 (KCB1)",
-     "in"
-    ],
-    [
-     "P2 (KCB1)",
-     "out"
-    ],
-    [
-     "C1 (CCM1)",
-     "in"
-    ],
-    [
-     "C1 (CCM1)",
-     "refl"
-    ],
-    [
-     "U1 (CCM1)",
-     "tap"
-    ],
-    [
-     "U1 (CCM1)",
-     "refl"
-    ],
-    [
-     "KCB2",
-     "in"
-    ],
-    [
-     "KCB2",
-     "out"
-    ],
-    [
-     "Objective",
-     "in"
-    ],
-    [
-     "Objective",
-     "out"
-    ],
-    [
-     "Cryostat",
-     "sample"
     ]
    ],
    "wavelength": 633.0,
@@ -1140,52 +1059,44 @@
      "io"
     ],
     [
-     "CCM1",
-     "in"
-    ],
-    [
-     "CCM1",
-     "refl"
-    ],
-    [
-     "Olaf E lift (KCB1)",
-     "in"
-    ],
-    [
-     "Olaf E lift (KCB1)",
-     "out"
-    ],
-    [
-     "Olaf E lift (upper KCB1)",
-     "in"
-    ],
-    [
-     "Olaf E lift (upper KCB1)",
-     "out"
-    ],
-    [
-     "C1 (CCM1)",
+     "CCM1-4ER (excitation, left)",
      "tap"
     ],
     [
-     "C1 (CCM1)",
-     "refl"
+     "CCM1-4ER (excitation, left)",
+     "trans"
     ],
     [
-     "U1 (CCM1)",
-     "tap"
-    ],
-    [
-     "U1 (CCM1)",
-     "refl"
-    ],
-    [
-     "KCB2",
+     "Excitation wave plate 1",
      "in"
     ],
     [
-     "KCB2",
+     "Excitation wave plate 1",
      "out"
+    ],
+    [
+     "Excitation wave plate 2",
+     "in"
+    ],
+    [
+     "Excitation wave plate 2",
+     "out"
+    ],
+    [
+     "CCM1-4ER (excitation, middle)",
+     "in"
+    ],
+    [
+     "CCM1-4ER (excitation, middle)",
+     "trans"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "in"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "refl"
     ],
     [
      "Objective",
@@ -1232,52 +1143,44 @@
      "out"
     ],
     [
-     "CCM1",
-     "tap"
-    ],
-    [
-     "CCM1",
-     "refl"
-    ],
-    [
-     "Olaf E lift (KCB1)",
+     "CCM1-4ER (excitation, left)",
      "in"
     ],
     [
-     "Olaf E lift (KCB1)",
-     "out"
+     "CCM1-4ER (excitation, left)",
+     "trans"
     ],
     [
-     "Olaf E lift (upper KCB1)",
+     "Excitation wave plate 1",
      "in"
     ],
     [
-     "Olaf E lift (upper KCB1)",
+     "Excitation wave plate 1",
      "out"
     ],
     [
-     "C1 (CCM1)",
-     "tap"
-    ],
-    [
-     "C1 (CCM1)",
-     "refl"
-    ],
-    [
-     "U1 (CCM1)",
-     "tap"
-    ],
-    [
-     "U1 (CCM1)",
-     "refl"
-    ],
-    [
-     "KCB2",
+     "Excitation wave plate 2",
      "in"
     ],
     [
-     "KCB2",
+     "Excitation wave plate 2",
      "out"
+    ],
+    [
+     "CCM1-4ER (excitation, middle)",
+     "in"
+    ],
+    [
+     "CCM1-4ER (excitation, middle)",
+     "trans"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "in"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "refl"
     ],
     [
      "Objective",
@@ -1300,74 +1203,79 @@
   {
    "path": [
     [
-     "LED",
-     "out"
-    ],
-    [
-     "LED lens",
-     "in"
-    ],
-    [
-     "LED lens",
-     "out"
-    ],
-    [
-     "LED KCB1 (upper)",
-     "in"
-    ],
-    [
-     "LED KCB1 (upper)",
-     "out"
-    ],
-    [
-     "LED KCB1 (lower)",
-     "in"
-    ],
-    [
-     "LED KCB1 (lower)",
-     "out"
-    ],
-    [
-     "C LED (CCM1)",
-     "in"
-    ],
-    [
-     "C LED (CCM1)",
-     "refl"
-    ],
-    [
-     "U1 (CCM1)",
-     "in"
-    ],
-    [
-     "U1 (CCM1)",
-     "refl"
-    ],
-    [
-     "KCB2",
-     "in"
-    ],
-    [
-     "KCB2",
-     "out"
-    ],
-    [
-     "Objective",
-     "in"
-    ],
-    [
-     "Objective",
-     "out"
-    ],
-    [
      "Cryostat",
      "sample"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "refl"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "tap"
+    ],
+    [
+     "KCB2C",
+     "out"
+    ],
+    [
+     "KCB2C",
+     "in"
+    ],
+    [
+     "LCP33 (60 to 30 mm)",
+     "out"
+    ],
+    [
+     "LCP33 (60 to 30 mm)",
+     "in"
+    ],
+    [
+     "Collection wave plate 1",
+     "out"
+    ],
+    [
+     "Collection wave plate 1",
+     "in"
+    ],
+    [
+     "Collection wave plate 2",
+     "out"
+    ],
+    [
+     "Collection wave plate 2",
+     "in"
+    ],
+    [
+     "DFM1BS (magnetic BS)",
+     "in"
+    ],
+    [
+     "DFM1BS (magnetic BS)",
+     "trans"
+    ],
+    [
+     "Collection wave plate 3",
+     "out"
+    ],
+    [
+     "Collection wave plate 3",
+     "in"
     ]
    ],
-   "wavelength": 590.0,
+   "wavelength": 633.0,
    "width": 0.8,
-   "label": "LED",
-   "opacity": 0.5
+   "label": "Collection",
+   "color": "#d35400",
+   "opacity": 0.6
   },
   {
    "path": [
@@ -1384,69 +1292,141 @@
      "in"
     ],
     [
-     "KCB2",
-     "out"
-    ],
-    [
-     "KCB2",
-     "in"
-    ],
-    [
-     "U1 (CCM1)",
+     "CCM1-4ER (excitation, right)",
      "refl"
     ],
     [
-     "U1 (CCM1)",
+     "CCM1-4ER (excitation, right)",
      "in"
     ],
     [
-     "C LED (CCM1)",
-     "refl"
+     "CCM1-4ER (excitation, middle)",
+     "trans"
     ],
     [
-     "C LED (CCM1)",
+     "CCM1-4ER (excitation, middle)",
      "tap"
     ],
     [
-     "J1 (KCB1)",
+     "CCM1-4ER (imaging)",
+     "refl"
+    ],
+    [
+     "CCM1-4ER (imaging)",
+     "tap"
+    ],
+    [
+     "J1 (KCB1C)",
      "in"
     ],
     [
-     "J1 (KCB1)",
+     "J1 (KCB1C)",
      "out"
     ],
     [
-     "J2 (KCB1)",
+     "J2 (KCB1C)",
      "in"
     ],
     [
-     "J2 (KCB1)",
+     "J2 (KCB1C)",
      "out"
     ],
     [
-     "Tube",
+     "SM1L40 (lower)",
      "in"
     ],
     [
-     "Tube",
+     "SM1L40 (lower)",
      "out"
     ],
     [
-     "Tube (upper)",
+     "SM1L40 (upper)",
      "in"
     ],
     [
-     "Tube (upper)",
+     "SM1L40 (upper)",
      "out"
     ],
     [
-     "Camera",
+     "Camera (CS165MU)",
      "in"
     ]
    ],
-   "wavelength": 590.0,
+   "wavelength": 660.0,
    "width": 0.8,
    "label": "Imaging",
+   "opacity": 0.5
+  },
+  {
+   "path": [
+    [
+     "LED (M660L4)",
+     "out"
+    ],
+    [
+     "SM1L30 (LED)",
+     "out"
+    ],
+    [
+     "SM1L30 (LED)",
+     "in"
+    ],
+    [
+     "LED KCB1C (upper)",
+     "in"
+    ],
+    [
+     "LED KCB1C (upper)",
+     "out"
+    ],
+    [
+     "LED KCB1C (lower)",
+     "in"
+    ],
+    [
+     "LED KCB1C (lower)",
+     "out"
+    ],
+    [
+     "CCM1-4ER (imaging)",
+     "in"
+    ],
+    [
+     "CCM1-4ER (imaging)",
+     "refl"
+    ],
+    [
+     "CCM1-4ER (excitation, middle)",
+     "tap"
+    ],
+    [
+     "CCM1-4ER (excitation, middle)",
+     "trans"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "in"
+    ],
+    [
+     "CCM1-4ER (excitation, right)",
+     "refl"
+    ],
+    [
+     "Objective",
+     "in"
+    ],
+    [
+     "Objective",
+     "out"
+    ],
+    [
+     "Cryostat",
+     "sample"
+    ]
+   ],
+   "wavelength": 660.0,
+   "width": 0.8,
+   "label": "LED",
    "opacity": 0.5
   }
  ]
