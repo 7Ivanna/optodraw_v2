@@ -6,10 +6,11 @@ excitation line's right cube under it and the objective under that, down into th
 
 Each stepper mirror sends its fiber's light one of two ways (the colours of the annotated photo):
 
-    003 (left):     MM1 in the beam -> KM100 B -> D mirror -> KCB1 P1 (up)                            orange
-                    MM1 turned away -> KM100 A -> KM100 C -> KM100 E -> P1                            light blue
-                    then its branch behind the collection line: DFM1BS -> two CRM1Ts with Glan-Taylors
-                    -> KCB1 P2 -> the collection cube's side port, along the collection line to the KCB2C
+    003 (left):     the fiber in a KM100 -> CXY1A -> CP33 -> SM1PM10 with a GT10 Glan-Taylor, on the
+                    collection cube's axis line at its height (from the photo of the arm), then
+                    MM1 in the beam -> KM100 in front of the cube -> wave plate 3 -> its front face      orange
+                    MM1 turned away -> rods with a wave plate -> the cube's left side                    light blue
+                    and along the collection line to the KCB2C and down to the sample
     Olaf E (right): filter -> MM2 in the beam -> KM100 F -> KM100 G -> into the left cube's side       red
                     filter -> MM2 turned away -> KM100 I -> KCB1 -> Glan-Taylor in a CRM1T -> its back  dark blue
 
@@ -36,6 +37,7 @@ from optodraw import (
     Breadboard,
     CageRightAngleMirror,
     CageRods,
+    CageWavePlate,
     CryostatCabinet,
     FiberCollimator,
     Filter,
@@ -46,7 +48,7 @@ from optodraw import (
     Scene,
 )
 from optodraw.components.optics.cage import CUBE_HALF as H
-from optodraw.components.vendor import CatalogCageCube, CatalogCageMount, CatalogGlanPolarizer, CatalogTableClamp
+from optodraw.components.vendor import CatalogCageMount, CatalogGlanPolarizer, CatalogLensTube, CatalogTableClamp
 from optodraw.components.vendor.data import CLAMPS
 from optodraw.layout import aim
 
@@ -69,7 +71,7 @@ def mm(x: float, y: float) -> tuple[float, float]:
 AX, AY = mm(0.0, 237.5 - 75.0)   # the tower's axis, over the Ø31 hole
 MM_U = 1 / 2.54              # scene units per mm (the cage systems are laid out in mm)
 CUBE_CCM1 = 38.1 / 2 * MM_U  # the CCM1-4ER's half width
-DFM_HALF = 50.8 / 2 * MM_U   # the DFM1BS's half width
+FIBER_FRONT = FiberCollimator().ports()["out"].center.x     # a fiber collimator's centre to its front
 # the annotated photo's colours for the four routes
 ORANGE, LIGHT_BLUE, RED, DARK_BLUE = "#f39c12", "#8ecdf5", "#d62828", "#1f4fd6"
 
@@ -163,49 +165,40 @@ def build() -> Scene:
     # the objective under the right excitation cube, down through the window into the cryostat
     objective = scene.add(Objective(center=(AX, AY), z=-H - 7.5, rotation_y=90, label="Objective", base_mount="none"))
 
-    # ---- 003's branch, behind the collection line at its height, 67 mm off the axis to clear the LCP33's arms:
-    # KCB1 P1 lifts 003 off the board to a DFM1BS, which turns it toward the near side; two CRM1T rotation mounts
-    # with Glan-Taylors; KCB1 P2 turns it into the collection cube's side port, and the collection line takes it on
-    # to the KCB2C and down to the sample (and brings the sample's light back the same way)
+    # ---- 003's arm, from the photo of it: on the collection cube's axis line at its height, coming in from the left
+    # edge (-x). The fiber in a KM100 -> CXY1A on its face -> short rods -> CP33 -> SM1PM10 holding a GT10
+    # Glan-Taylor -> MM1 -> rods with a wave plate into the cube's left side. MM1 in the beam sends 003 instead to
+    # a KM100 in front of the cube (on its axis, past wave plate 3), which turns it into the cube's front face.
     col = cages["col"]
-    join = col["dfm"].world_port("refl").center                 # the collection cube's side port
-    z_col, y_p2 = float(join.z), float(join.y)
-    left = AX - 67.0 * MM_U
-    gt_len = 19.1 * MM_U                                         # GT10's length
-    gap = 1.5 * MM_U
-    y_gt2 = y_p2 + H + gap + gt_len / 2
-    y_gt1 = y_gt2 + gt_len + gap
-    y_up = y_gt1 + gt_len / 2 + gap + DFM_HALF                  # the DFM1BS over P1
-    p1 = scene.add(CageRightAngleMirror(center=(left, y_up), angle=90, rotation_x=90, label="P1 (KCB1)"))
-    dfm3 = scene.add(CatalogCageCube(part="DFM1BS", center=(left, y_up), z=z_col, rotation_x=180, rotation_y=-90,
-                                     label="DFM1BS (003)", base_mount="none"))
-    p2 = scene.add(CageRightAngleMirror(center=(left, y_p2), z=z_col, angle=90, rotation_x=180, rotation_y=180,
-                                        label="P2 (KCB1)", base_mount="none"))
-    glans = []
-    for k, y in enumerate((y_gt1, y_gt2), 1):
-        scene.add(CatalogCageMount(part="CRM1T", center=(left, y), z=z_col, angle=90, label=f"CRM1T (003, {k})",
-                                   base_mount="none"))
-        glans.append(scene.add(CatalogGlanPolarizer(part="GT10", center=(left, y), z=z_col, angle=90,
-                                                    label=f"Glan-Taylor GT10 (003, {k})", base_mount="none")))
-    scene.add(CageRods(center=(left, y_up), z=(H + z_col - DFM_HALF) / 2, length=z_col - DFM_HALF - H, rotation_y=90,
-                       end_plates=False, base_mount="none", label="Rods P1-DFM1BS"))
-    hrods(scene, (left, y_up - DFM_HALF), (left, y_p2 + H), z_col)
-
-    # ---- 003 on the left edge and its two routes
-    f003 = scene.add(FiberCollimator(center=mm(-232, -4), angle=0, label="003"))
-    mm1 = scene.add(MotorizedMirror(center=mm(-200, -4), label="MM1"))
-    km_a = scene.add(Mirror(center=mm(-122, -4), label="KM100 A"))
-    km_b = scene.add(Mirror(center=mm(-245, -84), label="KM100 B"))
-    km_c = scene.add(Mirror(center=mm(-232, -213), label="KM100 C"))
-    d_left = scene.add(Mirror(center=(left, mm(0, -96)[1]), label="D mirror (003)"))
-    km_e = scene.add(Mirror(center=(left, mm(0, -228)[1]), label="KM100 E"))
-    into_p1 = p1.world_port("in").center.as_2d()
-    aim(mm1, f003, km_b)
-    aim(km_b, mm1, d_left)
-    aim(d_left, km_b, into_p1)
-    aim(km_a, f003, km_c)
-    aim(km_c, km_a, km_e)
-    aim(km_e, km_c, into_p1)
+    join = col["dfm"].world_port("refl").center                 # the collection cube's left side port
+    z_col, y_arm = float(join.z), float(join.y)
+    x_face = float(join.x)                                      # its left face
+    x_rods = x_face - 50.0 * MM_U                               # the rods' far end
+    x_wp = x_face - 29.0 * MM_U
+    x_mm1 = x_face - 80.0 * MM_U
+    x_tube1 = x_mm1 - 30.0 * MM_U                               # the SM1PM10's front
+    tube_len = 35.0 * MM_U                                      # SM1PM10, estimated from the photo
+    x_tube0 = x_tube1 - tube_len
+    x_cp = x_tube0 - 8.9 / 2 * MM_U                             # the CP33 it screws into
+    x_cxy = x_cp - (8.9 / 2 + 10.0 + 15.2 / 2) * MM_U           # 10 mm of rod between CP33 and CXY1A
+    x_launch = x_cxy - 15.2 / 2 * MM_U - FIBER_FRONT            # the fiber's front at the CXY1A
+    arm = {"z": z_col}
+    hang = {"z": z_col, "base_mount": "none"}
+    f003 = scene.add(FiberCollimator(center=(x_launch, y_arm), angle=0, label="003 (in a KM100)", **arm))
+    scene.add(CatalogCageMount(part="CXY1A", center=(x_cxy, y_arm), label="CXY1A (003)", **hang))
+    scene.add(CageRods(center=((x_cxy + x_cp) / 2, y_arm), length=x_cp - x_cxy, end_plates=False,
+                       label="Rods CXY1A-CP33", **hang))
+    scene.add(CatalogCageMount(part="CP33", center=(x_cp, y_arm), label="CP33 (003)", **hang))
+    sm1pm10 = scene.add(CatalogLensTube(part="SM1L10", length_mm=35.0, center=((x_tube0 + x_tube1) / 2, y_arm),
+                                        label="SM1PM10 (003)", **hang))
+    glan = scene.add(CatalogGlanPolarizer(part="GT10", center=((x_tube0 + x_tube1) / 2, y_arm),
+                                          label="Glan-Taylor GT10 (in the SM1PM10)", **hang))
+    mm1 = scene.add(MotorizedMirror(center=(x_mm1, y_arm), label="MM1", **arm))
+    wp003 = scene.add(CageWavePlate(plate="half", center=(x_wp, y_arm), label="Wave plate (003)", **hang))
+    hrods(scene, (x_rods, y_arm), (x_face, y_arm), z_col)
+    km_front = scene.add(Mirror(center=(AX, mm(0, -230)[1]), label="KM100 (in front of the DFM1BS)", **arm))
+    aim(mm1, f003, km_front)
+    aim(km_front, mm1, col["dfm"].world_port("trans").center.as_2d())
 
     # ---- Olaf E down from the far right corner, a filter, and its two routes
     olaf_e = scene.add(FiberCollimator(center=mm(188, 175), angle=-90, label="Olaf E"))
@@ -234,18 +227,17 @@ def build() -> Scene:
 
     # ---- light: 003 up to its lift; Olaf E's two routes into the excitation line and down to the sample; the sample's
     # light up to the collection line and the camera; the LED down to the sample
-    # 003: up P1, through its branch into the collection cube, along the collection line to the KCB2C, down to the sample
-    p1_up = [(p1, "in"), (p1, "out"), (dfm3, "in"), (dfm3, "refl")]
-    for g in glans:
-        p1_up += [(g, "out"), (g, "in")]
-    p1_up += [(p2, "in"), (p2, "out"), (col["dfm"], "refl"), (col["dfm"], "in"), (col["wp_b"], "in"),
-              (col["wp_b"], "out"), (col["wp_a"], "in"), (col["wp_a"], "out"), (col["lcp"], "in"), (col["lcp"], "out"),
-              (col["kcb2"], "in"), (col["kcb2"], "out"), (ex["right"], "tap"), (ex["right"], "refl"),
-              (objective, "in"), (objective, "out"), (cryo, "sample")]
-    scene.add(Beam.through((f003, "out"), mm1, km_b, d_left, *p1_up, color=ORANGE, width=1.4,
-                           label="003, MM1 in the beam"))
-    scene.add(Beam.through((f003, "out"), km_a, km_c, km_e, *p1_up, color=LIGHT_BLUE, width=1.4,
-                           label="003, MM1 turned away"))
+    # 003: through the SM1PM10's Glan-Taylor; MM1 in the beam -> the KM100 in front -> wave plate 3 -> the cube's
+    # front face; MM1 turned away -> straight on through the wave plate into the cube's left side. Either way the
+    # collection line takes it on to the KCB2C and down to the sample.
+    launch = [(f003, "out"), (sm1pm10, "in"), (glan, "in"), (glan, "out"), (sm1pm10, "out")]
+    to_sample = [(col["dfm"], "in"), (col["wp_b"], "in"), (col["wp_b"], "out"), (col["wp_a"], "in"),
+                 (col["wp_a"], "out"), (col["lcp"], "in"), (col["lcp"], "out"), (col["kcb2"], "in"), (col["kcb2"], "out"),
+                 (ex["right"], "tap"), (ex["right"], "refl"), (objective, "in"), (objective, "out"), (cryo, "sample")]
+    scene.add(Beam.through(*launch, mm1, km_front, (col["wp_c"], "in"), (col["wp_c"], "out"), (col["dfm"], "trans"),
+                           *to_sample, color=ORANGE, width=1.4, label="003, MM1 in the beam"))
+    scene.add(Beam.through(*launch, (wp003, "in"), (wp003, "out"), (col["dfm"], "refl"), *to_sample,
+                           color=LIGHT_BLUE, width=1.4, label="003, MM1 turned away"))
     olaf = [(olaf_e, "out"), (filt, "in"), (filt, "out")]
     add_light(scene, cages, [(cryo, "sample"), (objective, "out"), (objective, "in"), (ex["right"], "refl")],
               excitation_in=[
@@ -265,7 +257,7 @@ if __name__ == "__main__":
     scene.render_threejs(str(HERE / "bench_3d.html"), show_grid=False)
     if "--no-png" not in sys.argv:
         for name, cam in (("side", (1.0, 0.0, 0.12)), ("front", (0.0, -1.0, 0.25)), ("top", "top"),
-                          ("iso", (0.9, -1.0, 0.7))):
+                          ("iso", (0.9, -1.0, 0.7)), ("near", (-0.35, -1.0, 0.35))):
             scene.render_3d_image(str(HERE / f"bench_3d_{name}.png"), background="none", engine="viewer",
                                   camera=cam, scale=1.0)
     print("wrote", *(p.name for p in sorted(HERE.glob("bench*"))))
