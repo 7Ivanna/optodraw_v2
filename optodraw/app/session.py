@@ -648,6 +648,8 @@ class EditorSession:
             x0, y0, x1, y1 = estimate_component_bounds(part)
         except Exception:
             return None
+        # at least a post base (about 36 mm) round its middle: a mirror's drawing is a thin line, its mount is not
+        x0, y0, x1, y1 = min(x0, -7.0), min(y0, -7.0), max(x1, 7.0), max(y1, 7.0)
         if center is None:
             c = entry.get("center")
             if not (isinstance(c, list) and len(c) >= 2 and all(isinstance(v, (int, float)) for v in c[:2])):

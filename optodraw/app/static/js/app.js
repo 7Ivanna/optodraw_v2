@@ -335,6 +335,15 @@ function maybeSubstrateHint(name) {
   setStatus("Tip: place a Chip Substrate first to define the die — otherwise the 3D die auto-fits around your components");
 }
 
+// The middle of the placed parts' centres (the table and other ground left out), or the origin when there are none.
+function sceneMiddle() {
+  const ground = new Set(["OpticalTable", "Breadboard", "Baseplate", "Grid", "ChipSubstrate", "PCB"]);
+  const pts = (currentSpec?.components || []).filter((c) => !ground.has(c.type)).map(ctr);
+  if (!pts.length) return [0, 0];
+  const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+  return [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2];
+}
+
 // Shared by the palette cards and the ⌘K command palette.
 function paletteAdd(name) {
   // Models need a source file, so adding one opens a file picker instead of
@@ -342,9 +351,10 @@ function paletteAdd(name) {
   if (name === "GDSModel") { document.getElementById("file-gds").click(); return; }
   if (name === "CustomModel") { document.getElementById("file-model").click(); return; }
   withStatus(`Adding ${name}`, async () => {
-    // the backend puts it where you look, in a free spot: in 3D, the point the camera orbits (its x, -z on the table)
-    const target3d = !els.view3d.hidden && cameraState && Array.isArray(cameraState.target) ? cameraState.target : null;
-    const middle = target3d ? [target3d[0], -target3d[2]] : canvas.viewCenter();
+    // the backend puts it in the nearest free spot to where you look: in 2D the middle of the view; in 3D the middle
+    // of the parts already placed (the origin in an empty scene), so it lands on the table, not wherever the camera
+    // or the hidden 2D view happens to point
+    const middle = els.view3d.hidden ? canvas.viewCenter() : sceneMiddle();
     // the snap grid goes too, so the free spot is already on it and the snap below cannot move it onto a part
     const where = middle ? { near: middle } : {};
     if (snapOn) where.grid = gridSize;
