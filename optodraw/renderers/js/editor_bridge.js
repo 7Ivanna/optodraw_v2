@@ -182,6 +182,7 @@
     });
     // while the gizmo moves the primary part, the rest of the selection follows it
     gizmo.addEventListener('objectChange', () => {
+      if (window.odWake) window.odWake();       // a part moved: its shadow moves with it
       if (!followers.length || !startPos || !gizmo.object) return;
       const d = gizmo.object.position.clone().sub(startPos);
       for (const f of followers) f.anchor.position.copy(f.anchor.userData.odStart).add(d);

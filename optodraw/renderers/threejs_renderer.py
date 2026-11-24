@@ -1210,7 +1210,12 @@ if (_tableColorInput) {{
         post_options = dict(lighting)
         post_options.update(self.postprocessing_options)
         shadow_map_size = 4096 if self.render_quality == "publication" else 2048
-        pixel_ratio = "Math.min(window.devicePixelRatio, 2)" if self.render_quality == "publication" else "window.devicePixelRatio"
+        if self.render_quality == "publication":
+            pixel_ratio = "Math.min(window.devicePixelRatio, 2)"
+        elif self.editable:     # the editor's view: a high-DPI screen at 1.5x looks the same and draws far fewer pixels
+            pixel_ratio = "Math.min(window.devicePixelRatio, 1.5)"
+        else:
+            pixel_ratio = "window.devicePixelRatio"
         show_bar = show_controls and not self.editable    # the editor carries these controls in its own toolbar
         toolbar_css = ("""
       /* one slim bar at the bottom: icon buttons, each menu opens upward; nothing else covers the view */
@@ -2875,10 +2880,51 @@ function odCapture() {{
   }}
 }}
 // --- Animate ---
+// Draw on demand: a still view draws nothing. A frame is drawn while the camera moves (orbit or its damping), while
+// the light shows or a render runs, and for a short while after any input, message, resize or load, which covers
+// everything that changes the scene (edits, the gizmo, menus). Shadows are drawn again only after such a change,
+// never for a camera move alone: the lights stand still in the world.
+let _odWakeUntil = 0, _odDrawnAt = 0;
+function odWake(ms, shadows) {{
+  _odWakeUntil = Math.max(_odWakeUntil, performance.now() + (ms || 700));
+  if (shadows !== false) renderer.shadowMap.needsUpdate = true;
+}}
+window.odWake = odWake;
+if (!OD_CAPTURE && !OD_VIDEO) renderer.shadowMap.autoUpdate = false;   // a capture or a video frame draws its shadows each time
+renderer.shadowMap.needsUpdate = true;
+for (const t of ['pointerdown', 'pointerup', 'wheel', 'keydown', 'keyup', 'message', 'resize', 'focus'])
+  window.addEventListener(t, () => odWake(), {{ passive: true, capture: true }});
+window.addEventListener('pointermove', () => odWake(700, false), {{ passive: true, capture: true }});   // hover or orbit: no shadow change (the gizmo wakes them itself)
+document.addEventListener('visibilitychange', () => odWake());
+// The camera counts as moving while a frame moves it by more than 1e-5 of its distance: the controls' damping creeps on
+// by ever smaller steps for many seconds, and what it adds after that point is far below a pixel.
+const _odCamPos = new THREE.Vector3(), _odCamTarget = new THREE.Vector3(), _odCamQuat = new THREE.Quaternion();
+function odCameraMoved() {{
+  const tol = 1e-5 * Math.max(camera.position.distanceTo(controls.target), 1e-6);
+  const moved = camera.position.distanceTo(_odCamPos) > tol || controls.target.distanceTo(_odCamTarget) > tol
+    || 1 - Math.abs(camera.quaternion.dot(_odCamQuat)) > 1e-10;
+  if (moved) {{ _odCamPos.copy(camera.position); _odCamTarget.copy(controls.target); _odCamQuat.copy(camera.quaternion); }}
+  return moved;
+}}
+THREE.DefaultLoadingManager.onLoad = () => odWake();
 function animate() {{
   requestAnimationFrame(animate);
   controls.update();
+  const moved = odCameraMoved();
+  const light = window.odLight ? window.odLight.state : null;
   if (window.odLight) window.odLight.tick();
+  const lit = !!(light && (light.tour || (light.group && light.group.visible)));
+  if (lit) renderer.shadowMap.needsUpdate = true;   // the light's own meshes may move every frame
+  const now = performance.now();
+  if (!moved && !lit && !odPT.active && now > _odWakeUntil) {{
+    // once a second a still view draws anyway, shadows too: work that finishes late with no event still shows
+    if (now - _odDrawnAt < 1000) return;
+    renderer.shadowMap.needsUpdate = true;
+  }}
+  _odDrawnAt = now;
+  // the overhead softbox is off unless the studio light turns it up: no shadow pass for a light that gives none
+  const topShadow = topLight.intensity > 0;
+  if (topLight.castShadow !== topShadow) {{ topLight.castShadow = topShadow; renderer.shadowMap.needsUpdate = true; }}
   odRenderFrame();
 }}
 if (OD_CAPTURE) odCapture(); else if (OD_VIDEO) odRenderFrame(); else animate();
