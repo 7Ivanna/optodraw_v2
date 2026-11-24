@@ -52,14 +52,22 @@
     return o ? o.userData.componentId : null;
   }
 
+  // These listeners are added before the gizmo's, so they run first on each press.
+  let pressMoved = 0;              // how far the pointer went during the last press: a gizmo "drag" under 4 px is a click
   renderer.domElement.addEventListener('pointerdown', (e) => {
     down = e.button === 0 ? { x: e.clientX, y: e.clientY } : null;
+    // Shift-click is for selecting: with Shift held, the move gizmo lets the press through to the part under it
+    // (turning keeps Shift for free rotation)
+    if (gizmo && e.shiftKey && gizmoMode === 'translate') gizmo.enabled = false;
   });
-  renderer.domElement.addEventListener('pointercancel', () => { down = null; });
+  renderer.domElement.addEventListener('pointercancel', () => { down = null; if (gizmo) gizmo.enabled = true; });
   renderer.domElement.addEventListener('pointerup', (e) => {
+    if (gizmo && !gizmo.enabled) setTimeout(() => { gizmo.enabled = true; }, 0);
     if (!down) return;
     const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
     down = null;
+    pressMoved = moved;
+    if (gizmo && gizmo.dragging) return; // the press was on the gizmo: it moves the part, it does not select
     if (moved > 5) return; // treat as an orbit drag, not a click
     const id = pick(e);
     let ids;
@@ -79,6 +87,7 @@
   let gizmoMode = 'translate';
   let startY = 0;                  // the anchor's height when a move starts: the change is the part's new z
   let startPos = null;             // the primary anchor's position when a move starts
+  let startQuat = null;            // and its turn
   let followers = [];              // the other selected parts' anchors and their start positions: they move with it
   const anchorFor = (id) => pk().find((p) => p.userData.componentId === id);
   const ROT_SNAP = Math.PI / 12; // 15° detents (hold Shift for free rotation)
@@ -135,6 +144,14 @@
       controls.enabled = !ev.value;
       if (!ev.value) { // drag finished -> commit position OR facing angle
         const obj = gizmo.object;
+        if (obj && pressMoved < 4) {
+          // a click on the gizmo, not a drag: put everything back and save nothing
+          if (startPos) obj.position.copy(startPos);
+          if (startQuat) obj.quaternion.copy(startQuat);
+          for (const f of followers) f.anchor.position.copy(f.anchor.userData.odStart);
+          followers = [];
+          return;
+        }
         if (obj && obj.userData.componentId && window.parent) {
           if (gizmoMode === 'translate' && followers.length) {
             // a group move: every selected part by the same amount, as one step
@@ -156,6 +173,8 @@
       } else if (gizmo.object) {
         startY = gizmo.object.position.y;
         startPos = gizmo.object.position.clone();
+        startQuat = gizmo.object.quaternion.clone();
+        pressMoved = Infinity;     // until the pointer comes up
         followers = gizmoMode !== 'translate' ? [] : selection.slice(1).map(anchorFor)
           .filter((a) => a && a !== gizmo.object && a.userData.movable !== false)
           .map((a) => { a.userData.odStart = a.position.clone(); return { anchor: a }; });
@@ -171,9 +190,22 @@
     // about the table's vertical (the facing angle), all in 15° steps; M/G/T = move (and lift); hold Shift = free
     window.addEventListener('keydown', (ev) => {
       const tag = (ev.target && ev.target.tagName) || '';
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' ||
-          (ev.target && ev.target.isContentEditable) || ev.metaKey || ev.ctrlKey) return;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (ev.target && ev.target.isContentEditable)) return;
       const key = ev.key.toLowerCase();
+      // Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z or Ctrl+Y redo: the editor keeps the history, so pass them up to it
+      if ((ev.metaKey || ev.ctrlKey) && (key === 'z' || key === 'y')) {
+        ev.preventDefault();
+        if (window.parent) window.parent.postMessage({ type: 'optodraw-undo', redo: key === 'y' || ev.shiftKey }, '*');
+        return;
+      }
+      if (ev.metaKey || ev.ctrlKey) return;
+      // Esc lets go of the selection, so nothing selected moves by accident
+      if (ev.key === 'Escape') {
+        if (gizmo && gizmo.dragging) return;
+        applyHighlight([]);
+        if (window.parent) window.parent.postMessage({ type: 'optodraw-select', id: null, ids: [] }, '*');
+        return;
+      }
       if (key === 'r' || key === 'z') setGizmoMode('rotate');
       else if (key === 'y') setGizmoMode('tilt');
       else if (key === 'x') setGizmoMode('roll');

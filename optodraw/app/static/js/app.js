@@ -342,8 +342,13 @@ function paletteAdd(name) {
   if (name === "GDSModel") { document.getElementById("file-gds").click(); return; }
   if (name === "CustomModel") { document.getElementById("file-model").click(); return; }
   withStatus(`Adding ${name}`, async () => {
-    const middle = canvas.viewCenter();          // the backend puts it where you look, in a free spot
-    const payload = await api.create(name, middle ? { near: middle } : {});
+    // the backend puts it where you look, in a free spot: in 3D, the point the camera orbits (its x, -z on the table)
+    const target3d = !els.view3d.hidden && cameraState && Array.isArray(cameraState.target) ? cameraState.target : null;
+    const middle = target3d ? [target3d[0], -target3d[2]] : canvas.viewCenter();
+    // the snap grid goes too, so the free spot is already on it and the snap below cannot move it onto a part
+    const where = middle ? { near: middle } : {};
+    if (snapOn) where.grid = gridSize;
+    const payload = await api.create(name, where);
     commit(payload);
     // snap the freshly-placed component onto the grid so it lands aligned
     if (snapOn && payload.id) {
@@ -2926,6 +2931,8 @@ window.addEventListener("message", (e) => {
       }
       canvas.select(data.id); // keep selection -> 3D re-highlights + re-attaches gizmo
     });
+  } else if (data.type === "optodraw-undo") {
+    data.redo ? redo() : undo();                     // Ctrl/Cmd+Z pressed while the 3D view had the keyboard
   } else if (data.type === "optodraw-move-group" && Array.isArray(data.moves) && data.moves.length) {
     // the selection moved together on the 3D gizmo: one undoable step, the same shift (and lift) for every part
     const ids = data.moves.map((m) => m.id);
@@ -2972,6 +2979,9 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && connectMode) {
     e.preventDefault();
     setConnectMode(false);
+  } else if (e.key === "Escape" && !inField && canvas.selectedIds.length) {
+    e.preventDefault();
+    canvas.select(null);                             // let go of the selection, so nothing selected moves by accident
   } else if (mod && e.key.toLowerCase() === "z") {
     e.preventDefault();
     e.shiftKey ? redo() : undo();
