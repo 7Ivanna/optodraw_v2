@@ -1037,18 +1037,22 @@ function duplicateSelected() {
   }, { reselect: created });
 }
 
+let pastes = 0; // pastes since the last copy: each one lands a step further out, not on top of the last
 function copySelected() {
   clipboard = selComponentIds().map((id) => clone(currentSpec.components.find((c) => c.id === id)));
+  pastes = 0;
   if (clipboard.length) setStatus(`Copied ${clipboard.length}`);
 }
 function paste() {
   if (!clipboard.length) return;
   const created = [];
+  pastes += 1;
+  const step = 2 * gridSize * pastes;
   return applySpec("Paste", (next) => {
     for (const src of clipboard) {
       const copy = clone(src);
       copy.id = newId(copy.type);
-      const c = ctr(copy); copy.center = [c[0] + 2 * gridSize, c[1] + 2 * gridSize];
+      const c = ctr(copy); copy.center = [c[0] + step, c[1] + step];
       next.components.push(copy); created.push(copy.id);
     }
   }, { reselect: created });
@@ -2926,6 +2930,10 @@ window.addEventListener("message", (e) => {
       }
       canvas.select(data.id); // keep selection -> 3D re-highlights + re-attaches gizmo
     });
+  } else if (data.type === "optodraw-key") {      // Ctrl/Cmd+C, V or D pressed while the 3D view had the keyboard
+    if (data.key === "c") copySelected();
+    else if (data.key === "v") paste();
+    else if (data.key === "d") duplicateSelected();
   } else if (data.type === "optodraw-undo") {
     data.redo ? redo() : undo();                     // Ctrl/Cmd+Z pressed while the 3D view had the keyboard
   } else if (data.type === "optodraw-move-group" && Array.isArray(data.moves) && data.moves.length) {

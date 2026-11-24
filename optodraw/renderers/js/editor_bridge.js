@@ -198,6 +198,12 @@
         if (window.parent) window.parent.postMessage({ type: 'optodraw-undo', redo: key === 'y' || ev.shiftKey }, '*');
         return;
       }
+      // Ctrl/Cmd+C copy, +V paste, +D duplicate: the editor keeps the clipboard, so pass them up to it
+      if ((ev.metaKey || ev.ctrlKey) && (key === 'c' || key === 'v' || key === 'd')) {
+        ev.preventDefault();
+        if (window.parent) window.parent.postMessage({ type: 'optodraw-key', key: key }, '*');
+        return;
+      }
       if (ev.metaKey || ev.ctrlKey) return;
       // Esc lets go of the selection, so nothing selected moves by accident
       if (ev.key === 'Escape') {
