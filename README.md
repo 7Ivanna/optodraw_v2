@@ -38,6 +38,30 @@ optodraw-gui           # open the editor
 
 It runs on Windows, macOS and Linux. `[all]` adds video, a native window and SAX.
 
+### Editor hotkeys
+
+Ctrl is Cmd on a Mac. The keys work in the 2D and the 3D views unless the table says otherwise.
+
+| Keys | What they do |
+|---|---|
+| Ctrl+Z | Undo |
+| Ctrl+Shift+Z or Ctrl+Y | Redo |
+| Ctrl+C, Ctrl+V | Copy and paste the selected parts; each paste lands a step further out |
+| Ctrl+D | Duplicate the selected parts |
+| Delete or Backspace | Delete the selected parts |
+| Ctrl+A | Select every part |
+| Shift+click | Add a part to the selection, or take it out; dragging one moves them all together |
+| Esc | Let go of the selection, so nothing moves by accident |
+| Arrow keys | Nudge the selected parts by 1 unit (Shift: 10 units) |
+| Ctrl+K | Open the command palette: find any action or part |
+| Ctrl+Enter | Apply an edit in the Code tab |
+| **3D view** | |
+| M, G or T | Move handle: drag along the table or lift |
+| Z or R | Turn the part about the vertical (the way it faces) |
+| X | Turn the part about its own beam axis |
+| Y | Tilt the part about its own y axis |
+| Shift while turning | Turn freely instead of in 15° steps |
+
 ## Quick start
 
 ```python
