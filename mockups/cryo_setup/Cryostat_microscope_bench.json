@@ -1,0 +1,1952 @@
+{
+  "schema_version": 3,
+  "optodraw_version": "0.10.1",
+  "units": {
+    "length": "um",
+    "angle": "deg",
+    "wavelength": "nm"
+  },
+  "title": "Cryostat microscope bench",
+  "width": 300,
+  "height": 300,
+  "platform": "free_space",
+  "components": [
+    {
+      "type": "Breadboard",
+      "id": "Breadboard",
+      "center": [
+        0,
+        0
+      ],
+      "angle": 180,
+      "part": "attocube 1011879-2",
+      "length": 196.85039370078738,
+      "width": 187.00787401574803,
+      "thickness": 3.9370078740157477,
+      "hole_pitch": 9.842519685039369,
+      "include_holes": false,
+      "label": "Breadboard"
+    },
+    {
+      "type": "CryostatCabinet",
+      "id": "Cryostat",
+      "center": [
+        0,
+        63.976377952755904
+      ],
+      "angle": 0,
+      "board_bottom": -30,
+      "sample_depth": 55,
+      "size": [
+        175,
+        165,
+        110
+      ],
+      "cabinet_offset": [
+        0,
+        -63.976377952755904
+      ],
+      "label": "Cryostat"
+    },
+    {
+      "type": "CatalogCageCube",
+      "id": "CCM1-4ER (imaging)",
+      "center": [
+        0,
+        27.795275590551178
+      ],
+      "angle": 90,
+      "part": "CCM1-4ER",
+      "label": "CCM1-4ER (imaging)",
+      "z": 56.69291338582677,
+      "rotation_x": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods imaging-excitation",
+      "center": [
+        0,
+        27.795275590551178
+      ],
+      "angle": 0,
+      "length": 41.69291338582677,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods imaging-excitation",
+      "z": 28.346456692913385,
+      "rotation_y": 90
+    },
+    {
+      "type": "CatalogRightAngleMount",
+      "id": "J1 (KCB1C)",
+      "center": [
+        0,
+        27.795275590551178
+      ],
+      "angle": 0,
+      "part": "KCB1C",
+      "label": "J1 (KCB1C)",
+      "z": 76.85039370078741,
+      "rotation_y": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogRightAngleMount",
+      "id": "J2 (KCB1C)",
+      "center": [
+        0,
+        47.204724409448815
+      ],
+      "angle": 90,
+      "part": "KCB1C",
+      "label": "J2 (KCB1C)",
+      "z": 76.85039370078741,
+      "rotation_x": 90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods cube-J1",
+      "center": [
+        0,
+        27.795275590551178
+      ],
+      "angle": 0,
+      "length": 3.1496062992125995,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods cube-J1",
+      "z": 65.76771653543307,
+      "rotation_y": 90
+    },
+    {
+      "type": "CatalogLensTube",
+      "id": "SM1L40 (lower)",
+      "center": [
+        0,
+        47.204724409448815
+      ],
+      "angle": 0,
+      "part": "SM1L40",
+      "label": "SM1L40 (lower)",
+      "z": 105.92519685039369,
+      "rotation_y": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogLensTube",
+      "id": "SM1L40 (upper)",
+      "center": [
+        0,
+        47.204724409448815
+      ],
+      "angle": 0,
+      "part": "SM1L40",
+      "label": "SM1L40 (upper)",
+      "z": 146.24015748031496,
+      "rotation_y": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CP33 (camera)",
+      "center": [
+        0,
+        47.204724409448815
+      ],
+      "angle": 0,
+      "part": "CP33",
+      "label": "CP33 (camera)",
+      "z": 142.26377952755905,
+      "rotation_y": 90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods camera",
+      "center": [
+        0,
+        47.204724409448815
+      ],
+      "angle": 0,
+      "length": 80.6299212598425,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods camera",
+      "z": 126.67322834645668,
+      "rotation_y": 90
+    },
+    {
+      "type": "CatalogCamera",
+      "id": "Camera (CS165MU)",
+      "center": [
+        0,
+        47.204724409448815
+      ],
+      "angle": 0,
+      "part": "CS165MU",
+      "label": "Camera (CS165MU)",
+      "z": 170.92519685039366,
+      "rotation_y": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogRightAngleMount",
+      "id": "LED KCB1C (lower)",
+      "center": [
+        0,
+        2.9133858267716555
+      ],
+      "angle": 0,
+      "part": "KCB1C",
+      "label": "LED KCB1C (lower)",
+      "z": 56.69291338582677,
+      "rotation_y": 90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogRightAngleMount",
+      "id": "LED KCB1C (upper)",
+      "center": [
+        0,
+        2.9133858267716555
+      ],
+      "angle": 90,
+      "part": "KCB1C",
+      "label": "LED KCB1C (upper)",
+      "z": 76.85039370078741,
+      "rotation_x": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods cube-LED",
+      "center": [
+        0,
+        16.35826771653543
+      ],
+      "angle": 90,
+      "length": 7.874015748031494,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods cube-LED",
+      "z": 56.69291338582677
+    },
+    {
+      "type": "CatalogLensTube",
+      "id": "SM1L30 (LED)",
+      "center": [
+        0,
+        -21.161417322834644
+      ],
+      "angle": 90,
+      "part": "SM1L30",
+      "label": "SM1L30 (LED)",
+      "z": 76.85039370078741,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogLED",
+      "id": "LED (M660L4)",
+      "center": [
+        0,
+        -41.90944881889762
+      ],
+      "angle": 90,
+      "part": "M660L4",
+      "label": "LED (M660L4)",
+      "z": 76.85039370078741,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CP33 (LED)",
+      "center": [
+        0,
+        -34.15354330708661
+      ],
+      "angle": 90,
+      "part": "CP33",
+      "label": "CP33 (LED)",
+      "z": 76.85039370078741,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods LED",
+      "center": [
+        0,
+        -25.88582677165354
+      ],
+      "angle": 90,
+      "length": 38.582677165354326,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods LED",
+      "z": 76.85039370078741
+    },
+    {
+      "type": "CatalogRightAngleMount",
+      "id": "KCB2C",
+      "center": [
+        0,
+        63.976377952755904
+      ],
+      "angle": 90,
+      "part": "KCB2C",
+      "label": "KCB2C",
+      "z": 27.95275590551181,
+      "rotation_x": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "LCP33 (60 to 30 mm)",
+      "center": [
+        0,
+        0.6299212598425186
+      ],
+      "angle": 90,
+      "part": "LCP33",
+      "label": "LCP33 (60 to 30 mm)",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods 60 mm (collection)",
+      "center": [
+        0,
+        26.05314960629921
+      ],
+      "angle": 90,
+      "length": 45.846456692913385,
+      "end_plates": false,
+      "cage": 60,
+      "label": "Rods 60 mm (collection)",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods KCB2C to board",
+      "center": [
+        0,
+        63.976377952755904
+      ],
+      "angle": 0,
+      "length": 39.01574803149606,
+      "end_plates": false,
+      "cage": 60,
+      "label": "Rods KCB2C to board",
+      "z": -6.555118110236208,
+      "rotation_y": 90
+    },
+    {
+      "type": "CageWavePlate",
+      "id": "Collection wave plate 1",
+      "center": [
+        0,
+        -12.362204724409452
+      ],
+      "angle": 90,
+      "plate": "half",
+      "fast_axis_angle": 0,
+      "cage": 30,
+      "label": "Collection wave plate 1",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageWavePlate",
+      "id": "Collection wave plate 2",
+      "center": [
+        0,
+        -22.598425196850393
+      ],
+      "angle": 90,
+      "plate": "quarter",
+      "fast_axis_angle": 0,
+      "cage": 30,
+      "label": "Collection wave plate 2",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods DFM1BS-LCP33",
+      "center": [
+        0,
+        -14.517716535433067
+      ],
+      "angle": 90,
+      "length": 25.295275590551178,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods DFM1BS-LCP33",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "CatalogCageCube",
+      "id": "DFM1BS (magnetic BS)",
+      "center": [
+        0,
+        -37.16535433070866
+      ],
+      "angle": 90,
+      "part": "DFM1BS",
+      "label": "DFM1BS (magnetic BS)",
+      "z": 27.95275590551181,
+      "rotation_y": 180,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageWavePlate",
+      "id": "Collection wave plate 3",
+      "center": [
+        0,
+        -55.275590551181104
+      ],
+      "angle": 90,
+      "plate": "half",
+      "fast_axis_angle": 0,
+      "cage": 30,
+      "label": "Collection wave plate 3",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods DFM1BS out",
+      "center": [
+        0,
+        -53.18897637795275
+      ],
+      "angle": 90,
+      "length": 12.047244094488185,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods DFM1BS out",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "CatalogCageCube",
+      "id": "CCM1-4ER (excitation, left)",
+      "center": [
+        0,
+        -28.110236220472437
+      ],
+      "angle": 90,
+      "part": "CCM1-4ER",
+      "label": "CCM1-4ER (excitation, left)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageCube",
+      "id": "CCM1-4ER (excitation, middle)",
+      "center": [
+        0,
+        27.795275590551178
+      ],
+      "angle": 90,
+      "part": "CCM1-4ER",
+      "label": "CCM1-4ER (excitation, middle)",
+      "rotation_x": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageCube",
+      "id": "CCM1-4ER (excitation, right)",
+      "center": [
+        0,
+        63.976377952755904
+      ],
+      "angle": 90,
+      "part": "CCM1-4ER",
+      "label": "CCM1-4ER (excitation, right)",
+      "rotation_x": -90,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageWavePlate",
+      "id": "Excitation wave plate 1",
+      "center": [
+        0,
+        -12.362204724409452
+      ],
+      "angle": 90,
+      "plate": "half",
+      "fast_axis_angle": 0,
+      "cage": 30,
+      "label": "Excitation wave plate 1",
+      "base_mount": "none"
+    },
+    {
+      "type": "CageWavePlate",
+      "id": "Excitation wave plate 2",
+      "center": [
+        0,
+        -0.9448818897637814
+      ],
+      "angle": 90,
+      "plate": "quarter",
+      "fast_axis_angle": 0,
+      "cage": 30,
+      "label": "Excitation wave plate 2",
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods excitation left-middle",
+      "center": [
+        0,
+        -0.15748031496062964
+      ],
+      "angle": 90,
+      "length": 40.90551181102362,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods excitation left-middle"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods excitation middle-right",
+      "center": [
+        0,
+        45.88582677165354
+      ],
+      "angle": 90,
+      "length": 21.181102362204726,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods excitation middle-right"
+    },
+    {
+      "type": "FiberCollimator",
+      "id": "003 (in a KM100)",
+      "center": [
+        -97.72090968613293,
+        -1.574803149606299
+      ],
+      "angle": 0,
+      "aperture": 6,
+      "length": 14,
+      "label": "003 (in a KM100)",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CXY1A (003)",
+      "center": [
+        -90.52878370188095,
+        -1.574803149606299
+      ],
+      "angle": 0,
+      "part": "CXY1A",
+      "label": "CXY1A (003)",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "Rods CXY1A-CP33",
+      "center": [
+        -87.19061183184314,
+        -1.574803149606299
+      ],
+      "angle": 0,
+      "length": 6.712598425196845,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods CXY1A-CP33",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CP33 (003)",
+      "center": [
+        -83.81618527668411,
+        -1.574803149606299
+      ],
+      "angle": 0,
+      "part": "CP33",
+      "label": "CP33 (003)",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogLensTube",
+      "id": "SM1PM10 (003)",
+      "center": [
+        -77.65202207795757,
+        -1.574803149606299
+      ],
+      "angle": 0,
+      "part": "SM1L10",
+      "length_mm": 35,
+      "label": "SM1PM10 (003)",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogGlanPolarizer",
+      "id": "Glan-Taylor GT10 (in the SM1PM10)",
+      "center": [
+        -95.47244094488188,
+        -1.574803149606299
+      ],
+      "angle": 0,
+      "part": "GT10",
+      "label": "Glan-Taylor GT10 (in the SM1PM10)",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "MotorizedMirror",
+      "id": "MM1",
+      "center": [
+        -63.81332573214047,
+        -1.3324771188247726
+      ],
+      "angle": 45.3,
+      "aperture": 10,
+      "label": "MM1",
+      "z": 27.95275590551181,
+      "rotation_x": null,
+      "rotation_y": null
+    },
+    {
+      "type": "Mirror",
+      "id": "KM100 A",
+      "center": [
+        -36.81382968427686,
+        -1.3267184645939392
+      ],
+      "angle": 31.120729699469962,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "KM100 A",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "Mirror",
+      "id": "KM100 B",
+      "center": [
+        -96.87969108390382,
+        -33.297741763469
+      ],
+      "angle": -151.79305770798138,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "KM100 B",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "Mirror",
+      "id": "KM100 C",
+      "center": [
+        -91.75760581830524,
+        -84.09240358988522
+      ],
+      "angle": -150.80502697412254,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "KM100 C",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "Mirror",
+      "id": "D mirror (003)",
+      "center": [
+        -35.60567367165437,
+        -37.64511605310792
+      ],
+      "angle": -91.80541309500693,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "D mirror (003)",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "Mirror",
+      "id": "KM100 E (in front of the DFM1BS)",
+      "center": [
+        0.3287753835804167,
+        -90.1135033430929
+      ],
+      "angle": -46.768425929565666,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "KM100 E (in front of the DFM1BS)",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "CageWavePlate",
+      "id": "Wave plate (003)",
+      "center": [
+        -21.417322834645667,
+        -37.16535433070866
+      ],
+      "angle": 0,
+      "plate": "half",
+      "fast_axis_angle": 0,
+      "cage": 30,
+      "label": "Wave plate (003)",
+      "z": 27.95275590551181,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "cagerods",
+      "center": [
+        -19.842519685039367,
+        -37.16535433070866
+      ],
+      "angle": 0,
+      "length": 19.685039370078734,
+      "end_plates": false,
+      "cage": 30,
+      "label": "",
+      "z": 27.95275590551181
+    },
+    {
+      "type": "CatalogNDFilter",
+      "id": "ND filter (Olaf E, 2)",
+      "center": [
+        74.01574803149606,
+        29.31640521563066
+      ],
+      "angle": -90,
+      "part": "NE10A-B",
+      "label": "ND filter (Olaf E, 2)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogNDFilter",
+      "id": "ND filter (Olaf E, 1)",
+      "center": [
+        74.01574803149606,
+        34.040814664449556
+      ],
+      "angle": -90,
+      "part": "NE10A-B",
+      "label": "ND filter (Olaf E, 1)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CP33 (Olaf E, 3)",
+      "center": [
+        74.01574803149606,
+        38.17467293216609
+      ],
+      "angle": 90,
+      "part": "CP33",
+      "label": "CP33 (Olaf E, 3)"
+    },
+    {
+      "type": "CatalogPlateSplitter",
+      "id": "Pellicle BP108 (Olaf E)",
+      "center": [
+        74.01574803149606,
+        49.00144458570939
+      ],
+      "angle": -45,
+      "part": "BP108",
+      "label": "Pellicle BP108 (Olaf E)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogLensTube",
+      "id": "SM1PM10 (Olaf E)",
+      "center": [
+        74.01574803149606,
+        64.06049970381963
+      ],
+      "angle": -90,
+      "part": "SM1L10",
+      "length_mm": 36.5,
+      "label": "SM1PM10 (Olaf E)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogGlanPolarizer",
+      "id": "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+      "center": [
+        74.01574803149606,
+        76.08267716535433
+      ],
+      "angle": -90,
+      "part": "GT10",
+      "label": "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CP33 (Olaf E, 2)",
+      "center": [
+        74.01574803149606,
+        73.01719261720545
+      ],
+      "angle": 90,
+      "part": "CP33",
+      "label": "CP33 (Olaf E, 2)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CP33 (Olaf E, 1)",
+      "center": [
+        74.01574803149606,
+        84.82821623925271
+      ],
+      "angle": 90,
+      "part": "CP33",
+      "label": "CP33 (Olaf E, 1)"
+    },
+    {
+      "type": "CageRods",
+      "id": "cagerods_1",
+      "center": [
+        74.01574803149606,
+        56.97388553059129
+      ],
+      "angle": 90,
+      "length": 59.25196850393701,
+      "end_plates": false,
+      "cage": 30,
+      "label": ""
+    },
+    {
+      "type": "FiberCollimator",
+      "id": "Olaf E",
+      "center": [
+        74.01574803149606,
+        90.78018474318971
+      ],
+      "angle": -90,
+      "aperture": 6,
+      "length": 14,
+      "label": "Olaf E"
+    },
+    {
+      "type": "MotorizedMirror",
+      "id": "MM2",
+      "center": [
+        74.36671922599461,
+        19.16055604067063
+      ],
+      "angle": -43.01375202962464,
+      "aperture": 10,
+      "label": "MM2"
+    },
+    {
+      "type": "Mirror",
+      "id": "KM100 F",
+      "center": [
+        23.272822267654625,
+        26.75884397210751
+      ],
+      "angle": 157.5397207677862,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "KM100 F"
+    },
+    {
+      "type": "Mirror",
+      "id": "KM100 G",
+      "center": [
+        89.42308571429062,
+        -21.041789606693165
+      ],
+      "angle": -21.465016811044165,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "KM100 G"
+    },
+    {
+      "type": "Mirror",
+      "id": "KM100 I",
+      "center": [
+        74.35515928646561,
+        -76.71736401087506
+      ],
+      "angle": -45,
+      "aperture": 10,
+      "thickness": 1,
+      "surface_type": "flat",
+      "curvature_depth": 0,
+      "label": "KM100 I"
+    },
+    {
+      "type": "CageRightAngleMirror",
+      "id": "Olaf E in (KCB1)",
+      "center": [
+        0,
+        -76.37795275590551
+      ],
+      "angle": 0,
+      "cage": 30,
+      "label": "Olaf E in (KCB1)",
+      "rotation_y": 180
+    },
+    {
+      "type": "CageRods",
+      "id": "cagerods_2",
+      "center": [
+        0,
+        -51.92913385826772
+      ],
+      "angle": 90,
+      "length": 32.637795275590555,
+      "end_plates": false,
+      "cage": 30,
+      "label": ""
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "CRM1T (Olaf E)",
+      "center": [
+        0,
+        -47.24409448818898
+      ],
+      "angle": 90,
+      "part": "CRM1T",
+      "label": "CRM1T (Olaf E)",
+      "base_mount": "none"
+    },
+    {
+      "type": "CatalogGlanPolarizer",
+      "id": "Glan-Taylor GT10 (Olaf E)",
+      "center": [
+        0,
+        -47.24409448818898
+      ],
+      "angle": 90,
+      "part": "GT10",
+      "label": "Glan-Taylor GT10 (Olaf E)",
+      "base_mount": "none"
+    },
+    {
+      "type": "Photodiode",
+      "id": "PD",
+      "center": [
+        44.881889763779526,
+        84.64566929133858
+      ],
+      "angle": 120,
+      "label": "PD",
+      "rotation_x": null,
+      "rotation_y": null
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "003 (in a KM100) fork",
+      "center": [
+        -83.62341002298675,
+        -4.5062519286543035
+      ],
+      "angle": -13,
+      "part": "CF125",
+      "label": "003 (in a KM100) fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "MM1 fork",
+      "center": [
+        -56.53668112242902,
+        8.975081602875067
+      ],
+      "angle": 59.99999999999999,
+      "part": "CF125",
+      "label": "MM1 fork",
+      "z": 2.3
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "KM100 A fork",
+      "center": [
+        -40.575207581156725,
+        -13.570275028345483
+      ],
+      "angle": -109,
+      "part": "CF125",
+      "label": "KM100 A fork",
+      "z": 3.8
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "KM100 B fork",
+      "center": [
+        -83.95553354741155,
+        -41.97875921994225
+      ],
+      "angle": -35,
+      "part": "CF125",
+      "label": "KM100 B fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "KM100 C fork",
+      "center": [
+        -76.62468852969357,
+        -83.52383615749412
+      ],
+      "angle": 8,
+      "part": "CF125",
+      "label": "KM100 C fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "D mirror (003) fork",
+      "center": [
+        -35.11469693576845,
+        -53.22137603861705
+      ],
+      "angle": -88.19458690499314,
+      "part": "CF125",
+      "label": "D mirror (003) fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "KM100 E (in front of the DFM1BS) fork",
+      "center": [
+        14.721511917544595,
+        -88.8206283612637
+      ],
+      "angle": 14,
+      "part": "CF125",
+      "label": "KM100 E (in front of the DFM1BS) fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "CP33 (Olaf E, 3) fork",
+      "center": [
+        64.64167425542938,
+        29.122235112405143
+      ],
+      "angle": -136,
+      "part": "CF125",
+      "label": "CP33 (Olaf E, 3) fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "CP33 (Olaf E, 1) fork",
+      "center": [
+        74.01574803149606,
+        71.79672017626059
+      ],
+      "angle": 270,
+      "part": "CF125",
+      "label": "CP33 (Olaf E, 1) fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "Olaf E fork",
+      "center": [
+        87.04724409448818,
+        89.3801847431897
+      ],
+      "angle": 0,
+      "part": "CF125",
+      "label": "Olaf E fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "MM2 fork",
+      "center": [
+        70.75991451947472,
+        5.483264194479071
+      ],
+      "angle": -116.00000000000001,
+      "part": "CF125",
+      "label": "MM2 fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "KM100 F fork",
+      "center": [
+        28.118228053900133,
+        14.941937579021584
+      ],
+      "angle": -79,
+      "part": "CF125",
+      "label": "KM100 F fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "KM100 G fork",
+      "center": [
+        78.76903599734618,
+        -21.74840280639672
+      ],
+      "angle": 179,
+      "part": "CF125",
+      "label": "KM100 G fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "KM100 I fork",
+      "center": [
+        63.130538042422,
+        -78.29482310407651
+      ],
+      "angle": 179,
+      "part": "CF125",
+      "label": "KM100 I fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "Olaf E in (KCB1) fork",
+      "center": [
+        14.782086096324024,
+        -69.94947839004863
+      ],
+      "angle": 14,
+      "part": "CF125",
+      "label": "Olaf E in (KCB1) fork"
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "PD fork",
+      "center": [
+        40.85493601818474,
+        71.75198004355528
+      ],
+      "angle": -108,
+      "part": "CF125",
+      "label": "PD fork"
+    },
+    {
+      "type": "Lens",
+      "id": "lens_61",
+      "center": [
+        55.1328198893368,
+        69.6288958266965
+      ],
+      "angle": -45,
+      "rotation_x": null,
+      "rotation_y": null
+    },
+    {
+      "type": "CageRods",
+      "id": "cagerods_dmwweykoz615",
+      "center": [
+        -0.08028634273257751,
+        79.23780560607278
+      ],
+      "angle": 90,
+      "length": 21.181102362204726,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods excitation middle-right",
+      "z": -0.3
+    },
+    {
+      "type": "CatalogRightAngleMount",
+      "id": "catalogrightanglemount_dmwwezws0516",
+      "center": [
+        2.331438572797797,
+        98.94295264693237
+      ],
+      "angle": 90,
+      "part": "KCB1C",
+      "label": "KCB2C",
+      "z": 1,
+      "rotation_x": 90,
+      "base_mount": "none",
+      "rotation_y": null
+    },
+    {
+      "type": "CageRods",
+      "id": "cagerods_dmwwf3gby936",
+      "center": [
+        2.331438572797797,
+        98.94295264693237
+      ],
+      "angle": 90,
+      "length": 21.181102362204726,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods excitation middle-right",
+      "z": 21.5,
+      "rotation_x": null,
+      "rotation_y": -90
+    },
+    {
+      "type": "CatalogRightAngleMount",
+      "id": "catalogrightanglemount_dmwwj8yqf888",
+      "center": [
+        2.331438572797797,
+        98.94295264693237
+      ],
+      "angle": 0,
+      "part": "KCB1C",
+      "label": "KCB2C",
+      "z": 41,
+      "rotation_x": -90,
+      "base_mount": "none",
+      "rotation_y": null
+    },
+    {
+      "type": "CageRods",
+      "id": "cagerods_dmwwjdd5q345",
+      "center": [
+        7.054427592236294,
+        51.68898484178857
+      ],
+      "angle": 0,
+      "length": 6.712598425196845,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods CXY1A-CP33",
+      "z": 19.7
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "catalogtableclamp_dmwwjdd5q568",
+      "center": [
+        10.62162940109269,
+        48.757536062740556
+      ],
+      "angle": -13,
+      "part": "CF125",
+      "label": "003 (in a KM100) fork",
+      "z": -8.2
+    },
+    {
+      "type": "FiberCollimator",
+      "id": "fibercollimator_dmwwjdd5q194",
+      "center": [
+        -3.4758702620534905,
+        51.68898484178857
+      ],
+      "angle": 0,
+      "aperture": 6,
+      "length": 14,
+      "label": "003 (in a KM100)",
+      "z": 19.7
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "catalogcagemount_dmwwjdd5q559",
+      "center": [
+        3.7162557221984827,
+        51.68898484178857
+      ],
+      "angle": 0,
+      "part": "CXY1A",
+      "label": "CXY1A (003)",
+      "z": 19.7,
+      "base_mount": "none"
+    },
+    {
+      "type": "CageRods",
+      "id": "cagerods_dmwwjduli537",
+      "center": [
+        -11.53537335669088,
+        99.2587780851454
+      ],
+      "angle": 0,
+      "length": 6.712598425196845,
+      "end_plates": false,
+      "cage": 30,
+      "label": "Rods CXY1A-CP33",
+      "z": 41.4
+    },
+    {
+      "type": "CatalogTableClamp",
+      "id": "catalogtableclamp_dmwwjdulj734",
+      "center": [
+        -26.797425168237076,
+        88.47473762543623
+      ],
+      "angle": -118,
+      "part": "CF125",
+      "label": "003 (in a KM100) fork",
+      "z": 1.9,
+      "rotation_x": null,
+      "rotation_y": null
+    },
+    {
+      "type": "FiberCollimator",
+      "id": "fibercollimator_dmwwjdulj634",
+      "center": [
+        -19.966215352640084,
+        96.95341961097051
+      ],
+      "angle": 0,
+      "aperture": 6,
+      "length": 14,
+      "label": "003 (in a KM100)",
+      "z": 41.5
+    },
+    {
+      "type": "CatalogCageMount",
+      "id": "catalogcagemount_dmwwjdulj639",
+      "center": [
+        -14.596064357601659,
+        96.9664876034309
+      ],
+      "angle": 0,
+      "part": "CXY1A",
+      "label": "CXY1A (003)",
+      "z": 41,
+      "base_mount": "none"
+    }
+  ],
+  "routes": [],
+  "beams": [
+    {
+      "path": [
+        [
+          "003 (in a KM100)",
+          "out"
+        ],
+        [
+          "SM1PM10 (003)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in the SM1PM10)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in the SM1PM10)",
+          "out"
+        ],
+        [
+          "SM1PM10 (003)",
+          "out"
+        ],
+        [
+          "MM1",
+          "io"
+        ],
+        [
+          "KM100 B",
+          "io"
+        ],
+        [
+          "D mirror (003)",
+          "io"
+        ],
+        [
+          "Wave plate (003)",
+          "in"
+        ],
+        [
+          "Wave plate (003)",
+          "out"
+        ],
+        [
+          "DFM1BS (magnetic BS)",
+          "refl"
+        ],
+        [
+          "DFM1BS (magnetic BS)",
+          "in"
+        ],
+        [
+          "Collection wave plate 2",
+          "in"
+        ],
+        [
+          "Collection wave plate 2",
+          "out"
+        ],
+        [
+          "Collection wave plate 1",
+          "in"
+        ],
+        [
+          "Collection wave plate 1",
+          "out"
+        ],
+        [
+          "LCP33 (60 to 30 mm)",
+          "in"
+        ],
+        [
+          "LCP33 (60 to 30 mm)",
+          "out"
+        ],
+        [
+          "KCB2C",
+          "in"
+        ],
+        [
+          "KCB2C",
+          "out"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "tap"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "refl"
+        ],
+        [
+          "Cryostat",
+          "sample"
+        ]
+      ],
+      "wavelength": 633,
+      "width": 1.4,
+      "label": "003, MM1 in the beam",
+      "color": "#f39c12",
+      "id": "beam_54"
+    },
+    {
+      "path": [
+        [
+          "003 (in a KM100)",
+          "out"
+        ],
+        [
+          "SM1PM10 (003)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in the SM1PM10)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in the SM1PM10)",
+          "out"
+        ],
+        [
+          "SM1PM10 (003)",
+          "out"
+        ],
+        [
+          "KM100 A",
+          "io"
+        ],
+        [
+          "KM100 C",
+          "io"
+        ],
+        [
+          "KM100 E (in front of the DFM1BS)",
+          "io"
+        ],
+        [
+          "Collection wave plate 3",
+          "in"
+        ],
+        [
+          "Collection wave plate 3",
+          "out"
+        ],
+        [
+          "DFM1BS (magnetic BS)",
+          "trans"
+        ],
+        [
+          "DFM1BS (magnetic BS)",
+          "in"
+        ],
+        [
+          "Collection wave plate 2",
+          "in"
+        ],
+        [
+          "Collection wave plate 2",
+          "out"
+        ],
+        [
+          "Collection wave plate 1",
+          "in"
+        ],
+        [
+          "Collection wave plate 1",
+          "out"
+        ],
+        [
+          "LCP33 (60 to 30 mm)",
+          "in"
+        ],
+        [
+          "LCP33 (60 to 30 mm)",
+          "out"
+        ],
+        [
+          "KCB2C",
+          "in"
+        ],
+        [
+          "KCB2C",
+          "out"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "tap"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "refl"
+        ],
+        [
+          "Cryostat",
+          "sample"
+        ]
+      ],
+      "wavelength": 633,
+      "width": 1.4,
+      "label": "003, MM1 turned away",
+      "color": "#8ecdf5",
+      "id": "beam_55"
+    },
+    {
+      "path": [
+        [
+          "Olaf E",
+          "out"
+        ],
+        [
+          "SM1PM10 (Olaf E)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+          "out"
+        ],
+        [
+          "SM1PM10 (Olaf E)",
+          "out"
+        ],
+        [
+          "Pellicle BP108 (Olaf E)",
+          "in"
+        ],
+        [
+          "Pellicle BP108 (Olaf E)",
+          "trans"
+        ],
+        [
+          "ND filter (Olaf E, 1)",
+          "in"
+        ],
+        [
+          "ND filter (Olaf E, 1)",
+          "out"
+        ],
+        [
+          "ND filter (Olaf E, 2)",
+          "in"
+        ],
+        [
+          "ND filter (Olaf E, 2)",
+          "out"
+        ],
+        [
+          "MM2",
+          "io"
+        ],
+        [
+          "KM100 F",
+          "io"
+        ],
+        [
+          "KM100 G",
+          "io"
+        ],
+        [
+          "CCM1-4ER (excitation, left)",
+          "tap"
+        ],
+        [
+          "CCM1-4ER (excitation, left)",
+          "trans"
+        ],
+        [
+          "Excitation wave plate 1",
+          "in"
+        ],
+        [
+          "Excitation wave plate 1",
+          "out"
+        ],
+        [
+          "Excitation wave plate 2",
+          "in"
+        ],
+        [
+          "Excitation wave plate 2",
+          "out"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "trans"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "refl"
+        ],
+        [
+          "Cryostat",
+          "sample"
+        ]
+      ],
+      "wavelength": 633,
+      "width": 1.4,
+      "label": "Olaf E, MM2 in the beam",
+      "color": "#d62828",
+      "id": "beam_56"
+    },
+    {
+      "path": [
+        [
+          "Olaf E",
+          "out"
+        ],
+        [
+          "SM1PM10 (Olaf E)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (in Olaf E's SM1PM10)",
+          "out"
+        ],
+        [
+          "SM1PM10 (Olaf E)",
+          "out"
+        ],
+        [
+          "Pellicle BP108 (Olaf E)",
+          "in"
+        ],
+        [
+          "Pellicle BP108 (Olaf E)",
+          "trans"
+        ],
+        [
+          "ND filter (Olaf E, 1)",
+          "in"
+        ],
+        [
+          "ND filter (Olaf E, 1)",
+          "out"
+        ],
+        [
+          "ND filter (Olaf E, 2)",
+          "in"
+        ],
+        [
+          "ND filter (Olaf E, 2)",
+          "out"
+        ],
+        [
+          "KM100 I",
+          "io"
+        ],
+        [
+          "Olaf E in (KCB1)",
+          "in"
+        ],
+        [
+          "Olaf E in (KCB1)",
+          "out"
+        ],
+        [
+          "Glan-Taylor GT10 (Olaf E)",
+          "in"
+        ],
+        [
+          "Glan-Taylor GT10 (Olaf E)",
+          "out"
+        ],
+        [
+          "CCM1-4ER (excitation, left)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (excitation, left)",
+          "trans"
+        ],
+        [
+          "Excitation wave plate 1",
+          "in"
+        ],
+        [
+          "Excitation wave plate 1",
+          "out"
+        ],
+        [
+          "Excitation wave plate 2",
+          "in"
+        ],
+        [
+          "Excitation wave plate 2",
+          "out"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "trans"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "refl"
+        ],
+        [
+          "Cryostat",
+          "sample"
+        ]
+      ],
+      "wavelength": 633,
+      "width": 1.4,
+      "label": "Olaf E, MM2 turned away",
+      "color": "#1f4fd6",
+      "id": "beam_57"
+    },
+    {
+      "path": [
+        [
+          "Cryostat",
+          "sample"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "refl"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "tap"
+        ],
+        [
+          "KCB2C",
+          "out"
+        ],
+        [
+          "KCB2C",
+          "in"
+        ],
+        [
+          "LCP33 (60 to 30 mm)",
+          "out"
+        ],
+        [
+          "LCP33 (60 to 30 mm)",
+          "in"
+        ],
+        [
+          "Collection wave plate 1",
+          "out"
+        ],
+        [
+          "Collection wave plate 1",
+          "in"
+        ],
+        [
+          "Collection wave plate 2",
+          "out"
+        ],
+        [
+          "Collection wave plate 2",
+          "in"
+        ],
+        [
+          "DFM1BS (magnetic BS)",
+          "in"
+        ],
+        [
+          "DFM1BS (magnetic BS)",
+          "trans"
+        ],
+        [
+          "Collection wave plate 3",
+          "out"
+        ],
+        [
+          "Collection wave plate 3",
+          "in"
+        ]
+      ],
+      "wavelength": 633,
+      "width": 0.8,
+      "label": "Collection",
+      "color": "#d35400",
+      "opacity": 0.6,
+      "id": "beam_58"
+    },
+    {
+      "path": [
+        [
+          "Cryostat",
+          "sample"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "refl"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "trans"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "tap"
+        ],
+        [
+          "CCM1-4ER (imaging)",
+          "refl"
+        ],
+        [
+          "CCM1-4ER (imaging)",
+          "tap"
+        ],
+        [
+          "J1 (KCB1C)",
+          "in"
+        ],
+        [
+          "J1 (KCB1C)",
+          "out"
+        ],
+        [
+          "J2 (KCB1C)",
+          "in"
+        ],
+        [
+          "J2 (KCB1C)",
+          "out"
+        ],
+        [
+          "SM1L40 (lower)",
+          "in"
+        ],
+        [
+          "SM1L40 (lower)",
+          "out"
+        ],
+        [
+          "SM1L40 (upper)",
+          "in"
+        ],
+        [
+          "SM1L40 (upper)",
+          "out"
+        ],
+        [
+          "Camera (CS165MU)",
+          "in"
+        ]
+      ],
+      "wavelength": 660,
+      "width": 0.8,
+      "label": "Imaging",
+      "opacity": 0.5,
+      "id": "beam_59"
+    },
+    {
+      "path": [
+        [
+          "LED (M660L4)",
+          "out"
+        ],
+        [
+          "SM1L30 (LED)",
+          "out"
+        ],
+        [
+          "SM1L30 (LED)",
+          "in"
+        ],
+        [
+          "LED KCB1C (upper)",
+          "in"
+        ],
+        [
+          "LED KCB1C (upper)",
+          "out"
+        ],
+        [
+          "LED KCB1C (lower)",
+          "in"
+        ],
+        [
+          "LED KCB1C (lower)",
+          "out"
+        ],
+        [
+          "CCM1-4ER (imaging)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (imaging)",
+          "refl"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "tap"
+        ],
+        [
+          "CCM1-4ER (excitation, middle)",
+          "trans"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "in"
+        ],
+        [
+          "CCM1-4ER (excitation, right)",
+          "refl"
+        ],
+        [
+          "Cryostat",
+          "sample"
+        ]
+      ],
+      "wavelength": 660,
+      "width": 0.8,
+      "label": "LED",
+      "opacity": 0.5,
+      "id": "beam_60"
+    }
+  ],
+  "trace_mode": "physical"
+}
