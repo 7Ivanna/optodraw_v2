@@ -220,6 +220,13 @@
         if (window.parent) window.parent.postMessage({ type: 'optodraw-select', id: null, ids: [] }, '*');
         return;
       }
+      // A centres the parts selected after the first on the first part (x and y, not height): the editor does it
+      if (key === 'a' && selection.length >= 2) {
+        if (gizmo && gizmo.dragging) return;
+        ev.preventDefault();
+        if (window.parent) window.parent.postMessage({ type: 'optodraw-key', key: 'align' }, '*');
+        return;
+      }
       if (key === 'r' || key === 'z') setGizmoMode('rotate');
       else if (key === 'y') setGizmoMode('tilt');
       else if (key === 'x') setGizmoMode('roll');

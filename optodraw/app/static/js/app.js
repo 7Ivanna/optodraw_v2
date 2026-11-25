@@ -1099,6 +1099,24 @@ function nudge(dx, dy) {
   }, { reselect: ids });
 }
 
+// A: the parts selected after the first take the first part's centre on the table (x and y) and keep their own
+// height, so a part stands right over or under the first one.
+function alignToFirst() {
+  const ids = selComponentIds();
+  if (ids.length < 2) { setStatus("Centre: click a part, Shift-click the parts to centre on it, then press A"); return; }
+  const first = (currentSpec?.components || []).find((c) => c.id === ids[0]);
+  const o = ctr(first);
+  return applySpec("Centre", (next) => {
+    for (const id of ids.slice(1)) {
+      const e = next.components.find((c) => c.id === id);
+      if (!e) continue;
+      const c = ctr(e), dx = o[0] - c[0], dy = o[1] - c[1];
+      e.center = [o[0], o[1]];
+      if (dx || dy) transformAttachedLinks(next, [id], (x, y) => [x + dx, y + dy]);
+    }
+  }, { reselect: ids });
+}
+
 // Rotate the selection about its collective center; a single component simply
 // rotates in place. Attached routes/beams rotate along with the system.
 function rotateSelected(deg) {
@@ -2930,11 +2948,12 @@ window.addEventListener("message", (e) => {
       }
       canvas.select(data.id); // keep selection -> 3D re-highlights + re-attaches gizmo
     });
-  } else if (data.type === "optodraw-key") {      // Ctrl/Cmd+C, V, D or Delete pressed while the 3D view had the keyboard
+  } else if (data.type === "optodraw-key") {      // Ctrl/Cmd+C, V, D, Delete or A pressed while the 3D view had the keyboard
     if (data.key === "c") copySelected();
     else if (data.key === "v") paste();
     else if (data.key === "d") duplicateSelected();
     else if (data.key === "delete") deleteSelected();
+    else if (data.key === "align") alignToFirst();
   } else if (data.type === "optodraw-undo") {
     data.redo ? redo() : undo();                     // Ctrl/Cmd+Z pressed while the 3D view had the keyboard
   } else if (data.type === "optodraw-move-group" && Array.isArray(data.moves) && data.moves.length) {
@@ -3006,6 +3025,9 @@ document.addEventListener("keydown", (e) => {
   } else if ((e.key === "Delete" || e.key === "Backspace") && canvas.selectedIds.length && !inField) {
     e.preventDefault();
     deleteSelected();
+  } else if (!mod && !inField && e.key.toLowerCase() === "a" && selComponentIds().length >= 2) {
+    e.preventDefault();
+    alignToFirst();
   } else if (e.key.startsWith("Arrow") && canvas.selectedIds.length && !inField) {
     e.preventDefault();
     const step = e.shiftKey ? 10 : 1;
