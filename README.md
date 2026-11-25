@@ -30,7 +30,7 @@ This is a fork of [Acceluma/optodraw](https://github.com/Acceluma/optodraw) for 
 - **The cryostat microscope bench** in [`mockups/cryo_setup`](mockups/cryo_setup): `bench.py` builds it with the
   imaging, collection and excitation cage systems; `bench.optodraw.json` opens it in the editor.
 - **Editor**: Shift-click to select several parts and move them together, undo and redo, copy and paste, delete,
-  centre one part on another and Esc to let go, in the 2D and the 3D views (see [Editor hotkeys](#editor-hotkeys)).
+  centre parts on another one (A, S, D) and Esc to let go, in the 2D and the 3D views (see [Editor hotkeys](#editor-hotkeys)).
   The 3D view draws only when something changes, so a large bench stays quick.
 
 ![The cryostat microscope bench in 3D](mockups/cryo_setup/bench_3d_iso.png)
@@ -77,7 +77,9 @@ arrow keys need the focus outside the 3D picture (click the toolbar first).
 | Ctrl+A | Select every part |
 | Shift+click | Add a part to the selection, or take it out; dragging one moves them all together |
 | Esc | Let go of the selection, so nothing moves by accident |
-| A | Centre on the first part: click a part, Shift-click others, press A; they move in x and y onto its centre and keep their height |
+| A | Centre on the first part in x and y: click a part, Shift-click others, press A; they keep their height |
+| S | The same in x and z (height); they keep their y |
+| D | The same in y and z (height); they keep their x |
 | Arrow keys | Nudge the selected parts by 1 unit (Shift: 10 units) |
 | Ctrl+K | Open the command palette: find any action or part |
 | Ctrl+Enter | Apply an edit in the Code tab |

@@ -220,11 +220,13 @@
         if (window.parent) window.parent.postMessage({ type: 'optodraw-select', id: null, ids: [] }, '*');
         return;
       }
-      // A centres the parts selected after the first on the first part (x and y, not height): the editor does it
-      if (key === 'a' && selection.length >= 2) {
+      // A, S, D centre the parts selected after the first on the first part: A in x and y, S in x and z (height),
+      // D in y and z. The editor does it
+      const centre = { a: 'xy', s: 'xz', d: 'yz' }[key];
+      if (centre && !ev.altKey && selection.length >= 2) {
         if (gizmo && gizmo.dragging) return;
         ev.preventDefault();
-        if (window.parent) window.parent.postMessage({ type: 'optodraw-key', key: 'align' }, '*');
+        if (window.parent) window.parent.postMessage({ type: 'optodraw-key', key: 'align', axes: centre }, '*');
         return;
       }
       if (key === 'r' || key === 'z') setGizmoMode('rotate');
