@@ -18,6 +18,23 @@ with moving light, and the chip's layout and cross-sections.**
 
 Each figure redraws a published one. The [example cells](https://github.com/Acceluma/optodraw/blob/main/docs/examples/) name the papers.
 
+## This fork
+
+This is a fork of [Acceluma/optodraw](https://github.com/Acceluma/optodraw) for mocking up a lab bench. It adds:
+
+- **Catalogue parts with real sizes**: Thorlabs (and some Edmund) lenses, lens tubes, adapters, filters, ND filters,
+  wave plates, Glan-Taylor polarizers, cube and plate splitters, mirrors, KM100 and KS1 kinematic mounts, dichroics,
+  cage plates, cage cubes (DFM1BS and others), right-angle mounts, photodiodes, LEDs, collimators, cameras, clamps
+  and posts. Several are drawn from Thorlabs' CAD drawings (KM100, KS1, CXY1A, LCP33). Every size of a part can be
+  edited in the inspector.
+- **The cryostat microscope bench** in [`mockups/cryo_setup`](mockups/cryo_setup): `bench.py` builds it with the
+  imaging, collection and excitation cage systems; `bench.optodraw.json` opens it in the editor.
+- **Editor**: Shift-click to select several parts and move them together, undo and redo, copy and paste, delete,
+  centre one part on another and Esc to let go, in the 2D and the 3D views (see [Editor hotkeys](#editor-hotkeys)).
+  The 3D view draws only when something changes, so a large bench stays quick.
+
+![The cryostat microscope bench in 3D](mockups/cryo_setup/bench_3d_iso.png)
+
 ## What it does
 
 | Area | What you get |
@@ -31,16 +48,24 @@ Each figure redraws a published one. The [example cells](https://github.com/Acce
 
 ## Install
 
+This fork is not on PyPI (`pip install optodraw` gives the original without the parts above). Install it from
+GitHub instead:
+
 ```bash
-pip install optodraw   # the editor, GDS files, 3D and every export
+git clone https://github.com/7Ivanna/optodraw_v2.git
+cd optodraw_v2
+pip install -e .       # the editor, GDS files, 3D and every export
 optodraw-gui           # open the editor
 ```
 
-It runs on Windows, macOS and Linux. `[all]` adds video, a native window and SAX.
+`git pull` in that folder gets the latest; restart the editor after it. It runs on Windows, macOS and Linux.
+`pip install -e ".[all]"` adds video, a native window and SAX. To open the bench, use **Open file…** (or Ctrl+K, "Open scene file") on
+`mockups/cryo_setup/bench.optodraw.json`.
 
 ### Editor hotkeys
 
-Ctrl is Cmd on a Mac. The keys work in the 2D and the 3D views unless the table says otherwise.
+Ctrl is Cmd on a Mac. The keys work in the 2D and the 3D views unless the table says otherwise; Ctrl+A and the
+arrow keys need the focus outside the 3D picture (click the toolbar first).
 
 | Keys | What they do |
 |---|---|
@@ -52,6 +77,7 @@ Ctrl is Cmd on a Mac. The keys work in the 2D and the 3D views unless the table 
 | Ctrl+A | Select every part |
 | Shift+click | Add a part to the selection, or take it out; dragging one moves them all together |
 | Esc | Let go of the selection, so nothing moves by accident |
+| A | Centre on the first part: click a part, Shift-click others, press A; they move in x and y onto its centre and keep their height |
 | Arrow keys | Nudge the selected parts by 1 unit (Shift: 10 units) |
 | Ctrl+K | Open the command palette: find any action or part |
 | Ctrl+Enter | Apply an edit in the Code tab |
